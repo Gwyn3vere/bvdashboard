@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+/*===== Global Styles =====*/
+:root {
+  --color-bg-light-primary-100: #ffffff;
+  --color-bg-light-primary-200: #f9f9f9;
+  --color-bg-light-primary-300: #f0f0f0;
+  --color-text-light-primary: #000000;
+  --color-text-light-secondary: #555555;
+}
+
+/* ===== Shared Styles =====*/
+.hidden-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
