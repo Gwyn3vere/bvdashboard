@@ -5,3 +5,4 @@ export { default as Search } from "./Search/Search";
 export { default as Avatar } from "./Avatar/Avatar";
 export { default as Dropdown } from "./Dropdown/Dropdown";
 export { default as Item } from "./Item/Item";
+export { default as Logo } from "./Logo/Logo";
