@@ -1,3 +1,10 @@
+// Libraries
+import classNames from "classnames/bind";
+// Styles - UI - Icons
+import style from "../../../styles/components.module.css";
+
+const cx = classNames.bind(style);
+
 function Button({ height = 40, width = 100, background = "", className = "", style = {}, children, icon, ...props }) {
   return (
     <button

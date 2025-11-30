@@ -1,23 +1,29 @@
-// Libraries
+// Libraries - Hooks - Motions
 import classNames from "classnames/bind";
+import { useActive } from "../../../../../Portlify/FE/src/components/hooks";
+import { DropdownMotion } from "../../../motions";
+import { Link } from "react-router-dom";
 // Styles - UI - Icons
 import style from "../../../styles/components.module.css";
-import { Search, Button, Avatar } from "../index";
-import { CiBellOn, CiLight, CiCalendar } from "react-icons/ci";
+import { Search, Button, Avatar, Dropdown, Item } from "../index";
+import { CiBellOn, CiLight, CiCalendar, CiLogout, CiUser, CiSettings } from "react-icons/ci";
 
 const cx = classNames.bind(style);
 
 function Header() {
+  const avatar = useActive(false);
   return (
     <header className="sticky top-0 w-full h-[50px] flex justify-between">
       <Search />
       <div className="flex gap-2">
+        {/* Theme mode */}
         <Button
           height={40}
           width={40}
           className="border-2 border-[var(--color-bg-light-primary-300)]"
           icon={<CiLight />}
         />
+        {/* Notifications */}
         <Button
           height={40}
           width={40}
@@ -33,7 +39,20 @@ function Header() {
           <CiCalendar className="text-[18px]" />
           Chủ Nhật, 30/11/2025
         </div>
-        <Avatar className="rounded-full" />
+        {/* Avatar with Dropdown */}
+        <div className="relative">
+          <Avatar className="rounded-full" onClick={avatar.toggleActive} active={avatar.isActive} />
+          <DropdownMotion isOpen={avatar.isActive} duration={0.3}>
+            <Dropdown
+              className="absolute right-0 rounded-[8px] mt-2 shadow-sm p-2 z-10 text-[14px]"
+              style={{ background: "var(--color-bg-light-primary-300)" }}
+            >
+              <Item as={Link} children="Tài khoản" to="/" icon={<CiUser />} />
+              <Item as={Link} children="Cài đặt" to="/" icon={<CiSettings />} />
+              <Item as={Link} children="Đăng xuất" to="/" icon={<CiLogout />} />
+            </Dropdown>
+          </DropdownMotion>
+        </div>
       </div>
     </header>
   );
