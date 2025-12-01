@@ -3,7 +3,7 @@ import { Sidebar, Header } from "../ui";
 function dashboardLayout({ children }) {
   return (
     <main className="p-2 overflow-hidden h-screen min-h-screen">
-      <div className="grid grid-cols-[250px_1fr] gap-2 h-full">
+      <div className="grid grid-cols-[auto_1fr] gap-2 h-full">
         <Sidebar />
         <div className="flex flex-col gap-2 w-full h-full overflow-hidden">
           <Header />

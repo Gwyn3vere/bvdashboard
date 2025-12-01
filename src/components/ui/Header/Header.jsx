@@ -13,7 +13,7 @@ const cx = classNames.bind(style);
 function Header() {
   const avatar = useActive(false);
   return (
-    <header className="sticky top-0 w-full h-[50px] flex justify-between">
+    <header className="sticky top-0 w-full flex justify-between">
       <Search />
       <div className="flex gap-2">
         {/* Theme mode */}
