@@ -5,7 +5,7 @@ import style from "../../../styles/components.module.css";
 
 const cx = classNames.bind(style);
 
-function Item({ as: Component = "div", icon, children, href, to, onClick, className, style = {} }) {
+function Item({ boolean, as: Component = "div", icon, children, href, to, onClick, className, style = {} }) {
   return (
     <Component
       href={href}
@@ -14,13 +14,17 @@ function Item({ as: Component = "div", icon, children, href, to, onClick, classN
       className={cx(
         "px-3 py-2 cursor-pointer rounded-[8px] ",
         "hover:bg-[var(--color-bg-light-primary-200)]",
-        "flex items-center gap-2",
-        className
+        className,
+        boolean ? "flex justify-center items-center" : "flex items-center gap-2"
       )}
       style={{ ...style }}
     >
-      {icon && <span>{icon}</span>}
-      <span>{children}</span>
+      {icon && <span className="">{icon}</span>}
+      <div
+        className={cx("overflow-hidden whitespace-nowrap transition-all duration-300", boolean ? "w-0" : "w-[190px]")}
+      >
+        <span>{children}</span>
+      </div>
     </Component>
   );
 }
