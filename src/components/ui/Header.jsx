@@ -59,9 +59,36 @@ function Header() {
               className="absolute right-0 rounded-[8px] mt-2 shadow-sm p-2 z-10 text-[14px]"
               style={{ background: "var(--color-bg-light-primary-300)" }}
             >
-              <Item as={Link} children="Tài khoản" to="/" icon={<CiUser />} />
-              <Item as={Link} children="Cài đặt" to="/" icon={<CiSettings />} />
-              <Item as={Link} children="Đăng xuất" to="/" icon={<CiLogout />} />
+              <Item
+                as={Link}
+                children="Tài khoản"
+                to="/"
+                icon={<CiUser />}
+                className={cx(
+                  "px-3 py-2 cursor-pointer rounded-[8px] ",
+                  "hover:bg-[var(--color-bg-light-primary-200)]"
+                )}
+              />
+              <Item
+                as={Link}
+                children="Cài đặt"
+                to="/"
+                icon={<CiSettings />}
+                className={cx(
+                  "px-3 py-2 cursor-pointer rounded-[8px] ",
+                  "hover:bg-[var(--color-bg-light-primary-200)]"
+                )}
+              />
+              <Item
+                as={Link}
+                children="Đăng xuất"
+                to="/"
+                icon={<CiLogout />}
+                className={cx(
+                  "px-3 py-2 cursor-pointer rounded-[8px] ",
+                  "hover:bg-[var(--color-bg-light-primary-200)]"
+                )}
+              />
             </Dropdown>
           </DropdownMotion>
         </div>
