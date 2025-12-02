@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 // Styles - UI
-import style from "../../../styles/ui.module.css";
+import style from "../../styles/ui.module.css";
 
 const cx = classNames.bind(style);
 
