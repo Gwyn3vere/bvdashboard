@@ -1,11 +1,11 @@
 import { loginLayout } from "../components/layouts";
 // Pages
-import { Login } from "../pages/Login";
+import { LoginForm } from "../pages/";
 
 const publicRoutes = [
   {
     path: "/",
-    component: Login,
+    component: LoginForm,
     layout: loginLayout,
     role: ["admin", "user"]
   }

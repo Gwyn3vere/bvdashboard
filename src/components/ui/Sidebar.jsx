@@ -53,7 +53,11 @@ function Sidebar() {
                     to={item.to}
                     icon={item.icon}
                     children={item.title}
-                    className="h-[50px]"
+                    className={cx(
+                      "h-[50px]",
+                      "px-3 py-2 cursor-pointer rounded-[8px] ",
+                      "hover:bg-[var(--color-bg-light-primary-200)]"
+                    )}
                     boolean={isCollapsed}
                   />
                 ))}
