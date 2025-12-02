@@ -1,11 +1,11 @@
 // Libraries - Constants
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
-import { SIDEBAR_MENU } from "../../../constants";
+import { SIDEBAR_MENU } from "../../constants";
 import { useState } from "react";
 // Styles - UI - Icons
-import style from "../../../styles/ui.module.css";
-import { Item, Logo, Button } from "../../ui";
+import style from "../../styles/ui.module.css";
+import { Item, Logo, Button } from ".";
 import { IoIosArrowBack } from "react-icons/io";
 
 const cx = classNames.bind(style);
