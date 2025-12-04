@@ -7,7 +7,7 @@ function Dashboard() {
   return (
     <div
       className={`${cx("wrapper")}
-      rounded-[8px] h-[1000px]`}
+      rounded-[8px] h-[1000px] bg-blue-200`}
     >
       Dashboard Page
     </div>

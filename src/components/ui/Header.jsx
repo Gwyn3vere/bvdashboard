@@ -42,8 +42,8 @@ function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 w-full flex justify-between">
-      <Search />
+    <header className="sticky top-0 w-full flex justify-between mb-5">
+      <Search className="rounded-full" />
       <div className="flex gap-2">
         {/* Theme mode */}
         <Button

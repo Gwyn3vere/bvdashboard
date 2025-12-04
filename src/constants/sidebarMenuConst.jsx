@@ -20,7 +20,7 @@ export const SIDEBAR_MENU = [
   {
     group: "Quản lý nhân sự",
     items: [
-      { title: "Nhân sự", to: "/staff", icon: <HiUsers /> },
+      { title: "Nhân sự", to: "/quan-ly-nhan-su", icon: <HiUsers /> },
       { title: "Bác sĩ", to: "/doctors", icon: <HiMiniUser /> }
     ]
   },
