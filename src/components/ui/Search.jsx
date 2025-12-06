@@ -21,7 +21,7 @@ function Search({
   return (
     <div
       className={cx(
-        "bg-[var(--color-bg-light-primary-300)] rounded-full h-[40px] w-[300px] px-4 flex items-center gap-2",
+        "bg-[var(--color-bg-light-primary-300)] h-[40px] w-[300px] px-4 flex items-center gap-2",
         wrapperClass,
         className
       )}

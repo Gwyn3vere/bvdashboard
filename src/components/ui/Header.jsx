@@ -1,8 +1,10 @@
-// Libraries - Hooks - Motions
+// Libraries - Hooks - Motions - Services
+import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import { useActive } from "../../../../Portlify/FE/src/components/hooks";
+import { useActive } from "../hooks";
 import { DropdownMotion } from "../../motions";
 import { Link } from "react-router-dom";
+import { userService } from "../../services/auth";
 // Styles - UI - Icons
 import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
@@ -12,10 +14,36 @@ import { IoIosArrowDown } from "react-icons/io";
 const cx = classNames.bind(style);
 
 function Header() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const username = user?.name || "Guest";
+  const role = user?.role || "Visitor";
   const avatar = useActive(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
+        const res = await userService();
+        if (res.success) {
+          setUser(res.user.user);
+        } else {
+          setError(res.errors.user);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
   return (
-    <header className="sticky top-0 w-full flex justify-between">
-      <Search />
+    <header className="sticky top-0 w-full flex justify-between mb-5">
+      <Search className="rounded-full" />
       <div className="flex gap-2">
         {/* Theme mode */}
         <Button
@@ -44,8 +72,8 @@ function Header() {
         <div className="relative">
           <Avatar className="rounded-full" onClick={avatar.toggleActive}>
             <div className="h-[40px]">
-              <Username children="John Doe" className="font-medium text-[14px]" />
-              <Role children="Administrator" className="text-small text-[14px]" />
+              <Username children={username} className="font-bold text-[14px] uppercase" />
+              <Role children={role} className="text-small text-[14px]" />
             </div>
             <IoIosArrowDown
               className={cx(

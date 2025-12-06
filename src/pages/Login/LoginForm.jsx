@@ -1,7 +1,6 @@
 // Libraries - Hooks
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useLogin } from "../../components/hooks";
 // Styles - UI - Icons
 import style from "../../styles/pages.module.css";
@@ -64,7 +63,7 @@ function LoginForm() {
           <Button
             type="submit"
             disabled={loading}
-            children="Đăng nhập"
+            children={loading ? "Đang đăng nhập..." : "Đăng nhập"}
             height={50}
             width="100%"
             className="bg-blue-500 mt-5 text-white font-bold"
@@ -78,7 +77,7 @@ function LoginForm() {
           />
         </Form>
       </div>
-      <div className="hidden sm:flex flex-1 items-center justify-center bg-[var(--color-bg-light-primary-300)]">
+      <div className="relative hidden sm:flex flex-1 items-center justify-center bg-[var(--color-bg-light-primary-300)] overflow-hidden">
         <LoginBackground />
       </div>
     </div>

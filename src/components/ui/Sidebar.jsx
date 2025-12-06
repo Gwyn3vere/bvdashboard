@@ -14,13 +14,8 @@ function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   return (
     <aside className={cx("rounded-[8px] h-full transition-all duration-300")}>
-      <div className="flex flex-col gap-2 h-full">
-        <div
-          className={cx(
-            "bg-[var(--color-bg-light-primary-300)] rounded-[8px] p-2",
-            isCollapsed ? "flex justify-center items-center" : "flex items-center gap-2"
-          )}
-        >
+      <div className="flex flex-col h-full rounded-[8px] ">
+        <div className={cx("p-2", isCollapsed ? "flex justify-center items-center" : "flex items-center gap-2")}>
           <Logo src="" className="rounded-[8px]" width={50} height={50} />
           <div
             className={cx(
@@ -33,7 +28,7 @@ function Sidebar() {
           </div>
         </div>
 
-        <div className="relative flex-1 bg-[var(--color-bg-light-primary-300)] rounded-[8px]">
+        <div className="relative flex-1">
           <div className="hidden-scrollbar overflow-auto p-2">
             {SIDEBAR_MENU.map((group) => (
               <div key={group.group} className={cx(isCollapsed ? "mb-0" : "mb-5")}>
@@ -70,9 +65,10 @@ function Sidebar() {
             height={50}
             className={cx(
               "text-[14px]",
-              "absolute cursor-pointer -right-5 top-1/2 translate-y-[-50%] bg-[var(--color-bg-light-primary-200)] p-2 rounded-full shadow-md",
+              "absolute cursor-pointer -right-7 top-1/2 translate-y-[-50%] bg-[var(--color-bg-light-primary-200)] p-2 rounded-full",
               isCollapsed ? "rotate-180 transition-transform" : "transition-transform"
             )}
+            style={{ boxShadow: "var(--shadow)" }}
             onClick={() => setIsCollapsed(!isCollapsed)}
           />
         </div>

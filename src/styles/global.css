@@ -7,6 +7,8 @@
   --color-bg-light-primary-300: #f0f0f0;
   --color-text-light-primary: #000000;
   --color-text-light-secondary: #555555;
+
+  --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 /* ===== Shared Styles =====*/
