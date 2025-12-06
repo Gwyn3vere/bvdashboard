@@ -16,6 +16,7 @@ function Item({
   onClick,
   className,
   itemClassName,
+  whitespace = "whitespace-nowrap",
   style = {}
 }) {
   return (
@@ -26,10 +27,11 @@ function Item({
       className={cx(className, boolean ? "flex justify-center items-center" : "flex items-center gap-2")}
       style={{ ...style }}
     >
-      {icon && <span className="">{icon}</span>}
+      {icon && <span className="flex items-center justify-center">{icon}</span>}
       <div
         className={cx(
-          "overflow-hidden whitespace-nowrap transition-all duration-300",
+          "overflow-hidden transition-all duration-300",
+          whitespace,
           itemClassName,
           boolean ? "w-0" : width
         )}

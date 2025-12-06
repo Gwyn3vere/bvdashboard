@@ -71,9 +71,19 @@ function Staff() {
             onClose={() => modal.add.toggleActive(false)}
             backdrop={true}
             style={{ boxShadow: "var(--shadow)" }}
+            footer={
+              <Button
+                form="staffForm"
+                type="submit"
+                children="Xác nhận"
+                width="100%"
+                height={40}
+                className="px-4 py-2 font-bold"
+                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+              />
+            }
           >
-            <div className="text-xl font-bold mb-4">Thêm nhân sự</div>
-            <Create />
+            <Create onClose={() => modal.add.toggleActive(false)} />
           </Modal>
         </div>
       </div>
