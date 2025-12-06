@@ -6,7 +6,17 @@ import { Button } from "../ui";
 
 const cx = classNames.bind(style);
 
-function Modal({ open = false, backdrop = true, onClose = () => {}, children, style = {}, className, ...props }) {
+function Modal({
+  open = false,
+  backdrop = true,
+  onClose = () => {},
+  children,
+  footer = null,
+  width = "w-[500px]",
+  style = {},
+  className,
+  ...props
+}) {
   const [visible, setVisible] = useState(open);
   const [closing, setClosing] = useState(false);
 
@@ -22,16 +32,13 @@ function Modal({ open = false, backdrop = true, onClose = () => {}, children, st
   }, [open]);
 
   useEffect(() => {
-    if (open) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
+    document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
   useEffect(() => {
-    function handleEsc(e) {
-      if (e.key === "Escape") onClose();
-    }
-    if (open) document.addEventListener("keydown", handleEsc);
-    return () => document.removeEventListener("keydown", handleEsc);
+    const handleEsc = (e) => e.key === "Escape" && onClose();
+    if (open) window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
   }, [open, onClose]);
 
   if (!visible) return null;
@@ -42,7 +49,7 @@ function Modal({ open = false, backdrop = true, onClose = () => {}, children, st
       {backdrop && (
         <div
           className={cx(
-            "absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto",
+            "absolute inset-0 bg-black/40  pointer-events-auto",
             closing ? "backdrop-fadeOut" : "backdrop-fadeI"
           )}
           onClick={onClose}
@@ -52,7 +59,8 @@ function Modal({ open = false, backdrop = true, onClose = () => {}, children, st
       {/* Content */}
       <div
         className={cx(
-          "pointer-events-auto relative bg-white rounded-[8px] p-5 w-full max-w-lg transition-all",
+          "pointer-events-auto relative bg-[var(--color-bg-light-primary-300)] rounded-[8px] p-5 transition-all",
+          width,
           closing ? "animate-fadeOut" : "animate-fadeIn",
           className
         )}
@@ -60,8 +68,8 @@ function Modal({ open = false, backdrop = true, onClose = () => {}, children, st
         {...props}
       >
         {children}
-
-        <div className="flex justify-end gap-2 mt-5 text-[14px]">
+        {footer && <div className="mt-5">{footer}</div>}
+        {/* <div className="flex justify-end gap-2 mt-5 text-[14px]">
           <Button
             onClick={onClose}
             children="Huỷ"
@@ -77,7 +85,7 @@ function Modal({ open = false, backdrop = true, onClose = () => {}, children, st
             className="px-4 py-2"
             style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

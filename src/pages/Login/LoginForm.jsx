@@ -66,7 +66,7 @@ function LoginForm() {
             children={loading ? "Đang đăng nhập..." : "Đăng nhập"}
             height={50}
             width="100%"
-            className="bg-blue-500 mt-5 text-white font-bold"
+            className="bg-black mt-5 text-white font-bold"
           />
           <Item
             as={Link}

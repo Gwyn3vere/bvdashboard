@@ -5,9 +5,9 @@ import style from "../../styles/ui.module.css";
 
 const cx = classNames.bind(style);
 
-function Form({ children, className, style = {}, ...props }) {
+function Form({ id, children, className, style = {}, ...props }) {
   return (
-    <form className={cx(className)} style={{ ...style }} {...props}>
+    <form id={id} className={cx(className)} style={{ ...style }} {...props}>
       {children}
     </form>
   );
