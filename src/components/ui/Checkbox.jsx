@@ -7,7 +7,11 @@ const cx = classNames.bind(style);
 
 function Checkbox({ text, className, checkboxClassName, style = {}, ...props }) {
   return (
-    <div className={cx("flex items-center gap-2 cursor-pointer", className)} style={{ ...style }} {...props}>
+    <div
+      className={cx("cursor-pointer", text ? "flex items-center gap-2" : "", className)}
+      style={{ ...style }}
+      {...props}
+    >
       <input type="checkbox" className={cx(checkboxClassName)} />
       <span>{text}</span>
     </div>

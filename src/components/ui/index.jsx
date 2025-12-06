@@ -13,3 +13,4 @@ export { default as Role } from "./Role";
 export { default as Checkbox } from "./Checkbox";
 export { default as List } from "./List";
 export { default as Breadcrumb } from "./Breadcrumb";
+export { default as Pagination } from "./Pagination";
