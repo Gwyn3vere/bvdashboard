@@ -9,7 +9,7 @@ const cx = classNames.bind(style);
 
 function Pagination() {
   return (
-    <div className="flex items-center justify-end gap-1.5 pt-2">
+    <div className="flex items-center justify-end gap-1.5 pt-2 text-[14px]">
       <Button
         icon={<HiMiniChevronLeft />}
         width={30}

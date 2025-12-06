@@ -14,3 +14,4 @@ export { default as Checkbox } from "./Checkbox";
 export { default as List } from "./List";
 export { default as Breadcrumb } from "./Breadcrumb";
 export { default as Pagination } from "./Pagination";
+export { default as Modal } from "./Modal";

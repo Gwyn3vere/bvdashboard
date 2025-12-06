@@ -1,16 +1,24 @@
-// Libraries - Mock
+// Libraries - Mock -Hooks
 import classNames from "classnames/bind";
 import { mockStaff } from "../../mock/account";
-import { Link } from "react-router-dom";
+import { useActive } from "../../components/hooks";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
-import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button } from "../../components/ui";
+import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal } from "../../components/ui";
 import { HiMiniSquares2X2, HiOutlinePlus, HiMiniTrash, HiPencilSquare } from "react-icons/hi2";
 import { LuListFilter } from "react-icons/lu";
+import { Create, Edit } from "../Staff";
 
 const cx = classNames.bind(styles);
 
 function Staff() {
+  const modal = {
+    filter: useActive(),
+    add: useActive(),
+    edit: useActive(),
+    delete: useActive()
+  };
+
   return (
     <div className="flex flex-col overflow-hidden w-full h-full min-h-0">
       <Breadcrumb
@@ -35,22 +43,38 @@ function Staff() {
         </div>
         <div className="flex gap-2">
           <Search className="rounded-[8px]" />
-          <Item
-            as="div"
+          <Button
             icon={<LuListFilter />}
             children="Bộ lọc"
             width="auto"
-            itemClassName="text-[14px]"
-            className="border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
+            onClick={modal.filter.toggleActive}
+            className="text-[14px] border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
           />
-          <Item
-            as={Link}
+          <Modal
+            open={modal.filter.isActive}
+            onClose={() => modal.filter.toggleActive(false)}
+            backdrop={true}
+            style={{ boxShadow: "var(--shadow)" }}
+          >
+            <div className="text-xl font-bold mb-4">Bộ lọc danh sách</div>
+            <div>Nội dung modal...</div>
+          </Modal>
+          <Button
             icon={<HiOutlinePlus />}
             children="Thêm mới"
             width="auto"
-            itemClassName="text-[14px]"
-            className="px-3 rounded-[8px] bg-black cursor-pointer text-white font-bold"
+            onClick={modal.add.toggleActive}
+            className="text-[14px] px-3 rounded-[8px] bg-[var(--color-text-light-primary)] cursor-pointer text-white font-bold"
           />
+          <Modal
+            open={modal.add.isActive}
+            onClose={() => modal.add.toggleActive(false)}
+            backdrop={true}
+            style={{ boxShadow: "var(--shadow)" }}
+          >
+            <div className="text-xl font-bold mb-4">Thêm nhân sự</div>
+            <Create />
+          </Modal>
         </div>
       </div>
 
@@ -97,6 +121,7 @@ function Staff() {
             width: "5%",
             render: () => (
               <Button
+                onClick={modal.edit.toggleActive}
                 width={40}
                 height={40}
                 className={cx(
@@ -113,6 +138,7 @@ function Staff() {
             width: "5%",
             render: () => (
               <Button
+                onClick={modal.delete.toggleActive}
                 width={40}
                 height={40}
                 className={cx(
@@ -126,6 +152,24 @@ function Staff() {
         ]}
         data={mockStaff}
       />
+      <Modal
+        open={modal.edit.isActive}
+        onClose={() => modal.edit.toggleActive(false)}
+        backdrop={true}
+        style={{ boxShadow: "var(--shadow)" }}
+      >
+        <div className="text-xl font-bold mb-4">Cập nhật thông tin</div>
+        <Edit />
+      </Modal>
+      <Modal
+        open={modal.delete.isActive}
+        onClose={() => modal.delete.toggleActive(false)}
+        backdrop={true}
+        style={{ boxShadow: "var(--shadow)" }}
+      >
+        <div className="text-xl font-bold mb-4">Thông báo</div>
+        <div>Xác nhận xoá người này khỏi hệ thống?</div>
+      </Modal>
     </div>
   );
 }
