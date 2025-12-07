@@ -4,9 +4,10 @@ import { mockStaff } from "../../mock/account";
 import { useActive } from "../../components/hooks";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
-import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal } from "../../components/ui";
+import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
 import { HiMiniSquares2X2, HiOutlinePlus, HiMiniTrash, HiPencilSquare } from "react-icons/hi2";
 import { LuListFilter } from "react-icons/lu";
+import { TiWarning } from "react-icons/ti";
 import { Create, Edit } from "../Staff";
 
 const cx = classNames.bind(styles);
@@ -28,17 +29,16 @@ function Staff() {
           { label: "Quản lý nhân sự" }
         ]}
       />
-      <Item as="strong" children="Quản lý nhân sự" itemClassName="text-3xl" width="100%" />
+      <Item as="strong" children="Quản lý nhân sự" itemClassName="text-3xl" />
       <Item
         as="span"
         children="Quản lý thành viên nhóm của bạn và quyền tài khoản của họ ở đây."
         itemClassName="text-[14px] text-gray-500"
         className="mb-5 mt-1"
-        width="100%"
       />
       <div className="flex justify-between items-end mb-5">
         <div className="flex gap-2">
-          <Item as="strong" children="Tổng thành viên:" width="auto" />
+          <Item as="strong" children="Tổng thành viên:" />
           <span>20</span>
         </div>
         <div className="flex gap-2">
@@ -55,9 +55,20 @@ function Staff() {
             onClose={() => modal.filter.toggleActive(false)}
             backdrop={true}
             style={{ boxShadow: "var(--shadow)" }}
+            className="bg-[var(--color-bg-light-primary-300)]"
+            footer={
+              <Button
+                form="staffForm"
+                type="submit"
+                children="Xác nhận"
+                width="100%"
+                height={40}
+                className="px-4 py-2 font-bold"
+                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+              />
+            }
           >
-            <div className="text-xl font-bold mb-4">Bộ lọc danh sách</div>
-            <div>Nội dung modal...</div>
+            <Filter onClose={() => modal.filter.toggleActive(false)} />
           </Modal>
           <Button
             icon={<HiOutlinePlus />}
@@ -71,6 +82,7 @@ function Staff() {
             onClose={() => modal.add.toggleActive(false)}
             backdrop={true}
             style={{ boxShadow: "var(--shadow)" }}
+            className="bg-[var(--color-bg-light-primary-300)]"
             footer={
               <Button
                 form="staffForm"
@@ -167,18 +179,57 @@ function Staff() {
         onClose={() => modal.edit.toggleActive(false)}
         backdrop={true}
         style={{ boxShadow: "var(--shadow)" }}
+        className="bg-[var(--color-bg-light-primary-300)]"
+        footer={
+          <Button
+            form="staffForm"
+            type="submit"
+            children="Xác nhận"
+            width="100%"
+            height={40}
+            className="px-4 py-2 font-bold"
+            style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+          />
+        }
       >
-        <div className="text-xl font-bold mb-4">Cập nhật thông tin</div>
-        <Edit />
+        <Edit onClose={() => modal.edit.toggleActive(false)} />
       </Modal>
       <Modal
         open={modal.delete.isActive}
         onClose={() => modal.delete.toggleActive(false)}
         backdrop={true}
         style={{ boxShadow: "var(--shadow)" }}
+        footer={
+          <div className="flex justify-end gap-2 mt-5 text-[14px]">
+            <Button
+              onClick={() => modal.delete.toggleActive(false)}
+              children="Huỷ"
+              width="auto"
+              height={40}
+              className="px-4 py-2 font-bold"
+              style={{ background: "var(--color-bg-light-primary-300)" }}
+            />
+            <Button
+              children="Xác nhận"
+              width="auto"
+              height={40}
+              className="px-4 py-2 font-bold"
+              style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+            />
+          </div>
+        }
       >
-        <div className="text-xl font-bold mb-4">Thông báo</div>
-        <div>Xác nhận xoá người này khỏi hệ thống?</div>
+        <div className="flex gap-2 items-center text-3xl font-bold">
+          <TiWarning />
+          <span>Cảnh báo</span>
+        </div>
+        <Item
+          as="div"
+          children="Hành động này sẽ xoá nhân sự khỏi danh sách và hệ thống dữ liệu của bạn. Bạn có muốn tiếp tục?"
+          className="mb-5 mt-2"
+          whitespace=""
+          itemClassName="text-[14px]"
+        />
       </Modal>
     </div>
   );

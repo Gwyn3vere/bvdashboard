@@ -1,6 +1,7 @@
 // Libraries - Constants
+import React from "react";
 import classNames from "classnames/bind";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { SIDEBAR_MENU } from "../../constants";
 import { useState } from "react";
 // Styles - UI - Icons
@@ -12,6 +13,8 @@ const cx = classNames.bind(style);
 
 function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const location = useLocation();
+  const pathname = location.pathname;
   return (
     <aside className={cx("rounded-[8px] h-full transition-all duration-300")}>
       <div className="flex flex-col h-full rounded-[8px] ">
@@ -41,21 +44,26 @@ function Sidebar() {
                 >
                   <span>{group.group}</span>
                 </div>
-                {group.items.map((item) => (
-                  <Item
-                    key={item.title}
-                    as={Link}
-                    to={item.to}
-                    icon={item.icon}
-                    children={item.title}
-                    className={cx(
-                      "h-[50px]",
-                      "px-3 py-2 cursor-pointer rounded-[8px] ",
-                      "hover:bg-[var(--color-bg-light-primary-200)]"
-                    )}
-                    boolean={isCollapsed}
-                  />
-                ))}
+                {group.items.map((item) => {
+                  const isActive = new RegExp(`^${item.to}(/|$)`).test(pathname);
+                  return (
+                    <Item
+                      key={item.title}
+                      as={Link}
+                      to={item.to}
+                      icon={item.icon}
+                      children={item.title}
+                      className={cx(
+                        "h-[50px] transition-all",
+                        "px-3 py-2 cursor-pointer rounded-[8px] ",
+                        isActive ? "" : "hover:bg-[var(--color-bg-light-primary-200)]",
+                        isActive && "bg-[var(--color-text-light-primary)] text-[var(--color-bg-light-primary-100)]",
+                        isCollapsed ? "flex justify-center items-center" : "flex items-center gap-2"
+                      )}
+                      itemClassName={cx(isCollapsed ? "w-0" : "w-[190px]")}
+                    />
+                  );
+                })}
               </div>
             ))}
           </div>

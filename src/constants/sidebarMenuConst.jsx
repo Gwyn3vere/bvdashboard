@@ -12,7 +12,7 @@ export const SIDEBAR_MENU = [
   {
     group: "Chức năng chính",
     items: [
-      { title: "Tổng quan", to: "/", icon: <HiMiniSquares2X2 /> },
+      { title: "Tổng quan", to: "/bang-dieu-khien", icon: <HiMiniSquares2X2 /> },
       { title: "Bệnh nhân", to: "/patients", icon: <HiMiniUserGroup /> },
       { title: "Lịch hẹn", to: "/appointments", icon: <HiCalendar /> }
     ]

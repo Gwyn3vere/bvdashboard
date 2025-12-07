@@ -1,4 +1,5 @@
 // Libraries
+import React from "react";
 import classNames from "classnames/bind";
 // Styles - UI - Icons
 import style from "../../styles/ui.module.css";
@@ -18,4 +19,4 @@ function Button({ height = 40, width = 100, className = "", style = {}, children
   );
 }
 
-export default Button;
+export default React.memo(Button);

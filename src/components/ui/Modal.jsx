@@ -59,7 +59,7 @@ function Modal({
       {/* Content */}
       <div
         className={cx(
-          "pointer-events-auto relative bg-[var(--color-bg-light-primary-300)] rounded-[8px] p-5 transition-all",
+          "pointer-events-auto relative bg-[var(--color-bg-light-primary-100)] rounded-[8px] p-5 transition-all",
           width,
           closing ? "animate-fadeOut" : "animate-fadeIn",
           className
@@ -69,23 +69,6 @@ function Modal({
       >
         {children}
         {footer && <div className="mt-5">{footer}</div>}
-        {/* <div className="flex justify-end gap-2 mt-5 text-[14px]">
-          <Button
-            onClick={onClose}
-            children="Huỷ"
-            width="auto"
-            height={40}
-            className="px-4 py-2"
-            style={{ background: "var(--color-bg-light-primary-300)" }}
-          />
-          <Button
-            children="Xác nhận"
-            width="auto"
-            height={40}
-            className="px-4 py-2"
-            style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-          />
-        </div> */}
       </div>
     </div>
   );
