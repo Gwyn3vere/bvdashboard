@@ -21,7 +21,7 @@ export const SIDEBAR_MENU = [
     group: "Quản lý nhân sự",
     items: [
       { title: "Nhân sự", to: "/quan-ly-nhan-su", icon: <HiUsers /> },
-      { title: "Bác sĩ", to: "/doctors", icon: <HiMiniUser /> }
+      { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <HiMiniUser /> }
     ]
   },
   {
