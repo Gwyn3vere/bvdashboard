@@ -1,4 +1,5 @@
 // Libraries
+import React from "react";
 import classNames from "classnames/bind";
 // Styles - UI - Icons
 import style from "../../styles/ui.module.css";
@@ -45,4 +46,4 @@ function List({ className, columns = [], data = [] }) {
   );
 }
 
-export default List;
+export default React.memo(List);

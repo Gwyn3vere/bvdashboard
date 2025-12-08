@@ -12,7 +12,7 @@ export const SIDEBAR_MENU = [
   {
     group: "Chức năng chính",
     items: [
-      { title: "Tổng quan", to: "/", icon: <HiMiniSquares2X2 /> },
+      { title: "Tổng quan", to: "/bang-dieu-khien", icon: <HiMiniSquares2X2 /> },
       { title: "Bệnh nhân", to: "/patients", icon: <HiMiniUserGroup /> },
       { title: "Lịch hẹn", to: "/appointments", icon: <HiCalendar /> }
     ]
@@ -21,7 +21,7 @@ export const SIDEBAR_MENU = [
     group: "Quản lý nhân sự",
     items: [
       { title: "Nhân sự", to: "/quan-ly-nhan-su", icon: <HiUsers /> },
-      { title: "Bác sĩ", to: "/doctors", icon: <HiMiniUser /> }
+      { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <HiMiniUser /> }
     ]
   },
   {

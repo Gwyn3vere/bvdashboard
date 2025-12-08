@@ -1,6 +1,6 @@
 // Libraries - Mock -Hooks
 import classNames from "classnames/bind";
-import { mockStaff } from "../../mock/account";
+import { mockDoctors } from "../../mock/account";
 import { useActive } from "../../components/hooks";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
@@ -8,31 +8,29 @@ import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter
 import { HiMiniSquares2X2, HiOutlinePlus, HiMiniTrash, HiPencilSquare } from "react-icons/hi2";
 import { LuListFilter } from "react-icons/lu";
 import { TiWarning } from "react-icons/ti";
-import { Create, Edit } from "../Staff";
 
 const cx = classNames.bind(styles);
 
-function Staff() {
+function Doctor() {
   const modal = {
     filter: useActive(),
     add: useActive(),
     edit: useActive(),
     delete: useActive()
   };
-
   return (
     <div className="flex flex-col overflow-hidden w-full h-full min-h-0">
       <Breadcrumb
         className="mb-3"
         items={[
           { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <HiMiniSquares2X2 /> },
-          { label: "Quản lý nhân sự" }
+          { label: "Quản lý bác sĩ" }
         ]}
       />
-      <Item as="strong" children="Quản lý nhân sự" itemClassName="text-3xl" />
+      <Item as="strong" children="Quản lý bác sĩ" itemClassName="text-3xl" />
       <Item
         as="span"
-        children="Quản lý thành viên nhóm của bạn và quyền tài khoản của họ ở đây."
+        children="Quản lý thông tin bác sĩ tại đây."
         itemClassName="text-[14px] text-gray-500"
         className="mb-5 mt-1"
       />
@@ -95,7 +93,7 @@ function Staff() {
               />
             }
           >
-            <Create onClose={() => modal.add.toggleActive(false)} />
+            {/* <Create onClose={() => modal.add.toggleActive(false)} /> */}
           </Modal>
         </div>
       </div>
@@ -106,35 +104,24 @@ function Staff() {
           { key: "Index", label: "#", width: "3%", render: (row) => row.id },
           { key: "checkbox", label: <Checkbox />, width: "3%", render: () => <Checkbox /> },
           {
-            key: "Username",
-            label: "Tên thành viên",
+            key: "Doctor",
+            label: "Bác sĩ",
             width: "64%",
             render: (row) => (
               <div className="flex items-center gap-2">
                 <Avatar className="rounded-full" width={50} height={50} />
                 <div>
                   <span className="font-bold">{row.name}</span>
-                  <p className="text-sm opacity-70">{row.email}</p>
+                  <p className="text-sm opacity-70">{row.degree}</p>
                 </div>
               </div>
             )
           },
           {
             key: "Access",
-            label: "Quyền",
+            label: "Chuyên khoa",
             width: "10%",
-            render: (row) => (
-              <span
-                className={cx(
-                  "px-3 rounded-full border-2",
-                  row.role === "admin"
-                    ? " bg-green-200 border-green-500 text-green-700"
-                    : "bg-blue-200 border-blue-500 text-blue-700"
-                )}
-              >
-                {row.role}
-              </span>
-            )
+            render: (row) => <span className={cx("px-3")}>{row.specialty}</span>
           },
           { key: "DateAdded", label: "Ngày thêm vào", width: "10%", render: (row) => row.dateAdded },
           {
@@ -172,7 +159,7 @@ function Staff() {
             )
           }
         ]}
-        data={mockStaff}
+        data={mockDoctors}
       />
       <Modal
         open={modal.edit.isActive}
@@ -192,7 +179,7 @@ function Staff() {
           />
         }
       >
-        <Edit onClose={() => modal.edit.toggleActive(false)} />
+        {/* <Edit onClose={() => modal.edit.toggleActive(false)} /> */}
       </Modal>
       <Modal
         open={modal.delete.isActive}
@@ -225,7 +212,7 @@ function Staff() {
         </div>
         <Item
           as="div"
-          children="Hành động này sẽ xoá nhân sự khỏi danh sách và hệ thống dữ liệu của bạn. Bạn có muốn tiếp tục?"
+          children="Hành động này sẽ xoá bác sĩ khỏi danh sách và hệ thống dữ liệu của bạn. Bạn có muốn tiếp tục?"
           className="mb-5 mt-2"
           whitespace=""
           itemClassName="text-[14px]"
@@ -235,4 +222,4 @@ function Staff() {
   );
 }
 
-export default Staff;
+export default Doctor;

@@ -11,10 +11,7 @@ const cx = classNames.bind(styles);
 function Create({ onClose }) {
   return (
     <div className="relative">
-      <div className="flex gap-2 items-center text-3xl font-bold">
-        <TiUserAdd />
-        <span>Thêm nhân sự</span>
-      </div>
+      <Item icon={<TiUserAdd />} children="Thêm nhân sự" className="flex items-center gap-2 text-3xl font-bold" />
       <Button
         icon={<TiTimes />}
         width={40}
@@ -26,7 +23,6 @@ function Create({ onClose }) {
       <Item
         as="div"
         children="Điền đầy đủ thông tin nhân sự vào danh sách của bạn."
-        width="auto"
         className="mb-5 mt-2"
         itemClassName="text-[14px] text-gray-500"
       />
@@ -38,7 +34,7 @@ function Create({ onClose }) {
           </div>
         </div>
         <div className="bg-white p-5 rounded-[8px]" style={{ boxShadow: "var(--shadow)" }}>
-          <Item as="div" children="Thông tin nhân sự" width="auto" className="mb-5" itemClassName="font-bold" />
+          <Item as="div" children="Thông tin nhân sự" className="mb-5" itemClassName="font-bold" />
           <Input
             name="email"
             type="email"
@@ -76,7 +72,7 @@ function Create({ onClose }) {
           <Input
             name="password"
             type="password"
-            label="Password *"
+            label="Mật khẩu *"
             labelClassName="text-sm"
             icon={<IoIosKey />}
             placeholder="********"
@@ -86,7 +82,7 @@ function Create({ onClose }) {
         </div>
         <div className="bg-white p-5 rounded-[8px]" style={{ boxShadow: "var(--shadow)" }}>
           {/* Phần này UI mẫu, chưa build UI Component Quyền Hạn */}
-          <Item as="div" children="Quyền hạn nhân sự" width="auto" className="mb-5" itemClassName="font-bold" />
+          <Item as="div" children="Quyền hạn nhân sự" className="mb-5" itemClassName="font-bold" />
           <Input
             name="text"
             type="text"
@@ -101,7 +97,6 @@ function Create({ onClose }) {
             as="div"
             children="Các quyền được gán sẽ quyết định phạm vi thao tác của nhân sự trong hệ thống. Vui lòng kiểm tra kỹ trước khi xác nhận thay đổi."
             whitespace=""
-            width="auto"
             className="mt-5"
             itemClassName="text-[14px]"
           />

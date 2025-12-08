@@ -33,3 +33,51 @@ export const mockStaff = [
   { id: 19, name: "Do Van I", email: "dovani@example.com", role: "user", dateAdded: "1/12/2025" },
   { id: 20, name: "Cao Thi J", email: "caothij@example.com", role: "user", dateAdded: "1/12/2025" }
 ];
+
+export const mockDoctors = [
+  {
+    id: 1,
+    name: "Nguyen Van A",
+    degree: "Tiến sĩ",
+    specialty: "Nội tiết",
+    department: "Khoa Nội",
+    email: "nguyenvana@example.com",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 2,
+    name: "Tran Thi B",
+    degree: "Phó Giáo sư, Tiến sĩ",
+    specialty: "Tim mạch",
+    department: "Khoa Tim mạch",
+    email: "tranthib@example.com",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 3,
+    name: "Le Van C",
+    degree: "Giáo sư, Tiến sĩ",
+    specialty: "Tiêu hoá",
+    department: "Khoa Tiêu hoá",
+    email: "levanc@example.com",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 4,
+    name: "Pham Thi D",
+    degree: "Bác sĩ chuyên khoa I",
+    specialty: "Nhi khoa",
+    department: "Khoa Nhi",
+    email: "phamthid@example.com",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 5,
+    name: "Hoang Van E",
+    degree: "Bác sĩ chuyên khoa II",
+    specialty: "Ngoại tổng hợp",
+    department: "Khoa Ngoại",
+    email: "hoangvane@example.com",
+    dateAdded: "1/12/2025"
+  }
+];

@@ -3,6 +3,7 @@ import { dashboardLayout } from "../components/layouts";
 import { Overview } from "../pages/Overview";
 import { Dashboard } from "../pages/Dashboard";
 import { Staff } from "../pages/Staff";
+import { Doctor } from "../pages/Doctor";
 
 const privateRoutes = [
   {
@@ -20,6 +21,12 @@ const privateRoutes = [
   {
     path: "/quan-ly-nhan-su",
     component: Staff,
+    layout: dashboardLayout,
+    role: ["admin", "user"]
+  },
+  {
+    path: "/quan-ly-bac-si",
+    component: Doctor,
     layout: dashboardLayout,
     role: ["admin", "user"]
   }
