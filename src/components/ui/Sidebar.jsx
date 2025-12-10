@@ -26,7 +26,7 @@ function Sidebar() {
               isCollapsed ? "w-0" : "w-[190px]"
             )}
           >
-            <span className="text-[12px] font-bold uppercase">Trung tâm y tế Liên Chiểu</span>
+            <span className="text-[12px] font-bold uppercase text-blue-700">Trung tâm y tế Liên Chiểu</span>
             <div className="text-[12px] font-bold italic text-red-500">Y tế gần dân, cân cần chăm sóc</div>
           </div>
         </div>
@@ -37,7 +37,7 @@ function Sidebar() {
               <div key={group.group} className={cx(isCollapsed ? "mb-0" : "mb-5")}>
                 <div
                   className={cx(
-                    "px-3 text-[var(--color-text-light-secondary)] text-[11px] font-bold mb-2 uppercase",
+                    "text-[var(--color-text-light-secondary)] text-[11px] font-bold uppercase",
                     "overflow-hidden whitespace-nowrap transition-all duration-300",
                     isCollapsed ? "w-0 h-0" : "w-[200px]"
                   )}
@@ -60,7 +60,7 @@ function Sidebar() {
                         isActive && "bg-[var(--color-text-light-primary)] text-[var(--color-bg-light-primary-100)]",
                         isCollapsed ? "flex justify-center items-center" : "flex items-center gap-2"
                       )}
-                      itemClassName={cx(isCollapsed ? "w-0" : "w-[190px]")}
+                      itemClassName={cx("text-[14px]", isCollapsed ? "w-0" : "w-[190px]")}
                     />
                   );
                 })}

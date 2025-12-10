@@ -8,6 +8,7 @@ import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter
 import { HiMiniSquares2X2, HiOutlinePlus, HiMiniTrash, HiPencilSquare } from "react-icons/hi2";
 import { LuListFilter } from "react-icons/lu";
 import { TiWarning } from "react-icons/ti";
+import { Create, Edit } from ".";
 
 const cx = classNames.bind(styles);
 
@@ -93,7 +94,7 @@ function Doctor() {
               />
             }
           >
-            {/* <Create onClose={() => modal.add.toggleActive(false)} /> */}
+            <Create onClose={() => modal.add.toggleActive(false)} />
           </Modal>
         </div>
       </div>
@@ -179,7 +180,7 @@ function Doctor() {
           />
         }
       >
-        {/* <Edit onClose={() => modal.edit.toggleActive(false)} /> */}
+        <Edit onClose={() => modal.edit.toggleActive(false)} />
       </Modal>
       <Modal
         open={modal.delete.isActive}

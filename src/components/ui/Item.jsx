@@ -1,6 +1,7 @@
 // Libraries
 import React from "react";
 import classNames from "classnames/bind";
+import { Link } from "react-router-dom";
 // Styles - UI - Icons
 import style from "../../styles/ui.module.css";
 
@@ -10,7 +11,6 @@ function Item({
   as: Component = "div",
   icon,
   children,
-  href,
   to,
   onClick,
   className,
@@ -19,7 +19,7 @@ function Item({
   style = {}
 }) {
   return (
-    <Component href={href} to={to} onClick={onClick} className={cx(className)} style={{ ...style }}>
+    <Component to={to} onClick={onClick} className={cx(className)} style={{ ...style }}>
       {icon && <span className="flex items-center justify-center">{icon}</span>}
       <div className={cx("overflow-hidden transition-all duration-300", whitespace, itemClassName)}>{children}</div>
     </Component>

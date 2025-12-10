@@ -5,7 +5,8 @@ import {
   HiCalendar,
   HiUsers,
   HiViewColumns,
-  HiStop
+  HiStop,
+  HiNewspaper
 } from "react-icons/hi2";
 
 export const SIDEBAR_MENU = [
@@ -18,15 +19,11 @@ export const SIDEBAR_MENU = [
     ]
   },
   {
-    group: "Quản lý nhân sự",
+    group: "Quản lý",
     items: [
       { title: "Nhân sự", to: "/quan-ly-nhan-su", icon: <HiUsers /> },
-      { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <HiMiniUser /> }
-    ]
-  },
-  {
-    group: "Quản lý thành phần",
-    items: [
+      { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <HiMiniUser /> },
+      { title: "Tin tức", to: "/quan-ly-tin-tuc", icon: <HiNewspaper /> },
       { title: "Banner", to: "/banner", icon: <HiViewColumns /> },
       { title: "Logo", to: "/logo", icon: <HiStop /> }
     ]
