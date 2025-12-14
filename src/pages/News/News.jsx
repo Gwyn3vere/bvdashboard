@@ -4,6 +4,7 @@ import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import { useActive } from "../../components/hooks";
 import { mockNews } from "../../mock/news";
+import { mockStaff } from "../../mock/account";
 // Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
 import { Breadcrumb, Item, Button, Search, Avatar } from "../../components/ui";
@@ -40,7 +41,7 @@ function News() {
     delete: useActive()
   };
   return (
-    <div className="xl:grid grid-cols-[1200px_auto] h-auto gap-5">
+    <div className="xl:grid grid-cols-[1200px_auto] h-auto gap-5 max-w-[1600px] mx-auto">
       <div>
         <Breadcrumb
           className="mb-3"
@@ -61,7 +62,7 @@ function News() {
           </div>
           <Item
             as={Link}
-            to="/dang-bai"
+            to="/quan-ly-tin-tuc/dang-bai"
             children="Đăng tin tức mới"
             className={cx("flex justify-center w-[200px] px-4 py-2 bg-white rounded-full")}
             itemClassName={cx("font-bold text-blue-500")}
@@ -98,7 +99,7 @@ function News() {
               children="Bộ lọc"
               width="auto"
               onClick={modal.filter.toggleActive}
-              className="text-[14px] border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
+              className="text-[14px] text-white px-3 rounded-[8px] bg-[var(--color-text-light-primary)] cursor-pointer"
             />
           </div>
         </div>
@@ -123,7 +124,11 @@ function News() {
             className={cx("text-sm text-blue-500")}
           />
         </div>
-        <Author />
+        {mockStaff.slice(0, 4).map((staff, index) => (
+          <div key={index} className="mb-4">
+            <Author staff={staff} />
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -174,36 +179,27 @@ export function NewsCard({ news }) {
   );
 }
 
-export function Author() {
+export function Author({ staff }) {
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center gap-2">
-        <Avatar className="rounded-full" width={50} height={50} />
-        <div>
-          <span className="font-bold">Author Name</span>
-          <p className="text-sm opacity-70">author@example.com</p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Avatar className="rounded-full" width={50} height={50} />
+          <div>
+            <span className="font-bold">Author Name</span>
+            <p className="text-sm opacity-70">author@example.com</p>
+          </div>
         </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <Avatar className="rounded-full" width={50} height={50} />
-        <div>
-          <span className="font-bold">Author Name</span>
-          <p className="text-sm opacity-70">author@example.com</p>
-        </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <Avatar className="rounded-full" width={50} height={50} />
-        <div>
-          <span className="font-bold">Author Name</span>
-          <p className="text-sm opacity-70">author@example.com</p>
-        </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <Avatar className="rounded-full" width={50} height={50} />
-        <div>
-          <span className="font-bold">Author Name</span>
-          <p className="text-sm opacity-70">author@example.com</p>
-        </div>
+        <span
+          className={cx(
+            "px-3 rounded-full border-2",
+            staff.role === "admin"
+              ? " bg-green-200 border-green-500 text-green-700"
+              : "bg-blue-200 border-blue-500 text-blue-700"
+          )}
+        >
+          {staff.role}
+        </span>
       </div>
     </div>
   );

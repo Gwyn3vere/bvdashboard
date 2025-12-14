@@ -42,7 +42,7 @@ function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 w-full flex justify-between mb-5">
+    <header className="sticky top-0 w-full flex justify-between mb-5 max-w-[1600px] mx-auto">
       <Search className="rounded-full" />
       <div className="flex gap-2">
         {/* Theme mode */}

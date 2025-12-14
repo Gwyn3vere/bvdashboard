@@ -11,7 +11,7 @@ function Input({
   height = "50px",
   type = "text",
   placeholder = "Typing here...",
-  label = "Label",
+  label,
   labelClassName = "",
   icon,
   className,
@@ -21,7 +21,7 @@ function Input({
 }) {
   return (
     <div className={className}>
-      <label className={cx(labelClassName)}>{label}</label>
+      {label && <label className={cx(labelClassName)}>{label}</label>}
       <div
         className={cx(
           "flex items-center bg-[var(--color-bg-light-primary-300)] px-3",

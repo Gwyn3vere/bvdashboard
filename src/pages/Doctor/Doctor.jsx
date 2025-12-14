@@ -20,7 +20,7 @@ function Doctor() {
     delete: useActive()
   };
   return (
-    <div className="flex flex-col overflow-hidden w-full h-full min-h-0">
+    <div className="flex flex-col overflow-hidden w-full h-full min-h-0 max-w-[1600px] mx-auto">
       <Breadcrumb
         className="mb-3"
         items={[

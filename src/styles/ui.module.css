@@ -54,3 +54,9 @@
 .backdrop-fadeOut {
   animation: backdropOut 0.18s ease-in forwards;
 }
+
+[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none;
+}

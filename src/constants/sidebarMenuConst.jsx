@@ -11,7 +11,7 @@ import {
 
 export const SIDEBAR_MENU = [
   {
-    group: "Chức năng chính",
+    group: "Menu chính",
     items: [
       { title: "Tổng quan", to: "/bang-dieu-khien", icon: <HiMiniSquares2X2 /> },
       { title: "Bệnh nhân", to: "/patients", icon: <HiMiniUserGroup /> },

@@ -4,7 +4,7 @@ import { Overview } from "../pages/Overview";
 import { Dashboard } from "../pages/Dashboard";
 import { Staff } from "../pages/Staff";
 import { Doctor } from "../pages/Doctor";
-import { News } from "../pages/News";
+import { News, Post } from "../pages/News";
 
 const privateRoutes = [
   {
@@ -34,6 +34,12 @@ const privateRoutes = [
   {
     path: "/quan-ly-tin-tuc",
     component: News,
+    layout: dashboardLayout,
+    role: ["admin", "user"]
+  },
+  {
+    path: "/quan-ly-tin-tuc/dang-bai",
+    component: Post,
     layout: dashboardLayout,
     role: ["admin", "user"]
   }
