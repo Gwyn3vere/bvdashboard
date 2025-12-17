@@ -93,7 +93,7 @@ function Header() {
                 to="/"
                 icon={<CiUser />}
                 className={cx(
-                  "px-3 py-2 cursor-pointer rounded-[8px] ",
+                  "flex gap-2 px-3 py-2 cursor-pointer rounded-[8px] ",
                   "hover:bg-[var(--color-bg-light-primary-200)]"
                 )}
               />
@@ -103,7 +103,7 @@ function Header() {
                 to="/"
                 icon={<CiSettings />}
                 className={cx(
-                  "px-3 py-2 cursor-pointer rounded-[8px] ",
+                  "flex gap-2 px-3 py-2 cursor-pointer rounded-[8px] ",
                   "hover:bg-[var(--color-bg-light-primary-200)]"
                 )}
               />
@@ -113,7 +113,7 @@ function Header() {
                 to="/"
                 icon={<CiLogout />}
                 className={cx(
-                  "px-3 py-2 cursor-pointer rounded-[8px] ",
+                  "flex gap-2 px-3 py-2 cursor-pointer rounded-[8px] ",
                   "hover:bg-[var(--color-bg-light-primary-200)]"
                 )}
               />

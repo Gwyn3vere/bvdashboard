@@ -34,14 +34,21 @@ import {
 import "ckeditor5/ckeditor5.css";
 // Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
-import { Breadcrumb, Item, Button, Form, Input } from "../../components/ui";
-import { HiMiniSquares2X2, HiMiniPhoto } from "react-icons/hi2";
+import { Breadcrumb, Item, Button, Form, Avatar, Username, Role } from "../../components/ui";
+import {
+  HiMiniSquares2X2,
+  HiMiniPhoto,
+  HiOutlineDocument,
+  HiOutlineCalendarDays,
+  HiOutlineCalendar,
+  HiOutlineSquare2Stack
+} from "react-icons/hi2";
 
 const cx = classNames.bind(styles);
 
 function Post() {
   return (
-    <Form className="flex flex-col max-w-[1600px] mx-auto h-full overflow-hidden">
+    <Form className="flex flex-col max-w-[1600px] mx-auto h-full">
       <Breadcrumb
         className="mb-3"
         items={[
@@ -51,23 +58,18 @@ function Post() {
         ]}
       />
 
-      <div className="hidden-scrollbar flex-1 mx-auto  h-full overflow-auto">
-        <div className="h-full min-h-0" style={{ width: "clamp(640px, 70vw, 760px)" }}>
+      {/* Layout chính */}
+      <div className="flex justify-center flex-1 min-h-0 gap-3">
+        {/* Editor – scroll độc lập */}
+        <div className="hidden-scrollbar min-h-0 overflow-y-auto pr-2" style={{ width: "clamp(640px, 70vw, 760px)" }}>
           <NewsEditor />
         </div>
-      </div>
-      <div className="mx-auto mt-2" style={{ width: "clamp(640px, 70vw, 760px)" }}>
-        <div className="flex justify-end gap-2">
-          <Button
-            type="submit"
-            width="auto"
-            className="px-3 py-2 rounded-[8px] bg-[var(--color-bg-light-primary-300)] font-bold"
-          >
-            Lưu bản nháp
-          </Button>
-          <Button type="submit" width="auto" className="px-3 py-2 rounded-[8px] bg-black text-white font-bold">
-            Xuất bản
-          </Button>
+
+        {/* Options – sticky */}
+        <div className="w-auto shrink-0">
+          <div className="sticky top-4">
+            <NewsAuther />
+          </div>
         </div>
       </div>
     </Form>
@@ -234,6 +236,57 @@ export function NewsEditor({ value, onChange }) {
           onChange?.(editor.getData());
         }}
       />
+    </div>
+  );
+}
+
+export function NewsAuther() {
+  const role = "admin"; // admin | editor
+  return (
+    <div className="flex flex-col gap-5 border-3 border-[var(--color-bg-light-primary-300)] rounded-[8px] p-4">
+      <Item as="div" children="Thông tin bổ sung" itemClassName="font-bold" />
+      <div className="flex flex-col gap-2">
+        <Item as="div" itemClassName="flex items-center gap-2">
+          <Item as="span" icon={<HiOutlineDocument />} children="Trạng thái:" className="flex items-center gap-1" />
+          <Item as="span" children="Bản nháp" itemClassName="font-bold" />
+        </Item>
+        <Item as="div" itemClassName="flex items-center gap-2">
+          <Item as="span" icon={<HiOutlineCalendar />} children="Đặt lịch đăng:" className="flex items-center gap-1" />
+          <Item as="span" children="Tắt" itemClassName="font-bold" />
+        </Item>
+        <Item as="div" itemClassName="flex items-center gap-2">
+          <Item as="span" icon={<HiOutlineSquare2Stack />} children="Khuôn mẫu:" className="flex items-center gap-1" />
+          <Item as="span" children="Mặc định" itemClassName="font-bold" />
+        </Item>
+        <Item as="div" itemClassName="flex items-center gap-2">
+          <Item
+            as="span"
+            icon={<HiOutlineCalendarDays />}
+            children="Dự kiến xuất bản:"
+            className="flex items-center gap-1"
+          />
+          <Item as="span" children="5/12/2025" itemClassName="font-bold" />
+        </Item>
+      </div>
+      <div className="flex gap-2">
+        <Button
+          type="submit"
+          width="auto"
+          className="px-3 py-2 rounded-[8px] border-2 border-[var(--color-bg-light-primary-300)] font-bold text-red-500"
+        >
+          Xoá bài viết
+        </Button>
+        <Button
+          type="submit"
+          width="auto"
+          className="px-3 py-2 rounded-[8px] bg-[var(--color-bg-light-primary-300)] font-bold"
+        >
+          Lưu bản nháp
+        </Button>
+        <Button type="submit" width="auto" className="px-3 py-2 rounded-[8px] bg-black text-white font-bold">
+          Xuất bản
+        </Button>
+      </div>
     </div>
   );
 }

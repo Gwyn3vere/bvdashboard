@@ -23,8 +23,8 @@ export const SIDEBAR_MENU = [
     items: [
       { title: "Nhân sự", to: "/quan-ly-nhan-su", icon: <HiUsers /> },
       { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <HiMiniUser /> },
+      { title: "Banner", to: "/quan-ly-banner", icon: <HiViewColumns /> },
       { title: "Tin tức", to: "/quan-ly-tin-tuc", icon: <HiNewspaper /> },
-      { title: "Banner", to: "/banner", icon: <HiViewColumns /> },
       { title: "Logo", to: "/logo", icon: <HiStop /> }
     ]
   }

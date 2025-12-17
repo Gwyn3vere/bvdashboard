@@ -141,7 +141,7 @@ export function NewsTable({ items }) {
     <div className="grid grid-cols-4 gap-2">
       {items.map((news) => (
         <div key={news.id} className="">
-          <div className="bg-gray-300 w-auto h-[150px] rounded-[8px]" />
+          <img src={news.banner} alt="news-banner" className="w-auto h-[150px] rounded-[8px] object-cover" />
           <Item as="strong" children={news.title} itemClassName="text-md mt-2 truncate " />
           <div className="text-sm text-gray-500 mt-1">
             {/* <span>Tác giả: {news.author}</span> */}
@@ -165,7 +165,7 @@ export function NewsTable({ items }) {
 export function NewsCard({ news }) {
   return (
     <div className={cx("grid grid-cols-[150px_auto] gap-2 mb-2 h-[100px]")}>
-      <div className="h-[100px] bg-gray-300 rounded-[8px]" />
+      <img src={news.banner} alt="news-banner" loading="lazy" className="h-[100px] object-cover rounded-[8px]" />
       <div className="flex flex-col justify-between w-auto">
         <Item as="strong" children={news.title} itemClassName="text-md mt-2" whitespace="" />
         <div className="flex items-end justify-between">
