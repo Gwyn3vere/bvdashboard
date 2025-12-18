@@ -10,18 +10,48 @@ function Item({
   as: Component = "div",
   icon,
   children,
-  href,
   to,
   onClick,
   className,
   itemClassName,
   whitespace = "whitespace-nowrap",
-  style = {}
+  style = {},
+  editable = false,
+  onEdit,
+  placeholder
 }) {
+  const handleInput = (e) => {
+    if (editable && onEdit) {
+      onEdit(e.target.innerText);
+    }
+  };
   return (
-    <Component href={href} to={to} onClick={onClick} className={cx(className)} style={{ ...style }}>
+    <Component to={to} onClick={onClick} className={cx(className)} style={{ ...style }}>
       {icon && <span className="flex items-center justify-center">{icon}</span>}
-      <div className={cx("overflow-hidden transition-all duration-300", whitespace, itemClassName)}>{children}</div>
+      <div
+        contentEditable={editable}
+        suppressContentEditableWarning={editable}
+        onInput={handleInput}
+        onBlur={(e) => {
+          const text = e.target.innerText.trim();
+          if (text === "") {
+            // Xoá toàn bộ nội dung DOM để :empty hoạt động
+            e.target.innerHTML = "";
+            if (onEdit) onEdit("");
+          }
+        }}
+        data-placeholder={placeholder}
+        className={cx(
+          "overflow-hidden transition-all duration-300",
+          editable ? "whitespace-normal outline-none" : whitespace,
+          itemClassName
+        )}
+        style={{
+          wordBreak: "break-word"
+        }}
+      >
+        {children}
+      </div>
     </Component>
   );
 }

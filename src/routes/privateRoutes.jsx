@@ -4,6 +4,8 @@ import { Overview } from "../pages/Overview";
 import { Dashboard } from "../pages/Dashboard";
 import { Staff } from "../pages/Staff";
 import { Doctor } from "../pages/Doctor";
+import { News, Post } from "../pages/News";
+import { Banner } from "../pages/Banner";
 
 const privateRoutes = [
   {
@@ -27,6 +29,24 @@ const privateRoutes = [
   {
     path: "/quan-ly-bac-si",
     component: Doctor,
+    layout: dashboardLayout,
+    role: ["admin", "user"]
+  },
+  {
+    path: "/quan-ly-tin-tuc",
+    component: News,
+    layout: dashboardLayout,
+    role: ["admin", "user"]
+  },
+  {
+    path: "/quan-ly-tin-tuc/dang-bai",
+    component: Post,
+    layout: dashboardLayout,
+    role: ["admin", "user"]
+  },
+  {
+    path: "/quan-ly-banner",
+    component: Banner,
     layout: dashboardLayout,
     role: ["admin", "user"]
   }

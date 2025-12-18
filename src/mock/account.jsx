@@ -81,3 +81,41 @@ export const mockDoctors = [
     dateAdded: "1/12/2025"
   }
 ];
+
+export const mockBanners = [
+  {
+    id: 1,
+    imageUrl: "https://picsum.photos/300/150?random=1",
+    viewOrder: 1,
+    isActive: true,
+    url: "http://localhost:5173/quan-ly-banner"
+  },
+  {
+    id: 2,
+    imageUrl: "https://picsum.photos/300/150?random=2",
+    viewOrder: 2,
+    isActive: false,
+    url: "http://localhost:5173/quan-ly-banner"
+  },
+  {
+    id: 3,
+    imageUrl: "https://picsum.photos/300/150?random=3",
+    viewOrder: 3,
+    isActive: true,
+    url: "http://localhost:5173/quan-ly-banner"
+  },
+  {
+    id: 4,
+    imageUrl: "https://picsum.photos/300/150?random=4",
+    viewOrder: 4,
+    isActive: true,
+    url: "http://localhost:5173/quan-ly-banner"
+  },
+  {
+    id: 5,
+    imageUrl: "https://picsum.photos/300/150?random=5",
+    viewOrder: 5,
+    isActive: false,
+    url: "http://localhost://5173/quan-ly-banner"
+  }
+];
