@@ -16,9 +16,9 @@ function Sidebar() {
   const location = useLocation();
   const pathname = location.pathname;
   return (
-    <aside className={cx("rounded-[8px] h-full transition-all duration-300")}>
+    <aside className={cx("p-3 rounded-[8px] h-full transition-all duration-300")}>
       <div className="flex flex-col h-full rounded-[8px] ">
-        <div className={cx("p-2", isCollapsed ? "flex justify-center items-center" : "flex items-center gap-2")}>
+        <div className={cx("p-2 mb-5", isCollapsed ? "flex justify-center items-center" : "flex items-center gap-2")}>
           <Logo src="" className="rounded-[8px]" width={50} height={50} />
           <div
             className={cx(
@@ -37,9 +37,9 @@ function Sidebar() {
               <div key={group.group} className={cx(isCollapsed ? "mb-0" : "mb-5")}>
                 <div
                   className={cx(
-                    "text-[var(--color-text-light-secondary)] text-[11px] font-bold uppercase",
+                    "text-[var(--color-text-light-secondary)] text-[12px] font-black uppercase",
                     "overflow-hidden whitespace-nowrap transition-all duration-300",
-                    isCollapsed ? "w-0 h-0" : "w-[200px]"
+                    isCollapsed ? "w-0 h-0" : "w-[200px] mb-3"
                   )}
                 >
                   <span>{group.group}</span>
@@ -54,13 +54,16 @@ function Sidebar() {
                       icon={item.icon}
                       children={item.title}
                       className={cx(
-                        "h-[50px] transition-all",
-                        "px-3 py-2 cursor-pointer rounded-[8px] ",
-                        isActive ? "" : "hover:bg-[var(--color-bg-light-primary-200)]",
-                        isActive && "bg-[var(--color-text-light-primary)] text-[var(--color-bg-light-primary-100)]",
-                        isCollapsed ? "flex justify-center items-center" : "flex items-center gap-2"
+                        "h-[45px] transition-all",
+                        "px-3 py-2 cursor-pointer rounded-[8px] mb-2",
+                        isActive
+                          ? ""
+                          : "hover:text-[var(--color-primary)] text-[var(--color-text-light-secondary)] font-medium",
+                        isActive && "bg-[var(--color-primary)] text-[var(--color-bg-light-primary-100)] rounded-ee-4xl",
+                        isCollapsed ? "flex justify-center items-center" : "flex items-center gap-4"
                       )}
-                      itemClassName={cx("text-[14px]", isCollapsed ? "w-0" : "w-[190px]")}
+                      itemClassName={cx("text-[16px]", isCollapsed ? "w-0" : "w-[190px]")}
+                      iconClassName={cx("text-[24px]")}
                     />
                   );
                 })}
@@ -72,7 +75,7 @@ function Sidebar() {
             width={50}
             height={50}
             className={cx(
-              "text-[14px]",
+              "text-[14px] text-[var(--color-primary)]",
               "absolute cursor-pointer -right-7 top-1/2 translate-y-[-50%] bg-[var(--color-bg-light-primary-200)] p-2 rounded-full",
               isCollapsed ? "rotate-180 transition-transform" : "transition-transform"
             )}

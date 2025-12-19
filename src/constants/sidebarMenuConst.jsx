@@ -1,31 +1,31 @@
 import {
-  HiMiniUserGroup,
-  HiMiniSquares2X2,
-  HiMiniUser,
-  HiCalendar,
-  HiUsers,
-  HiViewColumns,
-  HiStop,
-  HiNewspaper
-} from "react-icons/hi2";
+  LuLayoutDashboard,
+  LuClipboardList,
+  LuFrown,
+  LuUsers,
+  LuStethoscope,
+  LuImages,
+  LuNewspaper,
+  LuCircle
+} from "react-icons/lu";
 
 export const SIDEBAR_MENU = [
   {
     group: "Menu chính",
     items: [
-      { title: "Tổng quan", to: "/bang-dieu-khien", icon: <HiMiniSquares2X2 /> },
-      { title: "Bệnh nhân", to: "/patients", icon: <HiMiniUserGroup /> },
-      { title: "Lịch hẹn", to: "/appointments", icon: <HiCalendar /> }
+      { title: "Tổng quan", to: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
+      { title: "Bệnh nhân", to: "/patients", icon: <LuFrown /> },
+      { title: "Lịch hẹn", to: "/appointments", icon: <LuClipboardList /> }
     ]
   },
   {
     group: "Quản lý",
     items: [
-      { title: "Nhân sự", to: "/quan-ly-nhan-su", icon: <HiUsers /> },
-      { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <HiMiniUser /> },
-      { title: "Banner", to: "/quan-ly-banner", icon: <HiViewColumns /> },
-      { title: "Tin tức", to: "/quan-ly-tin-tuc", icon: <HiNewspaper /> },
-      { title: "Logo", to: "/logo", icon: <HiStop /> }
+      { title: "Nhân sự", to: "/quan-ly-nhan-su", icon: <LuUsers /> },
+      { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <LuStethoscope /> },
+      { title: "Banner", to: "/quan-ly-banner", icon: <LuImages /> },
+      { title: "Tin tức", to: "/quan-ly-tin-tuc", icon: <LuNewspaper /> },
+      { title: "Logo", to: "/logo", icon: <LuCircle /> }
     ]
   }
 ];

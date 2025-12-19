@@ -1,14 +1,28 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Anton+SC&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 /*===== Global Styles =====*/
 :root {
   --color-bg-light-primary-100: #ffffff;
-  --color-bg-light-primary-200: #f9f9f9;
+  --color-bg-light-primary-200: #f6fbf8;
   --color-bg-light-primary-300: #f0f0f0;
   --color-text-light-primary: #000000;
   --color-text-light-secondary: #555555;
 
+  --color-primary: #19c953ff;
+  --color-secondary: rgb(28, 116, 248);
+  --color-error: #ff4d4dff;
+
   --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: var(--color-bg-light-primary-100);
+  color: var(--color-text-light-primary);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* ===== Shared Styles =====*/

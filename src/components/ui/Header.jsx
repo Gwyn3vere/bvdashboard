@@ -1,10 +1,10 @@
 // Libraries - Hooks - Motions - Services
 import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import { useActive } from "../hooks";
+import { useActive, useLogin } from "../hooks";
 import { DropdownMotion } from "../../motions";
 import { Link } from "react-router-dom";
-import { userService } from "../../services/auth";
+import { userService, logoutService } from "../../services/auth";
 // Styles - UI - Icons
 import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
@@ -18,8 +18,10 @@ function Header() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { handleLogout } = useLogin();
+
   const username = user?.name || "Guest";
-  const role = user?.role || "Visitor";
+  const role = user?.roles || "Visitor";
   const avatar = useActive(false);
 
   useEffect(() => {
@@ -27,8 +29,9 @@ function Header() {
       try {
         setLoading(true);
         const res = await userService();
+
         if (res.success) {
-          setUser(res.user.user);
+          setUser(res.user);
         } else {
           setError(res.errors.user);
         }
@@ -42,7 +45,7 @@ function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 w-full flex justify-between mb-5 max-w-[1600px] mx-auto">
+    <header className="px-10 pt-5 sticky top-0 w-full flex justify-between mb-5 max-w-[1800px] mx-auto">
       <Search className="rounded-full" />
       <div className="flex gap-2">
         {/* Theme mode */}
@@ -108,12 +111,12 @@ function Header() {
                 )}
               />
               <Item
-                as={Link}
+                as="button"
+                onClick={handleLogout}
                 children="Đăng xuất"
-                to="/"
                 icon={<CiLogout />}
                 className={cx(
-                  "flex gap-2 px-3 py-2 cursor-pointer rounded-[8px] ",
+                  "flex gap-2 px-3 py-2 cursor-pointer rounded-[8px] w-full",
                   "hover:bg-[var(--color-bg-light-primary-200)]"
                 )}
               />

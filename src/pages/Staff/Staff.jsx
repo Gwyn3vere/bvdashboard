@@ -1,12 +1,13 @@
 // Libraries - Mock -Hooks
 import classNames from "classnames/bind";
+import { useEffect } from "react";
 import { mockStaff } from "../../mock/account";
-import { useActive } from "../../components/hooks";
+import { useActive, useUsers } from "../../components/hooks";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
-import { HiMiniSquares2X2, HiOutlinePlus, HiMiniTrash, HiPencilSquare } from "react-icons/hi2";
-import { LuListFilter } from "react-icons/lu";
+import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen } from "react-icons/lu";
+
 import { TiWarning } from "react-icons/ti";
 import { Create, Edit } from "../Staff";
 
@@ -20,12 +21,18 @@ function Staff() {
     delete: useActive()
   };
 
+  const { users, errors, loading, fetchUsers } = useUsers();
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
   return (
-    <div className="flex flex-col overflow-hidden w-full h-full min-h-0 max-w-[1600px] mx-auto">
+    <div className="px-10 pb-5 flex flex-col overflow-hidden w-full h-full min-h-0">
       <Breadcrumb
         className="mb-3"
         items={[
-          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <HiMiniSquares2X2 /> },
+          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
           { label: "Quản lý nhân sự" }
         ]}
       />
@@ -71,11 +78,12 @@ function Staff() {
             <Filter onClose={() => modal.filter.toggleActive(false)} />
           </Modal>
           <Button
-            icon={<HiOutlinePlus />}
+            icon={<LuUserRoundPlus />}
             children="Thêm mới"
             width="auto"
             onClick={modal.add.toggleActive}
-            className="text-[14px] px-3 rounded-[8px] bg-[var(--color-text-light-primary)] cursor-pointer text-white font-bold"
+            iconClassName="text-[20px]"
+            className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-bold"
           />
           <Modal
             open={modal.add.isActive}
@@ -101,9 +109,13 @@ function Staff() {
       </div>
 
       <List
-        className="flex flex-col w-full h-full min-h-0"
+        className={cx(
+          "flex flex-col justify-between",
+          "p-4 w-full h-full min-h-0 bg-[var(--color-bg-light-primary-100)] rounded-[8px]"
+        )}
+        style={{ boxShadow: "var(--shadow)" }}
         columns={[
-          { key: "Index", label: "#", width: "3%", render: (row) => row.id },
+          { key: "Index", label: "#", width: "3%", render: (row, index) => index + 1 },
           { key: "checkbox", label: <Checkbox />, width: "3%", render: () => <Checkbox /> },
           {
             key: "Username",
@@ -146,11 +158,12 @@ function Staff() {
                 onClick={modal.edit.toggleActive}
                 width={40}
                 height={40}
+                iconClassName="text-[20px] font-bold"
                 className={cx(
-                  "hover:bg-[var(--color-text-light-primary)] hover:text-[var(--color-bg-light-primary-100)]",
+                  "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
                   "rounded-full transition"
                 )}
-                icon={<HiPencilSquare />}
+                icon={<LuUserPen />}
               />
             )
           },
@@ -163,11 +176,12 @@ function Staff() {
                 onClick={modal.delete.toggleActive}
                 width={40}
                 height={40}
+                iconClassName="text-[20px] font-bold"
                 className={cx(
-                  "hover:bg-[var(--color-text-light-primary)] hover:text-[var(--color-bg-light-primary-100)]",
+                  "hover:bg-[var(--color-error)] hover:text-[var(--color-bg-light-primary-100)]",
                   "rounded-full transition"
                 )}
-                icon={<HiMiniTrash />}
+                icon={<LuTrash2 />}
               />
             )
           }

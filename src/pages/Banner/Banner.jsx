@@ -5,14 +5,8 @@ import { useActive } from "../../components/hooks";
 // Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
 import { Breadcrumb, Item, List, Checkbox, Modal, Button } from "../../components/ui";
-import {
-  HiMiniSquares2X2,
-  HiMiniTrash,
-  HiPencilSquare,
-  HiMiniCheck,
-  HiOutlinePlus,
-  HiMiniXMark
-} from "react-icons/hi2";
+import { LuPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuCheck, LuX } from "react-icons/lu";
+
 const cx = classNames.bind(styles);
 
 function Banner() {
@@ -23,11 +17,11 @@ function Banner() {
     delete: useActive()
   };
   return (
-    <div className="flex flex-col overflow-hidden w-full h-full min-h-0 max-w-[1600px] mx-auto">
+    <div className="px-10 pb-5 flex flex-col overflow-hidden w-full h-full min-h-0">
       <Breadcrumb
         className="mb-3"
         items={[
-          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <HiMiniSquares2X2 /> },
+          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
           { label: "Quản lý banner" }
         ]}
       />
@@ -44,11 +38,12 @@ function Banner() {
           <span>3</span>
         </div>
         <Button
-          icon={<HiOutlinePlus />}
+          icon={<LuPlus />}
           children="Thêm mới"
           width="auto"
           onClick={modal.add.toggleActive}
-          className="text-[14px] px-3 rounded-[8px] bg-[var(--color-text-light-primary)] cursor-pointer text-white font-bold"
+          iconClassName="text-[20px]"
+          className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-bold"
         />
         <Modal
           open={modal.add.isActive}
@@ -72,7 +67,11 @@ function Banner() {
         </Modal>
       </div>
       <List
-        className="flex flex-col w-full h-full min-h-0"
+        className={cx(
+          "p-4 w-full h-full min-h-0 bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
+          "flex flex-col justify-between"
+        )}
+        style={{ boxShadow: "var(--shadow)" }}
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row) => row.id },
           { key: "checkbox", label: <Checkbox />, width: "3%", render: () => <Checkbox /> },
@@ -92,7 +91,7 @@ function Banner() {
             key: "Active",
             label: "Active",
             width: "10%",
-            render: (row) => (row.isActive ? <HiMiniCheck /> : <HiMiniXMark />)
+            render: (row) => (row.isActive ? <LuCheck /> : <LuX />)
           },
           { key: "Url", label: "Url", width: "44%", render: (row) => <span className={cx("px-3")}>{row.url}</span> },
           {
@@ -105,10 +104,10 @@ function Banner() {
                 width={40}
                 height={40}
                 className={cx(
-                  "hover:bg-[var(--color-text-light-primary)] hover:text-[var(--color-bg-light-primary-100)]",
+                  "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
                   "rounded-full transition"
                 )}
-                icon={<HiPencilSquare />}
+                icon={<LuUserPen />}
               />
             )
           },
@@ -122,10 +121,10 @@ function Banner() {
                 width={40}
                 height={40}
                 className={cx(
-                  "hover:bg-[var(--color-text-light-primary)] hover:text-[var(--color-bg-light-primary-100)]",
+                  "hover:bg-[var(--color-error)] hover:text-[var(--color-bg-light-primary-100)]",
                   "rounded-full transition"
                 )}
-                icon={<HiMiniTrash />}
+                icon={<LuTrash2 />}
               />
             )
           }

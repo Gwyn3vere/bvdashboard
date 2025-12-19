@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginService } from "../../services/auth.index";
+import { logoutService } from "../../services/auth";
 import { validateLogin } from "../../utils/validation";
 
 export default function useLogin() {
@@ -36,5 +37,15 @@ export default function useLogin() {
     return result.user;
   };
 
-  return { form, errors, loading, handleChange, handleSubmit };
+  const handleLogout = async () => {
+    try {
+      await logoutService();
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed", error);
+      toast.error("Đăng xuất thất bại");
+    }
+  };
+
+  return { form, errors, loading, handleChange, handleSubmit, handleLogout };
 }
