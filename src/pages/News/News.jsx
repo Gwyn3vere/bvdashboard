@@ -8,8 +8,8 @@ import { mockStaff } from "../../mock/account";
 // Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
 import { Breadcrumb, Item, Button, Search, Avatar } from "../../components/ui";
-import { HiMiniSquares2X2, HiMiniChevronRight, HiMiniChevronLeft, HiBookmark } from "react-icons/hi2";
-import { LuListFilter } from "react-icons/lu";
+import { HiMiniChevronRight, HiMiniChevronLeft, HiBookmark } from "react-icons/hi2";
+import { LuListFilter, LuLayoutDashboard } from "react-icons/lu";
 import { SliderMotion } from "../../motions";
 
 const cx = classNames.bind(styles);
@@ -41,16 +41,20 @@ function News() {
     delete: useActive()
   };
   return (
-    <div className="xl:grid grid-cols-[1200px_auto] h-auto gap-5 max-w-[1600px] mx-auto">
-      <div>
-        <Breadcrumb
-          className="mb-3"
-          items={[
-            { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <HiMiniSquares2X2 /> },
-            { label: "Quản lý tin tức" }
-          ]}
-        />
-        <div className="flex flex-col justify-between w-full h-[250px] rounded-[8px] bg-blue-500 p-5">
+    <div className="px-10 pb-5 flex flex-col 2xl:grid grid-cols-[1200px_auto] h-auto gap-5">
+      <div className="flex flex-col gap-5">
+        <div
+          className="flex flex-col justify-between h-[250px] rounded-[8px] bg-[var(--color-secondary)] p-5"
+          style={{ boxShadow: "var(--shadow)" }}
+        >
+          <Breadcrumb
+            className="mb-3"
+            textStyle="text-white"
+            items={[
+              { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
+              { label: "Quản lý tin tức" }
+            ]}
+          />
           <div className="text-white">
             <Item as="strong" children="Tổng quan tin tức" itemClassName={cx("text-[25px]")} />
             <Item
@@ -69,47 +73,55 @@ function News() {
           />
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex gap-2">
-            <Item as="strong" children="Tổng bài đăng:" />
-            <span>{mockNews.length}</span>
+        <div
+          className="flex-1 bg-[var(--color-bg-light-primary-100)] p-4 rounded-[8px]"
+          style={{ boxShadow: "var(--shadow)" }}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2">
+              <Item as="strong" children="Tổng bài đăng:" />
+              <span>{mockNews.length}</span>
+            </div>
+            <div className="flex gap-2 pb-5 pt-1">
+              <Button
+                icon={<HiMiniChevronLeft />}
+                width={40}
+                onClick={prev}
+                className={cx(
+                  "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
+                  " hover:bg-[var(--color-primary)] hover:text-[var(--color-bg-light-primary-100)]"
+                )}
+              />
+              <Button
+                icon={<HiMiniChevronRight />}
+                width={40}
+                onClick={next}
+                className={cx(
+                  "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
+                  " hover:bg-[var(--color-primary)] hover:text-[var(--color-bg-light-primary-100)]"
+                )}
+              />
+              <Search className="rounded-[8px]" />
+              <Button
+                icon={<LuListFilter />}
+                children="Bộ lọc"
+                width="auto"
+                onClick={modal.filter.toggleActive}
+                className={cx(
+                  "px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer",
+                  "text-[14px] text-white font-bold flex items-center gap-2"
+                )}
+              />
+            </div>
           </div>
-          <div className="flex gap-2 my-5">
-            <Button
-              icon={<HiMiniChevronLeft />}
-              width={40}
-              onClick={prev}
-              className={cx(
-                "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
-                " hover:bg-[var(--color-text-light-primary)] hover:text-[var(--color-bg-light-primary-100)]"
-              )}
-            />
-            <Button
-              icon={<HiMiniChevronRight />}
-              width={40}
-              onClick={next}
-              className={cx(
-                "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
-                " hover:bg-[var(--color-text-light-primary)] hover:text-[var(--color-bg-light-primary-100)]"
-              )}
-            />
-            <Search className="rounded-[8px]" />
-            <Button
-              icon={<LuListFilter />}
-              children="Bộ lọc"
-              width="auto"
-              onClick={modal.filter.toggleActive}
-              className="text-[14px] text-white px-3 rounded-[8px] bg-[var(--color-text-light-primary)] cursor-pointer"
-            />
-          </div>
-        </div>
 
-        <SliderMotion page={currentPage} direction={direction}>
-          <NewsTable items={currentNews} />
-        </SliderMotion>
+          <SliderMotion page={currentPage} direction={direction}>
+            <NewsTable items={currentNews} />
+          </SliderMotion>
+        </div>
       </div>
 
-      <div>
+      <div className="bg-[var(--color-bg-light-primary-100)] p-4 rounded-[8px]" style={{ boxShadow: "var(--shadow)" }}>
         <Item as="strong" children="Bài đăng mới nhất" className="h-[20px]" itemClassName={cx("text-sm mb-3")} />
         {mockNews.slice(0, 4).map((item, index) => (
           <NewsCard key={index} news={item} />
@@ -138,7 +150,7 @@ export default News;
 
 export function NewsTable({ items }) {
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-4 gap-2 h-full">
       {items.map((news) => (
         <div key={news.id} className="">
           <img src={news.banner} alt="news-banner" className="w-auto h-[150px] rounded-[8px] object-cover" />
@@ -167,9 +179,14 @@ export function NewsCard({ news }) {
     <div className={cx("grid grid-cols-[150px_auto] gap-2 mb-2 h-[100px]")}>
       <img src={news.banner} alt="news-banner" loading="lazy" className="h-[100px] object-cover rounded-[8px]" />
       <div className="flex flex-col justify-between w-auto">
-        <Item as="strong" children={news.title} itemClassName="text-md mt-2" whitespace="" />
+        <Item
+          as="strong"
+          children={news.title}
+          itemClassName="text-md mt-2 block max-w-[240px] max-h-[48px] overflow-hidden line-clamp-2"
+          whitespace="whitespace-normal"
+        />
         <div className="flex items-end justify-between">
-          <span>{news.date}</span>
+          <span className="text-sm text-gray-500">{news.date}</span>
           <span>
             <HiBookmark />
           </span>

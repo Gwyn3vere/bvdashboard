@@ -3,23 +3,28 @@ import classNames from "classnames/bind";
 // Styles - UI
 import { Item } from "../../components/ui";
 import style from "../../styles/pages.module.css";
-import { OverviewStats } from ".";
+import { OverviewStats, AppointmentLineChart } from ".";
 
 const cx = classNames.bind(style);
 
 function Dashboard() {
   return (
-    <div className={cx("wrapper")}>
-      <Item as="strong" children="Xin chào, Guest👋" itemClassName="text-3xl" width="100%" />
-      <Item
-        as="span"
-        children="Đây là trang tổng quan giúp bạn theo dõi mọi hoạt động quan trọng."
-        itemClassName="text-[14px] text-gray-500"
-        className="mb-5 mt-1"
-        width="100%"
-      />
-      {/* Overview */}
-      <OverviewStats />
+    <div className="px-10 pb-5">
+      <div className={cx("flex gap-5")}>
+        <div>
+          <Item as="strong" children="Xin chào, Guest👋" itemClassName="text-3xl" width="100%" />
+          <Item
+            as="span"
+            children="Bảng điều khiển quản trị bệnh viện."
+            itemClassName="text-xl text-gray-500 mt-2"
+            width="100%"
+          />
+          {/* Overview */}
+          <OverviewStats />
+          <AppointmentLineChart />
+        </div>
+        <div>Right</div>
+      </div>
     </div>
   );
 }

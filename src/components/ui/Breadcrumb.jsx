@@ -6,7 +6,12 @@ import { HiMiniChevronRight } from "react-icons/hi2";
 
 const cx = classNames.bind(style);
 
-function Breadcrumb({ items = [], separator = <HiMiniChevronRight className="text-gray-400 text-sm" />, className }) {
+function Breadcrumb({
+  items = [],
+  separator = <HiMiniChevronRight className="text-gray-400 text-sm" />,
+  className,
+  textStyle
+}) {
   return (
     <nav className={cx(className)}>
       <ol className="flex items-center flex-wrap gap-2 text-sm text-gray-600">
@@ -29,8 +34,8 @@ function Breadcrumb({ items = [], separator = <HiMiniChevronRight className="tex
                     : "text-black font-medium"
                 )}
               >
-                {item.icon && <span>{item.icon}</span>}
-                <span>{item.label}</span>
+                {item.icon && <span className={textStyle}>{item.icon}</span>}
+                <span className={textStyle}>{item.label}</span>
               </Tag>
 
               {!isLast && <span className="mx-1 select-none">{separator}</span>}

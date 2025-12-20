@@ -9,18 +9,18 @@ import { Sidebar, Header } from "../ui";
 
 function dashboardLayout({ children }) {
   return (
-    <main className="p-3 overflow-hidden h-screen min-h-screen bg-[var(--color-bg-light-primary-300)]">
-      <div className="grid grid-cols-[auto_1fr] gap-2 h-full">
+    <main className="overflow-hidden h-screen min-h-screen bg-[var(--color-bg-light-primary-100)]">
+      <div className="grid grid-cols-[auto_1fr] h-full">
         <Sidebar />
         <div
           className={cx(
-            "content",
-            "flex flex-col w-full h-full overflow-hidden px-10 py-5 bg-[var(--color-bg-light-primary-100)] rounded-[8px]"
+            // "content",
+            "flex flex-col w-full h-full overflow-hidden bg-[var(--color-bg-light-primary-200)] rounded-[8px]"
           )}
         >
           <Header />
           <div className="flex-1 overflow-hidden rounded-[8px]">
-            <div className="hidden-scrollbar h-full overflow-auto">{children}</div>
+            <div className="hidden-scrollbar h-full overflow-auto max-w-[1800px] mx-auto">{children}</div>
           </div>
         </div>
       </div>

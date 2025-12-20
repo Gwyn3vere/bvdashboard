@@ -11,24 +11,19 @@ function OverviewStats() {
   return (
     <div className="flex gap-2 my-5">
       {mockOverviewStats.map((stat) => (
-        <Item
+        <div
           key={stat.id}
-          as="div"
           style={{ background: stat.color }}
-          className={cx("w-[250px] h-[150px] rounded-[8px] p-5")}
+          className={cx("w-[270px] h-[150px] rounded-[8px] p-5", "flex items-center justify-between")}
         >
-          <div className="flex items-center gap-2">
-            <Item
-              as="div"
-              icon={stat.icon}
-              className={cx("flex items-center justify-center", "w-[50px] h-[50px] rounded-[8px] bg-white")}
-            />
-            <div>
-              <p>{stat.title}</p>
-              <p>{stat.value}</p>
-            </div>
+          <div className="text-white flex flex-col gap-2">
+            <p className="text-md font-medium">{stat.title}</p>
+            <p className="text-4xl font-bold">{stat.value}</p>
           </div>
-        </Item>
+          <div className="p-4 border-2 border-white rounded-full">
+            <Item icon={stat.icon} className="text-white text-4xl" />
+          </div>
+        </div>
       ))}
     </div>
   );

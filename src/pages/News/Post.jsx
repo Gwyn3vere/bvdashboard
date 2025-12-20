@@ -48,7 +48,7 @@ const cx = classNames.bind(styles);
 
 function Post() {
   return (
-    <Form className="flex flex-col max-w-[1600px] mx-auto h-full">
+    <Form className="px-10 pb-5 flex flex-col h-full">
       <Breadcrumb
         className="mb-3"
         items={[
@@ -58,17 +58,16 @@ function Post() {
         ]}
       />
 
-      {/* Layout chính */}
-      <div className="flex justify-center flex-1 min-h-0 gap-3">
-        {/* Editor – scroll độc lập */}
-        <div className="hidden-scrollbar min-h-0 overflow-y-auto pr-2" style={{ width: "clamp(640px, 70vw, 760px)" }}>
-          <NewsEditor />
-        </div>
+      <div className="flex justify-center flex-1 min-h-0">
+        <div className="flex flex-col xl:flex-row min-h-0 gap-3">
+          <div className="min-h-0 overflow-y-auto w-full xl:w-[760px]">
+            <NewsEditor />
+          </div>
 
-        {/* Options – sticky */}
-        <div className="w-auto shrink-0">
-          <div className="sticky top-4">
-            <NewsAuther />
+          <div className="xl:shrink-0">
+            <div className="xl:sticky xl:top-4">
+              <NewsAuther />
+            </div>
           </div>
         </div>
       </div>
@@ -283,7 +282,11 @@ export function NewsAuther() {
         >
           Lưu bản nháp
         </Button>
-        <Button type="submit" width="auto" className="px-3 py-2 rounded-[8px] bg-black text-white font-bold">
+        <Button
+          type="submit"
+          width="auto"
+          className="px-3 py-2 rounded-[8px] bg-[var(--color-primary)] text-white font-bold"
+        >
           Xuất bản
         </Button>
       </div>

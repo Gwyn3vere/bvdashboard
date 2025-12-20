@@ -14,6 +14,7 @@ function Item({
   onClick,
   className,
   itemClassName,
+  iconClassName,
   whitespace = "whitespace-nowrap",
   style = {},
   editable = false,
@@ -27,7 +28,7 @@ function Item({
   };
   return (
     <Component to={to} onClick={onClick} className={cx(className)} style={{ ...style }}>
-      {icon && <span className="flex items-center justify-center">{icon}</span>}
+      {icon && <span className={cx("flex items-center justify-center", iconClassName)}>{icon}</span>}
       <div
         contentEditable={editable}
         suppressContentEditableWarning={editable}
