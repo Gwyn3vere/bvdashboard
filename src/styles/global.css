@@ -5,13 +5,19 @@
 :root {
   --color-bg-light-primary-100: #ffffff;
   --color-bg-light-primary-200: #f6fbf8;
-  --color-bg-light-primary-300: #f0f0f0;
+  --color-bg-light-primary-300: #e9f5ef;
+  --color-bg-light-primary-400: #d4eee1;
+  --color-bg-light-primary-500: #bfe6d3;
   --color-text-light-primary: #000000;
   --color-text-light-secondary: #555555;
 
   --color-primary: #19c953ff;
   --color-secondary: rgb(28, 116, 248);
   --color-error: #ff4d4dff;
+
+  --color-grd-primary: linear-gradient(90deg, #7dd69bff 0%, #19c953ff 100%);
+  --color-grd-secondary: linear-gradient(90deg, #61adff 0%, #268fff 100%);
+  --color-grd-error: linear-gradient(90deg, #ff9ab3ff 0%, #f7416fff 100%);
 
   --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }

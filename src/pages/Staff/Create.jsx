@@ -1,109 +1,186 @@
-// Libraries - Mock -Hooks
+// Libraries - Mock - Hooks
 import classNames from "classnames/bind";
+import { roleMenuOptions, statusMenuOptions } from "../../constants/roleMenuConst";
+import { useActive } from "../../components/hooks";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
-import { TiUserAdd, TiUser, TiStar, TiTimes } from "react-icons/ti";
-import { Item, Form, Input, Button } from "../../components/ui";
-import { IoIosMail, IoIosKey } from "react-icons/io";
+import { Item, Form, Input, Button, Select } from "../../components/ui";
+import { LuX, LuCamera } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
 function Create({ onClose }) {
   return (
     <div className="relative">
-      <Item icon={<TiUserAdd />} children="Thêm nhân sự" className="flex items-center gap-2 text-3xl font-bold" />
+      <Item children="Thêm nhân sự" className="flex items-center gap-2 text-2xl font-bold" />
       <Button
-        icon={<TiTimes />}
+        icon={<LuX />}
         width={40}
         height={40}
-        className="absolute top-0 right-0 bg-white"
-        style={{ boxShadow: "var(--shadow)" }}
+        className={cx("absolute top-0 right-0", "hover:bg-[var(--color-error)] hover:text-white")}
+        iconClassName="text-[20px]"
         onClick={onClose}
       />
       <Item
         as="div"
         children="Điền đầy đủ thông tin nhân sự vào danh sách của bạn."
-        className="mb-5 mt-2"
+        className="mb-5 mt-1"
         itemClassName="text-[14px] text-gray-500"
       />
       <Form id="staffForm" className="flex flex-col gap-2">
-        {/* Main info */}
-        <div className="flex justify-center bg-white p-5 rounded-[8px]" style={{ boxShadow: "var(--shadow)" }}>
-          <div className="w-[150px] h-[150px] bg-gray-300 rounded-full flex items-center justify-center text-white">
-            <TiUser size={100} />
-          </div>
-        </div>
-        <div className="bg-white p-5 rounded-[8px]" style={{ boxShadow: "var(--shadow)" }}>
-          <Item as="div" children="Thông tin nhân sự" className="mb-5" itemClassName="font-bold" />
-          <Input
-            name="email"
-            type="email"
-            label="Email *"
-            labelClassName="text-sm"
-            icon={<IoIosMail />}
-            placeholder="example@gmail.com"
-            height={40}
-            inputClassName="rounded-[8px] mt-1"
-          />
-          <div className="flex gap-2 justify-between">
-            <Input
-              name="firstname"
-              type="text"
-              label="Họ và tên đệm *"
-              labelClassName="text-sm"
-              icon={<TiUser />}
-              placeholder=""
-              height={40}
-              className="w-full"
-              inputClassName="rounded-[8px] mt-1"
-            />
-            <Input
-              name="lastname"
-              type="text"
-              label="Tên *"
-              labelClassName="text-sm"
-              icon={<TiUser />}
-              placeholder=""
-              height={40}
-              className="w-full"
-              inputClassName="rounded-[8px] mt-1"
-            />
-          </div>
-          <Input
-            name="password"
-            type="password"
-            label="Mật khẩu *"
-            labelClassName="text-sm"
-            icon={<IoIosKey />}
-            placeholder="********"
-            height={40}
-            inputClassName="rounded-[8px] mt-1"
-          />
-        </div>
-        <div className="bg-white p-5 rounded-[8px]" style={{ boxShadow: "var(--shadow)" }}>
-          {/* Phần này UI mẫu, chưa build UI Component Quyền Hạn */}
-          <Item as="div" children="Quyền hạn nhân sự" className="mb-5" itemClassName="font-bold" />
-          <Input
-            name="text"
-            type="text"
-            label="Quyền hạn *"
-            labelClassName="text-sm"
-            icon={<TiStar />}
-            placeholder=""
-            height={40}
-            inputClassName="rounded-[8px] mt-1"
-          />
-          <Item
-            as="div"
-            children="Các quyền được gán sẽ quyết định phạm vi thao tác của nhân sự trong hệ thống. Vui lòng kiểm tra kỹ trước khi xác nhận thay đổi."
-            whitespace=""
-            className="mt-5"
-            itemClassName="text-[14px]"
-          />
-        </div>
+        <AddAvatar />
+        <StaffAccount />
+        <hr className="mt-5 text-gray-300" />
+        <StaffInfo />
       </Form>
     </div>
   );
 }
 
 export default Create;
+
+export function AddAvatar() {
+  return (
+    <div>
+      <div className="flex gap-5">
+        <div className="relative w-auto h-full">
+          <div className="w-[100px] h-[100px] bg-[var(--color-secondary)] rounded-full" />
+          <Item
+            as="div"
+            icon={<LuCamera />}
+            className="flex items-center justify-center w-[30px] h-[30px] absolute bottom-0 right-0 bg-gray-200 rounded-full"
+            iconClassName="text-[14px]"
+          />
+        </div>
+        <div className="flex flex-col justify-between">
+          <Item as="strong" children="Upload ảnh đại diện" itemClassName="text-[20px]" />
+          <Item
+            as="span"
+            children="Ảnh không được vượt quá 4MB"
+            itemClassName="text-[12px] text-[var(--color-text-light-secondary)]"
+          />
+          <div className="flex gap-2">
+            <Button type="button" children="Chọn ảnh" className="bg-black border-2 border-gray-700 text-white" />
+            <Button type="button" children="Xoá ảnh" className="border-2 border-gray-300" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function StaffAccount() {
+  return (
+    <div className="mt-5">
+      <div className={cx("mb-2 rounded-[8px]", "bg-[var(--color-primary)] p-1.5")}>
+        <Item as="span" children="Thông tin tài khoản" itemClassName="text-[14px] text-white font-bold" />
+      </div>
+      <div className="flex justify-between gap-2">
+        <Input
+          label="Email *"
+          name="email"
+          type="email"
+          height={40}
+          placeholder=""
+          className="w-full"
+          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
+          inputClassName="rounded-[8px] mt-1"
+          required
+        />
+        <Input
+          label="Mật khẩu *"
+          name="password"
+          type="password"
+          height={40}
+          placeholder=""
+          className="w-full"
+          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
+          inputClassName="rounded-[8px] mt-1"
+          required
+        />
+      </div>
+      <div className="mt-2 flex justify-between gap-2">
+        <Input
+          label="Họ và tên đệm *"
+          name="firstname"
+          type="text"
+          height={40}
+          placeholder=""
+          className="w-full"
+          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
+          inputClassName="rounded-[8px] mt-1"
+          required
+        />
+        <Input
+          label="Tên *"
+          name="lastname"
+          type="text"
+          height={40}
+          placeholder=""
+          className="w-full"
+          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
+          inputClassName="rounded-[8px] mt-1"
+          required
+        />
+      </div>
+    </div>
+  );
+}
+
+export function StaffInfo() {
+  const select = {
+    status: useActive(),
+    role: useActive()
+  };
+  return (
+    <div className="mt-5">
+      <div className={cx("mb-2 rounded-[8px]", "bg-[var(--color-primary)] p-1.5")}>
+        <Item as="span" children="Thông tin bổ sung" itemClassName="text-[14px] text-white font-bold" />
+      </div>
+      <div className="flex justify-between gap-2 mb-2">
+        <Input
+          label="Số điện thoại"
+          name="phone"
+          type="tel"
+          height={40}
+          placeholder=""
+          className="w-full"
+          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
+          inputClassName="rounded-[8px] mt-1"
+        />
+        <Input
+          label="Chức vụ"
+          name="position"
+          type="text"
+          height={40}
+          placeholder=""
+          className="w-full"
+          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
+          inputClassName="rounded-[8px] mt-1"
+        />
+        <Select
+          label="Trạng thái"
+          name="status"
+          height={40}
+          className="w-full"
+          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
+          inputClassName="rounded-[8px] mt-1"
+          data={statusMenuOptions}
+          active={select.status}
+          required
+        />
+      </div>
+      <Select
+        label="Vai trò"
+        name="role"
+        height={40}
+        className="w-full"
+        labelClassName="text-sm text-[var(--color-text-light-secondary)]"
+        inputClassName="rounded-[8px] mt-1"
+        data={roleMenuOptions}
+        active={select.role}
+        required
+      />
+    </div>
+  );
+}
