@@ -201,7 +201,7 @@ export function Author({ staff }) {
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Avatar className="rounded-full" width={50} height={50} />
+          <Avatar src={staff.avatarUrl} className="rounded-full" width={50} height={50} />
           <div>
             <span className="font-bold">Author Name</span>
             <p className="text-sm opacity-70">author@example.com</p>
