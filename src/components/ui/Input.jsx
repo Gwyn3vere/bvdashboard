@@ -26,7 +26,7 @@ function Input({
         className={cx(
           "flex items-center bg-[var(--color-bg-light-primary-300)] px-3",
           "border-2 border-transparent",
-          "focus-within:border-2 focus-within:border-black",
+          "focus-within:border-2 focus-within:border-[var(--color-primary)]",
           inputClassName
         )}
       >

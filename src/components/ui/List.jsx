@@ -14,7 +14,7 @@ function List({ className, columns = [], data = [], style = {} }) {
         {columns.map((col) => (
           <label
             key={col.key}
-            className="text-left font-semibold text-white whitespace-nowrap backdrop-blur-sm"
+            className="px-4 text-left font-semibold text-white whitespace-nowrap backdrop-blur-sm"
             style={{ width: col.width }}
           >
             {col.label}
@@ -28,6 +28,7 @@ function List({ className, columns = [], data = [], style = {} }) {
               <div
                 key={row.id}
                 className={cx(
+                  "px-4",
                   "flex items-center border-b border-gray-100 transition cursor-pointer",
                   "hover:bg-[var(--color-primary)] hover:text-white"
                 )}

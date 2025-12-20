@@ -1,8 +1,8 @@
 // Libraries - Mock -Hooks
 import classNames from "classnames/bind";
 import { useEffect } from "react";
-import { mockStaff } from "../../mock/account";
 import { useActive, useUsers } from "../../components/hooks";
+import { useStaffStore } from "../../store/staffStore";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
@@ -14,6 +14,9 @@ import { Create, Edit } from "../Staff";
 const cx = classNames.bind(styles);
 
 function Staff() {
+  const staffs = useStaffStore((s) => s.staffs);
+  const setEditingStaffId = useStaffStore((s) => s.setEditingStaffId);
+
   const modal = {
     filter: useActive(),
     add: useActive(),
@@ -75,7 +78,7 @@ function Staff() {
               />
             }
           >
-            <Filter onClose={() => modal.filter.toggleActive(false)} />
+            <Filter onClose={modal.filter.toggleActive} />
           </Modal>
           <Button
             icon={<LuUserRoundPlus />}
@@ -87,23 +90,32 @@ function Staff() {
           />
           <Modal
             open={modal.add.isActive}
-            onClose={() => modal.add.toggleActive(false)}
+            onClose={modal.add.toggleActive}
             backdrop={true}
-            style={{ boxShadow: "var(--shadow)" }}
-            className="bg-[var(--color-bg-light-primary-300)]"
+            width="w-[800px]"
             footer={
-              <Button
-                form="staffForm"
-                type="submit"
-                children="Xác nhận"
-                width="100%"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-              />
+              <div className="flex justify-end gap-2 mt-5 text-[14px]">
+                <Button
+                  onClick={modal.add.deactivate}
+                  children="Huỷ"
+                  width="auto"
+                  height={40}
+                  className="px-4 py-2 font-bold"
+                  style={{ background: "var(--color-bg-light-primary-300)" }}
+                />
+                <Button
+                  form="staffForm"
+                  type="submit"
+                  children="Xác nhận"
+                  width="auto"
+                  height={40}
+                  className="px-4 py-2 font-bold"
+                  style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
+                />
+              </div>
             }
           >
-            <Create onClose={() => modal.add.toggleActive(false)} />
+            <Create onClose={modal.add.deactivate} />
           </Modal>
         </div>
       </div>
@@ -120,14 +132,32 @@ function Staff() {
           {
             key: "Username",
             label: "Tên thành viên",
-            width: "64%",
+            width: "30%",
             render: (row) => (
               <div className="flex items-center gap-2">
                 <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
                 <div>
-                  <span className="font-bold">{row.name}</span>
+                  <span className="font-bold">{row.firstname + " " + row.lastname}</span>
                   <p className="text-sm opacity-70">{row.email}</p>
                 </div>
+              </div>
+            )
+          },
+          { key: "Position", label: "Chức vụ", width: "10%", render: (row) => row.position },
+          { key: "Phone", label: "Số điện thoại", width: "10%", render: (row) => row.phone },
+          {
+            key: "Status",
+            label: "Trạng thái",
+            width: "14%",
+            render: (row) => (
+              <div className="flex items-center gap-2">
+                {" "}
+                {row.status === "Hoạt động" ? (
+                  <div className="w-[10px] h-[10px] rounded-full bg-[var(--color-primary)]" />
+                ) : (
+                  <div className="w-[10px] h-[10px] rounded-full bg-[var(--color-error)]" />
+                )}{" "}
+                {row.status}
               </div>
             )
           },
@@ -138,11 +168,10 @@ function Staff() {
             render: (row) => (
               <span
                 className={cx(
-                  "px-3 rounded-full border-2",
-                  row.role === "admin"
-                    ? " bg-green-200 border-green-500 text-green-700"
-                    : "bg-blue-200 border-blue-500 text-blue-700"
+                  "px-3 py-1 rounded-full",
+                  "text-[var(--color-bg-light-primary-100)] font-bold capitalize"
                 )}
+                style={{ background: row.role === "admin" ? "var(--color-grd-primary)" : "var(--color-grd-secondary)" }}
               >
                 {row.role}
               </span>
@@ -153,9 +182,12 @@ function Staff() {
             key: "Edit",
             label: "",
             width: "5%",
-            render: () => (
+            render: (row) => (
               <Button
-                onClick={modal.edit.toggleActive}
+                onClick={() => {
+                  setEditingStaffId(row.id);
+                  modal.edit.toggleActive();
+                }}
                 width={40}
                 height={40}
                 iconClassName="text-[20px] font-bold"
@@ -186,27 +218,36 @@ function Staff() {
             )
           }
         ]}
-        data={mockStaff}
+        data={staffs}
       />
       <Modal
         open={modal.edit.isActive}
-        onClose={() => modal.edit.toggleActive(false)}
+        onClose={modal.edit.deactivate}
         backdrop={true}
-        style={{ boxShadow: "var(--shadow)" }}
-        className="bg-[var(--color-bg-light-primary-300)]"
+        width="w-[800px]"
         footer={
-          <Button
-            form="staffForm"
-            type="submit"
-            children="Xác nhận"
-            width="100%"
-            height={40}
-            className="px-4 py-2 font-bold"
-            style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-          />
+          <div className="flex justify-end gap-2 mt-5 text-[14px]">
+            <Button
+              onClick={modal.add.deactivate}
+              children="Huỷ"
+              width="auto"
+              height={40}
+              className="px-4 py-2 font-bold"
+              style={{ background: "var(--color-bg-light-primary-300)" }}
+            />
+            <Button
+              form="staffForm"
+              type="submit"
+              children="Xác nhận"
+              width="auto"
+              height={40}
+              className="px-4 py-2 font-bold"
+              style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
+            />
+          </div>
         }
       >
-        <Edit onClose={() => modal.edit.toggleActive(false)} />
+        <Edit onClose={modal.edit.deactivate} />
       </Modal>
       <Modal
         open={modal.delete.isActive}
@@ -228,7 +269,7 @@ function Staff() {
               width="auto"
               height={40}
               className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+              style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
             />
           </div>
         }
