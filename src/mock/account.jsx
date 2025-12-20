@@ -12,31 +12,92 @@ export const mockAccounts = [
 ];
 
 export const mockStaff = [
-  { id: 1, name: "Nguyen Van A", email: "nguyenvana@example.com", role: "admin", dateAdded: "1/12/2025" },
-  { id: 2, name: "Tran Thi B", email: "tranthib@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 3, name: "Le Van C", email: "levanc@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 4, name: "Pham Thi D", email: "phamthid@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 5, name: "Hoang Van E", email: "hoangvane@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 6, name: "Vu Thi F", email: "vuthif@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 7, name: "Dang Van G", email: "dangvang@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 8, name: "Bui Thi H", email: "buithih@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 9, name: "Do Van I", email: "dovani@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 10, name: "Cao Thi J", email: "caothij@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 11, name: "Nguyen Van A", email: "nguyenvana@example.com", role: "admin", dateAdded: "1/12/2025" },
-  { id: 12, name: "Tran Thi B", email: "tranthib@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 13, name: "Le Van C", email: "levanc@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 14, name: "Pham Thi D", email: "phamthid@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 15, name: "Hoang Van E", email: "hoangvane@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 16, name: "Vu Thi F", email: "vuthif@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 17, name: "Dang Van G", email: "dangvang@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 18, name: "Bui Thi H", email: "buithih@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 19, name: "Do Van I", email: "dovani@example.com", role: "user", dateAdded: "1/12/2025" },
-  { id: 20, name: "Cao Thi J", email: "caothij@example.com", role: "user", dateAdded: "1/12/2025" }
+  {
+    id: 1,
+    avatarUrl: "https://i.pravatar.cc/?random=1",
+    name: "Nguyen Van A",
+    email: "nguyenvana@example.com",
+    role: "admin",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 2,
+    avatarUrl: "https://i.pravatar.cc/?random=2",
+    name: "Tran Thi B",
+    email: "tranthib@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 3,
+    avatarUrl: "https://i.pravatar.cc/?random=3",
+    name: "Le Van C",
+    email: "levanc@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 4,
+    avatarUrl: "https://i.pravatar.cc/?random=4",
+    name: "Pham Thi D",
+    email: "phamthid@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 5,
+    avatarUrl: "https://i.pravatar.cc/?random=5",
+    name: "Hoang Van E",
+    email: "hoangvane@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 6,
+    avatarUrl: "https://i.pravatar.cc/?random=6",
+    name: "Vu Thi F",
+    email: "vuthif@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 7,
+    avatarUrl: "https://i.pravatar.cc/?random=7",
+    name: "Dang Van G",
+    email: "dangvang@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 8,
+    avatarUrl: "https://i.pravatar.cc/?random=8",
+    name: "Bui Thi H",
+    email: "buithih@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 9,
+    avatarUrl: "https://i.pravatar.cc/?random=9",
+    name: "Do Van I",
+    email: "dovani@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  },
+  {
+    id: 10,
+    avatarUrl: "https://i.pravatar.cc/?random=10",
+    name: "Cao Thi J",
+    email: "caothij@example.com",
+    role: "user",
+    dateAdded: "1/12/2025"
+  }
 ];
 
 export const mockDoctors = [
   {
     id: 1,
+    avatarUrl: "https://i.pravatar.cc/?random=1",
     name: "Nguyen Van A",
     degree: "Tiến sĩ",
     specialty: "Nội tiết",
@@ -46,6 +107,7 @@ export const mockDoctors = [
   },
   {
     id: 2,
+    avatarUrl: "https://i.pravatar.cc/?random=2",
     name: "Tran Thi B",
     degree: "Phó Giáo sư, Tiến sĩ",
     specialty: "Tim mạch",
@@ -55,6 +117,7 @@ export const mockDoctors = [
   },
   {
     id: 3,
+    avatarUrl: "https://i.pravatar.cc/?random=3",
     name: "Le Van C",
     degree: "Giáo sư, Tiến sĩ",
     specialty: "Tiêu hoá",
@@ -64,6 +127,7 @@ export const mockDoctors = [
   },
   {
     id: 4,
+    avatarUrl: "https://i.pravatar.cc/?random=4",
     name: "Pham Thi D",
     degree: "Bác sĩ chuyên khoa I",
     specialty: "Nhi khoa",
@@ -73,6 +137,7 @@ export const mockDoctors = [
   },
   {
     id: 5,
+    avatarUrl: "https://i.pravatar.cc/?random=5",
     name: "Hoang Van E",
     degree: "Bác sĩ chuyên khoa II",
     specialty: "Ngoại tổng hợp",

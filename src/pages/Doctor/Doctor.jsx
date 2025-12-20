@@ -114,7 +114,7 @@ function Doctor() {
             width: "64%",
             render: (row) => (
               <div className="flex items-center gap-2">
-                <Avatar className="rounded-full" width={50} height={50} />
+                <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
                 <div>
                   <span className="font-bold">{row.name}</span>
                   <p className="text-sm opacity-70">{row.degree}</p>
