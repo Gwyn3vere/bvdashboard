@@ -28,7 +28,7 @@ function LoginForm() {
             name="email"
             type="email"
             label="Email"
-            value={(form.email = "account1@example.com")}
+            value={(form.email = "nguyenvana@example.com")}
             onChange={handleChange}
             labelClassName="text-sm"
             icon={<IoIosMail />}
@@ -66,7 +66,7 @@ function LoginForm() {
             children={loading ? "Đang đăng nhập..." : "Đăng nhập"}
             height={50}
             width="100%"
-            className="bg-black mt-5 text-white font-bold"
+            className="bg-[var(--color-primary)] mt-5 text-white font-bold"
           />
           <Item
             as={Link}

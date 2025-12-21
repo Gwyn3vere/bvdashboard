@@ -1,7 +1,8 @@
-// Libraries - Mock - Hooks
+// Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
-import { roleMenuOptions, statusMenuOptions } from "../../constants/roleMenuConst";
-import { useActive } from "../../components/hooks";
+import { STAFF_ROLE_OPTIONS, STAFF_STATUS_OPTIONS } from "../../constants/option";
+import { useActive, useForm } from "../../components/hooks";
+import { INITIAL_STAFF } from "../../constants/field";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
 import { Item, Form, Input, Button, Select } from "../../components/ui";
@@ -10,6 +11,9 @@ import { LuX, LuCamera } from "react-icons/lu";
 const cx = classNames.bind(styles);
 
 function Create({ onClose }) {
+  const { values, setFieldValue } = useForm({
+    initialValues: INITIAL_STAFF
+  });
   return (
     <div className="relative">
       <Item children="Thêm nhân sự" className="flex items-center gap-2 text-2xl font-bold" />
@@ -28,10 +32,10 @@ function Create({ onClose }) {
         itemClassName="text-[14px] text-gray-500"
       />
       <Form id="staffForm" className="flex flex-col gap-2">
-        <AddAvatar />
-        <StaffAccount />
+        <AddAvatar data={values} setData={setFieldValue} />
+        <StaffAccount data={values} setData={setFieldValue} />
         <hr className="mt-5 text-gray-300" />
-        <StaffInfo />
+        <StaffInfo data={values} setData={setFieldValue} />
       </Form>
     </div>
   );
@@ -39,7 +43,7 @@ function Create({ onClose }) {
 
 export default Create;
 
-export function AddAvatar() {
+export function AddAvatar({ data, setData }) {
   return (
     <div>
       <div className="flex gap-5">
@@ -69,7 +73,7 @@ export function AddAvatar() {
   );
 }
 
-export function StaffAccount() {
+export function StaffAccount({ data, setData }) {
   return (
     <div className="mt-5">
       <div className={cx("mb-2 rounded-[8px]", "bg-[var(--color-primary)] p-1.5")}>
@@ -127,7 +131,7 @@ export function StaffAccount() {
   );
 }
 
-export function StaffInfo() {
+export function StaffInfo({ data, setData }) {
   const select = {
     status: useActive(),
     role: useActive()
@@ -159,26 +163,30 @@ export function StaffInfo() {
           inputClassName="rounded-[8px] mt-1"
         />
         <Select
-          label="Trạng thái"
+          label="Trạng thái *"
           name="status"
           height={40}
           className="w-full"
           labelClassName="text-sm text-[var(--color-text-light-secondary)]"
           inputClassName="rounded-[8px] mt-1"
-          data={statusMenuOptions}
+          data={STAFF_STATUS_OPTIONS}
           active={select.status}
+          value={data?.status}
+          onChange={(val) => setData("status", val)}
           required
         />
       </div>
       <Select
-        label="Vai trò"
+        label="Vai trò *"
         name="role"
         height={40}
         className="w-full"
         labelClassName="text-sm text-[var(--color-text-light-secondary)]"
         inputClassName="rounded-[8px] mt-1"
-        data={roleMenuOptions}
+        data={STAFF_ROLE_OPTIONS}
         active={select.role}
+        value={data?.role}
+        onChange={(val) => setData("role", val)}
         required
       />
     </div>

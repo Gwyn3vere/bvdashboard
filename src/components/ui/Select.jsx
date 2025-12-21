@@ -9,11 +9,12 @@ const cx = classNames.bind(style);
 
 function Select({
   data = [],
+  value,
+  onChange,
   active,
   width = "100%",
   height = "50px",
   label,
-  defaultValue,
   labelClassName = "",
   className,
   inputClassName = "",
@@ -22,20 +23,19 @@ function Select({
 }) {
   const ref = useRef(null);
 
-  const [selected, setSelected] = useState(() => {
-    return data.find((item) => item.value === defaultValue) ?? data[0];
-  });
+  const selected = value != null && value !== "" ? data.find((item) => String(item.value) === String(value)) : null;
 
-  // click outside
+  const displayText = selected?.text ?? "Lựa chọn...";
+
   useEffect(() => {
     const handler = (e) => {
       if (!ref.current?.contains(e.target)) {
-        active.deactivate();
+        active?.deactivate?.();
       }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, []);
+  }, [active]);
 
   return (
     <div ref={ref} className={cx("relative", className)}>
@@ -48,9 +48,9 @@ function Select({
           inputClassName
         )}
         style={{ width, height, ...style }}
-        onClick={active.toggleActive}
+        onClick={active?.toggleActive}
       >
-        <span>{selected?.text ?? "Lựa chọn..."}</span>
+        <span>{displayText}</span>
         <LuChevronDown
           className={cx("text-[14px]", active.isActive ? "rotate-180 transition-transform" : "transition-transform")}
         />
@@ -68,8 +68,8 @@ function Select({
               key={item.value}
               onClick={(e) => {
                 e.stopPropagation();
-                setSelected(item);
-                active.deactivate();
+                onChange?.(item.value);
+                active?.deactivate?.();
               }}
               className={cx(
                 "flex items-center px-3 py-2 rounded-[8px] cursor-pointer",

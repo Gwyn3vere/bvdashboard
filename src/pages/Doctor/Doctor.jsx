@@ -1,6 +1,7 @@
-// Libraries - Mock -Hooks
+// Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
-import { mockDoctors } from "../../mock/account";
+import { mockDoctors, mockDoctorAppointmentStats } from "../../mock/account";
+import { DOCTOR_STATUS } from "../../constants/status";
 import { useActive } from "../../components/hooks";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
@@ -18,6 +19,10 @@ function Doctor() {
     edit: useActive(),
     delete: useActive()
   };
+  const doctorListData = mockDoctors.map((doctor) => ({
+    ...doctor,
+    appointments: mockDoctorAppointmentStats[doctor.id]?.appointments ?? 0
+  }));
   return (
     <div className="px-10 pb-5 flex flex-col overflow-hidden w-full h-full min-h-0">
       <Breadcrumb
@@ -78,23 +83,32 @@ function Doctor() {
           />
           <Modal
             open={modal.add.isActive}
-            onClose={() => modal.add.toggleActive(false)}
+            onClose={modal.add.toggleActive}
             backdrop={true}
-            style={{ boxShadow: "var(--shadow)" }}
-            className="bg-[var(--color-bg-light-primary-300)]"
+            width="w-[700px]"
             footer={
-              <Button
-                form="staffForm"
-                type="submit"
-                children="Xác nhận"
-                width="100%"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-              />
+              <div className="flex justify-end gap-2 mt-5 text-[14px]">
+                <Button
+                  onClick={modal.add.deactivate}
+                  children="Huỷ"
+                  width="auto"
+                  height={40}
+                  className="px-4 py-2 font-bold"
+                  style={{ background: "var(--color-bg-light-primary-300)" }}
+                />
+                <Button
+                  form="doctorForm"
+                  type="submit"
+                  children="Xác nhận"
+                  width="auto"
+                  height={40}
+                  className="px-4 py-2 font-bold"
+                  style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
+                />
+              </div>
             }
           >
-            <Create onClose={() => modal.add.toggleActive(false)} />
+            <Create onClose={modal.add.deactivate} />
           </Modal>
         </div>
       </div>
@@ -107,16 +121,23 @@ function Doctor() {
         style={{ boxShadow: "var(--shadow)" }}
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row, index) => index + 1 },
-          { key: "checkbox", label: <Checkbox />, width: "3%", render: () => <Checkbox /> },
+          {
+            key: "checkbox",
+            label: <Checkbox checkboxClassName="w-5 h-5" />,
+            width: "3%",
+            render: () => <Checkbox checkboxClassName="w-5 h-5" />
+          },
           {
             key: "Doctor",
             label: "Bác sĩ",
-            width: "64%",
+            width: "25%",
             render: (row) => (
               <div className="flex items-center gap-2">
                 <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
                 <div>
-                  <span className="font-bold">{row.name}</span>
+                  <span className="font-bold">
+                    {row.firstName} {row.lastName}
+                  </span>
                   <p className="text-sm opacity-70">{row.degree}</p>
                 </div>
               </div>
@@ -125,8 +146,43 @@ function Doctor() {
           {
             key: "Access",
             label: "Chuyên khoa",
-            width: "10%",
+            width: "16%",
             render: (row) => <span className={cx("px-3")}>{row.specialty}</span>
+          },
+          {
+            key: "appointments",
+            label: "Lịch hẹn",
+            width: "10%",
+            render: (row) => (
+              <div
+                className={cx("inline-block px-3 py-1", "rounded-full font-bold")}
+                style={{
+                  background: row.appointments !== 0 ? "var(--color-grd-secondary)" : "var(--color-grd-unavailable)",
+                  color:
+                    row.appointments !== 0 ? "var(--color-bg-light-primary-100)" : "var(--color-text-light-primary)"
+                }}
+              >
+                {row.appointments} Lịch hẹn
+              </div>
+            )
+          },
+          { key: "Phone", label: "Số điện thoại", width: "10%", render: (row) => row.phone },
+          {
+            key: "Status",
+            label: "Trạng thái",
+            width: "13%",
+            render: (row) => {
+              const statusConfig = DOCTOR_STATUS[row.status];
+
+              if (!statusConfig) return row.status;
+
+              return (
+                <div className="flex items-center gap-2">
+                  <div className={cx("w-[10px] h-[10px] rounded-full", statusConfig.color)} />
+                  <span>{statusConfig.label}</span>
+                </div>
+              );
+            }
           },
           { key: "DateAdded", label: "Ngày thêm vào", width: "10%", render: (row) => row.dateAdded },
           {
@@ -166,7 +222,7 @@ function Doctor() {
             )
           }
         ]}
-        data={mockDoctors}
+        data={doctorListData}
       />
       <Modal
         open={modal.edit.isActive}
