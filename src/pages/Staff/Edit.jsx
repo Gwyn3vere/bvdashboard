@@ -1,7 +1,9 @@
-// Libraries - Mock - Hooks - Store
+// Libraries - Mock - Hooks - Store - Constants
 import classNames from "classnames/bind";
-import { roleMenuOptions, statusMenuOptions } from "../../constants/roleMenuConst";
-import { useActive } from "../../components/hooks";
+import { useState, useEffect } from "react";
+import { STAFF_ROLE_OPTIONS, STAFF_STATUS_OPTIONS } from "../../constants/option";
+import { INITIAL_STAFF } from "../../constants/field";
+import { useActive, useForm } from "../../components/hooks";
 import { useStaffStore } from "../../store/staffStore";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
@@ -14,9 +16,22 @@ function Edit({ onClose }) {
   const editingStaffId = useStaffStore((s) => s.editingStaffId);
   const getStaffById = useStaffStore((s) => s.getStaffById);
   const staff = getStaffById(editingStaffId);
+
+  const normalizeStaffForForm = (staff) => ({
+    ...staff,
+    status: String(staff.status ?? ""),
+    role: String(staff.role ?? "")
+  });
+
+  const { values, setFieldValue } = useForm({
+    initialValues: INITIAL_STAFF,
+    editValues: staff,
+    transformEditValues: normalizeStaffForForm
+  });
+
   return (
     <div className="relative">
-      <Item children="Thêm nhân sự" className="flex items-center gap-2 text-2xl font-bold" />
+      <Item children="Cập nhật thông tin nhân sự" className="flex items-center gap-2 text-2xl font-bold" />
       <Button
         icon={<LuX />}
         width={40}
@@ -32,10 +47,10 @@ function Edit({ onClose }) {
         itemClassName="text-[14px] text-gray-500"
       />
       <Form id="staffForm" className="flex flex-col gap-2">
-        <AddAvatar data={staff} />
-        <StaffAccount data={staff} />
+        <AddAvatar data={values} setData={setFieldValue} />
+        <StaffAccount data={values} setData={setFieldValue} />
         <hr className="mt-5 text-gray-300" />
-        <StaffInfo data={staff} />
+        <StaffInfo data={values} setData={setFieldValue} />
       </Form>
     </div>
   );
@@ -43,7 +58,7 @@ function Edit({ onClose }) {
 
 export default Edit;
 
-export function AddAvatar({ data }) {
+export function AddAvatar({ data, setData }) {
   return (
     <div>
       <div className="flex gap-5">
@@ -73,7 +88,7 @@ export function AddAvatar({ data }) {
   );
 }
 
-export function StaffAccount({ data }) {
+export function StaffAccount({ data, setData }) {
   return (
     <div className="mt-5">
       <div className={cx("mb-2 rounded-[8px]", "bg-[var(--color-primary)] p-1.5")}>
@@ -85,6 +100,7 @@ export function StaffAccount({ data }) {
           name="email"
           type="email"
           value={data?.email}
+          onChange={(e) => setData("email", e.target.value)}
           height={40}
           placeholder=""
           className="w-full"
@@ -97,6 +113,7 @@ export function StaffAccount({ data }) {
           name="password"
           type="password"
           value={data?.password}
+          onChange={(e) => setData("password", e.target.value)}
           height={40}
           placeholder=""
           className="w-full"
@@ -111,6 +128,7 @@ export function StaffAccount({ data }) {
           name="firstname"
           type="text"
           value={data?.firstname}
+          onChange={(e) => setData("firstname", e.target.value)}
           height={40}
           placeholder=""
           className="w-full"
@@ -123,6 +141,7 @@ export function StaffAccount({ data }) {
           name="lastname"
           type="text"
           value={data?.lastname}
+          onChange={(e) => setData("lastname", e.target.value)}
           height={40}
           placeholder=""
           className="w-full"
@@ -135,7 +154,7 @@ export function StaffAccount({ data }) {
   );
 }
 
-export function StaffInfo({ data }) {
+export function StaffInfo({ data, setData }) {
   const select = {
     status: useActive(),
     role: useActive()
@@ -151,6 +170,7 @@ export function StaffInfo({ data }) {
           name="phone"
           type="tel"
           value={data?.phone}
+          onChange={(e) => setData("phone", e.target.value)}
           height={40}
           placeholder=""
           className="w-full"
@@ -162,6 +182,7 @@ export function StaffInfo({ data }) {
           name="position"
           type="text"
           value={data?.position}
+          onChange={(e) => setData("position", e.target.value)}
           height={40}
           placeholder=""
           className="w-full"
@@ -175,7 +196,9 @@ export function StaffInfo({ data }) {
           className="w-full"
           labelClassName="text-sm text-[var(--color-text-light-secondary)]"
           inputClassName="rounded-[8px] mt-1"
-          data={statusMenuOptions}
+          data={STAFF_STATUS_OPTIONS}
+          value={data?.status}
+          onChange={(val) => setData("status", val)}
           active={select.status}
           required
         />
@@ -187,7 +210,9 @@ export function StaffInfo({ data }) {
         className="w-full"
         labelClassName="text-sm text-[var(--color-text-light-secondary)]"
         inputClassName="rounded-[8px] mt-1"
-        data={roleMenuOptions}
+        data={STAFF_ROLE_OPTIONS}
+        value={data?.role}
+        onChange={(val) => setData("role", val)}
         active={select.role}
         required
       />

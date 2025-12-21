@@ -9,7 +9,7 @@ import { mockStaff } from "../../mock/account";
 import styles from "../../styles/pages.module.css";
 import { Breadcrumb, Item, Button, Search, Avatar } from "../../components/ui";
 import { HiMiniChevronRight, HiMiniChevronLeft, HiBookmark } from "react-icons/hi2";
-import { LuListFilter, LuLayoutDashboard } from "react-icons/lu";
+import { LuListFilter, LuLayoutDashboard, LuEye } from "react-icons/lu";
 import { SliderMotion } from "../../motions";
 
 const cx = classNames.bind(styles);
@@ -187,8 +187,8 @@ export function NewsCard({ news }) {
         />
         <div className="flex items-end justify-between">
           <span className="text-sm text-gray-500">{news.date}</span>
-          <span>
-            <HiBookmark />
+          <span className="flex items-center gap-1 text-sm">
+            {news.view} <LuEye />
           </span>
         </div>
       </div>

@@ -1,8 +1,10 @@
-// Libraries - Mock -Hooks
+// Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
 import { useEffect } from "react";
 import { useActive, useUsers } from "../../components/hooks";
 import { useStaffStore } from "../../store/staffStore";
+import { STAFF_STATUS } from "../../constants/status";
+import { STAFF_ROLE } from "../../constants/role";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
@@ -128,11 +130,16 @@ function Staff() {
         style={{ boxShadow: "var(--shadow)" }}
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row, index) => index + 1 },
-          { key: "checkbox", label: <Checkbox />, width: "3%", render: () => <Checkbox /> },
+          {
+            key: "checkbox",
+            label: <Checkbox checkboxClassName="w-5 h-5" />,
+            width: "3%",
+            render: () => <Checkbox checkboxClassName="w-5 h-5" />
+          },
           {
             key: "Username",
             label: "Tên thành viên",
-            width: "30%",
+            width: "27%",
             render: (row) => (
               <div className="flex items-center gap-2">
                 <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
@@ -149,33 +156,36 @@ function Staff() {
             key: "Status",
             label: "Trạng thái",
             width: "14%",
-            render: (row) => (
-              <div className="flex items-center gap-2">
-                {" "}
-                {row.status === "Hoạt động" ? (
-                  <div className="w-[10px] h-[10px] rounded-full bg-[var(--color-primary)]" />
-                ) : (
-                  <div className="w-[10px] h-[10px] rounded-full bg-[var(--color-error)]" />
-                )}{" "}
-                {row.status}
-              </div>
-            )
+            render: (row) => {
+              const statusConfig = STAFF_STATUS[row.status];
+
+              if (!statusConfig) return row.status;
+
+              return (
+                <div className="flex items-center gap-2">
+                  <div className={cx("w-[10px] h-[10px] rounded-full", statusConfig.color)} />
+                  <span>{statusConfig.label}</span>
+                </div>
+              );
+            }
           },
           {
             key: "Access",
             label: "Quyền",
-            width: "10%",
-            render: (row) => (
-              <span
-                className={cx(
-                  "px-3 py-1 rounded-full",
-                  "text-[var(--color-bg-light-primary-100)] font-bold capitalize"
-                )}
-                style={{ background: row.role === "admin" ? "var(--color-grd-primary)" : "var(--color-grd-secondary)" }}
-              >
-                {row.role}
-              </span>
-            )
+            width: "13%",
+            render: (row) => {
+              const roleConfig = STAFF_ROLE[row.role];
+
+              if (!roleConfig) return row.role;
+              return (
+                <div
+                  className={cx("inline-block px-3 py-1 rounded-full font-bold capitalize")}
+                  style={{ background: roleConfig.background, color: roleConfig.color }}
+                >
+                  {roleConfig.label}
+                </div>
+              );
+            }
           },
           { key: "DateAdded", label: "Ngày thêm vào", width: "10%", render: (row) => row.dateAdded },
           {

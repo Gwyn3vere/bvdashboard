@@ -14,10 +14,13 @@
   --color-primary: #19c953ff;
   --color-secondary: rgb(28, 116, 248);
   --color-error: #ff4d4dff;
+  --color-unavailable: #c9c9c9ff;
+  --color-warning: #ffcc00ff;
 
   --color-grd-primary: linear-gradient(90deg, #7dd69bff 0%, #19c953ff 100%);
   --color-grd-secondary: linear-gradient(90deg, #61adff 0%, #268fff 100%);
   --color-grd-error: linear-gradient(90deg, #ff9ab3ff 0%, #f7416fff 100%);
+  --color-grd-unavailable: linear-gradient(90deg, #f0f0f0 0%, #c9c9c9 100%);
 
   --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }

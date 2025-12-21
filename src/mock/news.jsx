@@ -5,7 +5,8 @@ export const mockNews = [
     title: "Tuyên truyền phòng chống dịch bệnh",
     author: "Nguyễn Văn A",
     date: "2024-06-01",
-    status: "Đã xuất bản"
+    status: "Đã xuất bản",
+    view: 120
   },
   {
     id: 2,
@@ -13,7 +14,8 @@ export const mockNews = [
     title: "Chiến dịch tiêm chủng mở rộng cho trẻ em",
     author: "Trần Thị B",
     date: "2024-05-20",
-    status: "Đã xuất bản"
+    status: "Đã xuất bản",
+    view: 85
   },
   {
     id: 3,
@@ -21,7 +23,8 @@ export const mockNews = [
     title: "Nâng cao năng lực y tế cộng đồng tại các vùng sâu",
     author: "Lê Văn C",
     date: "2024-04-15",
-    status: "Đang xem xét"
+    status: "Đang xem xét",
+    view: 0
   },
   {
     id: 4,
@@ -29,7 +32,8 @@ export const mockNews = [
     title: "Hướng dẫn phòng ngừa sốt xuất huyết mùa mưa",
     author: "Phạm Thị D",
     date: "2024-06-10",
-    status: "Đã xuất bản"
+    status: "Đã xuất bản",
+    view: 45
   },
   {
     id: 5,
@@ -37,7 +41,8 @@ export const mockNews = [
     title: "Cập nhật về phòng chống COVID-19 và biến chủng mới",
     author: "Nguyễn Thị E",
     date: "2024-03-30",
-    status: "Đã xuất bản"
+    status: "Đã xuất bản",
+    view: 200
   },
   {
     id: 6,
@@ -45,7 +50,8 @@ export const mockNews = [
     title: "Chương trình chăm sóc sức khỏe tâm thần cho học sinh",
     author: "Hoàng Văn F",
     date: "2024-02-18",
-    status: "Bản nháp"
+    status: "Bản nháp",
+    view: 0
   },
   {
     id: 7,
@@ -53,7 +59,8 @@ export const mockNews = [
     title: "Phát hiện sớm và quản lý bệnh đái tháo đường",
     author: "Trương Thị G",
     date: "2024-01-25",
-    status: "Đã xuất bản"
+    status: "Đã xuất bản",
+    view: 95
   },
   {
     id: 8,
@@ -61,7 +68,8 @@ export const mockNews = [
     title: "An toàn thực phẩm: Kiểm soát tại các bếp ăn công cộng",
     author: "Đỗ Văn H",
     date: "2024-05-05",
-    status: "Đã xuất bản"
+    status: "Đã xuất bản",
+    view: 60
   },
   {
     id: 9,
@@ -69,7 +77,8 @@ export const mockNews = [
     title: "Đào tạo y tế từ xa cho nhân viên tuyến đầu",
     author: "Vũ Thị I",
     date: "2024-04-28",
-    status: "Đang xem xét"
+    status: "Đang xem xét",
+    view: 0
   },
   {
     id: 10,
@@ -77,6 +86,7 @@ export const mockNews = [
     title: "Khuyến cáo dinh dưỡng cho người cao tuổi",
     author: "Bùi Văn J",
     date: "2024-06-05",
-    status: "Đã xuất bản"
+    status: "Đã xuất bản",
+    view: 30
   }
 ];

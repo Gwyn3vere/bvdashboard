@@ -19,10 +19,10 @@ export const mockStaff = [
     lastname: "A",
     email: "nguyenvana@example.com",
     password: "password1",
-    role: "admin",
+    role: "ADMIN",
     position: "Quản lý",
     phone: "0123456789",
-    status: "Hoạt động",
+    status: "ACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -32,10 +32,10 @@ export const mockStaff = [
     lastname: "B",
     email: "tranthib@example.com",
     password: "password2",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Ngừng hoạt động",
+    status: "INACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -45,10 +45,10 @@ export const mockStaff = [
     lastname: "C",
     email: "levanc@example.com",
     password: "password3",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Hoạt động",
+    status: "ACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -58,10 +58,10 @@ export const mockStaff = [
     lastname: "D",
     email: "phamthid@example.com",
     password: "password4",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Hoạt động",
+    status: "ACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -71,10 +71,10 @@ export const mockStaff = [
     lastname: "E",
     email: "hoangvane@example.com",
     password: "password5",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Ngừng hoạt động",
+    status: "INACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -84,10 +84,10 @@ export const mockStaff = [
     lastname: "F",
     email: "vuthif@example.com",
     password: "password6",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Hoạt động",
+    status: "ACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -97,10 +97,10 @@ export const mockStaff = [
     lastname: "G",
     email: "dangvang@example.com",
     password: "password7",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Ngừng hoạt động",
+    status: "INACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -110,10 +110,10 @@ export const mockStaff = [
     lastname: "H",
     email: "buithih@example.com",
     password: "password8",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Hoạt động",
+    status: "ACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -123,10 +123,10 @@ export const mockStaff = [
     lastname: "I",
     email: "dovani@example.com",
     password: "password9",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Hoạt động",
+    status: "ACTIVE",
     dateAdded: "1/12/2025"
   },
   {
@@ -136,10 +136,10 @@ export const mockStaff = [
     lastname: "J",
     email: "caothij@example.com",
     password: "password10",
-    role: "user",
+    role: "MEMBER",
     position: "Nhân viên",
     phone: "0123456789",
-    status: "Ngừng hoạt động",
+    status: "INACTIVE",
     dateAdded: "1/12/2025"
   }
 ];
@@ -148,54 +148,147 @@ export const mockDoctors = [
   {
     id: 1,
     avatarUrl: "https://i.pravatar.cc/?random=1",
-    name: "Nguyen Van A",
+    firstName: "Nguyễn Văn",
+    lastName: "A",
     degree: "Tiến sĩ",
     specialty: "Nội tiết",
     department: "Khoa Nội",
     email: "nguyenvana@example.com",
-    dateAdded: "1/12/2025"
+    phone: "0901000001",
+    status: "OFF_SHIFT",
+    dateAdded: "2025-12-01"
   },
   {
     id: 2,
     avatarUrl: "https://i.pravatar.cc/?random=2",
-    name: "Tran Thi B",
+    firstName: "Trần Thị",
+    lastName: "B",
     degree: "Phó Giáo sư, Tiến sĩ",
     specialty: "Tim mạch",
     department: "Khoa Tim mạch",
     email: "tranthib@example.com",
-    dateAdded: "1/12/2025"
+    phone: "0901000002",
+    status: "ON_SHIFT",
+    dateAdded: "2025-12-01"
   },
   {
     id: 3,
     avatarUrl: "https://i.pravatar.cc/?random=3",
-    name: "Le Van C",
+    firstName: "Lê Văn",
+    lastName: "C",
     degree: "Giáo sư, Tiến sĩ",
     specialty: "Tiêu hoá",
     department: "Khoa Tiêu hoá",
     email: "levanc@example.com",
-    dateAdded: "1/12/2025"
+    phone: "0901000003",
+    status: "ON_LEAVE",
+    dateAdded: "2025-12-01"
   },
   {
     id: 4,
     avatarUrl: "https://i.pravatar.cc/?random=4",
-    name: "Pham Thi D",
+    firstName: "Phạm Thị",
+    lastName: "D",
     degree: "Bác sĩ chuyên khoa I",
     specialty: "Nhi khoa",
     department: "Khoa Nhi",
     email: "phamthid@example.com",
-    dateAdded: "1/12/2025"
+    phone: "0901000004",
+    status: "ON_SHIFT",
+    dateAdded: "2025-12-01"
   },
   {
     id: 5,
     avatarUrl: "https://i.pravatar.cc/?random=5",
-    name: "Hoang Van E",
+    firstName: "Hoàng Văn",
+    lastName: "E",
     degree: "Bác sĩ chuyên khoa II",
     specialty: "Ngoại tổng hợp",
     department: "Khoa Ngoại",
     email: "hoangvane@example.com",
-    dateAdded: "1/12/2025"
+    phone: "0901000005",
+    status: "ON_SHIFT",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 6,
+    avatarUrl: "https://i.pravatar.cc/?random=6",
+    firstName: "Vũ Thị",
+    lastName: "F",
+    degree: "Thạc sĩ",
+    specialty: "Da liễu",
+    department: "Khoa Da liễu",
+    email: "vuthif@example.com",
+    phone: "0901000006",
+    status: "ON_SHIFT",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 7,
+    avatarUrl: "https://i.pravatar.cc/?random=7",
+    firstName: "Đặng Văn",
+    lastName: "G",
+    degree: "Bác sĩ",
+    specialty: "Chẩn đoán hình ảnh",
+    department: "Khoa Chẩn đoán hình ảnh",
+    email: "dangvang@example.com",
+    phone: "0901000007",
+    status: "TERMINATED",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 8,
+    avatarUrl: "https://i.pravatar.cc/?random=8",
+    firstName: "Ngô Thị",
+    lastName: "H",
+    degree: "Bác sĩ chuyên khoa I",
+    specialty: "Sản phụ khoa",
+    department: "Khoa Sản",
+    email: "ngothih@example.com",
+    phone: "0901000008",
+    status: "ON_SHIFT",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 9,
+    avatarUrl: "https://i.pravatar.cc/?random=9",
+    firstName: "Bùi Văn",
+    lastName: "I",
+    degree: "Thạc sĩ",
+    specialty: "Hô hấp",
+    department: "Khoa Hô hấp",
+    email: "buivani@example.com",
+    phone: "0901000009",
+    status: "ON_SHIFT",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 10,
+    avatarUrl: "https://i.pravatar.cc/?random=10",
+    firstName: "Phan Thị",
+    lastName: "K",
+    degree: "Bác sĩ",
+    specialty: "Tai Mũi Họng",
+    department: "Khoa Tai Mũi Họng",
+    email: "phanthik@example.com",
+    phone: "0901000010",
+    status: "ON_LEAVE",
+    dateAdded: "2025-12-01"
   }
 ];
+
+export const mockDoctorAppointmentStats = {
+  1: { appointments: 12 },
+  2: { appointments: 8 },
+  3: { appointments: 0 },
+  4: { appointments: 5 },
+  5: { appointments: 10 },
+  6: { appointments: 3 },
+  7: { appointments: 0 },
+  8: { appointments: 6 },
+  9: { appointments: 4 },
+  10: { appointments: 7 }
+};
 
 export const mockBanners = [
   {
