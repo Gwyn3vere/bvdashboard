@@ -7,14 +7,14 @@ import style from "../../styles/pages.module.css";
 
 const cx = classNames.bind(style);
 
-function OverviewStats() {
+function OverviewStatistics() {
   return (
     <div className="flex gap-2 my-5">
       {mockOverviewStats.map((stat) => (
         <div
           key={stat.id}
-          style={{ background: stat.color }}
-          className={cx("w-[270px] h-[150px] rounded-[8px] p-5", "flex items-center justify-between")}
+          style={{ background: stat.color, boxShadow: "var(--shadow)" }}
+          className={cx("w-[270px] h-[150px] rounded-[8px] p-5", "flex flex-1 items-center justify-between")}
         >
           <div className="text-white flex flex-col gap-2">
             <p className="text-md font-medium">{stat.title}</p>
@@ -29,4 +29,4 @@ function OverviewStats() {
   );
 }
 
-export default OverviewStats;
+export default OverviewStatistics;
