@@ -6,10 +6,24 @@ import style from "../../styles/ui.module.css";
 
 const cx = classNames.bind(style);
 
-function Button({ height = 40, width = 100, className, iconClassName, style = {}, children, icon, ...props }) {
+function Button({
+  height = 40,
+  width = 100,
+  className,
+  iconClassName,
+  iconPosition = "left",
+  style = {},
+  children,
+  icon,
+  ...props
+}) {
   return (
     <button
-      className={cx("rounded-[8px] outline-none cursor-pointer flex items-center justify-center", className)}
+      className={cx(
+        "rounded-[8px] outline-none cursor-pointer flex items-center justify-center",
+        iconPosition === "right" && "flex-row-reverse",
+        className
+      )}
       style={{ height, width, ...style }}
       {...props}
     >
