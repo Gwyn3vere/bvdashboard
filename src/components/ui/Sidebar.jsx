@@ -1,9 +1,8 @@
-// Libraries - Constants
-import React from "react";
+// Libraries - Constants - Hooks
+import { useState, useCallback } from "react";
 import classNames from "classnames/bind";
 import { Link, useLocation } from "react-router-dom";
 import { SIDEBAR_MENU } from "../../constants";
-import { useState } from "react";
 // Styles - UI - Icons
 import style from "../../styles/ui.module.css";
 import { Item, Logo, Button } from ".";
@@ -13,6 +12,11 @@ const cx = classNames.bind(style);
 
 function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleSidebar = useCallback(() => {
+    setIsCollapsed((p) => !p);
+  }, []);
+
   const location = useLocation();
   const pathname = location.pathname;
   return (
@@ -45,7 +49,7 @@ function Sidebar() {
                   <span>{group.group}</span>
                 </div>
                 {group.items.map((item) => {
-                  const isActive = new RegExp(`^${item.to}(/|$)`).test(pathname);
+                  const isActive = pathname === item.to || pathname.startsWith(item.to + "/");
                   return (
                     <Item
                       key={item.title}
@@ -80,7 +84,7 @@ function Sidebar() {
               isCollapsed ? "rotate-180 transition-transform" : "transition-transform"
             )}
             style={{ boxShadow: "var(--shadow)" }}
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={toggleSidebar}
           />
         </div>
       </div>

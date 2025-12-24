@@ -1,20 +1,19 @@
 // Libraries
 import classNames from "classnames/bind";
+
 // Styles
 import styles from ".././../styles/components.module.css";
+import { Sidebar, Header } from "../ui";
 
 const cx = classNames.bind(styles);
-
-import { Sidebar, Header } from "../ui";
 
 function dashboardLayout({ children }) {
   return (
     <main className="overflow-hidden h-screen min-h-screen bg-[var(--color-bg-light-primary-100)]">
-      <div className="grid grid-cols-[auto_1fr] h-full">
+      <div className="flex h-full">
         <Sidebar />
         <div
           className={cx(
-            // "content",
             "flex flex-col w-full h-full overflow-hidden bg-[var(--color-bg-light-primary-200)] rounded-[8px]"
           )}
         >

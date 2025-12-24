@@ -1,12 +1,11 @@
 // Libraries - Mock
 import classNames from "classnames/bind";
-import { useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import React, { useState, useMemo, useRef, useEffect } from "react";
+import { Bar } from "react-chartjs-2";
 import { appointmentData } from "../../mock/chart";
 import { useActive } from "../../components/hooks";
 // Styles - UI
 import style from "../../styles/pages.module.css";
-import { CustomTooltip } from "./index";
 import { Item, Button } from "../../components/ui";
 import { IoCaretDownOutline, IoHeartCircleSharp, IoHeartDislikeCircle } from "react-icons/io5";
 
@@ -14,24 +13,156 @@ const cx = classNames.bind(style);
 
 function AppointmentStatistics() {
   const yearSelected = useActive();
-  const attended = appointmentData.reduce((sum, item) => sum + item.attended, 0);
-  const mostAttendedMonth = appointmentData.reduce((max, item) => (item.attended > max ? item.attended : max), 0);
-  const cancelled = appointmentData.reduce((sum, item) => sum + item.cancelled, 0);
-  const mostCancelledMonth = appointmentData.reduce((max, item) => (item.cancelled > max ? item.cancelled : max), 0);
+  const saveTimeoutRef = useRef(null);
+
+  const stats = useMemo(() => {
+    return {
+      attended: appointmentData.reduce((s, i) => s + i.attended, 0),
+      cancelled: appointmentData.reduce((s, i) => s + i.cancelled, 0),
+      mostAttended: Math.max(...appointmentData.map((i) => i.attended)),
+      mostCancelled: Math.max(...appointmentData.map((i) => i.cancelled))
+    };
+  }, []);
+
   const [selectedYear, setSelectedYear] = useState(() => {
     return localStorage.getItem("year") || "2025";
   });
 
   const handleSelectYear = (year) => {
     setSelectedYear(year);
-    localStorage.setItem("year", year);
+
+    // Debounce localStorage write
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    saveTimeoutRef.current = setTimeout(() => {
+      localStorage.setItem("year", year);
+    }, 300);
+
     yearSelected.deactivate();
   };
 
-  const APPOINTMENT_LABELS = {
-    attended: "Đã đến",
-    cancelled: "Đã huỷ"
-  };
+  // Cleanup timeout
+  useEffect(() => {
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const APPOINTMENT_LABELS = useMemo(
+    () => ({
+      attended: "Đã đến",
+      cancelled: "Đã huỷ"
+    }),
+    []
+  );
+
+  // Chuẩn bị data cho Chart.js
+  const chartData = useMemo(
+    () => ({
+      labels: appointmentData.map((d) => d.month),
+      datasets: [
+        {
+          label: APPOINTMENT_LABELS.attended,
+          data: appointmentData.map((d) => d.attended),
+          backgroundColor: "#00bcd4ff",
+          maxBarThickness: 40
+        },
+        {
+          label: APPOINTMENT_LABELS.cancelled,
+          data: appointmentData.map((d) => d.cancelled),
+          backgroundColor: "#8100f2",
+          maxBarThickness: 40
+        }
+      ]
+    }),
+    [APPOINTMENT_LABELS]
+  );
+
+  // Options cho Chart.js
+  const chartOptions = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: "#ffffff",
+          titleColor: "#000000",
+          bodyColor: "#000000",
+          borderColor: "#e5e7eb",
+          borderWidth: 1,
+          padding: 12,
+          displayColors: true,
+          titleFont: {
+            size: 14,
+            weight: "bold"
+          },
+          bodyFont: {
+            size: 13
+          },
+          callbacks: {
+            labelColor: function (context) {
+              return {
+                borderColor: context.dataset.backgroundColor,
+                backgroundColor: context.dataset.backgroundColor,
+                borderWidth: 2,
+                borderRadius: 2
+              };
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false
+          },
+          border: {
+            display: false
+          },
+          ticks: {
+            color: "var(--color-text-light-primary)",
+            font: {
+              size: 13,
+              weight: 600
+            },
+            padding: 10
+          }
+        },
+        y: {
+          min: 0,
+          max: 1000,
+          ticks: {
+            stepSize: 200,
+            color: "var(--color-text-light-primary)",
+            font: {
+              size: 13,
+              weight: 600
+            }
+          },
+          grid: {
+            color: "#f0f0f0",
+            drawBorder: false
+          },
+          border: {
+            display: false
+          }
+        }
+      }
+    }),
+    []
+  );
+
   return (
     <div
       className={cx("flex flex-col justify-between", "bg-white rounded-[8px] w-full mt-5")}
@@ -75,7 +206,7 @@ function AppointmentStatistics() {
           <Item
             as="span"
             icon={<IoHeartCircleSharp />}
-            children={`Tổng số lịch hẹn đã đến: ${attended}`}
+            children={`Tổng số lịch hẹn đã đến: ${stats.attended}`}
             className={cx("flex items-center gap-2 my-2", "text-[var(--color-cyan)]")}
             iconClassName={cx("text-2xl")}
             itemClassName={cx("text-md ")}
@@ -83,7 +214,7 @@ function AppointmentStatistics() {
           <Item
             as="span"
             icon={<IoHeartCircleSharp />}
-            children={`Tháng có lịch hẹn đến nhiều nhất: ${mostAttendedMonth}`}
+            children={`Tháng có lịch hẹn đến nhiều nhất: ${stats.mostAttendedMonth}`}
             className={cx("flex items-center gap-2 my-2", "text-[var(--color-cyan)]")}
             iconClassName={cx("text-2xl")}
             itemClassName={cx("text-md ")}
@@ -93,7 +224,7 @@ function AppointmentStatistics() {
           <Item
             as="span"
             icon={<IoHeartDislikeCircle />}
-            children={`Tổng số lịch hẹn đã huỷ: ${cancelled}`}
+            children={`Tổng số lịch hẹn đã huỷ: ${stats.cancelled}`}
             className={cx("flex items-center gap-2 my-2", "text-[var(--color-purple)]")}
             iconClassName={cx("text-2xl")}
             itemClassName={cx("text-md ")}
@@ -101,7 +232,7 @@ function AppointmentStatistics() {
           <Item
             as="span"
             icon={<IoHeartDislikeCircle />}
-            children={`Tháng có lịch hẹn huỷ nhiều nhất: ${mostCancelledMonth}`}
+            children={`Tháng có lịch hẹn huỷ nhiều nhất: ${stats.mostCancelledMonth}`}
             className={cx("flex items-center gap-2 my-2", "text-[var(--color-purple)]")}
             iconClassName={cx("text-2xl")}
             itemClassName={cx("text-md ")}
@@ -111,45 +242,7 @@ function AppointmentStatistics() {
 
       <div className="p-6">
         <div style={{ width: "100%", height: "380px" }}>
-          <ResponsiveContainer>
-            <BarChart
-              data={appointmentData}
-              margin={{ top: 10, right: 5, left: -20, bottom: 5 }}
-              barGap={8}
-              barCategoryGap="20%"
-            >
-              <CartesianGrid strokeDasharray="0" stroke="#f0f0f0" vertical={false} />
-              <XAxis
-                dataKey="month"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "var(--color-text-light-primary)", fontSize: 13, fontWeight: 600 }}
-                dy={10}
-              />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "var(--color-text-light-primary)", fontSize: 13, fontWeight: 600 }}
-                tickFormatter={(value) => value}
-                ticks={[0, 200, 400, 600, 800, 1000]}
-              />
-              <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.05)" }} />
-              <Bar
-                dataKey="attended"
-                name={APPOINTMENT_LABELS.attended}
-                fill="var(--color-cyan)"
-                stroke="var(--color-cyan)"
-                maxBarSize={40}
-              />
-              <Bar
-                dataKey="cancelled"
-                name={APPOINTMENT_LABELS.cancelled}
-                fill="var(--color-purple)"
-                stroke="var(--color-purple)"
-                maxBarSize={40}
-              />
-            </BarChart>
-          </ResponsiveContainer>
+          <Bar data={chartData} options={chartOptions} />
         </div>
 
         <div className="flex items-center justify-center gap-8 mt-2">
@@ -167,4 +260,4 @@ function AppointmentStatistics() {
   );
 }
 
-export default AppointmentStatistics;
+export default React.memo(AppointmentStatistics);
