@@ -4,28 +4,28 @@ export const mockOverviewStats = [
   {
     id: 1,
     title: "Tổng bác sĩ",
-    value: 35,
+    value: 241,
     icon: <LuStethoscope />,
     color: "linear-gradient(90deg, #ff9ab3ff 0%, #f7416fff 100%)"
   },
   {
     id: 2,
-    title: "Bệnh nhân mới",
-    value: 24,
+    title: "Tổng Bệnh nhân",
+    value: 5234,
     icon: <LuHeartPulse />,
     color: "linear-gradient(90deg, #7dd69bff 0%, #19c953ff 100%)"
   },
   {
     id: 3,
-    title: "Lịch hẹn",
-    value: 40,
+    title: "Tổng lịch hẹn",
+    value: 3601,
     icon: <LuCalendarHeart />,
     color: "linear-gradient(90deg, #61ADFF 0%, #268FFF 100%)"
   },
   {
     id: 4,
     title: "Ca khám hoàn thành",
-    value: 37,
+    value: 4126,
     icon: <LuHandHeart />,
     color: "linear-gradient(90deg, #b161f7ff 0%, #8100F2 100%)"
   }

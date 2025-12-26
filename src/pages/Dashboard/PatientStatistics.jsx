@@ -1,26 +1,177 @@
 // Libraries - Mock
 import classNames from "classnames/bind";
-import { useState } from "react";
-import { Line, XAxis, YAxis, CartesianGrid, Tooltip, ComposedChart, Area, ResponsiveContainer } from "recharts";
+import React, { useState, useMemo } from "react";
+import { Line } from "react-chartjs-2";
 import { patientData } from "../../mock/chart";
 // Styles - UI
 import style from "../../styles/pages.module.css";
-import { CustomTooltip, Dot } from "./index";
 import { Item, Button } from "../../components/ui";
 
 const cx = classNames.bind(style);
 
-export default function PatientStatistics() {
+function PatientStatistics() {
   const [timeFilter, setTimeFilter] = useState("Monthly");
-  const PATIENT_LABELS = {
-    recovered: "Đã hồi phục",
-    newPatient: "Bệnh nhân mới"
-  };
+
+  const PATIENT_LABELS = useMemo(
+    () => ({
+      recovered: "Đã hồi phục",
+      newPatient: "Bệnh nhân mới"
+    }),
+    []
+  );
+
+  const filteredData = useMemo(() => {
+    return patientData;
+  }, [timeFilter]);
+
+  // Chuẩn bị data cho Chart.js
+  const chartData = useMemo(
+    () => ({
+      labels: filteredData.map((d) => d.month),
+      datasets: [
+        {
+          label: PATIENT_LABELS.recovered,
+          data: filteredData.map((d) => d.recovered),
+          borderColor: "#fb7185",
+          backgroundColor: function (context) {
+            const chart = context.chart;
+            const { ctx, chartArea } = chart;
+            if (!chartArea) return "rgba(251, 113, 133, 0.3)";
+
+            const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+            gradient.addColorStop(0.05, "rgba(251, 113, 133, 0.3)");
+            gradient.addColorStop(0.95, "rgba(251, 113, 133, 0.05)");
+            return gradient;
+          },
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointBackgroundColor: "#fb7185",
+          pointBorderColor: "#ffffff",
+          pointBorderWidth: 2,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: "#fb7185",
+          pointHoverBorderColor: "#ffffff",
+          pointHoverBorderWidth: 2,
+          fill: true,
+          tension: 0 // Line thẳng
+        },
+        {
+          label: PATIENT_LABELS.newPatient,
+          data: filteredData.map((d) => d.newPatient),
+          borderColor: "#4ade80",
+          backgroundColor: function (context) {
+            const chart = context.chart;
+            const { ctx, chartArea } = chart;
+            if (!chartArea) return "rgba(74, 222, 128, 0.3)";
+
+            const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+            gradient.addColorStop(0.05, "rgba(74, 222, 128, 0.3)");
+            gradient.addColorStop(0.95, "rgba(74, 222, 128, 0.05)");
+            return gradient;
+          },
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointBackgroundColor: "#4ade80",
+          pointBorderColor: "#ffffff",
+          pointBorderWidth: 2,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: "#4ade80",
+          pointHoverBorderColor: "#ffffff",
+          pointHoverBorderWidth: 2,
+          fill: true,
+          tension: 0
+        }
+      ]
+    }),
+    [filteredData, PATIENT_LABELS]
+  );
+
+  // Options cho Chart.js
+  const chartOptions = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: "#ffffff",
+          titleColor: "#000000",
+          bodyColor: "#000000",
+          borderColor: "#e5e7eb",
+          borderWidth: 1,
+          padding: 12,
+          displayColors: true,
+          titleFont: {
+            size: 14,
+            weight: "bold"
+          },
+          bodyFont: {
+            size: 13
+          },
+          callbacks: {
+            labelColor: function (context) {
+              return {
+                borderColor: context.dataset.borderColor,
+                backgroundColor: context.dataset.borderColor,
+                borderWidth: 2,
+                borderRadius: 2
+              };
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false
+          },
+          border: {
+            display: false
+          },
+          ticks: {
+            color: "var(--color-text-light-primary)",
+            font: {
+              size: 12,
+              weight: 600
+            },
+            padding: 10
+          }
+        },
+        y: {
+          min: 0,
+          max: 1000,
+          ticks: {
+            stepSize: 200,
+            color: "var(--color-text-light-primary)",
+            font: {
+              size: 13,
+              weight: 600
+            }
+          },
+          grid: {
+            color: "#f0f0f0",
+            drawBorder: false
+          },
+          border: {
+            display: false
+          }
+        }
+      }
+    }),
+    []
+  );
+
   return (
     <div className="bg-white rounded-[8px] p-6 lg:col-span-2" style={{ boxShadow: "var(--shadow)" }}>
-      <div className="flex justify-between items-center mb-6">
+      <div className="md:flex justify-between items-center mb-6">
         <Item as="strong" children="Thống kê bệnh nhân" itemClassName={cx("text-xl")} />
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-4 md:mt-0">
           <Button
             children="Tháng"
             onClick={() => setTimeFilter("Monthly")}
@@ -55,59 +206,7 @@ export default function PatientStatistics() {
       </div>
 
       <div style={{ width: "100%", height: "380px" }}>
-        <ResponsiveContainer outline="none">
-          <ComposedChart data={patientData} margin={{ top: 10, right: 5, left: -20, bottom: 5 }}>
-            <defs>
-              <linearGradient id="recoveredGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-error)" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="var(--color-error)" stopOpacity={0.05} />
-              </linearGradient>
-              <linearGradient id="newPatientGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0.05} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="0" stroke="#f0f0f0" vertical={false} />
-            <XAxis
-              dataKey="month"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "var(--color-text-light-primary)", fontSize: 12, fontWeight: 600 }}
-              dy={10}
-            />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "var(--color-text-light-primary)", fontSize: 13, fontWeight: 600 }}
-              ticks={[0, 200, 400, 600, 800, 1000]}
-            />
-            <Tooltip content={<CustomTooltip />} />
-
-            {/* Area backgrounds - phía dưới */}
-            <Area type="linear" dataKey="recovered" fill="url(#recoveredGradient)" stroke="none" />
-            <Area type="linear" dataKey="newPatient" fill="url(#newPatientGradient)" stroke="none" />
-
-            {/* Lines - phía trên */}
-            <Line
-              type="linear"
-              dataKey="recovered"
-              name={PATIENT_LABELS.recovered}
-              stroke="#fb7185"
-              strokeWidth={2.5}
-              dot={<Dot fill="#fb7185" />}
-              activeDot={{ r: 6, fill: "#fb7185", stroke: "white", strokeWidth: 2 }}
-            />
-            <Line
-              type="linear"
-              dataKey="newPatient"
-              name={PATIENT_LABELS.newPatient}
-              stroke="#4ade80"
-              strokeWidth={2.5}
-              dot={<Dot fill="#4ade80" />}
-              activeDot={{ r: 6, fill: "#4ade80", stroke: "white", strokeWidth: 2 }}
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
+        <Line data={chartData} options={chartOptions} />
       </div>
 
       <div className="flex items-center justify-center gap-8 mt-2">
@@ -123,3 +222,5 @@ export default function PatientStatistics() {
     </div>
   );
 }
+
+export default React.memo(PatientStatistics);

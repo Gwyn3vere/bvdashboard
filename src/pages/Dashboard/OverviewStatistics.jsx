@@ -9,12 +9,15 @@ const cx = classNames.bind(style);
 
 function OverviewStatistics() {
   return (
-    <div className="flex gap-2 my-5">
+    <div className=" md:grid grid-cols-2 xl:flex gap-2 my-5">
       {mockOverviewStats.map((stat) => (
         <div
           key={stat.id}
           style={{ background: stat.color, boxShadow: "var(--shadow)" }}
-          className={cx("w-[270px] h-[150px] rounded-[8px] p-5", "flex flex-1 items-center justify-between")}
+          className={cx(
+            "xl:w-[270px] xl:h-[150px] mb-2 md:mb-0 rounded-[8px] p-5",
+            "flex flex-1 items-center justify-between"
+          )}
         >
           <div className="text-white flex flex-col gap-2">
             <p className="text-md font-medium">{stat.title}</p>

@@ -6,5 +6,3 @@ export { default as DoctorStatistics } from "./DoctorStatistics";
 export { default as AppointmentActivity } from "./AppointmentActivity";
 export { default as PatientActivity } from "./PatientActivity";
 export { default as PatientPercentage } from "./PatientPercentage";
-export { default as CustomTooltip } from "./Tooltip";
-export { default as Dot } from "./Dot";

@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import { useActive } from "../../components/hooks";
 import { mockNews } from "../../mock/news";
-import { mockStaff } from "../../mock/account";
+import { mockStaff } from "../../mock/manage";
 // Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
 import { Breadcrumb, Item, Button, Search, Avatar } from "../../components/ui";
@@ -150,14 +150,12 @@ export default News;
 
 export function NewsTable({ items }) {
   return (
-    <div className="grid grid-cols-4 gap-2 h-full">
+    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 h-full">
       {items.map((news) => (
         <div key={news.id} className="">
           <img src={news.banner} alt="news-banner" className="w-auto h-[150px] rounded-[8px] object-cover" />
           <Item as="strong" children={news.title} itemClassName="text-md mt-2 truncate " />
           <div className="text-sm text-gray-500 mt-1">
-            {/* <span>Tác giả: {news.author}</span> */}
-            {/* <br /> */}
             <span>Ngày đăng: {news.date}</span> <br />
             <div>
               <div>

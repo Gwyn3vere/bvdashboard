@@ -1,6 +1,6 @@
 // Libraries - Mock -Hooks
 import classNames from "classnames/bind";
-import { mockBanners } from "../../mock/account";
+import { mockBanners } from "../../mock/manage";
 import { useActive } from "../../components/hooks";
 // Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
