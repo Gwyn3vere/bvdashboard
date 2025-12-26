@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { mockStaff } from "../mock/account";
+import { mockStaff } from "../mock/manage";
 
 export const useStaffStore = create((set, get) => ({
   /* =======================

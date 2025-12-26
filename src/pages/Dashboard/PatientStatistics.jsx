@@ -169,9 +169,9 @@ function PatientStatistics() {
 
   return (
     <div className="bg-white rounded-[8px] p-6 lg:col-span-2" style={{ boxShadow: "var(--shadow)" }}>
-      <div className="flex justify-between items-center mb-6">
+      <div className="md:flex justify-between items-center mb-6">
         <Item as="strong" children="Thống kê bệnh nhân" itemClassName={cx("text-xl")} />
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-4 md:mt-0">
           <Button
             children="Tháng"
             onClick={() => setTimeFilter("Monthly")}

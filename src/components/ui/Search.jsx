@@ -9,6 +9,8 @@ const cx = classNames.bind(style);
 function Search({
   value,
   defaultValue,
+  width = 300,
+  height = 40,
   onChange,
   placeholder = "Tìm kiếm",
   icon: Icon = CiSearch,
@@ -21,11 +23,11 @@ function Search({
   return (
     <div
       className={cx(
-        "bg-[var(--color-bg-light-primary-300)] h-[40px] w-[300px] px-4 flex items-center gap-2",
+        "bg-[var(--color-bg-light-primary-300)] px-4 hidden sm:flex items-center gap-2",
         wrapperClass,
         className
       )}
-      style={style}
+      style={{ width, height, ...style }}
       {...props}
     >
       <Icon className="text-[20px] text-[var(--color-text-light-secondary)]" />

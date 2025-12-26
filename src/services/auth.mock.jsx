@@ -1,4 +1,4 @@
-import { mockAccounts } from "../mock/account";
+import { mockAccounts } from "../mock/manage";
 
 /**
  * Mock login service

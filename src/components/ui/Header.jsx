@@ -9,11 +9,12 @@ import { userService, logoutService } from "../../services/auth";
 import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
 import { CiBellOn, CiLight, CiCalendar, CiLogout, CiUser, CiSettings } from "react-icons/ci";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowBack } from "react-icons/io";
+import { LuAlignRight, LuAlignLeft } from "react-icons/lu";
 
 const cx = classNames.bind(style);
 
-function Header() {
+function Header({ collapsed, toggle }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,8 +46,23 @@ function Header() {
   }, []);
 
   return (
-    <header className="px-10 pt-5 sticky top-0 w-full flex justify-between mb-5 max-w-[1800px] mx-auto">
-      <Search className="rounded-full" />
+    <header className="px-5 xl:px-10 pt-5 sticky top-0 w-full flex justify-between mb-5 max-w-[1800px] mx-auto">
+      <div className="flex gap-2">
+        <Button
+          icon={collapsed ? <LuAlignLeft /> : <LuAlignRight />}
+          width={40}
+          height={40}
+          iconClassName={cx("text-2xl font-bold")}
+          className={cx(
+            "text-[14px] text-[var(--color-primary)]",
+            "cursor-pointer p-2",
+            "inline-flex transition-all duration-300 ease-in-out",
+            collapsed ? "opacity-100 scale-100" : "opacity-80 scale-95"
+          )}
+          onClick={toggle}
+        />
+        <Search className="rounded-full" />
+      </div>
       <div className="flex gap-2">
         {/* Theme mode */}
         <Button

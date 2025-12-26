@@ -290,6 +290,125 @@ export const mockDoctorAppointmentStats = {
   10: { appointments: 7 }
 };
 
+export const mockDoctorExperienceStats = {
+  1: { yearsOfExperience: 15 },
+  2: { yearsOfExperience: 10 },
+  3: { yearsOfExperience: 20 },
+  4: { yearsOfExperience: 8 },
+  5: { yearsOfExperience: 12 },
+  6: { yearsOfExperience: 5 },
+  7: { yearsOfExperience: 18 },
+  8: { yearsOfExperience: 7 },
+  9: { yearsOfExperience: 9 },
+  10: { yearsOfExperience: 6 }
+};
+
+export const mockPatients = [
+  {
+    id: 1,
+    firstName: "Nguyễn Văn",
+    lastName: "A",
+    age: 30,
+    gender: "MALE",
+    phone: "0123456789",
+    email: "nguyenvana@example.com",
+    treatmentStatus: "UNDER_TREATMENT",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 2,
+    firstName: "Trần Thị",
+    lastName: "B",
+    age: 25,
+    gender: "FEMALE",
+    phone: "0123456788",
+    email: "tranthib@example.com",
+    treatmentStatus: "COMPLETED",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 3,
+    firstName: "Lê Văn",
+    lastName: "C",
+    age: 40,
+    gender: "MALE",
+    phone: "0123456787",
+    email: "levanc@example.com",
+    treatmentStatus: "WAITING",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 4,
+    firstName: "Phạm Thị",
+    lastName: "D",
+    age: 35,
+    gender: "FEMALE",
+    phone: "0123456786",
+    email: "phamthid@example.com",
+    treatmentStatus: "UNDER_TREATMENT",
+    dateAdded: "2025-12-01"
+  }
+];
+
+const addDays = (days) => {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split("T")[0]; // yyyy-mm-dd
+};
+
+export const mockAppointments = [
+  {
+    id: 1,
+    patientId: 1,
+    doctorId: 2,
+    specialty: "Nội tiết",
+    date: addDays(1),
+    timeStart: "09:00",
+    timeEnd: "10:00",
+    status: "SCHEDULED"
+  },
+  {
+    id: 2,
+    patientId: 2,
+    doctorId: 3,
+    specialty: "Tim mạch",
+    date: addDays(2),
+    timeStart: "14:00",
+    timeEnd: "15:00",
+    status: "SCHEDULED"
+  },
+  {
+    id: 3,
+    patientId: 3,
+    doctorId: 4,
+    specialty: "Hô hấp",
+    date: addDays(3),
+    timeStart: "09:30",
+    timeEnd: "10:30",
+    status: "CANCELLED"
+  },
+  {
+    id: 4,
+    patientId: 4,
+    doctorId: 5,
+    specialty: "Nhi khoa",
+    date: addDays(4),
+    timeStart: "11:00",
+    timeEnd: "12:00",
+    status: "NO_SHOW"
+  },
+  {
+    id: 5,
+    patientId: 1,
+    doctorId: 6,
+    specialty: "Da liễu",
+    date: addDays(5),
+    timeStart: "15:00",
+    timeEnd: "16:00",
+    status: "SCHEDULED"
+  }
+];
+
 export const mockBanners = [
   {
     id: 1,

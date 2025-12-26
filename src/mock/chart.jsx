@@ -27,3 +27,9 @@ export const appointmentData = [
   { month: "11", attended: 400, cancelled: 200 },
   { month: "12", attended: 350, cancelled: 100 }
 ];
+
+export const PatientPercentage = {
+  newPatient: 450,
+  recovered: 680,
+  inTreatment: 320
+};

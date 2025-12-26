@@ -27,3 +27,22 @@ export const STAFF_STATUS = {
     color: "bg-[var(--color-error)]"
   }
 };
+
+export const APPOINTMENT_STATUS = {
+  SCHEDULED: {
+    label: "Đã lên lịch",
+    color: "var(--color-secondary)"
+  },
+  COMPLETED: {
+    label: "Đã hoàn thành",
+    color: "var(--color-primary)"
+  },
+  CANCELLED: {
+    label: "Đã hủy",
+    color: "var(--color-error)"
+  },
+  NO_SHOW: {
+    label: "Không đến",
+    color: "var(--color-warning)"
+  }
+};

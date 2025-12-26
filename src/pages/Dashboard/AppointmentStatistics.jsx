@@ -214,7 +214,7 @@ function AppointmentStatistics() {
           <Item
             as="span"
             icon={<IoHeartCircleSharp />}
-            children={`Tháng có lịch hẹn đến nhiều nhất: ${stats.mostAttendedMonth}`}
+            children={`Tháng có lịch hẹn đến nhiều nhất: ${stats.mostAttended}`}
             className={cx("flex items-center gap-2 my-2", "text-[var(--color-cyan)]")}
             iconClassName={cx("text-2xl")}
             itemClassName={cx("text-md ")}
@@ -232,7 +232,7 @@ function AppointmentStatistics() {
           <Item
             as="span"
             icon={<IoHeartDislikeCircle />}
-            children={`Tháng có lịch hẹn huỷ nhiều nhất: ${stats.mostCancelledMonth}`}
+            children={`Tháng có lịch hẹn huỷ nhiều nhất: ${stats.mostCancelled}`}
             className={cx("flex items-center gap-2 my-2", "text-[var(--color-purple)]")}
             iconClassName={cx("text-2xl")}
             itemClassName={cx("text-md ")}

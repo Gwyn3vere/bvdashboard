@@ -1,6 +1,6 @@
 // Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
-import { mockDoctors, mockDoctorAppointmentStats } from "../../mock/account";
+import { mockDoctors, mockDoctorAppointmentStats } from "../../mock/manage";
 import { DOCTOR_STATUS } from "../../constants/status";
 import { useActive } from "../../components/hooks";
 // Styles - UI
