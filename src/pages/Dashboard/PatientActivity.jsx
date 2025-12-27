@@ -8,7 +8,7 @@ const cx = classNames.bind(style);
 
 function PatientActivity() {
   return (
-    <div className={cx("mt-5 h-[500px] bg-white rounded-[8px] p-6")} style={{ boxShadow: "var(--shadow)" }}>
+    <div className={cx("mt-5 h-auto bg-white rounded-[8px] p-6")} style={{ boxShadow: "var(--shadow)" }}>
       <Item as="strong" children="Hoạt động bệnh nhân" itemClassName={cx("text-[20px]")} />
     </div>
   );

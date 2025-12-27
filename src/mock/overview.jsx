@@ -10,7 +10,7 @@ export const mockOverviewStats = [
   },
   {
     id: 2,
-    title: "Tổng Bệnh nhân",
+    title: "Tổng bệnh nhân",
     value: 5234,
     icon: <LuHeartPulse />,
     color: "linear-gradient(90deg, #7dd69bff 0%, #19c953ff 100%)"

@@ -347,6 +347,17 @@ export const mockPatients = [
     email: "phamthid@example.com",
     treatmentStatus: "UNDER_TREATMENT",
     dateAdded: "2025-12-01"
+  },
+  {
+    id: 5,
+    firstName: "Trần Văn",
+    lastName: "F",
+    age: 35,
+    gender: "FEMALE",
+    phone: "0123456786",
+    email: "phamthid@example.com",
+    treatmentStatus: "UNDER_TREATMENT",
+    dateAdded: "2025-12-01"
   }
 ];
 
@@ -399,7 +410,7 @@ export const mockAppointments = [
   },
   {
     id: 5,
-    patientId: 1,
+    patientId: 5,
     doctorId: 6,
     specialty: "Da liễu",
     date: addDays(5),
