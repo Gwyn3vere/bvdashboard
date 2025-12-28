@@ -309,10 +309,11 @@ export const mockPatients = [
     firstName: "Nguyễn Văn",
     lastName: "A",
     age: 30,
-    gender: "MALE",
+    gender: "Nam",
     phone: "0123456789",
     email: "nguyenvana@example.com",
-    treatmentStatus: "UNDER_TREATMENT",
+    treatmentStatus: "NEW_PATIENT",
+    disease: "Sốt",
     dateAdded: "2025-12-01"
   },
   {
@@ -320,10 +321,11 @@ export const mockPatients = [
     firstName: "Trần Thị",
     lastName: "B",
     age: 25,
-    gender: "FEMALE",
+    gender: "Nữ",
     phone: "0123456788",
     email: "tranthib@example.com",
-    treatmentStatus: "COMPLETED",
+    treatmentStatus: "RECOVERED",
+    disease: "Đau dạ dày",
     dateAdded: "2025-12-01"
   },
   {
@@ -331,10 +333,11 @@ export const mockPatients = [
     firstName: "Lê Văn",
     lastName: "C",
     age: 40,
-    gender: "MALE",
+    gender: "Nam",
     phone: "0123456787",
     email: "levanc@example.com",
-    treatmentStatus: "WAITING",
+    treatmentStatus: "RECOVERED",
+    disease: "Rối loạn giất ngủ",
     dateAdded: "2025-12-01"
   },
   {
@@ -342,10 +345,23 @@ export const mockPatients = [
     firstName: "Phạm Thị",
     lastName: "D",
     age: 35,
-    gender: "FEMALE",
+    gender: "Nữ",
     phone: "0123456786",
     email: "phamthid@example.com",
-    treatmentStatus: "UNDER_TREATMENT",
+    treatmentStatus: "IN_TREATMENT",
+    disease: "Đái tháo đường",
+    dateAdded: "2025-12-01"
+  },
+  {
+    id: 5,
+    firstName: "Trần Văn",
+    lastName: "F",
+    age: 35,
+    gender: "Nam",
+    phone: "0123456786",
+    email: "phamthid@example.com",
+    treatmentStatus: "IN_TREATMENT",
+    disease: "Dị ứng và huyen suyễn",
     dateAdded: "2025-12-01"
   }
 ];
@@ -399,7 +415,7 @@ export const mockAppointments = [
   },
   {
     id: 5,
-    patientId: 1,
+    patientId: 5,
     doctorId: 6,
     specialty: "Da liễu",
     date: addDays(5),

@@ -7,7 +7,7 @@ import { mockAppointments, mockDoctors, mockPatients } from "../../mock/manage";
 // Styles - UI - Utils
 import style from "../../styles/pages.module.css";
 import { Avatar, Item } from "../../components/ui";
-import { formatDateVN } from "../../utils/date";
+import { formatDateVN } from "../../utils/format";
 
 const cx = classNames.bind(style);
 

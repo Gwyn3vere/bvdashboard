@@ -173,11 +173,11 @@ function PatientStatistics() {
         <Item as="strong" children="Thống kê bệnh nhân" itemClassName={cx("text-xl")} />
         <div className="flex gap-2 mt-4 md:mt-0">
           <Button
-            children="Tháng"
-            onClick={() => setTimeFilter("Monthly")}
+            children="Ngày"
+            onClick={() => setTimeFilter("Today")}
             className={cx(
               "transition-all text-md font-bold",
-              timeFilter === "Monthly"
+              timeFilter === "Today"
                 ? "bg-[var(--color-primary)] text-white"
                 : "bg-transparent text-[var(--color-primary)] hover:bg-[var(--color-bg-light-primary-200)]"
             )}
@@ -193,11 +193,11 @@ function PatientStatistics() {
             )}
           />
           <Button
-            children="Ngày"
-            onClick={() => setTimeFilter("Today")}
+            children="Tháng"
+            onClick={() => setTimeFilter("Monthly")}
             className={cx(
               "transition-all text-md font-bold",
-              timeFilter === "Today"
+              timeFilter === "Monthly"
                 ? "bg-[var(--color-primary)] text-white"
                 : "bg-transparent text-[var(--color-primary)] hover:bg-[var(--color-bg-light-primary-200)]"
             )}
