@@ -13,3 +13,9 @@ export const APPOINTMENT_YEAR_OPTIONS = [
   { value: "2023", text: "2023" },
   { value: "2022", text: "2022" }
 ];
+
+export const PATIENT_GENDER_OPTIONS = [
+  { value: "MALE", text: "Nam" },
+  { value: "FEMALE", text: "Nữ" },
+  { value: "OTHER", text: "KHÁC" }
+];

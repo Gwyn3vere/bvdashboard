@@ -1,3 +1,5 @@
+import { color } from "motion";
+
 export const DOCTOR_STATUS = {
   ON_SHIFT: {
     label: "Đang làm việc",
@@ -43,6 +45,21 @@ export const APPOINTMENT_STATUS = {
   },
   NO_SHOW: {
     label: "Không đến",
+    color: "var(--color-warning)"
+  }
+};
+
+export const PATIENT_STATUS = {
+  NEW_PATIENT: {
+    label: "Bệnh nhân mới",
+    color: "var(--color-secondary)"
+  },
+  RECOVERED: {
+    label: "Đã hồi phục",
+    color: "var(--color-primary)"
+  },
+  IN_TREATMENT: {
+    label: "Đang điều trị",
     color: "var(--color-warning)"
   }
 };
