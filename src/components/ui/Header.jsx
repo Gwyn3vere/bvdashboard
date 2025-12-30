@@ -21,8 +21,8 @@ function Header({ collapsed, toggle }) {
 
   const { handleLogout } = useLogin();
 
-  const username = user?.name || "Guest";
-  const role = user?.roles || "Visitor";
+  const username = user?.data?.firstName + user?.data?.lastName || "Guest";
+  const role = user?.data?.role || "Visitor";
   const avatar = useActive(false);
 
   useEffect(() => {
