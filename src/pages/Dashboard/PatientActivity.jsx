@@ -35,7 +35,11 @@ function PatientActivity() {
                 <div className="flex justify-between">
                   <div className="flex flex-col gap-2">
                     <Item as="strong" children={`${patient.firstName} ${patient.lastName}`} />
-                    <Item as="span" children={`Tuổi: ${patient.age}`} itemClassName={cx("text-sm")} />
+                    <Item
+                      as="span"
+                      children={`Ngày sinh: ${formatDateVN(patient.birthday)}`}
+                      itemClassName={cx("text-sm")}
+                    />
                     <Item as="span" children={`Giới tính: ${patient.gender}`} itemClassName={cx("text-sm")} />
                   </div>
                   <div className="flex flex-col items-center gap-2">

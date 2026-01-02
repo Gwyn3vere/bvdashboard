@@ -58,7 +58,7 @@ function useCalendar(appointments) {
   // Get appointments for a specific date
   const getAppointmentsForDate = (date) => {
     const dateStr = formatDate(date);
-    return appointments.filter((apt) => apt.date === dateStr).sort((a, b) => a.timeStart.localeCompare(b.timeStart));
+    return appointments.filter((apt) => apt.date === dateStr).sort((a, b) => a.scheduled.localeCompare(b.scheduled));
   };
 
   // Check if date is today

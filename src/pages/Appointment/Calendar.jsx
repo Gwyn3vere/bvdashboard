@@ -1,8 +1,8 @@
 // Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
 import React, { useState, useMemo } from "react";
-import { useCalendar, useActive } from "../../components/hooks";
-import { mockAppointments } from "../../mock/manage";
+import { useCalendar, useActive, useUpcoming } from "../../components/hooks";
+import { mockAppointments, mockDoctors, mockPatients } from "../../mock/manage";
 import { APPOINTMENT_STATUS } from "../../constants/status";
 // Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
@@ -13,7 +13,13 @@ import { Button, Item, Modal } from "../../components/ui";
 const cx = classNames.bind(styles);
 
 function Calendar() {
-  const calendar = useCalendar(mockAppointments);
+  const { upcomingAppointments } = useUpcoming({
+    appointments: mockAppointments,
+    doctors: mockDoctors,
+    patients: mockPatients
+  });
+
+  const calendar = useCalendar(upcomingAppointments);
   const select = useActive();
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -185,9 +191,9 @@ function Calendar() {
                         >
                           <div className="flex items-center gap-1 mb-0.5 ">
                             <LuClock className="w-3 h-3" />
-                            <Item as="span" children={apt.timeStart} className="text-xs font-semibold" />
+                            <Item as="span" children={apt.scheduled} className="text-xs font-semibold" />
                           </div>
-                          <Item as="div" children={apt.patientName} className="text-xs truncate font-medium" />
+                          <Item as="div" children={`Bs. ${apt.doctorName}`} className="text-xs truncate font-medium" />
                           <Item as="div" children={apt.specialty} className="text-xs  truncate" />
                         </div>
                       );
