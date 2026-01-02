@@ -15,7 +15,7 @@ function Item({
   className,
   itemClassName,
   iconClassName,
-  whitespace = "whitespace-nowrap",
+  whitespace = "whitespace-normal",
   style = {},
   editable = false,
   onEdit,

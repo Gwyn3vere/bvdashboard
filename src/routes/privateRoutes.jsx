@@ -1,6 +1,7 @@
 import { dashboardLayout } from "../components/layouts";
 // Pages
 import { Dashboard } from "../pages/Dashboard";
+import { Appointment } from "../pages/Appointment";
 import { Staff } from "../pages/Staff";
 import { Doctor } from "../pages/Doctor";
 import { News, Post } from "../pages/News";
@@ -10,6 +11,12 @@ const privateRoutes = [
   {
     path: "/bang-dieu-khien",
     component: Dashboard,
+    layout: dashboardLayout,
+    role: ["admin", "user"]
+  },
+  {
+    path: "/quan-ly-lich-hen",
+    component: Appointment,
     layout: dashboardLayout,
     role: ["admin", "user"]
   },

@@ -15,7 +15,7 @@ export const SIDEBAR_MENU = [
     items: [
       { title: "Tổng quan", to: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
       { title: "Bệnh nhân", to: "/patients", icon: <LuFrown /> },
-      { title: "Lịch hẹn", to: "/appointments", icon: <LuClipboardList /> }
+      { title: "Lịch hẹn", to: "/quan-ly-lich-hen", icon: <LuClipboardList /> }
     ]
   },
   {

@@ -32,8 +32,16 @@ export const STAFF_STATUS = {
 
 export const APPOINTMENT_STATUS = {
   SCHEDULED: {
-    label: "Đã lên lịch",
+    label: "Đã đặt lịch",
     color: "var(--color-secondary)"
+  },
+  RESCHEDULED: {
+    label: "Đã dời lịch",
+    color: "var(--color-purple)"
+  },
+  CONFIRMED: {
+    label: "Đã xác nhận",
+    color: "var(--color-cyan)"
   },
   COMPLETED: {
     label: "Đã hoàn thành",

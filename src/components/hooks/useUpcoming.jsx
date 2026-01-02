@@ -14,13 +14,16 @@ function useUpcoming({ appointments, doctors, patients }) {
         const doctor = doctors.find((d) => d.id === appointment.doctorId);
         const patient = patients.find((p) => p.id === appointment.patientId);
 
-        const dateTime = new Date(`${appointment.date}T${appointment.timeStart}`);
+        const dateTime = new Date(`${appointment.date}T${appointment.scheduled}`);
 
         return {
           ...appointment,
           doctorName: doctor ? `${doctor.firstName} ${doctor.lastName}` : "—",
           patientName: patient ? `${patient.firstName} ${patient.lastName}` : "—",
-          dateTime: new Date(`${appointment.date}T${appointment.timeStart}`),
+          patientPhone: patient ? patient.phone : null,
+          patientEmail: patient ? patient.email : null,
+          patientBirthday: patient ? patient.birthday : null,
+          dateTime: new Date(`${appointment.date}T${appointment.scheduled}`),
           avatarDoctor: doctor ? doctor.avatarUrl : null,
           dateTime,
           isToday: isSameDay(dateTime, now)
