@@ -3,4 +3,7 @@ export { default as useLogin } from "./useLogin";
 export { default as useUsers } from "./useUsers";
 export { default as useForm } from "./useForm";
 export { default as useUpcoming } from "./useUpcoming";
-export { default as useCalendar } from "./useCalendar";
+export { default as useAppointmentCalendar } from "./useAppointmentCalendar";
+export { default as useShiftConfig } from "./useShiftConfig";
+export { default as useDoctorCalendar } from "./useDoctorCalendar";
+export { default as useScheduleResize } from "./useScheduleResize";

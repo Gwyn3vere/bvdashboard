@@ -19,3 +19,12 @@ export const PATIENT_GENDER_OPTIONS = [
   { value: "FEMALE", text: "Nữ" },
   { value: "OTHER", text: "KHÁC" }
 ];
+
+export const SESSION_PRESETS = {
+  morning: { label: "Buổi sáng", start: "08:00", end: "12:00" },
+  afternoon: { label: "Buổi chiều", start: "14:00", end: "18:00" },
+  allday: { label: "Cả ngày", start: "08:00", end: "18:00" },
+  custom: { label: "Tùy chỉnh", start: "08:00", end: "12:00" }
+};
+
+export const WEEK_DAYS = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];

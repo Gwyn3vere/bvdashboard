@@ -3,7 +3,7 @@ import { dashboardLayout } from "../components/layouts";
 import { Dashboard } from "../pages/Dashboard";
 import { Appointment } from "../pages/Appointment";
 import { Staff } from "../pages/Staff";
-import { Doctor } from "../pages/Doctor";
+import { Doctor, Calendar } from "../pages/Doctor";
 import { News, Post } from "../pages/News";
 import { Banner } from "../pages/Banner";
 
@@ -29,6 +29,12 @@ const privateRoutes = [
   {
     path: "/quan-ly-bac-si",
     component: Doctor,
+    layout: dashboardLayout,
+    role: ["admin", "user"]
+  },
+  {
+    path: "/quan-ly-bac-si/lich-lam-viec",
+    component: Calendar,
     layout: dashboardLayout,
     role: ["admin", "user"]
   },

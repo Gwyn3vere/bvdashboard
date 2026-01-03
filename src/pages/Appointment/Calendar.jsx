@@ -1,7 +1,7 @@
 // Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
 import React, { useState, useMemo } from "react";
-import { useCalendar, useActive, useUpcoming } from "../../components/hooks";
+import { useAppointmentCalendar, useActive, useUpcoming } from "../../components/hooks";
 import { mockAppointments, mockDoctors, mockPatients } from "../../mock/manage";
 import { APPOINTMENT_STATUS } from "../../constants/status";
 // Styles - UI - Motions
@@ -19,7 +19,7 @@ function Calendar() {
     patients: mockPatients
   });
 
-  const calendar = useCalendar(upcomingAppointments);
+  const calendar = useAppointmentCalendar(upcomingAppointments);
   const select = useActive();
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);

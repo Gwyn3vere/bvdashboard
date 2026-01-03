@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 
-function useCalendar(appointments) {
+function useAppointmentCalendar(appointments) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Format date - sử dụng local date để tránh lỗi timezone
@@ -94,4 +94,4 @@ function useCalendar(appointments) {
   };
 }
 
-export default useCalendar;
+export default useAppointmentCalendar;

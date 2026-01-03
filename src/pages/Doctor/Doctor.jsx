@@ -3,10 +3,11 @@ import classNames from "classnames/bind";
 import { mockDoctors, mockDoctorAppointmentStats } from "../../mock/manage";
 import { DOCTOR_STATUS } from "../../constants/status";
 import { useActive } from "../../components/hooks";
+import { Link } from "react-router-dom";
 // Styles - UI
 import styles from "../../styles/pages.module.css";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
-import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen } from "react-icons/lu";
+import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuCalendarRange } from "react-icons/lu";
 import { TiWarning } from "react-icons/ti";
 import { Create, Edit } from ".";
 
@@ -39,79 +40,7 @@ function Doctor() {
         itemClassName="text-[14px] text-gray-500"
         className="mb-5 mt-1"
       />
-      <div className="flex justify-between items-end mb-5">
-        <div className="flex gap-2">
-          <Item as="strong" children="Tổng thành viên:" />
-          <span>20</span>
-        </div>
-        <div className="flex gap-2">
-          <Search className="rounded-[8px]" />
-          <Button
-            icon={<LuListFilter />}
-            children="Bộ lọc"
-            width="auto"
-            onClick={modal.filter.toggleActive}
-            className="text-[14px] border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
-          />
-          <Modal
-            open={modal.filter.isActive}
-            onClose={() => modal.filter.toggleActive(false)}
-            backdrop={true}
-            style={{ boxShadow: "var(--shadow)" }}
-            className="bg-[var(--color-bg-light-primary-300)]"
-            footer={
-              <Button
-                form="staffForm"
-                type="submit"
-                children="Xác nhận"
-                width="100%"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-              />
-            }
-          >
-            <Filter onClose={() => modal.filter.toggleActive(false)} />
-          </Modal>
-          <Button
-            icon={<LuUserRoundPlus />}
-            children="Thêm mới"
-            width="auto"
-            onClick={modal.add.toggleActive}
-            iconClassName="text-[20px]"
-            className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-bold"
-          />
-          <Modal
-            open={modal.add.isActive}
-            onClose={modal.add.toggleActive}
-            backdrop={true}
-            width="w-[700px]"
-            footer={
-              <div className="flex justify-end gap-2 mt-5 text-[14px]">
-                <Button
-                  onClick={modal.add.deactivate}
-                  children="Huỷ"
-                  width="auto"
-                  height={40}
-                  className="px-4 py-2 font-bold"
-                  style={{ background: "var(--color-bg-light-primary-300)" }}
-                />
-                <Button
-                  form="doctorForm"
-                  type="submit"
-                  children="Xác nhận"
-                  width="auto"
-                  height={40}
-                  className="px-4 py-2 font-bold"
-                  style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
-                />
-              </div>
-            }
-          >
-            <Create onClose={modal.add.deactivate} />
-          </Modal>
-        </div>
-      </div>
+      <OptionBar modal={modal} />
 
       <List
         className={cx(
@@ -286,3 +215,98 @@ function Doctor() {
 }
 
 export default Doctor;
+
+function OptionBar({ modal }) {
+  return (
+    <div className="flex justify-between items-end mb-5">
+      <div className="flex gap-2">
+        <Item as="strong" children="Tổng bác sĩ:" />
+        <span>20</span>
+      </div>
+      <div className="flex gap-2">
+        <Search className="rounded-[8px]" />
+        {/* Filter */}
+        <Button
+          icon={<LuListFilter />}
+          children="Bộ lọc"
+          width="auto"
+          onClick={modal.filter.toggleActive}
+          className="text-[14px] border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
+        />
+        <Modal
+          open={modal.filter.isActive}
+          onClose={() => modal.filter.toggleActive(false)}
+          backdrop={true}
+          style={{ boxShadow: "var(--shadow)" }}
+          className="bg-[var(--color-bg-light-primary-300)]"
+          footer={
+            <Button
+              form="staffForm"
+              type="submit"
+              children="Xác nhận"
+              width="100%"
+              height={40}
+              className="px-4 py-2 font-bold"
+              style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+            />
+          }
+        >
+          <Filter onClose={() => modal.filter.toggleActive(false)} />
+        </Modal>
+        {/* Shift */}
+        <Item
+          as={Link}
+          to="/quan-ly-bac-si/lich-lam-viec"
+          icon={<LuCalendarRange />}
+          children="Quản lý ca làm việc"
+          width="auto"
+          onClick={modal.filter.toggleActive}
+          iconClassName="text-[20px]"
+          className={cx(
+            "gap-2 text-[14px] border-2 px-3 rounded-[8px]",
+            "border-[var(--color-bg-light-primary-300)] cursor-pointer",
+            "font-bold flex items-center"
+          )}
+        />
+        {/* Create */}
+        <Button
+          icon={<LuUserRoundPlus />}
+          children="Thêm mới"
+          width="auto"
+          onClick={modal.add.toggleActive}
+          iconClassName="text-[20px]"
+          className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-bold"
+        />
+        <Modal
+          open={modal.add.isActive}
+          onClose={modal.add.toggleActive}
+          backdrop={true}
+          width="w-[700px]"
+          footer={
+            <div className="flex justify-end gap-2 mt-5 text-[14px]">
+              <Button
+                onClick={modal.add.deactivate}
+                children="Huỷ"
+                width="auto"
+                height={40}
+                className="px-4 py-2 font-bold"
+                style={{ background: "var(--color-bg-light-primary-300)" }}
+              />
+              <Button
+                form="doctorForm"
+                type="submit"
+                children="Xác nhận"
+                width="auto"
+                height={40}
+                className="px-4 py-2 font-bold"
+                style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
+              />
+            </div>
+          }
+        >
+          <Create onClose={modal.add.deactivate} />
+        </Modal>
+      </div>
+    </div>
+  );
+}
