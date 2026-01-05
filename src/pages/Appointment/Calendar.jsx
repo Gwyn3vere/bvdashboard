@@ -1,7 +1,7 @@
 // Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
 import React, { useState, useMemo } from "react";
-import { useCalendar, useActive, useUpcoming } from "../../components/hooks";
+import { useAppointmentCalendar, useActive, useUpcoming } from "../../components/hooks";
 import { mockAppointments, mockDoctors, mockPatients } from "../../mock/manage";
 import { APPOINTMENT_STATUS } from "../../constants/status";
 // Styles - UI - Motions
@@ -19,7 +19,7 @@ function Calendar() {
     patients: mockPatients
   });
 
-  const calendar = useCalendar(upcomingAppointments);
+  const calendar = useAppointmentCalendar(upcomingAppointments);
   const select = useActive();
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -50,198 +50,197 @@ function Calendar() {
 
   return (
     <div className="rounded-[8px] p-6 bg-white" style={{ boxShadow: "var(--shadow)" }}>
-      <div>
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-4">
-            <Button
-              width={40}
-              height={40}
-              icon={<LuChevronLeft />}
-              onClick={calendar.goToPreviousMonth}
-              className={cx(
-                "p-2 rounded-lg transition-colors",
-                "bg-[var(--color-bg-light-primary-300)]",
-                "hover:bg-[var(--color-primary)] hover:text-white"
-              )}
-            />
-            <Item
-              as="h2"
-              children={`Tháng ${calendar.currentDate.getMonth() + 1}, ${calendar.currentDate.getFullYear()}`}
-              className={cx("text-xl font-bold px-2 text-center w-[200px]")}
-            />
-            <Button
-              width={40}
-              height={40}
-              icon={<LuChevronRight />}
-              onClick={calendar.goToNextMonth}
-              className={cx(
-                "p-2 rounded-lg transition-colors",
-                "bg-[var(--color-bg-light-primary-300)]",
-                "hover:bg-[var(--color-primary)] hover:text-white"
-              )}
-            />
-          </div>
-
-          <div className="flex items-center gap-5">
-            <div className="flex gap-4 text-sm">
-              {Object.entries(APPOINTMENT_STATUS).map(([status, colors]) => (
-                <div key={status} className="flex items-center gap-2">
-                  <Item as="div" className={cx(`w-3 h-3 rounded-full`)} style={{ background: `${colors.color}` }} />
-                  <Item as="span" children={colors.label} className="text-gray-600" />
-                </div>
-              ))}
-            </div>
-            <Button
-              height={40}
-              onClick={calendar.goToToday}
-              className={cx(
-                "px-4 py-2 rounded-[8px] transition-colors font-bold",
-                "bg-[var(--color-primary)] text-white text-[14px]"
-              )}
-              children="Hôm nay"
-            />
-          </div>
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-4">
+          <Button
+            width={40}
+            height={40}
+            icon={<LuChevronLeft />}
+            onClick={calendar.goToPreviousMonth}
+            className={cx(
+              "p-2 rounded-lg transition-colors",
+              "bg-[var(--color-bg-light-primary-300)]",
+              "hover:bg-[var(--color-primary)] hover:text-white"
+            )}
+          />
+          <Item
+            as="h2"
+            children={`Tháng ${calendar.currentDate.getMonth() + 1}, ${calendar.currentDate.getFullYear()}`}
+            className={cx("text-xl font-bold px-2 text-center w-[200px]")}
+          />
+          <Button
+            width={40}
+            height={40}
+            icon={<LuChevronRight />}
+            onClick={calendar.goToNextMonth}
+            className={cx(
+              "p-2 rounded-lg transition-colors",
+              "bg-[var(--color-bg-light-primary-300)]",
+              "hover:bg-[var(--color-primary)] hover:text-white"
+            )}
+          />
         </div>
 
-        <div className="bg-white rounded-[8px] overflow-hidden">
-          <div className="grid grid-cols-7 bg-gray-50 ">
-            {weekDays.map((day, idx) => (
-              <div
-                key={idx}
-                className={cx(
-                  "p-3 text-center font-semibold text-white",
-                  "bg-[var(--color-primary)] border-r last:border-r-0"
-                )}
-              >
-                {day}
+        <div className="flex items-center gap-5">
+          <div className="flex gap-4 text-sm">
+            {Object.entries(APPOINTMENT_STATUS).map(([status, colors]) => (
+              <div key={status} className="flex items-center gap-2">
+                <Item as="div" className={cx(`w-3 h-3 rounded-full`)} style={{ background: `${colors.color}` }} />
+                <Item as="span" children={colors.label} className="text-gray-600" />
               </div>
             ))}
           </div>
+          <Button
+            height={40}
+            onClick={calendar.goToToday}
+            className={cx(
+              "px-4 py-2 rounded-[8px] transition-colors font-bold",
+              "bg-[var(--color-primary)] text-white text-[14px]"
+            )}
+            children="Hôm nay"
+          />
+        </div>
+      </div>
 
-          <div className="grid grid-cols-7">
-            {calendar.daysInMonth.map((day, idx) => {
-              const appointments = calendar.getAppointmentsForDate(day.date);
-              const isCurrentDay = calendar.isToday(day.date);
-              const hasMany = appointments.length > 2;
+      <div className="bg-white rounded-[8px] overflow-hidden">
+        <div className="grid grid-cols-7">
+          {weekDays.map((day, idx) => (
+            <Item
+              as="div"
+              children={day}
+              key={idx}
+              className={cx(
+                "p-3 text-center font-semibold text-white",
+                "bg-[var(--color-primary)] border-r last:border-r-0"
+              )}
+            />
+          ))}
+        </div>
 
-              return (
-                <div
-                  key={idx}
-                  className={`min-h-32 border border-gray-200 p-2 relative ${
-                    !day.isCurrentMonth ? "bg-[var(--color-bg-light-primary-200)]" : "bg-white"
-                  } ${isCurrentDay ? "bg-[var(--color-bg-light-primary-300)]" : ""} ${
-                    hasMany ? "cursor-pointer hover:bg-gray-50 transition-colors" : ""
-                  }`}
-                  onClick={hasMany ? () => handleOpenDayModal(day.date) : undefined}
-                >
-                  <div className="flex items-center justify-between mb-2 h-5">
-                    <div className="flex items-center gap-1">
+        <div className="grid grid-cols-7">
+          {calendar.daysInMonth.map((day, idx) => {
+            const appointments = calendar.getAppointmentsForDate(day.date);
+            const isCurrentDay = calendar.isToday(day.date);
+            const hasMany = appointments.length > 2;
+
+            return (
+              <div
+                key={idx}
+                className={`min-h-32 border border-gray-200 p-2 relative ${
+                  !day.isCurrentMonth ? "bg-[var(--color-bg-light-primary-200)]" : "bg-white"
+                } ${isCurrentDay ? "bg-[var(--color-bg-light-primary-300)]" : ""} ${
+                  hasMany ? "cursor-pointer hover:bg-gray-50 transition-colors" : ""
+                }`}
+                onClick={hasMany ? () => handleOpenDayModal(day.date) : undefined}
+              >
+                <div className="flex items-center justify-between mb-2 h-5">
+                  <div className="flex items-center gap-1">
+                    <Item
+                      as="span"
+                      children={day.date.getDate()}
+                      className={`text-sm font-semibold ${
+                        !day.isCurrentMonth
+                          ? "text-[var(--color-bg-light-primary-500)]"
+                          : "text-[var(--color-text-light-primary)]"
+                      } ${
+                        isCurrentDay
+                          ? "bg-[var(--color-primary)] w-5 h-5 text-white rounded-full flex items-center justify-center"
+                          : ""
+                      }`}
+                    />
+
+                    {appointments.length > 0 && (
                       <Item
                         as="span"
-                        children={day.date.getDate()}
-                        className={`text-sm font-semibold ${
-                          !day.isCurrentMonth
-                            ? "text-[var(--color-bg-light-primary-500)]"
-                            : "text-[var(--color-text-light-primary)]"
-                        } ${
-                          isCurrentDay
-                            ? "bg-[var(--color-primary)] w-7 h-7 text-white rounded-full flex items-center justify-center"
-                            : ""
-                        }`}
+                        children={appointments.length}
+                        className={cx(
+                          "flex items-center justify-center",
+                          "text-xs w-5 h-5 rounded-full",
+                          "bg-[var(--color-primary)] text-white font-bold"
+                        )}
                       />
-
-                      {appointments.length > 0 && (
-                        <Item
-                          as="span"
-                          children={appointments.length}
-                          className={cx(
-                            "flex items-center justify-center",
-                            "text-xs w-5 h-5 rounded-full",
-                            "bg-[var(--color-primary)] text-white font-bold"
-                          )}
-                        />
-                      )}
-                    </div>
-                    {day.isCurrentMonth && (
-                      <Button
-                        width={4}
-                        height={4}
-                        icon={<LuPlus />}
+                    )}
+                  </div>
+                  {day.isCurrentMonth && (
+                    <Button
+                      width={4}
+                      height={4}
+                      icon={<LuPlus />}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Handle add appointment
+                      }}
+                      className="flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                    />
+                  )}
+                </div>
+                <div className="space-y-1">
+                  {appointments.slice(0, 2).map((apt) => {
+                    const apptConfig = APPOINTMENT_STATUS[apt.status];
+                    return (
+                      <div
+                        key={apt.id}
                         onClick={(e) => {
                           e.stopPropagation();
-                          // Handle add appointment
+                          setSelectedAppointment(apt);
+                          select.activate();
                         }}
-                        className="flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
-                      />
-                    )}
-                  </div>
-                  <div className="space-y-1">
-                    {appointments.slice(0, 2).map((apt) => {
-                      const apptConfig = APPOINTMENT_STATUS[apt.status];
-                      return (
-                        <div
-                          key={apt.id}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedAppointment(apt);
-                            select.activate();
-                          }}
-                          className={cx("text-white", "rounded-[8px] px-2 py-1 cursor-pointer transition-shadow")}
-                          style={{ background: `${apptConfig.color}` }}
-                        >
-                          <div className="flex items-center gap-1 mb-0.5 ">
-                            <LuClock className="w-3 h-3" />
-                            <Item as="span" children={apt.scheduled} className="text-xs font-semibold" />
-                          </div>
-                          <Item as="div" children={`Bs. ${apt.doctorName}`} className="text-xs truncate font-medium" />
-                          <Item as="div" children={apt.specialty} className="text-xs  truncate" />
+                        className={cx("text-white", "rounded-[8px] px-2 py-1 cursor-pointer transition-shadow")}
+                        style={{ background: `${apptConfig.color}` }}
+                      >
+                        <div className="flex items-center gap-1 mb-0.5 ">
+                          <LuClock className="w-3 h-3" />
+                          <Item as="span" children={apt.scheduled} className="text-xs font-semibold" />
                         </div>
-                      );
-                    })}
-                    {appointments.length > 2 && (
-                      <div className="bg-[var(--color-bg-light-primary-500)] rounded-[8px] px-2 py-1 text-center">
-                        <Item
-                          as="div"
-                          children={`+${appointments.length - 2} lịch khác`}
-                          className="text-xs text-gray-700 font-semibold"
-                        />
-                        <Item children="Click để xem tất cả" className="text-xs text-gray-500 mt-0.5" />
+                        <Item as="div" children={`Bs. ${apt.doctorName}`} className="text-xs truncate font-medium" />
+                        <Item as="div" children={apt.specialty} className="text-xs  truncate" />
                       </div>
-                    )}
-                  </div>
+                    );
+                  })}
+                  {appointments.length > 2 && (
+                    <div className="bg-[var(--color-bg-light-primary-500)] rounded-[8px] px-2 py-1 text-center">
+                      <Item
+                        as="div"
+                        children={`+${appointments.length - 2} lịch khác`}
+                        className="text-xs text-gray-700 font-semibold"
+                      />
+                      <Item children="Click để xem tất cả" className="text-xs text-gray-500 mt-0.5" />
+                    </div>
+                  )}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-        <Modal
-          open={select.isActive}
-          onClose={handleCloseAppointmentModal}
-          backdrop={true}
-          style={{ boxShadow: "var(--shadow)" }}
-          footer={
-            <div className="flex justify-end gap-2 mt-5 text-[14px]">
-              <Button
-                onClick={handleCloseAppointmentModal}
-                children="Huỷ"
-                width="auto"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-bg-light-primary-300)" }}
-              />
-              <Button
-                children="Xác nhận"
-                width="auto"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
-              />
-            </div>
-          }
-        >
-          {selectedAppointment && <Detail data={selectedAppointment} onClose={handleCloseAppointmentModal} />}
-        </Modal>
-        {/* {showDayModal && selectedDate && (
+      </div>
+      <Modal
+        open={select.isActive}
+        onClose={handleCloseAppointmentModal}
+        backdrop={true}
+        style={{ boxShadow: "var(--shadow)" }}
+        footer={
+          <div className="flex justify-end gap-2 mt-5 text-[14px]">
+            <Button
+              onClick={handleCloseAppointmentModal}
+              children="Huỷ"
+              width="auto"
+              height={40}
+              className="px-4 py-2 font-bold"
+              style={{ background: "var(--color-bg-light-primary-300)" }}
+            />
+            <Button
+              children="Xác nhận"
+              width="auto"
+              height={40}
+              className="px-4 py-2 font-bold"
+              style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
+            />
+          </div>
+        }
+      >
+        {selectedAppointment && <Detail data={selectedAppointment} onClose={handleCloseAppointmentModal} />}
+      </Modal>
+      {/* {showDayModal && selectedDate && (
           <div
             className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
             onClick={handleCloseDayModal}
@@ -319,7 +318,6 @@ function Calendar() {
             </div>
           </div>
         )} */}
-      </div>
     </div>
   );
 }

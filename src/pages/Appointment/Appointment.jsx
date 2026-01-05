@@ -5,15 +5,7 @@ import { useState } from "react";
 import styles from "../../styles/pages.module.css";
 import { Calendar } from "./index";
 import { Breadcrumb, Item } from "../../components/ui";
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuClock,
-  LuUser,
-  LuStethoscope,
-  LuPlus,
-  LuLayoutDashboard
-} from "react-icons/lu";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
@@ -36,7 +28,8 @@ function Appointment() {
       />
 
       <div className="flex-1 overflow-auto p-1 hidden-scrollbar">
-        <div className="xl:grid grid-cols-[80%_20%] gap-5">
+        <div className="xl:grid grid-cols-[20%_80%]">
+          s
           <Calendar />
         </div>
       </div>
