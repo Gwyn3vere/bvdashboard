@@ -260,7 +260,6 @@ function OptionBar({ modal }) {
           icon={<LuCalendarRange />}
           children="Quản lý ca làm việc"
           width="auto"
-          onClick={modal.filter.toggleActive}
           iconClassName="text-[20px]"
           className={cx(
             "gap-2 text-[14px] border-2 px-3 rounded-[8px]",

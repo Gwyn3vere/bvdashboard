@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { scheduleStore } from "../../store/scheduleStore";
+import { formatDate } from "../../utils/format";
 
 export default function useDoctorCalendar() {
   const { addDoctorToDate, getSchedulesByDate } = scheduleStore();
@@ -18,6 +19,11 @@ export default function useDoctorCalendar() {
     setCurrentDate(new Date());
   };
 
+  const isToday = (date) => {
+    const today = new Date();
+    return formatDate(date) === formatDate(today);
+  };
+
   const handleDragStart = (doctorId) => {
     setDraggedDoctorId(doctorId);
   };
@@ -31,6 +37,7 @@ export default function useDoctorCalendar() {
   return {
     currentDate,
     draggedDoctorId,
+    isToday,
     goToPreviousMonth,
     goToNextMonth,
     goToToday,
