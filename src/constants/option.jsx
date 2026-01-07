@@ -21,10 +21,37 @@ export const PATIENT_GENDER_OPTIONS = [
 ];
 
 export const SESSION_PRESETS = {
-  morning: { label: "Buổi sáng", start: "08:00", end: "12:00" },
-  afternoon: { label: "Buổi chiều", start: "14:00", end: "18:00" },
-  allday: { label: "Cả ngày", start: "08:00", end: "18:00" },
-  custom: { label: "Tùy chỉnh", start: "08:00", end: "12:00" }
+  morning: { label: "Buổi sáng", start: "08:00", end: "11:00" },
+  afternoon: { label: "Buổi chiều", start: "13:00", end: "17:00" },
+  allday: { label: "Cả ngày", start: "08:00", end: "17:00" },
+  custom: { label: "Tùy chỉnh", start: "08:00", end: "11:00" }
 };
 
 export const WEEK_DAYS = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+
+export const COLOR_PALETTE = [
+  {
+    bg: "var(--color-primary-500)",
+    text: "var(--color-primary-900)"
+  },
+  {
+    bg: "var(--color-secondary-500)",
+    text: "var(--color-secondary-900)"
+  },
+  {
+    bg: "var(--color-error-500)",
+    text: "var(--color-error-900)"
+  },
+  {
+    bg: "var(--color-warning-500)",
+    text: "var(--color-warning-900)"
+  },
+  {
+    bg: "var(--color-cyan-500)",
+    text: "var(--color-cyan-900)"
+  },
+  {
+    bg: "var(--color-purple-500)",
+    text: "var(--color-purple-900)"
+  }
+];

@@ -77,5 +77,10 @@ export const scheduleStore = create((set, get) => ({
 
   getSchedulesByDate: (date) => {
     return get().workSchedules[date] || [];
+  },
+
+  isDoctorScheduledOnDate: (date, doctorId) => {
+    const schedules = get().workSchedules[date] || [];
+    return schedules.some((s) => s.doctorId === doctorId);
   }
 }));

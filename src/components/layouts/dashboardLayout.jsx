@@ -27,7 +27,7 @@ function dashboardLayout({ children }) {
   }, []);
 
   return (
-    <main className="overflow-hidden h-screen min-h-screen">
+    <main className="relative overflow-hidden h-screen min-h-screen">
       <div className="flex h-full">
         <Sidebar collapsed={isCollapsed} setCollapsed={setIsCollapsed} />
         <div

@@ -4,12 +4,15 @@ import { scheduleStore } from "../../store/scheduleStore";
 import { useShiftConfig } from "../../components/hooks";
 import { SESSION_PRESETS } from "../../constants/option";
 import { DatePicker } from "./index";
+import { Toast } from "../../components/ui";
 
 export default function Shift({ schedule, date, onClose }) {
   const { getDoctorById } = scheduleStore();
   const doctor = getDoctorById(schedule.doctorId);
 
   const {
+    toast,
+    setToast,
     sessionType,
     slotDuration,
     startTime,
@@ -26,7 +29,8 @@ export default function Shift({ schedule, date, onClose }) {
     deselectAllSlots,
     getSelectedSlots,
     saveConfig,
-    copyToOtherDays
+    copyToOtherDays,
+    getTimeConstraints
   } = useShiftConfig(schedule, date);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -43,6 +47,7 @@ export default function Shift({ schedule, date, onClose }) {
   };
 
   const selectedSlots = getSelectedSlots();
+  const constraints = getTimeConstraints();
 
   return (
     <>
@@ -101,6 +106,8 @@ export default function Shift({ schedule, date, onClose }) {
                     type="time"
                     value={startTime}
                     onChange={(e) => setStartTime(e.target.value)}
+                    min={constraints.min || undefined}
+                    max={constraints.max || undefined}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none"
                   />
                 </div>
@@ -110,6 +117,8 @@ export default function Shift({ schedule, date, onClose }) {
                     type="time"
                     value={endTime}
                     onChange={(e) => setEndTime(e.target.value)}
+                    min={constraints.min || undefined}
+                    max={constraints.max || undefined}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none"
                   />
                 </div>
@@ -119,7 +128,7 @@ export default function Shift({ schedule, date, onClose }) {
             {sessionType === "allday" && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-sm text-blue-700">
-                  <strong>Cả ngày</strong> bao gồm: Sáng 8h-12h và Chiều 14h-18h (có nghỉ trưa)
+                  <strong>Cả ngày</strong> bao gồm: Sáng 8h-11h và Chiều 13h-17h (có nghỉ trưa)
                 </p>
               </div>
             )}
@@ -232,6 +241,14 @@ export default function Shift({ schedule, date, onClose }) {
       {showDatePicker && (
         <DatePicker sourceDate={date} onClose={() => setShowDatePicker(false)} onConfirm={handleCopyToOtherDays} />
       )}
+      <Toast
+        visible={!!toast}
+        duration={3000}
+        position="bottom-right"
+        onClose={() => setToast(null)}
+        type={toast?.type}
+        content={toast?.message}
+      />
     </>
   );
 }
