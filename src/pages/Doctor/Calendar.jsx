@@ -3,11 +3,11 @@ import { useState, useMemo } from "react";
 import classNames from "classnames/bind";
 import { scheduleStore } from "../../store/scheduleStore";
 import { useDoctorCalendar, useScheduleResize } from "../../components/hooks";
-import { SESSION_PRESETS, WEEK_DAYS, COLOR_PALETTE } from "../../constants/option";
+import { SESSION_PRESETS, WEEK_DAYS } from "../../constants/option";
 // Styles- UI - utils - Icon
 import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical } from "react-icons/lu";
 import { getDaysInMonth, formatDate } from "../../utils/format";
-import { assignColors } from "../../utils/color";
+import { getColorHexByName } from "../../utils/color";
 import { Card, Shift } from "./index";
 import { Breadcrumb, Item, Button, Search, Toast } from "../../components/ui";
 import styles from "../../styles/pages.module.css";
@@ -16,8 +16,6 @@ const cx = classNames.bind(styles);
 
 function Calendar() {
   const { doctors, getSchedulesByDate, getDoctorById, removeSchedule } = scheduleStore();
-
-  const coloredDoctors = useMemo(() => assignColors(doctors, COLOR_PALETTE), [doctors]);
 
   const {
     toast,
@@ -127,8 +125,8 @@ function Calendar() {
               maxHeight: "725px"
             }}
           >
-            {coloredDoctors.map((doctor) => (
-              <Card key={doctor.id} doctor={doctor} color={doctor.__uiColor} onDragStart={handleDragStartEvent} />
+            {doctors.map((doctor) => (
+              <Card key={doctor.id} doctor={doctor} onDragStart={handleDragStartEvent} />
             ))}
           </div>
         </div>
@@ -216,7 +214,7 @@ function Calendar() {
                       onMouseEnter={() => handleResizeMove(dateStr)}
                       className={`min-h-32 border border-gray-200 p-2 relative ${
                         !day.isCurrentMonth ? "bg-[var(--color-bg-light-primary-200)]" : "bg-white"
-                      } ${draggedDoctorId && day.isCurrentMonth ? "hover:bg-blue-50" : ""} ${
+                      } ${draggedDoctorId && day.isCurrentMonth ? "hover:bg-green-50" : ""} ${
                         isDateInResizeRange(dateStr) ? "bg-green-100 ring-2 ring-[var(--color-primary)] ring-inset" : ""
                       }`}
                     >
@@ -236,6 +234,7 @@ function Calendar() {
                       <div className="mt-1 space-y-1">
                         {schedules.map((schedule) => {
                           const doctor = getDoctorById(schedule.doctorId);
+                          const colorHex = getColorHexByName(schedule.colorName || doctor?.colorName);
                           const isResizeActive =
                             isResizing &&
                             resizingSchedule?.scheduleId === schedule.scheduleId &&
@@ -245,7 +244,8 @@ function Calendar() {
                             <div
                               key={schedule.scheduleId}
                               onClick={() => handleScheduleClick(schedule, dateStr)}
-                              className={`bg-blue-500 text-white px-2 py-1 rounded text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
+                              style={{ backgroundColor: colorHex }}
+                              className={` text-white px-2 py-1 rounded text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
                             >
                               <div className="font-medium truncate">{doctor?.firstName + " " + doctor?.lastName}</div>
                               {schedule.configured && schedule.sessionType && (

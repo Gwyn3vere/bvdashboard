@@ -1,86 +1,103 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { mockDoctors } from "../mock/manage";
+import { getColorByIndex } from "../utils/color";
 
-export const scheduleStore = create((set, get) => ({
-  doctors: mockDoctors,
-  workSchedules: {},
+export const scheduleStore = create(
+  (set, get) => ({
+    doctors: mockDoctors,
+    workSchedules: {},
 
-  addDoctorToDate: (date, doctorId) => {
-    const scheduleId = `schedule_${Date.now()}_${Math.random()}`;
-    set((state) => ({
-      workSchedules: {
-        ...state.workSchedules,
-        [date]: [
-          ...(state.workSchedules[date] || []),
-          {
-            scheduleId,
-            doctorId,
-            date,
-            shifts: [],
-            configured: false
-          }
-        ]
-      }
-    }));
-    return scheduleId;
-  },
+    addDoctorToDate: (date, doctorId) => {
+      const doctorIndex = get().doctors.findIndex((d) => d.id === doctorId);
+      const color = getColorByIndex(doctorIndex);
 
-  removeSchedule: (date, scheduleId) => {
-    set((state) => ({
-      workSchedules: {
-        ...state.workSchedules,
-        [date]: (state.workSchedules[date] || []).filter((s) => s.scheduleId !== scheduleId)
-      }
-    }));
-  },
+      const scheduleId = `schedule_${Date.now()}_${Math.random()}`;
+      set((state) => ({
+        workSchedules: {
+          ...state.workSchedules,
+          [date]: [
+            ...(state.workSchedules[date] || []),
+            {
+              scheduleId,
+              doctorId,
+              colorName: color.name,
+              date,
+              shifts: [],
+              configured: false
+            }
+          ]
+        }
+      }));
+      return scheduleId;
+    },
 
-  updateScheduleConfig: (date, scheduleId, config) => {
-    set((state) => ({
-      workSchedules: {
-        ...state.workSchedules,
-        [date]: (state.workSchedules[date] || []).map((schedule) =>
-          schedule.scheduleId === scheduleId ? { ...schedule, ...config, configured: true } : schedule
-        )
-      }
-    }));
-  },
+    removeSchedule: (date, scheduleId) => {
+      set((state) => ({
+        workSchedules: {
+          ...state.workSchedules,
+          [date]: (state.workSchedules[date] || []).filter((s) => s.scheduleId !== scheduleId)
+        }
+      }));
+    },
 
-  copyScheduleToOtherDays: (sourceDate, sourceScheduleId, targetDates) => {
-    const sourceSchedule = get().workSchedules[sourceDate]?.find((s) => s.scheduleId === sourceScheduleId);
-    if (!sourceSchedule) return;
+    updateScheduleConfig: (date, scheduleId, config) => {
+      set((state) => ({
+        workSchedules: {
+          ...state.workSchedules,
+          [date]: (state.workSchedules[date] || []).map((schedule) =>
+            schedule.scheduleId === scheduleId ? { ...schedule, ...config, configured: true } : schedule
+          )
+        }
+      }));
+    },
 
-    const config = {
-      sessionType: sourceSchedule.sessionType,
-      slotDuration: sourceSchedule.slotDuration,
-      startTime: sourceSchedule.startTime,
-      endTime: sourceSchedule.endTime,
-      slots: sourceSchedule.slots,
-      generatedSlots: sourceSchedule.generatedSlots,
-      selectedSlotIndices: sourceSchedule.selectedSlotIndices,
-      configured: true
-    };
+    copyScheduleToOtherDays: (sourceDate, sourceScheduleId, targetDates) => {
+      const sourceSchedule = get().workSchedules[sourceDate]?.find((s) => s.scheduleId === sourceScheduleId);
+      if (!sourceSchedule) return;
 
-    targetDates.forEach((targetDate) => {
-      const existingSchedules = get().workSchedules[targetDate] || [];
-      const hasSameDoctor = existingSchedules.some((s) => s.doctorId === sourceSchedule.doctorId);
+      const config = {
+        sessionType: sourceSchedule.sessionType,
+        slotDuration: sourceSchedule.slotDuration,
+        startTime: sourceSchedule.startTime,
+        endTime: sourceSchedule.endTime,
+        slots: sourceSchedule.slots,
+        generatedSlots: sourceSchedule.generatedSlots,
+        selectedSlotIndices: sourceSchedule.selectedSlotIndices,
+        configured: true
+      };
 
-      if (!hasSameDoctor) {
-        const scheduleId = get().addDoctorToDate(targetDate, sourceSchedule.doctorId);
-        get().updateScheduleConfig(targetDate, scheduleId, config);
-      }
-    });
-  },
+      targetDates.forEach((targetDate) => {
+        const existingSchedules = get().workSchedules[targetDate] || [];
+        const hasSameDoctor = existingSchedules.some((s) => s.doctorId === sourceSchedule.doctorId);
 
-  getDoctorById: (doctorId) => {
-    return get().doctors.find((d) => d.id === doctorId);
-  },
+        if (!hasSameDoctor) {
+          const scheduleId = get().addDoctorToDate(targetDate, sourceSchedule.doctorId);
+          get().updateScheduleConfig(targetDate, scheduleId, config);
+        }
+      });
+    },
 
-  getSchedulesByDate: (date) => {
-    return get().workSchedules[date] || [];
-  },
+    getDoctorById: (doctorId) => {
+      return get().doctors.find((d) => d.id === doctorId);
+    },
 
-  isDoctorScheduledOnDate: (date, doctorId) => {
-    const schedules = get().workSchedules[date] || [];
-    return schedules.some((s) => s.doctorId === doctorId);
+    getSchedulesByDate: (date) => {
+      return get().workSchedules[date] || [];
+    },
+
+    isDoctorScheduledOnDate: (date, doctorId) => {
+      const schedules = get().workSchedules[date] || [];
+      return schedules.some((s) => s.doctorId === doctorId);
+    },
+    clearAllSchedules: () => {
+      set({ workSchedules: {} });
+    }
+  }),
+  {
+    name: "doctor-schedule-store",
+    partialize: (state) => ({
+      workSchedules: state.workSchedules
+    })
   }
-}));
+);

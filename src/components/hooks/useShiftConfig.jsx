@@ -10,17 +10,13 @@ export default function useShiftConfig(schedule, date) {
   const [slotDuration, setSlotDuration] = useState(schedule.slotDuration || 30);
   const [startTime, setStartTimeState] = useState(schedule.startTime || "08:00");
   const [endTime, setEndTimeState] = useState(schedule.endTime || "11:00");
-  const [generatedSlots, setGeneratedSlots] = useState(schedule.slots || []);
+  const [generatedSlots, setGeneratedSlots] = useState(schedule.generatedSlots || []);
   const [selectedSlotIndices, setSelectedSlotIndices] = useState(schedule.selectedSlotIndices || []);
-  const [hasGeneratedSlots, setHasGeneratedSlots] = useState(schedule.slots?.length > 0);
+  const [isDirtyConfig, setIsDirtyConfig] = useState(false);
 
   useEffect(() => {
-    if (!hasGeneratedSlots) return;
-
-    setGeneratedSlots([]);
-    setSelectedSlotIndices([]);
-    setHasGeneratedSlots(false);
-  }, [startTime, endTime, slotDuration, sessionType]);
+    setIsDirtyConfig(false);
+  }, [schedule.scheduleId]);
 
   const handleSessionChange = (newSession) => {
     setSessionType(newSession);
@@ -29,6 +25,7 @@ export default function useShiftConfig(schedule, date) {
     setEndTimeState(preset.end);
     setGeneratedSlots([]);
     setSelectedSlotIndices([]);
+    setIsDirtyConfig(true);
   };
 
   const toggleSlot = (index) => {
@@ -94,10 +91,24 @@ export default function useShiftConfig(schedule, date) {
 
   const setStartTime = (time) => {
     setStartTimeState(time);
+    setIsDirtyConfig(true);
   };
 
   const setEndTime = (time) => {
     setEndTimeState(time);
+    setIsDirtyConfig(true);
+  };
+
+  const setSlotDurationValue = (value) => {
+    // if (value < 10) {
+    //   setToast({
+    //     type: "INFO",
+    //     message: `Bạn không thể chọn khoảng cách khung giờ bằng 0. Khuyến nghị: 15, 30, 45 hoặc 60 phút.`
+    //   });
+    //   return;
+    // }
+    setSlotDuration(value);
+    setIsDirtyConfig(true);
   };
 
   const generateSlots = () => {
@@ -153,7 +164,7 @@ export default function useShiftConfig(schedule, date) {
 
     setGeneratedSlots(slots);
     setSelectedSlotIndices(slots.map((_, idx) => idx).sort((a, b) => a - b));
-    setHasGeneratedSlots(true);
+    setIsDirtyConfig(false);
   };
 
   return {
@@ -165,7 +176,9 @@ export default function useShiftConfig(schedule, date) {
     endTime,
     generatedSlots,
     selectedSlotIndices,
+    isDirtyConfig,
     setSlotDuration,
+    setSlotDurationValue,
     setStartTime,
     setEndTime,
     handleSessionChange,

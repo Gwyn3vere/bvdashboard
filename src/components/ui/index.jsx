@@ -18,3 +18,4 @@ export { default as Modal } from "./Modal";
 export { default as Filter } from "./Filter";
 export { default as Select } from "./Select";
 export { default as Toast } from "./Toast";
+export { default as Time } from "./Time";
