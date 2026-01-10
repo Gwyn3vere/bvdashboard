@@ -1,22 +1,27 @@
 // Libraries - Hook - Constants - Store
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import classNames from "classnames/bind";
 import { scheduleStore } from "../../store/scheduleStore";
-import { useDoctorCalendar, useScheduleResize } from "../../components/hooks";
+import { useDoctorCalendar, useScheduleResize, useActive } from "../../components/hooks";
 import { SESSION_PRESETS, WEEK_DAYS } from "../../constants/option";
 // Styles- UI - utils - Icon
-import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical } from "react-icons/lu";
-import { getDaysInMonth } from "../../utils/format";
-import { Card, Shift } from "./index";
-import { Breadcrumb, Item, Button, Search } from "../../components/ui";
+import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical, LuUserPlus } from "react-icons/lu";
+import { getDaysInMonth, formatDate } from "../../utils/format";
+import { getColorHexByName } from "../../utils/color";
+import { Card, Create, Shift } from "./index";
+import { Breadcrumb, Item, Button, Search, Toast, Modal } from "../../components/ui";
 import styles from "../../styles/pages.module.css";
 
 const cx = classNames.bind(styles);
 
 function Calendar() {
-  const { doctors, getSchedulesByDate, getDoctorById, removeSchedule } = scheduleStore();
+  const create = useActive();
+
+  const { doctors, getSchedulesByDate, getDoctorById, removeSchedule, getDirtySchedules } = scheduleStore();
 
   const {
+    toast,
+    setToast,
     currentDate,
     draggedDoctorId,
     goToPreviousMonth,
@@ -33,10 +38,34 @@ function Calendar() {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
 
   const daysInMonth = getDaysInMonth(currentDate);
+  const dirtyCount = getDirtySchedules();
 
   const handleDragStartEvent = (e, doctorId) => {
     handleDragStart(doctorId);
-    e.dataTransfer.effectAllowed = "move";
+
+    const source = e.currentTarget;
+    const rect = source.getBoundingClientRect();
+    const dragImage = source.cloneNode(true);
+
+    dragImage.style.width = `${rect.width}px`;
+    dragImage.style.height = `${rect.height}px`;
+    dragImage.style.opacity = "1";
+    dragImage.style.filter = "none";
+    dragImage.style.backdropFilter = "none";
+    dragImage.style.transform = "none";
+    dragImage.style.boxShadow = "none"; // QUAN TRỌNG
+    dragImage.style.position = "absolute";
+    dragImage.style.top = "-9999px";
+    dragImage.style.left = "-9999px";
+    dragImage.style.pointerEvents = "none";
+
+    document.body.appendChild(dragImage);
+
+    e.dataTransfer.setDragImage(dragImage, rect.width / 2, rect.height / 2);
+
+    setTimeout(() => {
+      document.body.removeChild(dragImage);
+    }, 0);
   };
 
   const handleDragOver = (e) => {
@@ -78,43 +107,63 @@ function Calendar() {
       <div className="rounded-[8px] md:flex gap-5 ">
         {/* Sidebar - Danh sách bác sĩ */}
         <div
-          className={cx("bg-white min-w-[350px] p-6 flex flex-col")}
+          className={cx("bg-white p-6 flex flex-col justify-between w-80")}
           style={{
             boxShadow: "var(--shadow)"
           }}
         >
-          <div className={cx("mb-5 flex-shrink-0 h-[100px] space-y-2")}>
-            <Item as="h4" children="Danh sách bác sĩ" className="text-[18px] font-bold text-gray-900" />
-            <Item
-              as="span"
-              children="Kéo và thả bác sĩ vào lịch để tạo ca làm việc"
-              className="text-[16px] text-gray-600 mb-4"
-            />
+          <div>
+            <div className={cx("mb-2 flex-shrink-0 h-[100px]")}>
+              <Item as="h4" children="Danh sách bác sĩ" className="text-[18px] font-bold text-gray-900 mb-2" />
+              <Item
+                as="span"
+                children="Kéo và thả bác sĩ vào lịch để tạo ca làm việc"
+                className="text-[16px] text-gray-600 mb-4 leading-[1.8]"
+              />
+            </div>
+
             <Search className="rounded-[8px] mb-2" width="100%" height={48} />
+
+            <div
+              className="flex-1 w-full overflow-auto hidden-scrollbar"
+              style={{
+                maxHeight: "500px"
+              }}
+            >
+              {doctors.map((doctor) => (
+                <Card key={doctor.id} doctor={doctor} onDragStart={handleDragStartEvent} />
+              ))}
+            </div>
           </div>
 
-          <div
-            className="flex-1 overflow-auto hidden-scrollbar"
-            style={{
-              maxHeight: "750px"
-            }}
-          >
-            {doctors.map((doctor) => (
-              <Card key={doctor.id} doctor={doctor} onDragStart={handleDragStartEvent} />
-            ))}
+          <div>
+            <Button
+              icon={<LuUserPlus />}
+              children="Thêm mới"
+              width="100%"
+              height={50}
+              onClick={create.toggleActive}
+              className={cx(
+                "bg-[var(--color-primary)] hover:bg-[var(--color-primary-700)]",
+                "transition-all duration-300 text-white font-medium gap-2"
+              )}
+            />
+            <Modal open={create.isActive} onClose={create.deactivate} backdrop={true} width="w-3xl">
+              <Create onClose={create.deactivate} />
+            </Modal>
           </div>
         </div>
 
         {/* Calendar */}
         <div
-          className="p-6 bg-white w-full flex-1"
+          className="p-6 bg-white w-full flex-1 "
           style={{
             boxShadow: "var(--shadow)"
           }}
         >
           {/* Header */}
-          <div className="flex items-center justify-between  mb-5">
-            <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between h-[100px] mb-2">
+            <div className="flex items-center gap-2">
               <Button
                 width={40}
                 height={40}
@@ -125,11 +174,6 @@ function Calendar() {
                   "bg-[var(--color-bg-light-primary-300)]",
                   "hover:bg-[var(--color-primary)] hover:text-white"
                 )}
-              />
-              <Item
-                as="h2"
-                children={`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
-                className={cx("text-xl font-bold px-2 text-center w-[200px]")}
               />
               <Button
                 width={40}
@@ -142,16 +186,31 @@ function Calendar() {
                   "hover:bg-[var(--color-primary)] hover:text-white"
                 )}
               />
+              <Button
+                height={40}
+                onClick={goToToday}
+                className={cx(
+                  "px-4 py-2 rounded-[8px] transition-colors font-bold",
+                  "bg-[var(--color-primary)] text-white text-[14px]"
+                )}
+                children="Hôm nay"
+              />
             </div>
+
+            <Item
+              as="h2"
+              children={`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
+              className={cx("text-xl font-bold px-2 text-center w-[200px]")}
+            />
 
             <Button
               height={40}
-              onClick={goToToday}
+              width="auto"
               className={cx(
                 "px-4 py-2 rounded-[8px] transition-colors font-bold",
                 "bg-[var(--color-primary)] text-white text-[14px]"
               )}
-              children="Hôm nay"
+              children={`Đồng bộ lịch làm việc: ${dirtyCount.length}`}
             />
           </div>
 
@@ -175,7 +234,7 @@ function Calendar() {
             <div className="flex-1 overflow-auto" onMouseUp={handleResizeEnd} onMouseLeave={handleResizeEnd}>
               <div className="grid grid-cols-7">
                 {daysInMonth.map((day, index) => {
-                  const dateStr = day.date.toISOString().split("T")[0];
+                  const dateStr = formatDate(day.date);
                   const schedules = getSchedulesByDate(dateStr);
                   const isCurrentDay = isToday(day.date);
 
@@ -187,8 +246,8 @@ function Calendar() {
                       onMouseEnter={() => handleResizeMove(dateStr)}
                       className={`min-h-32 border border-gray-200 p-2 relative ${
                         !day.isCurrentMonth ? "bg-[var(--color-bg-light-primary-200)]" : "bg-white"
-                      } ${draggedDoctorId && day.isCurrentMonth ? "hover:bg-blue-50" : ""} ${
-                        isDateInResizeRange(dateStr) ? "bg-blue-100 ring-2 ring-blue-500 ring-inset" : ""
+                      } ${draggedDoctorId && day.isCurrentMonth ? "hover:bg-green-50" : ""} ${
+                        isDateInResizeRange(dateStr) ? "bg-green-100 ring-2 ring-[var(--color-primary)] ring-inset" : ""
                       }`}
                     >
                       <Item
@@ -207,6 +266,7 @@ function Calendar() {
                       <div className="mt-1 space-y-1">
                         {schedules.map((schedule) => {
                           const doctor = getDoctorById(schedule.doctorId);
+                          const colorHex = getColorHexByName(schedule.colorName || doctor?.colorName);
                           const isResizeActive =
                             isResizing &&
                             resizingSchedule?.scheduleId === schedule.scheduleId &&
@@ -216,9 +276,12 @@ function Calendar() {
                             <div
                               key={schedule.scheduleId}
                               onClick={() => handleScheduleClick(schedule, dateStr)}
-                              className={`bg-blue-500/50 text-white px-2 py-1 rounded text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
+                              style={{ backgroundColor: colorHex }}
+                              className={` text-white px-2 py-1 rounded text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
                             >
-                              <div className="font-medium truncate">{doctor?.firstName + " " + doctor?.lastName}</div>
+                              <div className="font-medium truncate">
+                                Bs. {doctor?.firstName + " " + doctor?.lastName}
+                              </div>
                               {schedule.configured && schedule.sessionType && (
                                 <div className="text-[10px] opacity-90">
                                   {SESSION_PRESETS[schedule.sessionType]?.label} • {schedule.slots?.length || 0} slots
@@ -260,6 +323,14 @@ function Calendar() {
       {selectedSchedule && (
         <Shift schedule={selectedSchedule} date={selectedSchedule.date} onClose={() => setSelectedSchedule(null)} />
       )}
+      <Toast
+        visible={!!toast}
+        duration={3000}
+        position="bottom-right"
+        onClose={() => setToast(null)}
+        type={toast?.type}
+        content={toast?.message}
+      />
     </div>
   );
 }

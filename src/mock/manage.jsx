@@ -1,3 +1,5 @@
+import { DOCTOR_COLORS } from "../utils/color";
+
 export const mockAccounts = [
   { id: 1, email: "nguyenvana@example.com", username: "Nguyen Van A", password: "password1", role: "admin" },
   { id: 2, email: "tranthib@example.com", username: "Tran Thi B", password: "password2", role: "user" },

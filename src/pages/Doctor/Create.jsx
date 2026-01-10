@@ -16,22 +16,30 @@ function Create({ onClose }) {
   });
   return (
     <div className="relative">
-      <Item children="Thêm bác sĩ" className="flex items-center gap-2 text-2xl font-bold" />
-      <Button
-        icon={<LuX />}
-        width={40}
-        height={40}
-        className={cx("absolute top-0 right-0", "hover:bg-[var(--color-error)] hover:text-white")}
-        iconClassName="text-[20px]"
-        onClick={onClose}
-      />
-      <Item
-        as="div"
-        children="Điền đầy đủ thông tin bác sĩ vào danh sách của bạn."
-        className="mb-5 mt-1"
-        itemClassName="text-[14px] text-gray-500"
-      />
-      <Form id="doctorForm" className="flex flex-col gap-2">
+      <div
+        className={cx(
+          "sticky top-0 bg-white border-b border-gray-200",
+          "p-6 flex items-center justify-between z-10 rounded-t-[8px]"
+        )}
+      >
+        <div>
+          <Item as="h3" children="Thêm bác sĩ" className="text-xl font-bold text-gray-900" />
+          <Item
+            as="div"
+            children="Điền đầy đủ thông tin bác sĩ vào danh sách của bạn."
+            className="text-sm text-gray-600 mt-1"
+          />
+        </div>
+        <Button
+          width={50}
+          height={50}
+          icon={<LuX />}
+          iconClassName="text-2xl"
+          onClick={onClose}
+          className="text-gray-400 hover:text-gray-600"
+        />
+      </div>
+      <Form id="doctorForm" className="flex flex-col gap-2 p-6">
         <AddAvatar data={values} setData={setFieldValue} />
         {/* <DoctorAccount data={values} setData={setFieldValue} />
         <hr className="mt-5 text-gray-300" />

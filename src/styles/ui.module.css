@@ -60,3 +60,76 @@
   color: #999;
   pointer-events: none;
 }
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  width: 370px;
+  z-index: 100;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 16px;
+  background-color: var(--color-bg-light-primary-100);
+}
+
+.toast .icon {
+  font-size: 18px;
+}
+
+/* Corners */
+.toastTopRight {
+  top: 16px;
+  right: 16px;
+}
+
+.toastTopLeft {
+  top: 16px;
+  left: 16px;
+}
+
+.toastBottomRight {
+  bottom: 16px;
+  right: 16px;
+}
+
+.toastBottomLeft {
+  bottom: 16px;
+  left: 16px;
+}
+
+/* Center */
+.toastTopCenter {
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toastBottomCenter {
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toast.ERROR {
+  border: 1.5px solid var(--color-error-700);
+  color: var(--color-error-700);
+}
+
+.toast.WARNING {
+  border: 1.5px solid var(--color-warning-700);
+  color: var(--color-warning-700);
+}
+
+.toast.INFO {
+  border: 1.5px solid var(--color-secondary-700);
+  color: var(--color-secondary-700);
+}
+
+.toast.SUCCESS {
+  border: 1.5px solid var(--color-primary-700);
+  color: var(--color-primary-700);
+}
