@@ -100,13 +100,6 @@ export default function useShiftConfig(schedule, date) {
   };
 
   const setSlotDurationValue = (value) => {
-    // if (value < 10) {
-    //   setToast({
-    //     type: "INFO",
-    //     message: `Bạn không thể chọn khoảng cách khung giờ bằng 0. Khuyến nghị: 15, 30, 45 hoặc 60 phút.`
-    //   });
-    //   return;
-    // }
     setSlotDuration(value);
     setIsDirtyConfig(true);
   };
@@ -117,6 +110,22 @@ export default function useShiftConfig(schedule, date) {
     const [endH, endM] = endTime.split(":").map(Number);
     const startMinutes = startH * 60 + startM;
     const endMinutes = endH * 60 + endM;
+
+    if (!Number.isInteger(slotDuration) || slotDuration < 10) {
+      setToast({
+        type: "INFO",
+        message: "Thời lượng mỗi ca khám phải lớn hơn hoặc bằng 10 phút."
+      });
+      return;
+    }
+
+    if (slotDuration > 240) {
+      setToast({
+        type: "INFO",
+        message: "Thời lượng mỗi ca khám không hợp lệ."
+      });
+      return;
+    }
 
     // Kiểm tra constraints
     const constraints = getTimeConstraints();

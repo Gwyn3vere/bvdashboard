@@ -59,7 +59,7 @@ function Modal({
       {/* Content */}
       <div
         className={cx(
-          "pointer-events-auto relative bg-[var(--color-bg-light-primary-100)] rounded-[8px] p-5 transition-all",
+          "pointer-events-auto relative bg-[var(--color-bg-light-primary-100)] rounded-[8px] transition-all",
           width,
           closing ? "animate-fadeOut" : "animate-fadeIn",
           className

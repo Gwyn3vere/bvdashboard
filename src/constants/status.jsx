@@ -71,3 +71,29 @@ export const PATIENT_STATUS = {
     color: "var(--color-warning)"
   }
 };
+
+export const SYNC_ENUM = Object.freeze({
+  DIRTY: "dirty",
+  SYNCING: "syncing",
+  SYNCED: "synced",
+  ERROR: "error"
+});
+
+export const SYNC_STATUS_META = {
+  [SYNC_ENUM.DIRTY]: {
+    label: "Bản nháp",
+    color: "var(--color-secondary)"
+  },
+  [SYNC_ENUM.SYNCING]: {
+    label: "Đang tiến hành đồng bộ với hệ thống",
+    color: "var(--color-primary)"
+  },
+  [SYNC_ENUM.SYNCED]: {
+    label: "Đã đồng bộ với hệ thống",
+    color: "var(--color-primary)"
+  },
+  [SYNC_ENUM.ERROR]: {
+    label: "Lỗi hệ thống",
+    color: "var(--color-error)"
+  }
+};

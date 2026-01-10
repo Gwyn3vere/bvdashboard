@@ -2,20 +2,22 @@
 import { useState, useMemo } from "react";
 import classNames from "classnames/bind";
 import { scheduleStore } from "../../store/scheduleStore";
-import { useDoctorCalendar, useScheduleResize } from "../../components/hooks";
+import { useDoctorCalendar, useScheduleResize, useActive } from "../../components/hooks";
 import { SESSION_PRESETS, WEEK_DAYS } from "../../constants/option";
 // Styles- UI - utils - Icon
-import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical } from "react-icons/lu";
+import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical, LuUserPlus } from "react-icons/lu";
 import { getDaysInMonth, formatDate } from "../../utils/format";
 import { getColorHexByName } from "../../utils/color";
-import { Card, Shift } from "./index";
-import { Breadcrumb, Item, Button, Search, Toast } from "../../components/ui";
+import { Card, Create, Shift } from "./index";
+import { Breadcrumb, Item, Button, Search, Toast, Modal } from "../../components/ui";
 import styles from "../../styles/pages.module.css";
 
 const cx = classNames.bind(styles);
 
 function Calendar() {
-  const { doctors, getSchedulesByDate, getDoctorById, removeSchedule } = scheduleStore();
+  const create = useActive();
+
+  const { doctors, getSchedulesByDate, getDoctorById, removeSchedule, getDirtySchedules } = scheduleStore();
 
   const {
     toast,
@@ -36,6 +38,7 @@ function Calendar() {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
 
   const daysInMonth = getDaysInMonth(currentDate);
+  const dirtyCount = getDirtySchedules();
 
   const handleDragStartEvent = (e, doctorId) => {
     handleDragStart(doctorId);
@@ -104,30 +107,50 @@ function Calendar() {
       <div className="rounded-[8px] md:flex gap-5 ">
         {/* Sidebar - Danh sách bác sĩ */}
         <div
-          className={cx("bg-white p-6 flex flex-col w-80")}
+          className={cx("bg-white p-6 flex flex-col justify-between w-80")}
           style={{
             boxShadow: "var(--shadow)"
           }}
         >
-          <div className={cx("mb-2 flex-shrink-0 h-[100px]")}>
-            <Item as="h4" children="Danh sách bác sĩ" className="text-[18px] font-bold text-gray-900 mb-2" />
-            <Item
-              as="span"
-              children="Kéo và thả bác sĩ vào lịch để tạo ca làm việc"
-              className="text-[16px] text-gray-600 mb-4 leading-[1.8]"
-            />
-          </div>
-          <Search className="rounded-[8px] mb-2" width="100%" height={48} />
+          <div>
+            <div className={cx("mb-2 flex-shrink-0 h-[100px]")}>
+              <Item as="h4" children="Danh sách bác sĩ" className="text-[18px] font-bold text-gray-900 mb-2" />
+              <Item
+                as="span"
+                children="Kéo và thả bác sĩ vào lịch để tạo ca làm việc"
+                className="text-[16px] text-gray-600 mb-4 leading-[1.8]"
+              />
+            </div>
 
-          <div
-            className="flex-1 w-full overflow-auto hidden-scrollbar"
-            style={{
-              maxHeight: "725px"
-            }}
-          >
-            {doctors.map((doctor) => (
-              <Card key={doctor.id} doctor={doctor} onDragStart={handleDragStartEvent} />
-            ))}
+            <Search className="rounded-[8px] mb-2" width="100%" height={48} />
+
+            <div
+              className="flex-1 w-full overflow-auto hidden-scrollbar"
+              style={{
+                maxHeight: "500px"
+              }}
+            >
+              {doctors.map((doctor) => (
+                <Card key={doctor.id} doctor={doctor} onDragStart={handleDragStartEvent} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <Button
+              icon={<LuUserPlus />}
+              children="Thêm mới"
+              width="100%"
+              height={50}
+              onClick={create.toggleActive}
+              className={cx(
+                "bg-[var(--color-primary)] hover:bg-[var(--color-primary-700)]",
+                "transition-all duration-300 text-white font-medium gap-2"
+              )}
+            />
+            <Modal open={create.isActive} onClose={create.deactivate} backdrop={true} width="w-3xl">
+              <Create onClose={create.deactivate} />
+            </Modal>
           </div>
         </div>
 
@@ -163,6 +186,15 @@ function Calendar() {
                   "hover:bg-[var(--color-primary)] hover:text-white"
                 )}
               />
+              <Button
+                height={40}
+                onClick={goToToday}
+                className={cx(
+                  "px-4 py-2 rounded-[8px] transition-colors font-bold",
+                  "bg-[var(--color-primary)] text-white text-[14px]"
+                )}
+                children="Hôm nay"
+              />
             </div>
 
             <Item
@@ -173,12 +205,12 @@ function Calendar() {
 
             <Button
               height={40}
-              onClick={goToToday}
+              width="auto"
               className={cx(
                 "px-4 py-2 rounded-[8px] transition-colors font-bold",
                 "bg-[var(--color-primary)] text-white text-[14px]"
               )}
-              children="Hôm nay"
+              children={`Đồng bộ lịch làm việc: ${dirtyCount.length}`}
             />
           </div>
 
@@ -247,7 +279,9 @@ function Calendar() {
                               style={{ backgroundColor: colorHex }}
                               className={` text-white px-2 py-1 rounded text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
                             >
-                              <div className="font-medium truncate">{doctor?.firstName + " " + doctor?.lastName}</div>
+                              <div className="font-medium truncate">
+                                Bs. {doctor?.firstName + " " + doctor?.lastName}
+                              </div>
                               {schedule.configured && schedule.sessionType && (
                                 <div className="text-[10px] opacity-90">
                                   {SESSION_PRESETS[schedule.sessionType]?.label} • {schedule.slots?.length || 0} slots

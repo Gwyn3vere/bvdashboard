@@ -5,7 +5,7 @@ import { scheduleStore } from "../../store/scheduleStore";
 import { useShiftConfig } from "../../components/hooks";
 import { SESSION_PRESETS } from "../../constants/option";
 import { DatePicker } from "./index";
-import { Toast, Time, Item, Button } from "../../components/ui";
+import { Toast, Time, Item, Button, Input } from "../../components/ui";
 import styles from "../../styles/pages.module.css";
 
 const cx = classNames.bind(styles);
@@ -24,7 +24,6 @@ export default function Shift({ schedule, date, onClose }) {
     generatedSlots,
     selectedSlotIndices,
     isDirtyConfig,
-    setSlotDuration,
     setSlotDurationValue,
     setStartTime,
     setEndTime,
@@ -59,7 +58,7 @@ export default function Shift({ schedule, date, onClose }) {
     <>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={onClose}>
         <div
-          className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+          className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto hidden-scrollbar"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -155,16 +154,13 @@ export default function Shift({ schedule, date, onClose }) {
                 children="Thời lượng mỗi ca khám (phút)"
                 className="block text-sm font-semibold text-gray-700 mb-3"
               />
-              <input
+              <Input
                 type="number"
                 value={slotDuration}
                 onChange={(e) => setSlotDurationValue(Number(e.target.value))}
                 min="15"
                 step="15"
-                className={cx(
-                  "w-full px-4 py-3 border-2 border-[var(--color-bg-light-primary-400)]",
-                  "rounded-[8px] focus:border-[var(--color-primary)] focus:outline-none"
-                )}
+                className={cx("w-full", "rounded-[8px] focus:border-[var(--color-primary)] focus:outline-none")}
                 placeholder="30"
               />
               <p className="text-xs text-gray-500 mt-2">Khuyến nghị: 15, 30, 45 hoặc 60 phút</p>
