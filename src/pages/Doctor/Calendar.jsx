@@ -4,7 +4,8 @@ import classNames from "classnames/bind";
 import { scheduleStore } from "../../store/scheduleStore";
 import { useDoctorCalendar, useScheduleResize, useActive } from "../../components/hooks";
 import { SESSION_PRESETS, WEEK_DAYS } from "../../constants/option";
-// Styles- UI - utils - Icon
+// Styles- UI - utils - Icon - TWCSS
+import { TWCSS } from "../../styles/defineTailwindcss";
 import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical, LuUserPlus } from "react-icons/lu";
 import { getDaysInMonth, formatDate } from "../../utils/format";
 import { getColorHexByName } from "../../utils/color";
@@ -88,7 +89,7 @@ function Calendar() {
   };
 
   return (
-    <div className="px-10 pb-5">
+    <div className={TWCSS.container}>
       <Breadcrumb
         className="mb-3"
         items={[

@@ -24,7 +24,6 @@ function PatientStatistics() {
     return patientData;
   }, [timeFilter]);
 
-  // Chuẩn bị data cho Chart.js
   const chartData = useMemo(
     () => ({
       labels: filteredData.map((d) => d.month),
@@ -86,7 +85,6 @@ function PatientStatistics() {
     [filteredData, PATIENT_LABELS]
   );
 
-  // Options cho Chart.js
   const chartOptions = useMemo(
     () => ({
       responsive: true,
@@ -168,7 +166,7 @@ function PatientStatistics() {
   );
 
   return (
-    <div className="bg-white rounded-[8px] p-6 lg:col-span-2" style={{ boxShadow: "var(--shadow)" }}>
+    <div className="bg-white p-6 lg:col-span-2" style={{ boxShadow: "var(--shadow)" }}>
       <div className="md:flex justify-between items-center mb-6">
         <Item as="strong" children="Thống kê bệnh nhân" itemClassName={cx("text-xl")} />
         <div className="flex gap-2 mt-4 md:mt-0">

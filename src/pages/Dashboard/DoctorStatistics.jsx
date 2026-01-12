@@ -24,7 +24,6 @@ function DoctorStatistics() {
   const [direction, setDirection] = useState("next");
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  // Responsive items per page
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -37,12 +36,11 @@ function DoctorStatistics() {
       }
     };
 
-    handleResize(); // Check ngay khi mount
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Reset về trang đầu khi itemsPerPage thay đổi
   useEffect(() => {
     setCurrentPage(0);
   }, [itemsPerPage]);

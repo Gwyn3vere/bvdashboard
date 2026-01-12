@@ -21,5 +21,6 @@ export const INITIAL_DOCTOR = {
   department: "",
   specialty: "",
   phone: "",
-  status: ""
+  status: "",
+  experience: ""
 };
