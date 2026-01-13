@@ -1,11 +1,13 @@
 // Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
 import { mockDoctors, mockDoctorAppointmentStats } from "../../mock/manage";
+import { MOCK_DOCTOR_LIST } from "../../mock/doctors";
 import { DOCTOR_STATUS } from "../../constants/status";
 import { useActive } from "../../components/hooks";
 import { Link } from "react-router-dom";
-// Styles - UI
+// Styles - UI - TWCSS
 import styles from "../../styles/pages.module.css";
+import { TWCSS } from "../../styles/defineTailwindcss";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
 import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuCalendarRange } from "react-icons/lu";
 import { TiWarning } from "react-icons/ti";
@@ -20,12 +22,11 @@ function Doctor() {
     edit: useActive(),
     delete: useActive()
   };
-  const doctorListData = mockDoctors.map((doctor) => ({
-    ...doctor,
-    appointments: mockDoctorAppointmentStats[doctor.id]?.appointments ?? 0
-  }));
+
+  const doctorListData = MOCK_DOCTOR_LIST.map((doctor) => ({ ...doctor }));
+
   return (
-    <div className="px-10 pb-5 flex flex-col overflow-hidden w-full h-full min-h-0">
+    <div className={TWCSS.container}>
       <Breadcrumb
         className="mb-3"
         items={[
@@ -37,16 +38,13 @@ function Doctor() {
       <Item
         as="span"
         children="Quản lý thông tin bác sĩ tại đây."
-        itemClassName="text-[14px] text-gray-500"
-        className="mb-5 mt-1"
+        itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
-      <OptionBar modal={modal} />
+
+      <OptionBar modal={modal} totalDoctor={doctorListData.length} />
 
       <List
-        className={cx(
-          "p-4 w-full h-full min-h-0 bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
-          "flex flex-col justify-between"
-        )}
+        className={TWCSS.list}
         style={{ boxShadow: "var(--shadow)" }}
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row, index) => index + 1 },
@@ -59,61 +57,50 @@ function Doctor() {
           {
             key: "Doctor",
             label: "Bác sĩ",
-            width: "25%",
+            width: "30%",
             render: (row) => (
               <div className="flex items-center gap-2">
                 <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
                 <div>
-                  <span className="font-bold">
-                    {row.firstName} {row.lastName}
-                  </span>
-                  <p className="text-sm opacity-70">{row.degree}</p>
+                  <span className="font-bold">{row.name}</span>
+                  <p className="text-sm opacity-70">{row.title}</p>
                 </div>
               </div>
             )
           },
           {
-            key: "Access",
+            key: "Specialty",
             label: "Chuyên khoa",
             width: "16%",
-            render: (row) => <span className={cx("px-3")}>{row.specialty}</span>
+            render: (row) => <span>{row.specialty}</span>
           },
           {
-            key: "appointments",
-            label: "Lịch hẹn",
+            key: "Experience",
+            label: "Kinh nghiệm",
             width: "10%",
+            render: (row) => <span>{row.experienceYears} năm</span>
+          },
+          {
+            key: "Tags",
+            label: "Tags",
+            width: "28%",
             render: (row) => (
-              <div
-                className={cx("inline-block px-3 py-1", "rounded-full font-bold")}
-                style={{
-                  background: row.appointments !== 0 ? "var(--color-grd-secondary)" : "var(--color-grd-unavailable)",
-                  color:
-                    row.appointments !== 0 ? "var(--color-bg-light-primary-100)" : "var(--color-text-light-primary)"
-                }}
-              >
-                {row.appointments} Lịch hẹn
+              <div className="flex flex-wrap gap-2">
+                {Array.isArray(row.tags) &&
+                  row.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={cx(
+                        "px-2 py-1 text-xs rounded-full",
+                        "bg-[var(--color-unavailable-100)] text-black font-medium"
+                      )}
+                    >
+                      {tag}
+                    </span>
+                  ))}
               </div>
             )
           },
-          { key: "Phone", label: "Số điện thoại", width: "10%", render: (row) => row.phone },
-          {
-            key: "Status",
-            label: "Trạng thái",
-            width: "13%",
-            render: (row) => {
-              const statusConfig = DOCTOR_STATUS[row.status];
-
-              if (!statusConfig) return row.status;
-
-              return (
-                <div className="flex items-center gap-2">
-                  <div className={cx("w-[10px] h-[10px] rounded-full", statusConfig.color)} />
-                  <span>{statusConfig.label}</span>
-                </div>
-              );
-            }
-          },
-          { key: "DateAdded", label: "Ngày thêm vào", width: "10%", render: (row) => row.dateAdded },
           {
             key: "Edit",
             label: "",
@@ -216,12 +203,12 @@ function Doctor() {
 
 export default Doctor;
 
-function OptionBar({ modal }) {
+function OptionBar({ modal, totalDoctor }) {
   return (
     <div className="flex justify-between items-end mb-5">
       <div className="flex gap-2">
         <Item as="strong" children="Tổng bác sĩ:" />
-        <span>20</span>
+        <span>{totalDoctor}</span>
       </div>
       <div className="flex gap-2">
         <Search className="rounded-[8px]" />

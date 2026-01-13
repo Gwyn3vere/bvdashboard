@@ -31,7 +31,6 @@ function AppointmentStatistics() {
   const handleSelectYear = (year) => {
     setSelectedYear(year);
 
-    // Debounce localStorage write
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
@@ -43,7 +42,6 @@ function AppointmentStatistics() {
     yearSelected.deactivate();
   };
 
-  // Cleanup timeout
   useEffect(() => {
     return () => {
       if (saveTimeoutRef.current) {
@@ -60,7 +58,6 @@ function AppointmentStatistics() {
     []
   );
 
-  // Chuẩn bị data cho Chart.js
   const chartData = useMemo(
     () => ({
       labels: appointmentData.map((d) => d.month),
@@ -82,7 +79,6 @@ function AppointmentStatistics() {
     [APPOINTMENT_LABELS]
   );
 
-  // Options cho Chart.js
   const chartOptions = useMemo(
     () => ({
       responsive: true,
@@ -164,10 +160,7 @@ function AppointmentStatistics() {
   );
 
   return (
-    <div
-      className={cx("flex flex-col justify-between", "bg-white rounded-[8px] w-full mt-5")}
-      style={{ boxShadow: "var(--shadow)" }}
-    >
+    <div className={cx("flex flex-col justify-between", "bg-white w-full mt-5")} style={{ boxShadow: "var(--shadow)" }}>
       <div>
         <div className="flex justify-between items-center p-6">
           <Item as="strong" children="Lịch hẹn" itemClassName={cx("text-[20px]")} />

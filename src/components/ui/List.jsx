@@ -1,13 +1,15 @@
-// Libraries
 import React from "react";
 import classNames from "classnames/bind";
-// Styles - UI - Icons
+
+import { usePagination } from "../hooks";
+
 import style from "../../styles/ui.module.css";
 import { Item, Pagination } from "../ui";
 
 const cx = classNames.bind(style);
 
 function List({ className, columns = [], data = [], style = {} }) {
+  const { currentPage, totalPages, pagedData, pages, setCurrentPage, nextPage, prevPage } = usePagination(data, 10);
   return (
     <div className={cx(className)} style={{ ...style }}>
       <div className="px-4 py-3 flex items-center bg-[var(--color-primary)] rounded-t-[8px]">
@@ -21,42 +23,40 @@ function List({ className, columns = [], data = [], style = {} }) {
           </label>
         ))}
       </div>
-      <div className="flex-1 min-h-0 overflow-hidden">
-        <div className="hidden-scrollbar h-full overflow-auto">
-          {data.length !== 0 ? (
-            data.map((row, index) => (
-              <div
-                key={row.id}
-                className={cx(
-                  "px-4",
-                  "flex items-center border-b border-gray-100 transition cursor-pointer",
-                  "hover:bg-[var(--color-primary)] hover:text-white"
-                )}
-              >
-                {columns.map((col) => (
-                  <div
-                    key={col.key}
-                    className={cx("text-left px-4 py-3 whitespace-nowrap")}
-                    style={{ width: col.width }}
-                  >
-                    {col.render ? col.render(row, index) : row[col.key]}
-                  </div>
-                ))}
+      {pagedData !== 0 ? (
+        pagedData.map((row, index) => (
+          <div
+            key={row.id}
+            className={cx(
+              "px-4",
+              "flex items-center border-b border-gray-100 transition cursor-pointer",
+              "hover:bg-[var(--color-primary)] hover:text-white"
+            )}
+          >
+            {columns.map((col) => (
+              <div key={col.key} className={cx("text-left px-4 py-3 whitespace-nowrap")} style={{ width: col.width }}>
+                {col.render ? col.render(row, index) : row[col.key]}
               </div>
-            ))
-          ) : (
-            <Item
-              as="div"
-              children="Danh sách trống"
-              className={cx(
-                "flex items-center justify-center h-full",
-                "text-[16px] text-[var(--color-text-light-secondary)]"
-              )}
-            />
+            ))}
+          </div>
+        ))
+      ) : (
+        <Item
+          as="div"
+          children="Danh sách trống"
+          className={cx(
+            "flex items-center justify-center h-full",
+            "text-[16px] text-[var(--color-text-light-secondary)]"
           )}
-        </div>
-      </div>
-      <Pagination />
+        />
+      )}
+      <Pagination
+        pages={pages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        nextPage={nextPage}
+        prevPage={prevPage}
+      />
     </div>
   );
 }

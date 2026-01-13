@@ -17,7 +17,7 @@ function PatientPercentage() {
   const [hoveredMetric, setHoveredMetric] = useState(null);
 
   return (
-    <div className={cx("mt-5 h-auto bg-white rounded-[8px] p-6")} style={{ boxShadow: "var(--shadow)" }}>
+    <div className={cx("mt-5 h-auto bg-white p-6")} style={{ boxShadow: "var(--shadow)" }}>
       <div className="sm:flex justify-between items-center mb-6">
         <Item as="strong" children="Tỷ lệ bệnh nhân" itemClassName={cx("text-[20px] mb-5 sm:mb-0")} />
         <Milestone filter={timeFilter} setFilter={setTimeFilter} />

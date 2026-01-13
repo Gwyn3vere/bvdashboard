@@ -1,12 +1,15 @@
-// Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
 import { useEffect } from "react";
+
 import { useActive, useUsers } from "../../components/hooks";
 import { useStaffStore } from "../../store/staffStore";
+
 import { STAFF_STATUS } from "../../constants/status";
 import { STAFF_ROLE } from "../../constants/role";
-// Styles - UI
+
 import styles from "../../styles/pages.module.css";
+import { TWCSS } from "../../styles/defineTailwindcss";
+
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
 import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen } from "react-icons/lu";
 
@@ -33,7 +36,7 @@ function Staff() {
   }, []);
 
   return (
-    <div className="px-10 pb-5 flex flex-col overflow-hidden w-full h-full min-h-0">
+    <div className={TWCSS.container}>
       <Breadcrumb
         className="mb-3"
         items={[
@@ -45,8 +48,7 @@ function Staff() {
       <Item
         as="span"
         children="Quản lý thành viên nhóm của bạn và quyền tài khoản của họ ở đây."
-        itemClassName="text-[14px] text-gray-500"
-        className="mb-5 mt-1"
+        itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
       <div className="flex justify-between items-end mb-5">
         <div className="flex gap-2">
@@ -123,10 +125,7 @@ function Staff() {
       </div>
 
       <List
-        className={cx(
-          "flex flex-col justify-between",
-          "p-4 w-full h-full min-h-0 bg-[var(--color-bg-light-primary-100)] rounded-[8px]"
-        )}
+        className={TWCSS.list}
         style={{ boxShadow: "var(--shadow)" }}
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row, index) => index + 1 },

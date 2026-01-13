@@ -20,7 +20,7 @@ function AppointmentActivity() {
 
   return (
     <div
-      className={cx("mt-5  bg-white rounded-[8px] p-6", "flex flex-col justify-between w-full h-[400px] min-h-0")}
+      className={cx("mt-5  bg-white p-6", "flex flex-col justify-between w-full h-[400px] min-h-0")}
       style={{ boxShadow: "var(--shadow)" }}
     >
       <div className="flex items-center justify-between">
