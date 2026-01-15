@@ -18,7 +18,7 @@ function Sidebar({ collapsed, setCollapsed }) {
       )}
       <aside
         className={cx(
-          "xl:p-3 rounded-[8px] h-full transition-all duration-300",
+          "xl:p-3 h-full transition-all duration-300",
           "bg-[var(--color-bg-light-primary-100)]",
           // Responsive positioning
           "fixed xl:relative",
@@ -51,7 +51,7 @@ function Sidebar({ collapsed, setCollapsed }) {
                 <div key={group.group} className={cx(collapsed ? "mb-0" : "mb-5")}>
                   <div
                     className={cx(
-                      "text-[var(--color-text-light-secondary)] text-[12px] font-black uppercase",
+                      "text-[var(--color-text-light-secondary)] text-[12px] font-bold uppercase",
                       "overflow-hidden whitespace-nowrap transition-all duration-300",
                       collapsed ? "w-0 h-0" : "w-[200px] mb-3"
                     )}

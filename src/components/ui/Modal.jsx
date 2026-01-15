@@ -12,7 +12,6 @@ function Modal({
   onClose = () => {},
   children,
   footer = null,
-  width = "w-[500px]",
   style = {},
   className,
   ...props
@@ -44,31 +43,23 @@ function Modal({
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-      {/* Backdrop */}
-      {backdrop && (
-        <div
-          className={cx(
-            "absolute inset-0 bg-black/40  pointer-events-auto",
-            closing ? "backdrop-fadeOut" : "backdrop-fadeI"
-          )}
-          onClick={onClose}
-        />
+    <div
+      className={cx(
+        "fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50",
+        closing ? "backdrop-fadeOut" : "backdrop-fadeIn"
       )}
-
-      {/* Content */}
+      onClick={onClose}
+    >
       <div
         className={cx(
-          "pointer-events-auto relative bg-[var(--color-bg-light-primary-100)] rounded-[8px] transition-all",
-          width,
-          closing ? "animate-fadeOut" : "animate-fadeIn",
+          "bg-white rounded-[8px] shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto hidden-scrollbar",
           className
         )}
+        onClick={(e) => e.stopPropagation()}
         style={style}
         {...props}
       >
         {children}
-        {footer && <div className="mt-5">{footer}</div>}
       </div>
     </div>
   );

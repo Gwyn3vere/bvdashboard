@@ -205,12 +205,12 @@ export default Doctor;
 
 function OptionBar({ modal, totalDoctor }) {
   return (
-    <div className="flex justify-between items-end mb-5">
-      <div className="flex gap-2">
+    <div className="sm:flex justify-between items-end mb-5">
+      <div className="flex gap-2 mb-3 sm:mb-0">
         <Item as="strong" children="Tổng bác sĩ:" />
         <span>{totalDoctor}</span>
       </div>
-      <div className="flex gap-2">
+      <div className="flex justify-between sm:justify-end gap-2">
         <Search className="rounded-[8px]" />
         {/* Filter */}
         <Button
@@ -218,7 +218,7 @@ function OptionBar({ modal, totalDoctor }) {
           children="Bộ lọc"
           width="auto"
           onClick={modal.filter.toggleActive}
-          className="text-[14px] border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
+          className="text-[14px] font-medium border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
         />
         <Modal
           open={modal.filter.isActive}
@@ -251,7 +251,7 @@ function OptionBar({ modal, totalDoctor }) {
           className={cx(
             "gap-2 text-[14px] border-2 px-3 rounded-[8px]",
             "border-[var(--color-bg-light-primary-300)] cursor-pointer",
-            "font-bold flex items-center"
+            "font-medium flex items-center"
           )}
         />
         {/* Create */}
@@ -261,7 +261,7 @@ function OptionBar({ modal, totalDoctor }) {
           width="auto"
           onClick={modal.add.toggleActive}
           iconClassName="text-[20px]"
-          className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-bold"
+          className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-medium"
         />
         <Modal
           open={modal.add.isActive}

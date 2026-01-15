@@ -11,8 +11,10 @@ export default function useForm({ initialValues = {}, editValues = null, transfo
         ...initialValues,
         ...nextValues
       });
+    } else {
+      setValues(initialValues);
     }
-  }, [editValues]);
+  }, [editValues, initialValues, transformEditValues]);
 
   const setFieldValue = (name, value) => {
     setValues((prev) => ({ ...prev, [name]: value }));

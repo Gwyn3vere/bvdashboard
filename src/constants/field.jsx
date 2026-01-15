@@ -13,14 +13,18 @@ export const INITIAL_STAFF = {
 };
 
 export const INITIAL_DOCTOR = {
-  avatarUrl: "",
-  email: "",
-  firstname: "",
-  lastname: "",
-  degree: "",
-  department: "",
+  id: "",
+  slug: "",
+  externalId: "",
+  name: "",
+  title: "",
   specialty: "",
-  phone: "",
-  status: "",
-  experience: ""
+  specialtyId: "",
+  department: "",
+  facility: "",
+  experienceYears: 0,
+  languages: [],
+  tags: [],
+  featured: false,
+  avatar: null
 };
