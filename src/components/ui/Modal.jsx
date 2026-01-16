@@ -14,6 +14,7 @@ function Modal({
   footer = null,
   style = {},
   className,
+  width = "max-w-3xl",
   ...props
 }) {
   const [visible, setVisible] = useState(open);
@@ -52,8 +53,9 @@ function Modal({
     >
       <div
         className={cx(
-          "bg-white rounded-[8px] shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto hidden-scrollbar",
-          className
+          "bg-white rounded-[8px] shadow-xl w-full max-h-[90vh] overflow-y-auto hidden-scrollbar",
+          className,
+          width
         )}
         onClick={(e) => e.stopPropagation()}
         style={style}

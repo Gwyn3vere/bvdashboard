@@ -170,7 +170,6 @@ export function StaffInfo({ data, setData }) {
           labelClassName="text-sm text-[var(--color-text-light-secondary)]"
           inputClassName="rounded-[8px] mt-1"
           data={STAFF_STATUS_OPTIONS}
-          active={select.status}
           value={data?.status}
           onChange={(val) => setData("status", val)}
           required
@@ -184,7 +183,6 @@ export function StaffInfo({ data, setData }) {
         labelClassName="text-sm text-[var(--color-text-light-secondary)]"
         inputClassName="rounded-[8px] mt-1"
         data={STAFF_ROLE_OPTIONS}
-        active={select.role}
         value={data?.role}
         onChange={(val) => setData("role", val)}
         required

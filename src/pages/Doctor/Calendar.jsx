@@ -149,7 +149,7 @@ function Calendar() {
                 "transition-all duration-300 text-white font-medium gap-2"
               )}
             />
-            <Modal open={create.isActive} onClose={create.deactivate} backdrop={true}>
+            <Modal open={create.isActive} onClose={create.deactivate} backdrop={true} width="max-w-xl">
               <Create onClose={create.deactivate} />
             </Modal>
           </div>
