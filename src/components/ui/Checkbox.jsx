@@ -12,7 +12,7 @@ function Checkbox({ text, className, checkboxClassName, style = {}, ...props }) 
       style={{ ...style }}
       {...props}
     >
-      <input type="checkbox" className={cx(checkboxClassName)} />
+      <input type="checkbox" className={cx(checkboxClassName)} readOnly />
       <span>{text}</span>
     </div>
   );

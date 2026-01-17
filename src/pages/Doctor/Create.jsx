@@ -1,192 +1,280 @@
-// Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
-import { STAFF_ROLE_OPTIONS, STAFF_STATUS_OPTIONS } from "../../constants/option";
-import { useActive, useForm } from "../../components/hooks";
-import { INITIAL_STAFF } from "../../constants/field";
-// Styles - UI
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  DEPARTMENTS_OPTIONS,
+  SPECIALTIES_OPTIONS,
+  TAGS_DOCTOR_OPTIONS,
+  LANGUAGE_OPTIONS
+} from "../../constants/option";
+import { useForm, usePagination } from "../../components/hooks";
+import { INITIAL_DOCTOR } from "../../constants/field";
 import styles from "../../styles/pages.module.css";
-import { Item, Form, Input, Button, Select } from "../../components/ui";
-import { LuX, LuCamera } from "react-icons/lu";
+import { TWCSS } from "../../styles/defineTailwindcss";
+import { Item, Form, Input, Button, Select, TagsSelector, TextArea } from "../../components/ui";
+import { LuX, LuCamera, LuUser, LuSearch, LuPlus } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
 function Create({ onClose }) {
   const { values, setFieldValue } = useForm({
-    initialValues: INITIAL_STAFF
+    initialValues: INITIAL_DOCTOR
   });
+  const component = [
+    { id: 1, component: <MainForm value={values} setValue={setFieldValue} /> },
+    { id: 2, component: <InfoForm /> }
+  ];
+  const { currentPage, totalPages, pagedData, nextPage, prevPage } = usePagination(component, 1);
+
   return (
-    <div className="relative">
-      <div
-        className={cx(
-          "sticky top-0 bg-white border-b border-gray-200",
-          "p-6 flex items-center justify-between z-10 rounded-t-[8px]"
+    <>
+      <TitleForm onClose={onClose} />
+
+      {/* Content */}
+      <Form id="doctorForm" className="space-y-4 p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]">
+        {pagedData !== 0 ? (
+          pagedData.map((item) => <div key={item.id}>{item.component}</div>)
+        ) : (
+          <div>Không có dữ liệu</div>
         )}
-      >
-        <div>
-          <Item as="h3" children="Thêm bác sĩ" className="text-xl font-bold text-gray-900" />
-          <Item
-            as="div"
-            children="Điền đầy đủ thông tin bác sĩ vào danh sách của bạn."
-            className="text-sm text-gray-600 mt-1"
-          />
-        </div>
-        <Button
-          width={50}
-          height={50}
-          icon={<LuX />}
-          iconClassName="text-2xl"
-          onClick={onClose}
-          className="text-gray-400 hover:text-gray-600"
-        />
-      </div>
-      <Form id="doctorForm" className="flex flex-col gap-2 p-6">
-        <AddAvatar data={values} setData={setFieldValue} />
-        {/* <DoctorAccount data={values} setData={setFieldValue} />
-        <hr className="mt-5 text-gray-300" />
-        <DoctorInfo data={values} setData={setFieldValue} /> */}
       </Form>
-    </div>
+
+      {/* Footer */}
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
+        <Button
+          type="button"
+          children={"Quay lại"}
+          onClick={prevPage}
+          disabled={currentPage === 1}
+          width="100%"
+          className={cx(
+            "text-gray-700 font-semibold transition-all duration-200",
+            "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]"
+          )}
+        />
+        <Button
+          type={currentPage < totalPages ? "button" : "submit"}
+          form={currentPage < totalPages ? "" : "doctorForm"}
+          children={currentPage < totalPages ? "Tiếp theo" : "Xác nhận"}
+          onClick={(e) => {
+            if (currentPage < totalPages) {
+              e.preventDefault();
+              nextPage();
+            }
+          }}
+          width="100%"
+          className="bg-[var(--color-primary)] text-white font-semibold"
+        />
+      </div>
+    </>
   );
 }
 
-export default Create;
+export default React.memo(Create);
 
-export function AddAvatar({ data, setData }) {
+function TitleForm({ onClose }) {
   return (
-    <div>
-      <div className="flex gap-5">
-        <div className="relative w-auto h-full">
-          <div className="w-[100px] h-[100px] bg-[var(--color-secondary)] rounded-full" />
-          <Item
-            as="div"
-            icon={<LuCamera />}
-            className="flex items-center justify-center w-[30px] h-[30px] absolute bottom-0 right-0 bg-gray-200 rounded-full"
-            iconClassName="text-[14px]"
-          />
-        </div>
-        <div className="flex flex-col justify-between">
-          <Item as="strong" children="Upload ảnh đại diện" itemClassName="text-[20px]" />
-          <Item
-            as="span"
-            children="Ảnh không được vượt quá 4MB"
-            itemClassName="text-[12px] text-[var(--color-text-light-secondary)]"
-          />
-          <div className="flex gap-2">
-            <Button type="button" children="Chọn ảnh" className="bg-black border-2 border-gray-700 text-white" />
-            <Button type="button" children="Xoá ảnh" className="border-2 border-gray-300" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function DoctorAccount({ data, setData }) {
-  return (
-    <div className="mt-5">
-      <div className={cx("mb-2 rounded-[8px]", "bg-[var(--color-primary)] p-1.5")}>
-        <Item as="span" children="Thông tin tài khoản" itemClassName="text-[14px] text-white font-bold" />
-      </div>
-      <div className="flex justify-between gap-2">
-        <Input
-          label="Email *"
-          name="email"
-          type="email"
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          required
-        />
-        <Input
-          label="Mật khẩu *"
-          name="password"
-          type="password"
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          required
+    <div
+      className={cx(
+        "sticky top-0 bg-white border-b border-gray-200",
+        "p-6 flex items-center justify-between z-10 rounded-t-[8px]"
+      )}
+    >
+      <div>
+        <Item as="h3" children="Thêm bác sĩ" className="text-xl font-bold text-gray-900" />
+        <Item
+          as="div"
+          children="Điền đầy đủ thông tin bác sĩ vào danh sách của bạn."
+          className="text-sm text-gray-600 mt-1"
         />
       </div>
-      <div className="mt-2 flex justify-between gap-2">
-        <Input
-          label="Họ và tên đệm *"
-          name="firstname"
-          type="text"
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          required
-        />
-        <Input
-          label="Tên *"
-          name="lastname"
-          type="text"
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          required
-        />
-      </div>
-    </div>
-  );
-}
-
-export function DoctorInfo({ data, setData }) {
-  const select = {
-    status: useActive(),
-    role: useActive()
-  };
-  return (
-    <div className="mt-5">
-      <div className={cx("mb-2 rounded-[8px]", "bg-[var(--color-primary)] p-1.5")}>
-        <Item as="span" children="Thông tin bổ sung" itemClassName="text-[14px] text-white font-bold" />
-      </div>
-      <div className="flex justify-between gap-2 mb-2">
-        <Input
-          label="Số điện thoại"
-          name="phone"
-          type="tel"
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-        />
-        <Select
-          label="Trạng thái *"
-          name="status"
-          height={40}
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          data={STAFF_STATUS_OPTIONS}
-          active={select.status}
-          value={data?.status}
-          onChange={(val) => setData("status", val)}
-          required
-        />
-      </div>
-      <Select
-        label="Vai trò *"
-        name="role"
-        height={40}
-        className="w-full"
-        labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-        inputClassName="rounded-[8px] mt-1"
-        data={STAFF_ROLE_OPTIONS}
-        active={select.role}
-        value={data?.role}
-        onChange={(val) => setData("role", val)}
-        required
+      <Button
+        width={50}
+        height={50}
+        icon={<LuX />}
+        iconClassName="text-2xl"
+        onClick={onClose}
+        className="text-gray-400 hover:text-gray-600"
       />
     </div>
   );
+}
+
+function MainForm({ value, setValue }) {
+  const [previewAvatar, setPreviewAvatar] = useState(null);
+
+  const handleChangeAvatar = (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (!selectedFile) return;
+
+    if (!selectedFile.type.startsWith("image/")) {
+      alert("Vui lòng chọn một tệp hình ảnh hợp lệ.");
+      return;
+    }
+
+    setValue("avatar", selectedFile);
+  };
+
+  useEffect(() => {
+    if (!value.avatar) {
+      setPreviewAvatar(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(value.avatar);
+    setPreviewAvatar(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [value.avatar]);
+
+  const filteredSpecialties = useMemo(() => {
+    if (!value?.department) return [];
+
+    const department = DEPARTMENTS_OPTIONS.find((item) => item.value === value.department);
+
+    return SPECIALTIES_OPTIONS.filter((item) => item.departmentId === department?.id);
+  }, [value?.department]);
+
+  const handleChangeDepartment = (val) => {
+    setValue("department", val);
+    setValue("specialty", null);
+  };
+
+  return (
+    <>
+      {/* Avatar Upload */}
+      <div className="flex flex-col items-center justify-center mb-6 gap-2">
+        <div className="relative">
+          {previewAvatar ? (
+            <img src={previewAvatar} alt="Preview" className="h-[120px] w-[120px] rounded-full object-cover" />
+          ) : (
+            <>
+              <div
+                className={cx(
+                  "flex items-center justify-center cursor-pointer",
+                  "h-[120px] w-[120px] rounded-full bg-[var(--color-primary-300)]"
+                )}
+              >
+                <LuUser className="text-white text-4xl" />
+              </div>
+              <div
+                className={cx(
+                  "flex items-center justify-center",
+                  "w-8 h-8 rounded-full bg-white",
+                  "absolute bottom-0 right-0 border border-gray-300"
+                )}
+              >
+                <LuCamera className="text-green-500 text-xl" />
+              </div>
+            </>
+          )}
+
+          <Input
+            width={100}
+            height={120}
+            type="file"
+            accept="image/*"
+            onChange={handleChangeAvatar}
+            inputClassName="rounded-full"
+            className={cx("opacity-0 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2")}
+          />
+        </div>
+        <Item as="span" children={"Ảnh đại diện"} />
+      </div>
+
+      {/* Basic Information */}
+      <div className={cx("flex flex-col gap-8")}>
+        <div className="flex flex-col gap-2">
+          <Input
+            label={"Họ và tên"}
+            name="name"
+            type="text"
+            value={value?.name}
+            onChange={(val) => setValue("name", val.target.value)}
+            placeholder="Nguyễn Văn A"
+          />
+          <Input
+            name="title"
+            type="text"
+            value={value?.title}
+            onChange={(val) => setValue("title", val.target.value)}
+            placeholder="BS.CKII"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Select
+            label="Khoa"
+            name="department"
+            data={DEPARTMENTS_OPTIONS}
+            value={value?.department}
+            onChange={handleChangeDepartment}
+            placeholder="Chọn khoa"
+            required
+          />
+          <Select
+            name="specialty"
+            data={filteredSpecialties}
+            value={value?.specialty}
+            onChange={(val) => setValue("specialty", val)}
+            placeholder={value?.department ? "Chọn chuyên khoa" : "Vui lòng chọn khoa trước"}
+            required
+          />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <TagsSelector
+            label={"Tags"}
+            data={TAGS_DOCTOR_OPTIONS}
+            value={value?.tags}
+            onChange={(val) => setValue("tags", val)}
+          />
+          <Button
+            type="button"
+            width={"auto"}
+            height={"auto"}
+            className={cx(TWCSS.tagButton)}
+            icon={<LuPlus />}
+            children={"Thêm tag mới"}
+          />
+          <Button
+            type="button"
+            width={"auto"}
+            height={"auto"}
+            className={cx(TWCSS.tagButton)}
+            icon={<LuSearch />}
+            children={"Tim kiếm tag"}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Input
+            label={"Kinh nghiệm (năm)"}
+            name="experienceYears"
+            type="number"
+            value={value?.experienceYears}
+            onChange={(val) => setValue("experienceYears", val.target.value)}
+            placeholder=""
+          />
+          <TextArea
+            name="facility"
+            type="text"
+            value={value?.facility}
+            onChange={(val) => setValue("facility", val.target.value)}
+            placeholder="Nhập cơ sở công tác"
+            rows={3}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <TagsSelector
+            label={"Ngôn ngữ"}
+            data={LANGUAGE_OPTIONS}
+            value={value?.languages}
+            onChange={(val) => setValue("languages", val)}
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+
+function InfoForm() {
+  return <div>InfoForm</div>;
 }

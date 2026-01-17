@@ -25,6 +25,13 @@ function Header({ collapsed, toggle }) {
   const role = user?.data?.role || "Visitor";
   const avatar = useActive(false);
 
+  const dateNow = new Date().toLocaleDateString("vi-VN", {
+    weekday: "long",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -46,7 +53,7 @@ function Header({ collapsed, toggle }) {
   }, []);
 
   return (
-    <header className="px-5 xl:px-10 pt-5 sticky top-0 w-full flex justify-between mb-5 max-w-[1800px] mx-auto">
+    <header className="px-2 xl:px-10 pt-5 sticky top-0 w-full flex justify-between mb-5 max-w-[1800px] mx-auto">
       <div className="flex gap-2">
         <Button
           icon={collapsed ? <LuAlignLeft /> : <LuAlignRight />}
@@ -55,7 +62,7 @@ function Header({ collapsed, toggle }) {
           iconClassName={cx("text-2xl font-bold")}
           className={cx(
             "text-[14px] text-[var(--color-primary)]",
-            "cursor-pointer p-2",
+            "cursor-pointer",
             "inline-flex transition-all duration-300 ease-in-out",
             collapsed ? "opacity-100 scale-100" : "opacity-80 scale-95"
           )}
@@ -68,35 +75,35 @@ function Header({ collapsed, toggle }) {
         <Button
           height={40}
           width={40}
-          className="border-2 border-[var(--color-bg-light-primary-300)]"
+          className="hidden sm:flex border-2 border-[var(--color-bg-light-primary-300)]"
           icon={<CiLight />}
         />
         {/* Notifications */}
         <Button
           height={40}
           width={40}
-          className="border-2 border-[var(--color-bg-light-primary-300)]"
+          className="hidden sm:flex border-2 border-[var(--color-bg-light-primary-300)]"
           icon={<CiBellOn />}
         />
         <div
           className={cx(
-            "w-auto h-[40px] py-2 px-4 bg-[var(--color-bg-light-primary-300)] rounded-[8px] ",
+            "w-auto h-[40px] py-2 px-4 bg-[var(--color-primary-100)] rounded-[8px] ",
             "text-[14px] flex items-center justify-center font-medium gap-1"
           )}
         >
           <CiCalendar className="text-[18px]" />
-          Chủ Nhật, 30/11/2025
+          {dateNow}
         </div>
         {/* Avatar with Dropdown */}
         <div className="relative">
           <Avatar className="rounded-full" onClick={avatar.toggleActive}>
-            <div className="h-[40px]">
+            <div className="hidden sm:block h-[40px]">
               <Username children={username} className="font-bold text-[14px] uppercase" />
               <Role children={role} className="text-small text-[14px]" />
             </div>
             <IoIosArrowDown
               className={cx(
-                "text-[14px]",
+                "hidden sm:block text-[14px]",
                 avatar.isActive ? "rotate-180 transition-transform" : "transition-transform"
               )}
             />

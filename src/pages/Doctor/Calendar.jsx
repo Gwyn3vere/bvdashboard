@@ -149,7 +149,7 @@ function Calendar() {
                 "transition-all duration-300 text-white font-medium gap-2"
               )}
             />
-            <Modal open={create.isActive} onClose={create.deactivate} backdrop={true} width="w-3xl">
+            <Modal open={create.isActive} onClose={create.deactivate} backdrop={true} width="max-w-xl">
               <Create onClose={create.deactivate} />
             </Modal>
           </div>
@@ -157,7 +157,7 @@ function Calendar() {
 
         {/* Calendar */}
         <div
-          className="p-6 bg-white w-full flex-1 "
+          className="p-2 sm:p-6 bg-white w-full flex-1 "
           style={{
             boxShadow: "var(--shadow)"
           }}

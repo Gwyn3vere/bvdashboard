@@ -6,10 +6,11 @@ import React from "react";
 
 const cx = classNames.bind(style);
 
-function Input({
+function TextArea({
   children,
   width = "100%",
-  height = "50px",
+  minHeight = 100,
+  maxHeight = 500,
   type = "text",
   placeholder = "Typing here...",
   label,
@@ -25,18 +26,18 @@ function Input({
       {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
       <div
         className={cx(
-          "flex items-center px-3 rounded-[8px] mt-1",
+          "flex items-center p-3 rounded-[8px] mt-1",
           "border-2 border-[var(--color-bg-light-primary-400)]",
           "focus-within:border-2 focus-within:border-[var(--color-primary)]",
           inputClassName
         )}
       >
         <span>{icon}</span>
-        <input
+        <textarea
           type={type}
-          className={cx("outline-none px-2")}
+          className={cx("outline-none p-2")}
           placeholder={placeholder}
-          style={{ width, height, ...style }}
+          style={{ width, minHeight, maxHeight, ...style }}
           {...props}
         />
       </div>
@@ -44,4 +45,4 @@ function Input({
   );
 }
 
-export default React.memo(Input);
+export default React.memo(TextArea);

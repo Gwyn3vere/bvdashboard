@@ -10,7 +10,7 @@ import { IoIosMail, IoIosKey } from "react-icons/io";
 const cx = classNames.bind(styles);
 
 function Edit({ onClose }) {
-  return <div className="relative"></div>;
+  return <div className="relative">s</div>;
 }
 
 export default Edit;
