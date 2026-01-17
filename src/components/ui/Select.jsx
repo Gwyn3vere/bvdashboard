@@ -41,11 +41,11 @@ function Select({
 
   return (
     <div ref={dropdownRef} className={cx("relative", className)}>
-      {label && <label className={cx(labelClassName)}>{label}</label>}
+      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
       <div
         onClick={() => setIsOpen(!isOpen)}
         className={cx(
-          "w-full px-4 py-3 border-2 rounded-[8px]",
+          "w-full px-4 py-3 border-2 rounded-[8px] mt-1",
           "border-[var(--color-bg-light-primary-400)] hover:border-[var(--color-bg-light-primary-500)]",
           "focus:border-[var(--color-primary-500)] focus:outline-none cursor-pointer",
           "flex items-center justify-between bg-white hover:border-gray-300 transition-colors"
@@ -58,39 +58,16 @@ function Select({
       </div>
 
       {isOpen && (
-        <div
-          className={cx(
-            "absolute bg-[var(--color-bg-light-primary-300)]",
-            "top-full left-0 mt-2 rounded-[8px] z-10",
-            "border-2 border-transparent w-full h-auto"
-          )}
-        >
-          {data.map((item) => (
-            <div
-              key={item.value}
-              onClick={(e) => {
-                e.stopPropagation();
-                onChange?.(item.value);
-              }}
-              className={cx(
-                "flex items-center px-3 py-2 rounded-[8px] cursor-pointer",
-                "hover:bg-[var(--color-primary)] hover:text-white font-medium"
-              )}
-            >
-              <span>{item.text}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {isOpen && (
         <div className="absolute z-50 mt-2 bg-white border-2 border-gray-200 rounded-lg p-4 w-full">
-          <div className="flex flex-col gap-2 items-center justify-center">
+          <div className={cx("py-2 space-y-2", "max-h-60 overflow-y-auto")}>
             {data.map((item) => {
               return (
                 <div
                   key={item.id}
-                  onClick={() => onChange?.(item.value)}
+                  onClick={() => {
+                    onChange?.(item.value);
+                    setIsOpen(!isOpen);
+                  }}
                   className={cx(
                     "px-3 py-2 cursor-pointer text-center w-full",
                     selected?.name === item.name

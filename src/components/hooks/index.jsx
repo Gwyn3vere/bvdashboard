@@ -8,3 +8,4 @@ export { default as useShiftConfig } from "./useShiftConfig";
 export { default as useDoctorCalendar } from "./useDoctorCalendar";
 export { default as useScheduleResize } from "./useScheduleResize";
 export { default as usePagination } from "./usePagination";
+export { default as useDebouncedCallback } from "./useDebouncedCallback";

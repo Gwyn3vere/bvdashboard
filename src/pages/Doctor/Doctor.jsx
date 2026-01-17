@@ -263,33 +263,7 @@ function OptionBar({ modal, totalDoctor }) {
           iconClassName="text-[20px]"
           className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-medium"
         />
-        <Modal
-          open={modal.add.isActive}
-          onClose={modal.add.toggleActive}
-          backdrop={true}
-          width="w-[700px]"
-          footer={
-            <div className="flex justify-end gap-2 mt-5 text-[14px]">
-              <Button
-                onClick={modal.add.deactivate}
-                children="Huỷ"
-                width="auto"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-bg-light-primary-300)" }}
-              />
-              <Button
-                form="doctorForm"
-                type="submit"
-                children="Xác nhận"
-                width="auto"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
-              />
-            </div>
-          }
-        >
+        <Modal open={modal.add.isActive} onClose={modal.add.toggleActive} backdrop={true} width="max-w-xl">
           <Create onClose={modal.add.deactivate} />
         </Modal>
       </div>

@@ -1,13 +1,17 @@
-// Libraries - Mock - Hooks - Constants
 import classNames from "classnames/bind";
 import React, { useState, useEffect, useMemo } from "react";
-import { DEPARTMENTS_OPTIONS, SPECIALTIES_OPTIONS } from "../../constants/option";
+import {
+  DEPARTMENTS_OPTIONS,
+  SPECIALTIES_OPTIONS,
+  TAGS_DOCTOR_OPTIONS,
+  LANGUAGE_OPTIONS
+} from "../../constants/option";
 import { useForm, usePagination } from "../../components/hooks";
 import { INITIAL_DOCTOR } from "../../constants/field";
-// Styles - UI
 import styles from "../../styles/pages.module.css";
-import { Item, Form, Input, Button, Select } from "../../components/ui";
-import { LuX, LuCamera, LuUser } from "react-icons/lu";
+import { TWCSS } from "../../styles/defineTailwindcss";
+import { Item, Form, Input, Button, Select, TagsSelector, TextArea } from "../../components/ui";
+import { LuX, LuCamera, LuUser, LuSearch, LuPlus } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
@@ -22,11 +26,11 @@ function Create({ onClose }) {
   const { currentPage, totalPages, pagedData, nextPage, prevPage } = usePagination(component, 1);
 
   return (
-    <div className="relative">
+    <>
       <TitleForm onClose={onClose} />
 
       {/* Content */}
-      <Form id="doctorForm" className="space-y-4 p-6 overflow-y-auto">
+      <Form id="doctorForm" className="space-y-4 p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]">
         {pagedData !== 0 ? (
           pagedData.map((item) => <div key={item.id}>{item.component}</div>)
         ) : (
@@ -35,7 +39,7 @@ function Create({ onClose }) {
       </Form>
 
       {/* Footer */}
-      <div className="flex justify-between gap-2 p-6 border-t border-gray-200">
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
         <Button
           type="button"
           children={"Quay lại"}
@@ -61,7 +65,7 @@ function Create({ onClose }) {
           className="bg-[var(--color-primary)] text-white font-semibold"
         />
       </div>
-    </div>
+    </>
   );
 }
 
@@ -110,6 +114,7 @@ function MainForm({ value, setValue }) {
 
     setValue("avatar", selectedFile);
   };
+
   useEffect(() => {
     if (!value.avatar) {
       setPreviewAvatar(null);
@@ -125,7 +130,9 @@ function MainForm({ value, setValue }) {
   const filteredSpecialties = useMemo(() => {
     if (!value?.department) return [];
 
-    return SPECIALTIES_OPTIONS.filter((item) => item.departmentId === value.department);
+    const department = DEPARTMENTS_OPTIONS.find((item) => item.value === value.department);
+
+    return SPECIALTIES_OPTIONS.filter((item) => item.departmentId === department?.id);
   }, [value?.department]);
 
   const handleChangeDepartment = (val) => {
@@ -176,10 +183,23 @@ function MainForm({ value, setValue }) {
       </div>
 
       {/* Basic Information */}
-      <div className={cx("flex flex-col gap-4")}>
+      <div className={cx("flex flex-col gap-8")}>
         <div className="flex flex-col gap-2">
-          <Input label={"Họ và tên"} name="name" type="text" placeholder="Bs. Nguyễn Văn A" />
-          <Input name="name" type="text" placeholder="BS.CKII" />
+          <Input
+            label={"Họ và tên"}
+            name="name"
+            type="text"
+            value={value?.name}
+            onChange={(val) => setValue("name", val.target.value)}
+            placeholder="Nguyễn Văn A"
+          />
+          <Input
+            name="title"
+            type="text"
+            value={value?.title}
+            onChange={(val) => setValue("title", val.target.value)}
+            placeholder="BS.CKII"
+          />
         </div>
         <div className="flex flex-col gap-2">
           <Select
@@ -193,12 +213,61 @@ function MainForm({ value, setValue }) {
           />
           <Select
             name="specialty"
-            data={SPECIALTIES_OPTIONS}
+            data={filteredSpecialties}
             value={value?.specialty}
             onChange={(val) => setValue("specialty", val)}
             placeholder={value?.department ? "Chọn chuyên khoa" : "Vui lòng chọn khoa trước"}
-            disabled={!value?.department}
             required
+          />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <TagsSelector
+            label={"Tags"}
+            data={TAGS_DOCTOR_OPTIONS}
+            value={value?.tags}
+            onChange={(val) => setValue("tags", val)}
+          />
+          <Button
+            type="button"
+            width={"auto"}
+            height={"auto"}
+            className={cx(TWCSS.tagButton)}
+            icon={<LuPlus />}
+            children={"Thêm tag mới"}
+          />
+          <Button
+            type="button"
+            width={"auto"}
+            height={"auto"}
+            className={cx(TWCSS.tagButton)}
+            icon={<LuSearch />}
+            children={"Tim kiếm tag"}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Input
+            label={"Kinh nghiệm (năm)"}
+            name="experienceYears"
+            type="number"
+            value={value?.experienceYears}
+            onChange={(val) => setValue("experienceYears", val.target.value)}
+            placeholder=""
+          />
+          <TextArea
+            name="facility"
+            type="text"
+            value={value?.facility}
+            onChange={(val) => setValue("facility", val.target.value)}
+            placeholder="Nhập cơ sở công tác"
+            rows={3}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <TagsSelector
+            label={"Ngôn ngữ"}
+            data={LANGUAGE_OPTIONS}
+            value={value?.languages}
+            onChange={(val) => setValue("languages", val)}
           />
         </div>
       </div>

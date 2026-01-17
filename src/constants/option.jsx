@@ -87,6 +87,23 @@ export const SPECIALTIES_OPTIONS = [
   { id: "xet-nghiem", value: "CLINICAL_LABORATORY", name: "Xét nghiệm", departmentId: "xet-nghiem" }
 ];
 
+export const LANGUAGE_OPTIONS = [
+  { id: 1, value: "VIETNAMESE", name: "Tiếng Việt" },
+  { id: 2, value: "ENGLISH", name: "Tiếng Anh" }
+];
+
+export const TAGS_DOCTOR_OPTIONS = [
+  { id: 1, value: "CARDIOLOGY", name: "Tim mạch" },
+  { id: 2, value: "GERIATRICS", name: "Lão khoa" },
+  { id: 3, value: "GENERAL_INTERNAL_MEDICINE", name: "Nội tổng quát" },
+  { id: 4, value: "PREGNANCY_MONITORING", name: "Theo dõi thai kỳ" },
+  { id: 5, value: "GYNECOLOGY", name: "Phụ khoa" },
+  { id: 6, value: "INFERTILITY_TREATMENT", name: "Hiếm muộn" },
+  { id: 7, value: "ENDOSCOPIC_SURGERY", name: "Phẫu thuật nội soi" },
+  { id: 8, value: "ORTHOPEDIC_SURGERY", name: "Chấn thương chỉnh hình" },
+  { id: 9, value: "PEDIATRIC_RESPIRATORY", name: "Hô hấp nhi" }
+];
+
 export const SESSION_PRESETS = {
   morning: { label: "Buổi sáng", start: "08:00", end: "11:00" },
   afternoon: { label: "Buổi chiều", start: "13:00", end: "17:00" },
