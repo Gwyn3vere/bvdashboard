@@ -210,7 +210,7 @@ function OptionBar({ modal, totalDoctor }) {
         <Item as="strong" children="Tổng bác sĩ:" />
         <span>{totalDoctor}</span>
       </div>
-      <div className="flex justify-between sm:justify-end gap-2">
+      <div className="flex sm:justify-end gap-2">
         <Search className="rounded-[8px]" />
         {/* Filter */}
         <Button
@@ -263,7 +263,7 @@ function OptionBar({ modal, totalDoctor }) {
           iconClassName="text-[20px]"
           className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-medium"
         />
-        <Modal open={modal.add.isActive} onClose={modal.add.toggleActive} backdrop={true} width="max-w-xl">
+        <Modal open={modal.add.isActive} onClose={modal.add.toggleActive} backdrop={true} width="max-w-2xl">
           <Create onClose={modal.add.deactivate} />
         </Modal>
       </div>

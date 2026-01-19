@@ -11,6 +11,7 @@ function Button({
   width = 100,
   className,
   iconClassName,
+  btnClassName,
   iconPosition = "left",
   style = {},
   children,
@@ -28,7 +29,7 @@ function Button({
       {...props}
     >
       <span className={cx(iconClassName)}>{icon}</span>
-      {children}
+      <span className={btnClassName}>{children}</span>
     </button>
   );
 }

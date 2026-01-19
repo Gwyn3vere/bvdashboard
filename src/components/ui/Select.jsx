@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 import { useState, useRef, useEffect } from "react";
 // Styles - UI - Icons
 import style from "../../styles/ui.module.css";
+import { TWCSS } from "../../styles/defineTailwindcss";
 import { LuChevronDown } from "react-icons/lu";
 
 const cx = classNames.bind(style);
@@ -18,6 +19,7 @@ function Select({
   className,
   placeholder = "Lựa chọn...",
   inputClassName = "",
+  error,
   style = {},
   ...props
 }) {
@@ -44,12 +46,8 @@ function Select({
       {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className={cx(
-          "w-full px-4 py-3 border-2 rounded-[8px] mt-1",
-          "border-[var(--color-bg-light-primary-400)] hover:border-[var(--color-bg-light-primary-500)]",
-          "focus:border-[var(--color-primary-500)] focus:outline-none cursor-pointer",
-          "flex items-center justify-between bg-white hover:border-gray-300 transition-colors"
-        )}
+        style={{ width, height, ...style }}
+        className={cx(TWCSS.select, inputClassName, error && TWCSS.inputError)}
       >
         <span className={value ? "text-gray-900" : "text-gray-400"}>{displayText}</span>
         <LuChevronDown
@@ -69,7 +67,7 @@ function Select({
                     setIsOpen(!isOpen);
                   }}
                   className={cx(
-                    "px-3 py-2 cursor-pointer text-center w-full",
+                    "px-3 py-2 cursor-pointer w-full",
                     selected?.name === item.name
                       ? "bg-[var(--color-primary)] rounded-[8px] text-white hover:bg-[var(--color-primary-700)]"
                       : "hover:bg-green-50"
