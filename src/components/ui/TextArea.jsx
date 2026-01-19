@@ -2,6 +2,7 @@
 import classNames from "classnames/bind";
 // Styles - UI - Icons
 import style from "../../styles/ui.module.css";
+import { TWCSS } from "../../styles/defineTailwindcss";
 import React from "react";
 
 const cx = classNames.bind(style);
@@ -18,6 +19,7 @@ function TextArea({
   icon,
   className,
   inputClassName = "",
+  error,
   style = {},
   ...props
 }) {
@@ -29,6 +31,7 @@ function TextArea({
           "flex items-center p-3 rounded-[8px] mt-1",
           "border-2 border-[var(--color-bg-light-primary-400)]",
           "focus-within:border-2 focus-within:border-[var(--color-primary)]",
+          error && TWCSS.inputError,
           inputClassName
         )}
       >

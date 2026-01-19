@@ -21,8 +21,8 @@ export const formatPercent = (value, { decimals = 0, rounding = "round" } = {}) 
     rounding === "ceil"
       ? Math.ceil(value * factor) / factor
       : rounding === "floor"
-      ? Math.floor(value * factor) / factor
-      : Math.round(value * factor) / factor;
+        ? Math.floor(value * factor) / factor
+        : Math.round(value * factor) / factor;
 
   return rounded;
 };
@@ -92,4 +92,26 @@ export const getDaysInMonth = (date) => {
   }
 
   return days;
+};
+
+export const slugify = (str) => {
+  if (!str) return "";
+
+  str = str.toLowerCase();
+  str = str.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, "a");
+  str = str.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, "e");
+  str = str.replace(/i|í|ì|ỉ|ĩ|ị/gi, "i");
+  str = str.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, "o");
+  str = str.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, "u");
+  str = str.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, "y");
+  str = str.replace(/đ/gi, "d");
+
+  str = str.replace(/\./g, "-");
+
+  str = str.replace(/[^a-z0-9\s-]/g, "");
+  str = str.replace(/\s+/g, "-");
+  str = str.replace(/-+/g, "-");
+  str = str.trim().replace(/^-+|-+$/g, "");
+
+  return str;
 };

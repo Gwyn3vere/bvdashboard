@@ -28,3 +28,13 @@ export const INITIAL_DOCTOR = {
   featured: false,
   avatar: null
 };
+
+export const INITIAL_DETAIL_DOCTOR = {
+  ...INITIAL_DOCTOR,
+  bio: "",
+  scheduleNote: "",
+  expertise: [],
+  experience: [],
+  education: [],
+  publications: []
+};

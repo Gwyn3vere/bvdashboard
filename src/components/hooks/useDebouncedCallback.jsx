@@ -1,33 +1,33 @@
 import { useCallback, useEffect, useRef } from "react";
 
 export default function useDebouncedCallback(callback, delay = 500) {
-  const timerRef = useRef(null);
-  const latestCallbackRef = useRef(callback);
+  const timeoutRef = useRef(null);
+  const callbackRef = useRef(callback);
 
+  // Luôn giữ callback mới nhất
   useEffect(() => {
-    latestCallbackRef.current = callback;
+    callbackRef.current = callback;
   }, [callback]);
 
-  const debouncedFn = useCallback(
-    (...args) => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-
-      timerRef.current = setTimeout(() => {
-        latestCallbackRef.current(...args);
-      }, delay);
-    },
-    [delay]
-  );
-
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
       }
     };
   }, []);
 
-  return debouncedFn;
+  return useCallback(
+    (...args) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(() => {
+        callbackRef.current(...args);
+      }, delay);
+    },
+    [delay]
+  );
 }

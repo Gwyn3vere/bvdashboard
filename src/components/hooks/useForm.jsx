@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export default function useForm({ initialValues = {}, editValues = null, transformEditValues }) {
   const [values, setValues] = useState(initialValues);
@@ -16,13 +16,13 @@ export default function useForm({ initialValues = {}, editValues = null, transfo
     }
   }, [editValues, initialValues, transformEditValues]);
 
-  const setFieldValue = (name, value) => {
+  const setFieldValue = useCallback((name, value) => {
     setValues((prev) => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setValues(initialValues);
-  };
+  }, [initialValues]);
 
   return {
     values,

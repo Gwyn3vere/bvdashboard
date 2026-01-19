@@ -87,9 +87,94 @@ export const SPECIALTIES_OPTIONS = [
   { id: "xet-nghiem", value: "CLINICAL_LABORATORY", name: "Xét nghiệm", departmentId: "xet-nghiem" }
 ];
 
+export const DOCTOR_TITLES_OPTIONS = [
+  {
+    id: "title_bs",
+    code: "bs",
+    name: "BS",
+    value: "BS",
+    group: "Nghề nghiệp",
+    order: 1
+  },
+  {
+    id: "title_ths_bs",
+    code: "ths_bs",
+    name: "ThS.BS",
+    value: "THS.BS",
+    group: "Học vị",
+    order: 2
+  },
+  {
+    id: "title_ts_bs",
+    code: "ts_bs",
+    name: "TS.BS",
+    value: "TS.BS",
+    group: "Học vị",
+    order: 3
+  },
+  {
+    id: "title_bs_cki",
+    code: "bs_cki",
+    name: "BS.CKI",
+    value: "BS.CKI",
+    group: "Chuyên khoa",
+    order: 4
+  },
+  {
+    id: "title_bs_ckii",
+    code: "bs_ckii",
+    name: "BS.CKII",
+    value: "BS.CKII",
+    group: "Chuyên khoa",
+    order: 5
+  },
+  {
+    id: "title_bs_ck_noi",
+    code: "bs_ck_noi",
+    name: "BS.CK Nội",
+    value: "BS.CK_NOI",
+    group: "Chuyên khoa",
+    order: 6
+  },
+  {
+    id: "title_bs_ck_nhi",
+    code: "bs_ck_nhi",
+    name: "BS.CK Nhi",
+    value: "BS.CK_NHI",
+    group: "Chuyên khoa",
+    order: 7
+  },
+  {
+    id: "title_bs_ck_san",
+    code: "bs_ck_san",
+    name: "BS.CK Sản",
+    value: "BS.CK_SAN",
+    group: "Chuyên khoa",
+    order: 8
+  }
+];
+
 export const LANGUAGE_OPTIONS = [
-  { id: 1, value: "VIETNAMESE", name: "Tiếng Việt" },
-  { id: 2, value: "ENGLISH", name: "Tiếng Anh" }
+  {
+    id: 1,
+    value: "VIETNAMESE",
+    name: "Tiếng Việt"
+  },
+  {
+    id: 2,
+    value: "ENGLISH",
+    name: "Tiếng Anh"
+  },
+  {
+    id: 3,
+    value: "FRENCH",
+    name: "Tiếng Pháp"
+  },
+  {
+    id: 4,
+    value: "CHINESE",
+    name: "Tiếng Trung"
+  }
 ];
 
 export const TAGS_DOCTOR_OPTIONS = [

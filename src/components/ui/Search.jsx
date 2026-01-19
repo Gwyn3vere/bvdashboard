@@ -33,7 +33,7 @@ function Search({
       <Icon className="text-[20px] text-[var(--color-text-light-secondary)]" />
 
       <input
-        type="text"
+        type="search"
         value={value}
         defaultValue={defaultValue}
         onChange={onChange}
