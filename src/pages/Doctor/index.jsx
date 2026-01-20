@@ -5,3 +5,4 @@ export { default as Calendar } from "./Calendar";
 export { default as Card } from "./Card";
 export { default as Shift } from "./Shift";
 export { default as DatePicker } from "./DatePicker";
+export { default as DragPreview } from "./DragPreview";

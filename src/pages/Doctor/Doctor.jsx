@@ -1,11 +1,8 @@
-// Libraries - Mock - Hooks - Constants
+import { useState } from "react";
 import classNames from "classnames/bind";
-import { mockDoctors, mockDoctorAppointmentStats } from "../../mock/manage";
 import { MOCK_DOCTOR_LIST } from "../../mock/doctors";
-import { DOCTOR_STATUS } from "../../constants/status";
-import { useActive } from "../../components/hooks";
+import { useActive, useSearch } from "../../components/hooks";
 import { Link } from "react-router-dom";
-// Styles - UI - TWCSS
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
@@ -16,14 +13,16 @@ import { Create, Edit } from ".";
 const cx = classNames.bind(styles);
 
 function Doctor() {
+  const [doctorKeyword, setDoctorKeyword] = useState("");
   const modal = {
     filter: useActive(),
     add: useActive(),
     edit: useActive(),
     delete: useActive()
   };
-
-  const doctorListData = MOCK_DOCTOR_LIST.map((doctor) => ({ ...doctor }));
+  const filteredDoctor = useSearch(MOCK_DOCTOR_LIST, doctorKeyword, (doctor) =>
+    [doctor.name, doctor.specialty, doctor.tags].filter(Boolean).join(" ")
+  );
 
   return (
     <div className={TWCSS.container}>
@@ -41,13 +40,18 @@ function Doctor() {
         itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
 
-      <OptionBar modal={modal} totalDoctor={doctorListData.length} />
+      <OptionBar
+        modal={modal}
+        totalDoctor={filteredDoctor.length}
+        keyword={doctorKeyword}
+        onChange={(e) => setDoctorKeyword(e.target.value)}
+      />
 
       <List
         className={TWCSS.list}
         style={{ boxShadow: "var(--shadow)" }}
         columns={[
-          { key: "Index", label: "#", width: "3%", render: (row, index) => index + 1 },
+          { key: "Index", label: "#", width: "3%", render: (row) => row.id },
           {
             key: "checkbox",
             label: <Checkbox checkboxClassName="w-5 h-5" />,
@@ -138,7 +142,7 @@ function Doctor() {
             )
           }
         ]}
-        data={doctorListData}
+        data={filteredDoctor}
       />
       <Modal
         open={modal.edit.isActive}
@@ -203,69 +207,81 @@ function Doctor() {
 
 export default Doctor;
 
-function OptionBar({ modal, totalDoctor }) {
+function OptionBar({ modal, totalDoctor, keyword, onChange }) {
   return (
-    <div className="sm:flex justify-between items-end mb-5">
-      <div className="flex gap-2 mb-3 sm:mb-0">
+    <div className="md:flex justify-between items-end mb-5">
+      <div className="flex gap-2 mb-3 md:mb-0">
         <Item as="strong" children="Tổng bác sĩ:" />
         <span>{totalDoctor}</span>
       </div>
-      <div className="flex sm:justify-end gap-2">
-        <Search className="rounded-[8px]" />
-        {/* Filter */}
-        <Button
-          icon={<LuListFilter />}
-          children="Bộ lọc"
-          width="auto"
-          onClick={modal.filter.toggleActive}
-          className="text-[14px] font-medium border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
-        />
-        <Modal
-          open={modal.filter.isActive}
-          onClose={() => modal.filter.toggleActive(false)}
-          backdrop={true}
-          style={{ boxShadow: "var(--shadow)" }}
-          className="bg-[var(--color-bg-light-primary-300)]"
-          footer={
-            <Button
-              form="staffForm"
-              type="submit"
-              children="Xác nhận"
-              width="100%"
-              height={40}
-              className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-            />
-          }
-        >
-          <Filter onClose={() => modal.filter.toggleActive(false)} />
-        </Modal>
-        {/* Shift */}
-        <Item
-          as={Link}
-          to="/quan-ly-bac-si/lich-lam-viec"
-          icon={<LuCalendarRange />}
-          children="Quản lý ca làm việc"
-          width="auto"
-          iconClassName="text-[20px]"
-          className={cx(
-            "gap-2 text-[14px] border-2 px-3 rounded-[8px]",
-            "border-[var(--color-bg-light-primary-300)] cursor-pointer",
-            "font-medium flex items-center"
-          )}
-        />
-        {/* Create */}
-        <Button
-          icon={<LuUserRoundPlus />}
-          children="Thêm mới"
-          width="auto"
-          onClick={modal.add.toggleActive}
-          iconClassName="text-[20px]"
-          className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-medium"
-        />
-        <Modal open={modal.add.isActive} onClose={modal.add.toggleActive} backdrop={true} width="max-w-2xl">
-          <Create onClose={modal.add.deactivate} />
-        </Modal>
+      <div className="flex justify-between md:justify-end gap-2">
+        <Search value={keyword} onChange={onChange} className="rounded-[8px]" inputClass="max-w-[150px]" />
+        <div className="flex gap-2">
+          {/* Filter */}
+          <Button
+            icon={<LuListFilter />}
+            children="Bộ lọc"
+            width="auto"
+            onClick={modal.filter.toggleActive}
+            iconClassName="text-[20px]"
+            btnClassName={cx("hidden md:inline")}
+            className={cx(
+              "gap-2 text-[14px] px-3 rounded-[8px] font-medium",
+              " border-2 border-[var(--color-bg-light-primary-300)] cursor-pointer"
+            )}
+          />
+          <Modal
+            open={modal.filter.isActive}
+            onClose={() => modal.filter.toggleActive(false)}
+            backdrop={true}
+            style={{ boxShadow: "var(--shadow)" }}
+            className="bg-[var(--color-bg-light-primary-300)]"
+            footer={
+              <Button
+                form="staffForm"
+                type="submit"
+                children="Xác nhận"
+                width="100%"
+                height={40}
+                className="px-4 py-2 font-bold"
+                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+              />
+            }
+          >
+            <Filter onClose={() => modal.filter.toggleActive(false)} />
+          </Modal>
+          {/* Shift */}
+          <Item
+            as={Link}
+            to="/quan-ly-bac-si/lich-lam-viec"
+            icon={<LuCalendarRange />}
+            children="Quản lý ca làm việc"
+            width="auto"
+            iconClassName="text-[20px]"
+            itemClassName={cx("hidden md:inline")}
+            className={cx(
+              "gap-2 text-[14px] border-2 px-3 rounded-[8px]",
+              "border-[var(--color-bg-light-primary-300)] cursor-pointer",
+              "font-medium flex items-center"
+            )}
+          />
+          {/* Create */}
+          <Button
+            icon={<LuUserRoundPlus />}
+            children="Thêm mới"
+            width="auto"
+            onClick={modal.add.toggleActive}
+            iconClassName="text-[20px]"
+            btnClassName={cx("hidden md:inline")}
+            className={cx(
+              "gap-2 text-[14px] px-3 rounded-[8px] text-white font-medium",
+              "bg-[var(--color-primary)] cursor-pointer "
+            )}
+          />
+          <Modal open={modal.add.isActive} onClose={modal.add.toggleActive} backdrop={true} width="max-w-2xl">
+            <Create onClose={modal.add.deactivate} />
+          </Modal>
+        </div>
       </div>
     </div>
   );

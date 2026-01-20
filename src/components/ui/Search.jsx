@@ -9,7 +9,7 @@ const cx = classNames.bind(style);
 function Search({
   value,
   defaultValue,
-  width = 300,
+  width = "auto",
   height = 40,
   onChange,
   placeholder = "Tìm kiếm",
@@ -22,11 +22,7 @@ function Search({
 }) {
   return (
     <div
-      className={cx(
-        "bg-[var(--color-bg-light-primary-300)] px-4 hidden sm:flex items-center gap-2",
-        wrapperClass,
-        className
-      )}
+      className={cx("bg-[var(--color-primary-100)] px-4 flex items-center gap-2", wrapperClass, className)}
       style={{ width, height, ...style }}
       {...props}
     >

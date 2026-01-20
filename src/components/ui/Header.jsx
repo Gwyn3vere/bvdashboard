@@ -68,7 +68,7 @@ function Header({ collapsed, toggle }) {
           )}
           onClick={toggle}
         />
-        <Search className="rounded-full" />
+        {/* <Search className="rounded-full" /> */}
       </div>
       <div className="flex gap-2">
         {/* Theme mode */}

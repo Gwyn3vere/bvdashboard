@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { mockDoctors } from "../mock/manage";
+import { MOCK_DOCTOR_LIST } from "../mock/doctors";
 import { getColorByIndex } from "../utils/color";
 import { SYNC_ENUM } from "../constants/status";
 
 export const scheduleStore = create(
   persist(
     (set, get) => ({
-      doctors: mockDoctors,
+      doctors: MOCK_DOCTOR_LIST,
       workSchedules: {},
 
       addDoctorToDate: (date, doctorId) => {

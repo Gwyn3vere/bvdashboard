@@ -187,8 +187,8 @@ function MainForm({ value, setValue, getFieldError, setFieldTouched, validateFie
   const [tagKeyword, setTagKeyword] = useState("");
   const [languageKeyword, setLanguageKeyword] = useState("");
 
-  const filteredTags = useSearch(TAGS_DOCTOR_OPTIONS, tagKeyword, (tag) => tag.name);
-  const filteredLanguages = useSearch(LANGUAGE_OPTIONS, languageKeyword, (lang) => lang.name);
+  const filteredTags = useSearch(TAGS_DOCTOR_OPTIONS, tagKeyword, (tag) => tag.name, 9);
+  const filteredLanguages = useSearch(LANGUAGE_OPTIONS, languageKeyword, (lang) => lang.name, 5);
 
   const modal = {
     addTag: useActive(),

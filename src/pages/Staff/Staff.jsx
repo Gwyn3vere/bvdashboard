@@ -50,79 +50,7 @@ function Staff() {
         children="Quản lý thành viên nhóm của bạn và quyền tài khoản của họ ở đây."
         itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
-      <div className="flex justify-between items-end mb-5">
-        <div className="flex gap-2">
-          <Item as="strong" children="Tổng thành viên:" />
-          <span>20</span>
-        </div>
-        <div className="flex gap-2">
-          <Search className="rounded-[8px]" />
-          <Button
-            icon={<LuListFilter />}
-            children="Bộ lọc"
-            width="auto"
-            onClick={modal.filter.toggleActive}
-            className="text-[14px] border-2 px-3 rounded-[8px] border-[var(--color-bg-light-primary-300)] cursor-pointer"
-          />
-          <Modal
-            open={modal.filter.isActive}
-            onClose={() => modal.filter.toggleActive(false)}
-            backdrop={true}
-            style={{ boxShadow: "var(--shadow)" }}
-            className="bg-[var(--color-bg-light-primary-300)]"
-            footer={
-              <Button
-                form="staffForm"
-                type="submit"
-                children="Xác nhận"
-                width="100%"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-              />
-            }
-          >
-            <Filter onClose={modal.filter.toggleActive} />
-          </Modal>
-          <Button
-            icon={<LuUserRoundPlus />}
-            children="Thêm mới"
-            width="auto"
-            onClick={modal.add.toggleActive}
-            iconClassName="text-[20px]"
-            className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-bold"
-          />
-          <Modal
-            open={modal.add.isActive}
-            onClose={modal.add.toggleActive}
-            backdrop={true}
-            width="w-[800px]"
-            footer={
-              <div className="flex justify-end gap-2 mt-5 text-[14px]">
-                <Button
-                  onClick={modal.add.deactivate}
-                  children="Huỷ"
-                  width="auto"
-                  height={40}
-                  className="px-4 py-2 font-bold"
-                  style={{ background: "var(--color-bg-light-primary-300)" }}
-                />
-                <Button
-                  form="staffForm"
-                  type="submit"
-                  children="Xác nhận"
-                  width="auto"
-                  height={40}
-                  className="px-4 py-2 font-bold"
-                  style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
-                />
-              </div>
-            }
-          >
-            <Create onClose={modal.add.deactivate} />
-          </Modal>
-        </div>
-      </div>
+      <OptionBar modal={modal} totalStaff={20} />
 
       <List
         className={TWCSS.list}
@@ -300,3 +228,68 @@ function Staff() {
 }
 
 export default Staff;
+
+function OptionBar({ modal, totalStaff }) {
+  return (
+    <div className="md:flex justify-between items-end mb-5">
+      <div className="flex gap-2 mb-3 md:mb-0">
+        <Item as="strong" children="Tổng bác sĩ:" />
+        <span>{totalStaff}</span>
+      </div>
+      <div className="flex justify-between md:justify-end gap-2">
+        <Search className="rounded-[8px]" inputClass="max-w-[150px]" />
+        <div className="flex gap-2">
+          {/* Filter */}
+          <Button
+            icon={<LuListFilter />}
+            children="Bộ lọc"
+            width="auto"
+            onClick={modal.filter.toggleActive}
+            iconClassName="text-[20px]"
+            btnClassName={cx("hidden md:inline")}
+            className={cx(
+              "gap-2 text-[14px] px-3 rounded-[8px] font-medium",
+              " border-2 border-[var(--color-bg-light-primary-300)] cursor-pointer"
+            )}
+          />
+          <Modal
+            open={modal.filter.isActive}
+            onClose={() => modal.filter.toggleActive(false)}
+            backdrop={true}
+            style={{ boxShadow: "var(--shadow)" }}
+            className="bg-[var(--color-bg-light-primary-300)]"
+            footer={
+              <Button
+                form="staffForm"
+                type="submit"
+                children="Xác nhận"
+                width="100%"
+                height={40}
+                className="px-4 py-2 font-bold"
+                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+              />
+            }
+          >
+            <Filter onClose={() => modal.filter.toggleActive(false)} />
+          </Modal>
+          {/* Create */}
+          <Button
+            icon={<LuUserRoundPlus />}
+            children="Thêm mới"
+            width="auto"
+            onClick={modal.add.toggleActive}
+            iconClassName="text-[20px]"
+            btnClassName={cx("hidden md:inline")}
+            className={cx(
+              "gap-2 text-[14px] px-3 rounded-[8px] text-white font-medium",
+              "bg-[var(--color-primary)] cursor-pointer "
+            )}
+          />
+          <Modal open={modal.add.isActive} onClose={modal.add.toggleActive} backdrop={true} width="max-w-2xl">
+            <Create onClose={modal.add.deactivate} />
+          </Modal>
+        </div>
+      </div>
+    </div>
+  );
+}
