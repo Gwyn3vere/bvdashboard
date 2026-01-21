@@ -21,6 +21,7 @@ import {
   TextArea,
   Modal,
   ArrayInput,
+  TitleForm,
   Toast
 } from "../../components/ui";
 import { LuX, LuCamera, LuUser, LuSearch, LuPlus } from "react-icons/lu";
@@ -34,30 +35,18 @@ function Create({ onClose }) {
     initialValues: INITIAL_DETAIL_DOCTOR
   });
   const [toast, setToast] = useState(null);
-  const { validate, validateField, setFieldTouched, setAllTouched, getFieldError } = useValidation(validateDoctor);
+  const { validate, validateField, setAllTouched, getFieldError } = useValidation(validateDoctor);
   const component = [
     {
       id: 1,
       component: (
-        <MainForm
-          value={values}
-          setValue={setFieldValue}
-          getFieldError={getFieldError}
-          setFieldTouched={setFieldTouched}
-          validateField={validateField}
-        />
+        <MainForm value={values} setValue={setFieldValue} getFieldError={getFieldError} validateField={validateField} />
       )
     },
     {
       id: 2,
       component: (
-        <InfoForm
-          value={values}
-          setValue={setFieldValue}
-          getFieldError={getFieldError}
-          setFieldTouched={setFieldTouched}
-          validateField={validateField}
-        />
+        <InfoForm value={values} setValue={setFieldValue} getFieldError={getFieldError} validateField={validateField} />
       )
     }
   ];
@@ -157,32 +146,7 @@ function Create({ onClose }) {
 
 export default React.memo(Create);
 
-function TitleForm({ onClose, title, subTitle }) {
-  return (
-    <div
-      className={cx(
-        "sticky top-0 bg-white border-b border-gray-200",
-        "p-6 flex items-center justify-between z-10 rounded-t-[8px]"
-      )}
-    >
-      <div>
-        <Item as="h3" children={title} className="text-xl font-bold text-gray-900" />
-        <Item as="div" children={subTitle} className="text-sm text-gray-600 mt-1" />
-      </div>
-      <Button
-        type="button"
-        width={50}
-        height={50}
-        icon={<LuX />}
-        iconClassName="text-2xl"
-        onClick={onClose}
-        className="text-gray-400 hover:text-gray-600"
-      />
-    </div>
-  );
-}
-
-function MainForm({ value, setValue, getFieldError, setFieldTouched, validateField }) {
+function MainForm({ value, setValue, getFieldError, validateField }) {
   const [previewAvatar, setPreviewAvatar] = useState(null);
   const [tagKeyword, setTagKeyword] = useState("");
   const [languageKeyword, setLanguageKeyword] = useState("");
@@ -238,7 +202,6 @@ function MainForm({ value, setValue, getFieldError, setFieldTouched, validateFie
     setValue("specialty", null);
   };
   const handleBlur = (fieldName) => {
-    setFieldTouched(fieldName);
     validateField(fieldName, value);
   };
 

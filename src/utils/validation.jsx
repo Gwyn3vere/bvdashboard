@@ -20,3 +20,15 @@ export const validateDoctor = (doctor) => {
 
   return errors;
 };
+
+export const validateStaff = (staff) => {
+  const errors = {};
+
+  if (!staff.name?.trim()) errors.name = "Tên nhân viên không được để trống";
+  if (!staff.email) errors.email = "Email không được để trống";
+  if (!staff.password) errors.password = "Mật khẩu không được để trống";
+  if (!staff.position) errors.position = "Chức vụ không được để trống";
+  if (!staff.role) errors.role = "Vai trò không được để trống";
+
+  return errors;
+};

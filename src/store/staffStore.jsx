@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { mockStaff } from "../mock/manage";
+import { MOCK_STAFF_LIST } from "../mock/staffs";
 
 export const useStaffStore = create((set, get) => ({
   /* =======================
      STATE
   ======================= */
-  staffs: mockStaff,
+  staffs: MOCK_STAFF_LIST,
   editingStaffId: null,
   loading: false,
 

@@ -11,6 +11,7 @@ export { default as Item } from "./Item";
 export { default as Logo } from "./Logo";
 
 export { default as Form } from "./Form";
+export { default as TitleForm } from "./Title";
 export { default as Input } from "./Input";
 export { default as ArrayInput } from "./ArrayInput";
 export { default as TextArea } from "./TextArea";

@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from "react";
+import { SPECIALTIES_OPTIONS } from "../../constants/option";
 
 function DragPreview({ doctor, colorObj, position, onRefReady }) {
   const ref = useRef(null);
+  const specialtyConfig = SPECIALTIES_OPTIONS.find((item) => item.value === doctor.specialty);
 
   useEffect(() => {
     if (ref.current && onRefReady) {
@@ -31,10 +33,10 @@ function DragPreview({ doctor, colorObj, position, onRefReady }) {
         transition: "none" // Remove any transitions
       }}
     >
-      <div style={{ fontWeight: 600 }}>
-        Bs. {doctor.firstName} {doctor.lastName}
+      <div style={{ fontWeight: 600 }}>Bs. {doctor.name}</div>
+      <div style={{ fontSize: "12px", opacity: 0.9, marginTop: "4px" }}>
+        {specialtyConfig ? specialtyConfig.name : doctor.specialty}
       </div>
-      <div style={{ fontSize: "12px", opacity: 0.9, marginTop: "4px" }}>{doctor.specialty}</div>
     </div>
   );
 }

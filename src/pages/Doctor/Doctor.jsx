@@ -1,18 +1,22 @@
 import { useState } from "react";
 import classNames from "classnames/bind";
-import { MOCK_DOCTOR_LIST } from "../../mock/doctors";
+import { SPECIALTIES_OPTIONS } from "../../constants/option";
 import { useActive, useSearch } from "../../components/hooks";
 import { Link } from "react-router-dom";
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
 import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuCalendarRange } from "react-icons/lu";
-import { TiWarning } from "react-icons/ti";
-import { Create, Edit } from ".";
+import { Create, Edit, Delete } from ".";
+import { useDoctorStore } from "../../store/doctorStore";
 
 const cx = classNames.bind(styles);
 
 function Doctor() {
+  const doctors = useDoctorStore((doc) => doc.doctors);
+  const editingDoctorId = useDoctorStore((doc) => doc.editingDoctorId);
+  const setEditingDoctorId = useDoctorStore((doc) => doc.setEditingDoctorId);
+
   const [doctorKeyword, setDoctorKeyword] = useState("");
   const modal = {
     filter: useActive(),
@@ -20,7 +24,7 @@ function Doctor() {
     edit: useActive(),
     delete: useActive()
   };
-  const filteredDoctor = useSearch(MOCK_DOCTOR_LIST, doctorKeyword, (doctor) =>
+  const filteredDoctor = useSearch(doctors, doctorKeyword, (doctor) =>
     [doctor.name, doctor.specialty, doctor.tags].filter(Boolean).join(" ")
   );
 
@@ -76,7 +80,10 @@ function Doctor() {
             key: "Specialty",
             label: "Chuyên khoa",
             width: "16%",
-            render: (row) => <span>{row.specialty}</span>
+            render: (row) => {
+              const specialtyConfig = SPECIALTIES_OPTIONS.find((item) => item.value === row.specialty);
+              return <span>{specialtyConfig ? specialtyConfig.name : row.specialty}</span>;
+            }
           },
           {
             key: "Experience",
@@ -109,9 +116,12 @@ function Doctor() {
             key: "Edit",
             label: "",
             width: "5%",
-            render: () => (
+            render: (row) => (
               <Button
-                onClick={modal.edit.toggleActive}
+                onClick={() => {
+                  setEditingDoctorId(row.id);
+                  modal.edit.toggleActive();
+                }}
                 width={40}
                 height={40}
                 iconClassName="text-[20px] font-bold"
@@ -127,9 +137,12 @@ function Doctor() {
             key: "Delete",
             label: "",
             width: "5%",
-            render: () => (
+            render: (row) => (
               <Button
-                onClick={modal.delete.toggleActive}
+                onClick={() => {
+                  setEditingDoctorId(row.id);
+                  modal.delete.toggleActive();
+                }}
                 width={40}
                 height={40}
                 iconClassName="text-[20px] font-bold"
@@ -144,62 +157,16 @@ function Doctor() {
         ]}
         data={filteredDoctor}
       />
-      <Modal
-        open={modal.edit.isActive}
-        onClose={() => modal.edit.toggleActive(false)}
-        backdrop={true}
-        style={{ boxShadow: "var(--shadow)" }}
-        className="bg-[var(--color-bg-light-primary-300)]"
-        footer={
-          <Button
-            form="staffForm"
-            type="submit"
-            children="Xác nhận"
-            width="100%"
-            height={40}
-            className="px-4 py-2 font-bold"
-            style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-          />
-        }
-      >
+      <Modal open={modal.edit.isActive} onClose={() => modal.edit.toggleActive(false)} backdrop={true}>
         <Edit onClose={() => modal.edit.toggleActive(false)} />
       </Modal>
       <Modal
         open={modal.delete.isActive}
         onClose={() => modal.delete.toggleActive(false)}
         backdrop={true}
-        style={{ boxShadow: "var(--shadow)" }}
-        footer={
-          <div className="flex justify-end gap-2 mt-5 text-[14px]">
-            <Button
-              onClick={() => modal.delete.toggleActive(false)}
-              children="Huỷ"
-              width="auto"
-              height={40}
-              className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-bg-light-primary-300)" }}
-            />
-            <Button
-              children="Xác nhận"
-              width="auto"
-              height={40}
-              className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-            />
-          </div>
-        }
+        width="max-w-xl"
       >
-        <div className="flex gap-2 items-center text-3xl font-bold">
-          <TiWarning />
-          <span>Cảnh báo</span>
-        </div>
-        <Item
-          as="div"
-          children="Hành động này sẽ xoá bác sĩ khỏi danh sách và hệ thống dữ liệu của bạn. Bạn có muốn tiếp tục?"
-          className="mb-5 mt-2"
-          whitespace=""
-          itemClassName="text-[14px]"
-        />
+        <Delete doctorId={editingDoctorId} onClose={() => modal.delete.toggleActive(false)} />
       </Modal>
     </div>
   );
@@ -214,7 +181,7 @@ function OptionBar({ modal, totalDoctor, keyword, onChange }) {
         <Item as="strong" children="Tổng bác sĩ:" />
         <span>{totalDoctor}</span>
       </div>
-      <div className="flex justify-between md:justify-end gap-2">
+      <div className={cx("flex justify-between md:justify-end gap-2")}>
         <Search value={keyword} onChange={onChange} className="rounded-[8px]" inputClass="max-w-[150px]" />
         <div className="flex gap-2">
           {/* Filter */}

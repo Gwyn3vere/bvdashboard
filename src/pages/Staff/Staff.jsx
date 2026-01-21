@@ -1,39 +1,38 @@
 import classNames from "classnames/bind";
-import { useEffect } from "react";
+import { useState } from "react";
 
-import { useActive, useUsers } from "../../components/hooks";
+import { useActive, useSearch } from "../../components/hooks";
 import { useStaffStore } from "../../store/staffStore";
 
-import { STAFF_STATUS } from "../../constants/status";
-import { STAFF_ROLE } from "../../constants/role";
+import { POSITION_OPTIONS, ROLE_OPTIONS } from "../../constants/option";
 
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
-import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen } from "react-icons/lu";
+import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuSquareUser } from "react-icons/lu";
 
-import { TiWarning } from "react-icons/ti";
-import { Create, Edit } from "../Staff";
+import { Create, Edit, Delete, Profile } from "../Staff";
 
 const cx = classNames.bind(styles);
 
 function Staff() {
   const staffs = useStaffStore((s) => s.staffs);
   const setEditingStaffId = useStaffStore((s) => s.setEditingStaffId);
+  const editingStaffId = useStaffStore((s) => s.editingStaffId);
+
+  const [staffKeyword, setStaffKeyword] = useState("");
+  const filteredStaff = useSearch(staffs, staffKeyword, (staff) =>
+    [staff.name, staff.position, staff.role].filter(Boolean).join(" ")
+  );
 
   const modal = {
     filter: useActive(),
+    profile: useActive(),
     add: useActive(),
     edit: useActive(),
     delete: useActive()
   };
-
-  const { users, errors, loading, fetchUsers } = useUsers();
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   return (
     <div className={TWCSS.container}>
@@ -50,13 +49,18 @@ function Staff() {
         children="Quản lý thành viên nhóm của bạn và quyền tài khoản của họ ở đây."
         itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
-      <OptionBar modal={modal} totalStaff={20} />
+      <OptionBar
+        modal={modal}
+        totalStaff={filteredStaff.length}
+        keyword={staffKeyword}
+        onChange={(e) => setStaffKeyword(e.target.value)}
+      />
 
       <List
         className={TWCSS.list}
         style={{ boxShadow: "var(--shadow)" }}
         columns={[
-          { key: "Index", label: "#", width: "3%", render: (row, index) => index + 1 },
+          { key: "Index", label: "#", width: "3%", render: (row) => row.id },
           {
             key: "checkbox",
             label: <Checkbox checkboxClassName="w-5 h-5" />,
@@ -66,55 +70,73 @@ function Staff() {
           {
             key: "Username",
             label: "Tên thành viên",
-            width: "27%",
+            width: "25%",
             render: (row) => (
               <div className="flex items-center gap-2">
                 <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
                 <div>
-                  <span className="font-bold">{row.firstname + " " + row.lastname}</span>
+                  <span className="font-bold">{row.name}</span>
                   <p className="text-sm opacity-70">{row.email}</p>
                 </div>
               </div>
             )
           },
-          { key: "Position", label: "Chức vụ", width: "10%", render: (row) => row.position },
-          { key: "Phone", label: "Số điện thoại", width: "10%", render: (row) => row.phone },
           {
-            key: "Status",
-            label: "Trạng thái",
-            width: "14%",
+            key: "Position",
+            label: "Chức vụ",
+            width: "27%",
             render: (row) => {
-              const statusConfig = STAFF_STATUS[row.status];
-
-              if (!statusConfig) return row.status;
-
-              return (
-                <div className="flex items-center gap-2">
-                  <div className={cx("w-[10px] h-[10px] rounded-full", statusConfig.color)} />
-                  <span>{statusConfig.label}</span>
-                </div>
-              );
+              const positionConfig = POSITION_OPTIONS.find((item) => item.value === row.position);
+              return <span>{positionConfig ? positionConfig.name : row.position}</span>;
             }
+          },
+          {
+            key: "Phone",
+            label: "Liên hệ",
+            width: "17%",
+            render: (row) => <span>{row.phone}</span>
           },
           {
             key: "Access",
             label: "Quyền",
-            width: "13%",
+            width: "10%",
             render: (row) => {
-              const roleConfig = STAFF_ROLE[row.role];
+              const roleConfig = ROLE_OPTIONS.find((item) => item.value === row.role);
 
               if (!roleConfig) return row.role;
               return (
-                <div
-                  className={cx("inline-block px-3 py-1 rounded-full font-bold capitalize")}
-                  style={{ background: roleConfig.background, color: roleConfig.color }}
+                <span
+                  className={cx(
+                    "px-2 py-1 text-xs rounded-full",
+                    "bg-[var(--color-unavailable-100)] text-black font-medium"
+                  )}
                 >
-                  {roleConfig.label}
-                </div>
+                  {roleConfig.name}
+                </span>
               );
             }
           },
-          { key: "DateAdded", label: "Ngày thêm vào", width: "10%", render: (row) => row.dateAdded },
+          {
+            key: "Profile",
+            label: "",
+            width: "5%",
+            render: (row) => (
+              <Button
+                onClick={() => {
+                  setEditingStaffId(row.id);
+                  modal.profile.toggleActive();
+                }}
+                width={40}
+                height={40}
+                iconClassName="text-[20px] font-bold"
+                className={cx(
+                  "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
+                  "rounded-full transition"
+                )}
+                icon={<LuSquareUser />}
+              />
+            )
+          },
           {
             key: "Edit",
             label: "",
@@ -140,9 +162,12 @@ function Staff() {
             key: "Delete",
             label: "",
             width: "5%",
-            render: () => (
+            render: (row) => (
               <Button
-                onClick={modal.delete.toggleActive}
+                onClick={() => {
+                  setEditingStaffId(row.id);
+                  modal.delete.toggleActive();
+                }}
                 width={40}
                 height={40}
                 iconClassName="text-[20px] font-bold"
@@ -155,73 +180,21 @@ function Staff() {
             )
           }
         ]}
-        data={staffs}
+        data={filteredStaff}
       />
-      <Modal
-        open={modal.edit.isActive}
-        onClose={modal.edit.deactivate}
-        backdrop={true}
-        width="w-[800px]"
-        footer={
-          <div className="flex justify-end gap-2 mt-5 text-[14px]">
-            <Button
-              onClick={modal.add.deactivate}
-              children="Huỷ"
-              width="auto"
-              height={40}
-              className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-bg-light-primary-300)" }}
-            />
-            <Button
-              form="staffForm"
-              type="submit"
-              children="Xác nhận"
-              width="auto"
-              height={40}
-              className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
-            />
-          </div>
-        }
-      >
+      <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-xl">
+        <Profile staffId={editingStaffId} onClose={modal.profile.deactivate} />
+      </Modal>
+      <Modal open={modal.edit.isActive} onClose={modal.edit.deactivate} backdrop={true}>
         <Edit onClose={modal.edit.deactivate} />
       </Modal>
       <Modal
         open={modal.delete.isActive}
         onClose={() => modal.delete.toggleActive(false)}
         backdrop={true}
-        style={{ boxShadow: "var(--shadow)" }}
-        footer={
-          <div className="flex justify-end gap-2 mt-5 text-[14px]">
-            <Button
-              onClick={() => modal.delete.toggleActive(false)}
-              children="Huỷ"
-              width="auto"
-              height={40}
-              className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-bg-light-primary-300)" }}
-            />
-            <Button
-              children="Xác nhận"
-              width="auto"
-              height={40}
-              className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-primary)", color: "var(--color-bg-light-primary-100)" }}
-            />
-          </div>
-        }
+        width="max-w-xl"
       >
-        <div className="flex gap-2 items-center text-3xl font-bold">
-          <TiWarning />
-          <span>Cảnh báo</span>
-        </div>
-        <Item
-          as="div"
-          children="Hành động này sẽ xoá nhân sự khỏi danh sách và hệ thống dữ liệu của bạn. Bạn có muốn tiếp tục?"
-          className="mb-5 mt-2"
-          whitespace=""
-          itemClassName="text-[14px]"
-        />
+        <Delete staffId={editingStaffId} onClose={() => modal.delete.toggleActive(false)} />
       </Modal>
     </div>
   );
@@ -229,7 +202,7 @@ function Staff() {
 
 export default Staff;
 
-function OptionBar({ modal, totalStaff }) {
+function OptionBar({ modal, totalStaff, keyword, onChange }) {
   return (
     <div className="md:flex justify-between items-end mb-5">
       <div className="flex gap-2 mb-3 md:mb-0">
@@ -237,7 +210,7 @@ function OptionBar({ modal, totalStaff }) {
         <span>{totalStaff}</span>
       </div>
       <div className="flex justify-between md:justify-end gap-2">
-        <Search className="rounded-[8px]" inputClass="max-w-[150px]" />
+        <Search value={keyword} onChange={onChange} className="rounded-[8px]" inputClass="max-w-[150px]" />
         <div className="flex gap-2">
           {/* Filter */}
           <Button

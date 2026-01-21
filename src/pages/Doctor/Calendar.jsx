@@ -308,9 +308,7 @@ function Calendar() {
                               style={{ backgroundColor: colorHex }}
                               className={` text-white px-2 py-1 rounded text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
                             >
-                              <div className="font-medium truncate">
-                                Bs. {doctor?.firstName + " " + doctor?.lastName}
-                              </div>
+                              <div className="font-medium truncate">Bs. {doctor?.name}</div>
                               {schedule.configured && schedule.sessionType && (
                                 <div className="text-[10px] opacity-90">
                                   {SESSION_PRESETS[schedule.sessionType]?.label} • {schedule.slots?.length || 0} slots
