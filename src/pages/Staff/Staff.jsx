@@ -182,7 +182,7 @@ function Staff() {
         ]}
         data={filteredStaff}
       />
-      <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-xl">
+      <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-6xl">
         <Profile staffId={editingStaffId} onClose={modal.profile.deactivate} />
       </Modal>
       <Modal open={modal.edit.isActive} onClose={modal.edit.deactivate} backdrop={true}>

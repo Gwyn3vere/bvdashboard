@@ -263,7 +263,7 @@ export const MOCK_DOCTOR_DETAILS = {
     bio: "Hơn 20 năm kinh nghiệm trong khám và điều trị các bệnh lý nội khoa tổng quát, tim mạch và lão khoa. Từng tu nghiệp tại Pháp và tham gia nhiều đề tài nghiên cứu cấp thành phố.",
     scheduleNote: "Thứ 2 - Thứ 6",
     expertise: [
-      "Khám và điều trị bệnh lý tim mạch",
+      "Khám và điều trị các bệnh lý Tim mạch: Tăng huyết áp, Suy tim, Bệnh mạch vành",
       "Điều trị bệnh lý lão khoa",
       "Kiểm soát yếu tố nguy cơ tim mạch",
       "Siêu âm tim và mạch máu"

@@ -6,8 +6,16 @@ import { Link } from "react-router-dom";
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
-import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuCalendarRange } from "react-icons/lu";
-import { Create, Edit, Delete } from ".";
+import {
+  LuListFilter,
+  LuUserRoundPlus,
+  LuLayoutDashboard,
+  LuTrash2,
+  LuUserPen,
+  LuCalendarRange,
+  LuSquareUser
+} from "react-icons/lu";
+import { Create, Edit, Delete, Profile } from ".";
 import { useDoctorStore } from "../../store/doctorStore";
 
 const cx = classNames.bind(styles);
@@ -22,7 +30,8 @@ function Doctor() {
     filter: useActive(),
     add: useActive(),
     edit: useActive(),
-    delete: useActive()
+    delete: useActive(),
+    profile: useActive()
   };
   const filteredDoctor = useSearch(doctors, doctorKeyword, (doctor) =>
     [doctor.name, doctor.specialty, doctor.tags].filter(Boolean).join(" ")
@@ -65,7 +74,7 @@ function Doctor() {
           {
             key: "Doctor",
             label: "Bác sĩ",
-            width: "30%",
+            width: "25%",
             render: (row) => (
               <div className="flex items-center gap-2">
                 <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
@@ -113,6 +122,27 @@ function Doctor() {
             )
           },
           {
+            key: "Profile",
+            label: "",
+            width: "5%",
+            render: (row) => (
+              <Button
+                onClick={() => {
+                  setEditingDoctorId(row.id);
+                  modal.profile.toggleActive();
+                }}
+                width={40}
+                height={40}
+                iconClassName="text-[20px] font-bold"
+                className={cx(
+                  "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
+                  "rounded-full transition"
+                )}
+                icon={<LuSquareUser />}
+              />
+            )
+          },
+          {
             key: "Edit",
             label: "",
             width: "5%",
@@ -157,6 +187,9 @@ function Doctor() {
         ]}
         data={filteredDoctor}
       />
+      <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-4xl">
+        <Profile doctorId={editingDoctorId} onClose={modal.profile.deactivate} />
+      </Modal>
       <Modal open={modal.edit.isActive} onClose={() => modal.edit.toggleActive(false)} backdrop={true}>
         <Edit onClose={() => modal.edit.toggleActive(false)} />
       </Modal>

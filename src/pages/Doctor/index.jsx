@@ -2,6 +2,7 @@ export { default as Doctor } from "./Doctor";
 export { default as Create } from "./Create";
 export { default as Edit } from "./Edit";
 export { default as Delete } from "./Delete";
+export { default as Profile } from "./Profile";
 export { default as Calendar } from "./Calendar";
 export { default as Card } from "./Card";
 export { default as Shift } from "./Shift";
