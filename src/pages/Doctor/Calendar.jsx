@@ -1,25 +1,25 @@
-// Libraries - Hook - Constants - Store
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import classNames from "classnames/bind";
 import { scheduleStore } from "../../store/scheduleStore";
-import { useDoctorCalendar, useScheduleResize, useActive } from "../../components/hooks";
+import { useDoctorCalendar, useScheduleResize, useActive, useSearch } from "../../components/hooks";
 import { SESSION_PRESETS, WEEK_DAYS } from "../../constants/option";
-// Styles- UI - utils - Icon - TWCSS
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical, LuUserPlus } from "react-icons/lu";
 import { getDaysInMonth, formatDate } from "../../utils/format";
-import { getColorHexByName } from "../../utils/color";
-import { Card, Create, Shift } from "./index";
+import { getColorHexByName, getColorByIndex } from "../../utils/color";
+import { Card, Create, Shift, DragPreview } from "./index";
 import { Breadcrumb, Item, Button, Search, Toast, Modal } from "../../components/ui";
 import styles from "../../styles/pages.module.css";
 
 const cx = classNames.bind(styles);
 
 function Calendar() {
-  const create = useActive();
+  const [doctorKeyword, setDoctorKeyword] = useState("");
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
+  const [dragPreview, setDragPreview] = useState(null);
 
   const { doctors, getSchedulesByDate, getDoctorById, removeSchedule, getDirtySchedules } = scheduleStore();
-
+  const create = useActive();
   const {
     toast,
     setToast,
@@ -32,56 +32,67 @@ function Calendar() {
     handleDrop,
     isToday
   } = useDoctorCalendar();
-
   const { isResizing, resizingSchedule, handleResizeStart, handleResizeMove, handleResizeEnd, isDateInResizeRange } =
     useScheduleResize();
+  const filteredDoctor = useSearch(doctors, doctorKeyword, (doctor) => doctor.name);
 
-  const [selectedSchedule, setSelectedSchedule] = useState(null);
+  const dragPreviewRef = useRef(null);
+  const rafId = useRef(null);
 
   const daysInMonth = getDaysInMonth(currentDate);
   const dirtyCount = getDirtySchedules();
 
-  const handleDragStartEvent = (e, doctorId) => {
-    handleDragStart(doctorId);
+  const handleDragStartEvent = (e, doctor) => {
+    handleDragStart(doctor.id);
 
-    const source = e.currentTarget;
-    const rect = source.getBoundingClientRect();
-    const dragImage = source.cloneNode(true);
+    // Ẩn drag image mặc định của browser
+    const emptyImage = new Image();
+    emptyImage.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+    e.dataTransfer.setDragImage(emptyImage, 0, 0);
 
-    dragImage.style.width = `${rect.width}px`;
-    dragImage.style.height = `${rect.height}px`;
-    dragImage.style.opacity = "1";
-    dragImage.style.filter = "none";
-    dragImage.style.backdropFilter = "none";
-    dragImage.style.transform = "none";
-    dragImage.style.boxShadow = "none"; // QUAN TRỌNG
-    dragImage.style.position = "absolute";
-    dragImage.style.top = "-9999px";
-    dragImage.style.left = "-9999px";
-    dragImage.style.pointerEvents = "none";
+    // Lấy màu của doctor
+    const doctorIndex = doctors.findIndex((d) => d.id === doctor.id);
+    const colorObj = getColorByIndex(doctorIndex);
 
-    document.body.appendChild(dragImage);
-
-    e.dataTransfer.setDragImage(dragImage, rect.width / 2, rect.height / 2);
-
-    setTimeout(() => {
-      document.body.removeChild(dragImage);
-    }, 0);
+    // Set custom drag preview
+    setDragPreview({
+      doctor,
+      colorObj,
+      position: { x: e.clientX, y: e.clientY }
+    });
   };
+  const handleDrag = (e) => {
+    if (!dragPreview || e.clientX === 0 || e.clientY === 0) return;
 
+    // Cancel previous animation frame
+    if (rafId.current) {
+      cancelAnimationFrame(rafId.current);
+    }
+
+    // Use requestAnimationFrame for smooth updates
+    rafId.current = requestAnimationFrame(() => {
+      if (dragPreviewRef.current) {
+        dragPreviewRef.current.style.left = `${e.clientX}px`;
+        dragPreviewRef.current.style.top = `${e.clientY}px`;
+      }
+    });
+  };
+  const handleDragEnd = () => {
+    if (rafId.current) {
+      cancelAnimationFrame(rafId.current);
+    }
+    setDragPreview(null);
+  };
   const handleDragOver = (e) => {
     e.preventDefault();
   };
-
   const handleDropEvent = (e, dateStr, isCurrentMonth) => {
     e.preventDefault();
     handleDrop(dateStr, isCurrentMonth);
   };
-
   const handleScheduleClick = (schedule, date) => {
     setSelectedSchedule({ ...schedule, date });
   };
-
   const handleResizeStartEvent = (e, schedule, dateStr) => {
     e.preventDefault();
     e.stopPropagation();
@@ -105,15 +116,15 @@ function Calendar() {
         itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
 
-      <div className="rounded-[8px] md:flex gap-5 ">
+      <div className="rounded-[8px] flex-col flex md:flex-row gap-5 ">
         {/* Sidebar - Danh sách bác sĩ */}
         <div
-          className={cx("bg-white p-6 flex flex-col justify-between w-80")}
+          className={cx("bg-white p-6 flex flex-col justify-between md:w-80")}
           style={{
             boxShadow: "var(--shadow)"
           }}
         >
-          <div>
+          <div className="mb-5">
             <div className={cx("mb-2 flex-shrink-0 h-[100px]")}>
               <Item as="h4" children="Danh sách bác sĩ" className="text-[18px] font-bold text-gray-900 mb-2" />
               <Item
@@ -123,18 +134,35 @@ function Calendar() {
               />
             </div>
 
-            <Search className="rounded-[8px] mb-2" width="100%" height={48} />
+            <Search
+              value={doctorKeyword}
+              onChange={(e) => setDoctorKeyword(e.target.value)}
+              className="rounded-[8px] mb-5 box-border"
+              width="100%"
+              height={50}
+            />
 
-            <div
-              className="flex-1 w-full overflow-auto hidden-scrollbar"
-              style={{
-                maxHeight: "500px"
-              }}
-            >
-              {doctors.map((doctor) => (
-                <Card key={doctor.id} doctor={doctor} onDragStart={handleDragStartEvent} />
+            <div className={cx("flex-1 w-full overflow-auto hidden-scrollbar", "h-[200px] md:h-[500px]")}>
+              {filteredDoctor.map((doctor) => (
+                <Card
+                  key={doctor.id}
+                  doctor={doctor}
+                  onDragStart={(e) => handleDragStartEvent(e, doctor)}
+                  onDrag={handleDrag}
+                  onDragEnd={handleDragEnd}
+                />
               ))}
             </div>
+            {dragPreview && (
+              <DragPreview
+                doctor={dragPreview.doctor}
+                colorObj={dragPreview.colorObj}
+                position={dragPreview.position}
+                onRefReady={(element) => {
+                  dragPreviewRef.current = element;
+                }}
+              />
+            )}
           </div>
 
           <div>
@@ -280,9 +308,7 @@ function Calendar() {
                               style={{ backgroundColor: colorHex }}
                               className={` text-white px-2 py-1 rounded text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
                             >
-                              <div className="font-medium truncate">
-                                Bs. {doctor?.firstName + " " + doctor?.lastName}
-                              </div>
+                              <div className="font-medium truncate">Bs. {doctor?.name}</div>
                               {schedule.configured && schedule.sessionType && (
                                 <div className="text-[10px] opacity-90">
                                   {SESSION_PRESETS[schedule.sessionType]?.label} • {schedule.slots?.length || 0} slots

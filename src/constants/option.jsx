@@ -1,8 +1,3 @@
-export const STAFF_ROLE_OPTIONS = [
-  { value: "ADMIN", name: "Quản trị viên" },
-  { value: "MEMBER", name: "Thành viên" }
-];
-
 export const STAFF_STATUS_OPTIONS = [
   { value: "ACTIVE", name: "Hoạt động" },
   { value: "INACTIVE", name: "Không hoạt động" }
@@ -18,6 +13,70 @@ export const PATIENT_GENDER_OPTIONS = [
   { value: "MALE", name: "Nam" },
   { value: "FEMALE", name: "Nữ" },
   { value: "OTHER", name: "KHÁC" }
+];
+
+export const POSITION_OPTIONS = [
+  {
+    id: "ke-hoach-chuyen-vien",
+    value: "PLANNING_STAFF",
+    name: "Chuyên viên Kế hoạch",
+    department: "Phòng Kế hoạch - Nghiệp vụ",
+    level: "STAFF"
+  },
+  {
+    id: "ke-hoach-truong-phong",
+    value: "PLANNING_MANAGER",
+    name: "Trưởng phòng Kế hoạch",
+    department: "Phòng Kế hoạch - Nghiệp vụ",
+    level: "MANAGER"
+  },
+  {
+    id: "hcns-nhan-vien",
+    value: "HR_STAFF",
+    name: "Nhân viên Hành chính - Nhân sự",
+    department: "Phòng Tổ chức - Hành chính",
+    level: "STAFF"
+  },
+  {
+    id: "hcns-truong-phong",
+    value: "HR_MANAGER",
+    name: "Trưởng phòng Hành chính - Nhân sự",
+    department: "Phòng Tổ chức - Hành chính",
+    level: "MANAGER"
+  },
+  {
+    id: "ke-toan-nhan-vien",
+    value: "ACCOUNTANT",
+    name: "Kế toán",
+    department: "Phòng Tài chính - Kế toán",
+    level: "STAFF"
+  },
+  {
+    id: "ke-toan-truong-phong",
+    value: "CHIEF_ACCOUNTANT",
+    name: "Kế toán trưởng",
+    department: "Phòng Tài chính - Kế toán",
+    level: "MANAGER"
+  },
+  {
+    id: "dieu-duong-vien",
+    value: "NURSE",
+    name: "Điều dưỡng viên",
+    department: "Phòng Điều dưỡng",
+    level: "STAFF"
+  },
+  {
+    id: "dieu-duong-truong-phong",
+    value: "HEAD_NURSE",
+    name: "Trưởng phòng Điều dưỡng",
+    department: "Phòng Điều dưỡng",
+    level: "MANAGER"
+  }
+];
+
+export const ROLE_OPTIONS = [
+  { id: 1, value: "MEMBER", name: "Thành viên" },
+  { id: 2, value: "ADMIN", name: "Quản trị viên" }
 ];
 
 export const DEPARTMENTS_OPTIONS = [
@@ -181,12 +240,59 @@ export const TAGS_DOCTOR_OPTIONS = [
   { id: 1, value: "CARDIOLOGY", name: "Tim mạch" },
   { id: 2, value: "GERIATRICS", name: "Lão khoa" },
   { id: 3, value: "GENERAL_INTERNAL_MEDICINE", name: "Nội tổng quát" },
+
   { id: 4, value: "PREGNANCY_MONITORING", name: "Theo dõi thai kỳ" },
   { id: 5, value: "GYNECOLOGY", name: "Phụ khoa" },
   { id: 6, value: "INFERTILITY_TREATMENT", name: "Hiếm muộn" },
+
   { id: 7, value: "ENDOSCOPIC_SURGERY", name: "Phẫu thuật nội soi" },
   { id: 8, value: "ORTHOPEDIC_SURGERY", name: "Chấn thương chỉnh hình" },
-  { id: 9, value: "PEDIATRIC_RESPIRATORY", name: "Hô hấp nhi" }
+
+  { id: 9, value: "PEDIATRIC_RESPIRATORY", name: "Hô hấp nhi" },
+  { id: 10, value: "PEDIATRIC_GASTROENTEROLOGY", name: "Tiêu hóa nhi" },
+  { id: 11, value: "PEDIATRIC_NUTRITION", name: "Dinh dưỡng" },
+
+  { id: 12, value: "ENT_ENDOSCOPY", name: "Nội soi TMH" },
+  { id: 13, value: "NECK_SURGERY", name: "Phẫu thuật vùng cổ" },
+
+  { id: 14, value: "COSMETIC_DENTISTRY", name: "Nha khoa thẩm mỹ" },
+  { id: 15, value: "IMPLANT_DENTISTRY", name: "Cấy ghép Implant" },
+
+  { id: 16, value: "ACUPUNCTURE", name: "Châm cứu" },
+  { id: 17, value: "PHYSIOTHERAPY", name: "Vật lý trị liệu" },
+
+  { id: 18, value: "INTERVENTIONAL_CARDIOLOGY", name: "Tim mạch can thiệp" },
+  { id: 19, value: "ECHOCARDIOGRAPHY", name: "Siêu âm tim" },
+
+  { id: 20, value: "CT_SCAN", name: "CT" },
+  { id: 21, value: "MRI", name: "MRI" },
+  { id: 22, value: "ULTRASOUND", name: "Siêu âm" },
+
+  { id: 23, value: "COSMETIC_DERMATOLOGY", name: "Da liễu thẩm mỹ" },
+  { id: 24, value: "LASER_CO2", name: "Laser CO2" },
+
+  { id: 25, value: "EMERGENCY_MEDICINE", name: "Cấp cứu" },
+  { id: 26, value: "CRITICAL_CARE", name: "Hồi sức tích cực" },
+
+  { id: 27, value: "PHACO_SURGERY", name: "Phẫu thuật Phaco" },
+  { id: 28, value: "REFRACTIVE_ERRORS", name: "Tật khúc xạ" },
+
+  { id: 29, value: "GASTROSCOPY", name: "Nội soi tiêu hóa" },
+  { id: 30, value: "HEPATOLOGY", name: "Gan mật" },
+
+  { id: 31, value: "NEUROLOGY", name: "Thần kinh" },
+  { id: 32, value: "STROKE", name: "Đột quỵ" },
+
+  { id: 33, value: "HEMATOLOGY", name: "Huyết học" },
+  { id: 34, value: "BIOCHEMISTRY", name: "Hóa sinh" },
+
+  { id: 35, value: "CHILD_CARE", name: "Chăm sóc trẻ em" },
+
+  { id: 36, value: "ANESTHESIA", name: "Gây mê" },
+  { id: 37, value: "POSTOPERATIVE_ANALGESIA", name: "Giảm đau sau mổ" },
+
+  { id: 38, value: "RHEUMATOLOGY", name: "Cơ xương khớp" },
+  { id: 39, value: "JOINT_INJECTION", name: "Tiêm khớp" }
 ];
 
 export const SESSION_PRESETS = {

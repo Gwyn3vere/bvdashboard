@@ -1,15 +1,15 @@
-import { degrees } from "motion";
-
 export const INITIAL_STAFF = {
-  avatarUrl: "",
+  id: "",
+  slug: "",
+  avatar: null,
   email: "",
   password: "",
-  firstname: "",
-  lastname: "",
+  name: "",
   phone: "",
   position: "",
-  status: "",
-  role: ""
+  role: "",
+  facility: "",
+  featured: false
 };
 
 export const INITIAL_DOCTOR = {
@@ -37,4 +37,24 @@ export const INITIAL_DETAIL_DOCTOR = {
   experience: [],
   education: [],
   publications: []
+};
+
+export const INITAL_WORK_SCHEDULES = {
+  date: [
+    {
+      doctorId: "",
+      dateTime: "",
+      sessionType: "",
+      startTime: "",
+      endTime: "",
+      slotDuration: 30,
+      scheduleId: "",
+      generatedSlots: [],
+      selectedSlotIndices: [],
+      slots: [],
+      configured: false,
+      syncStatus: "dirty",
+      colorName: "warning"
+    }
+  ]
 };

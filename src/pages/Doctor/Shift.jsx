@@ -66,7 +66,7 @@ export default function Shift({ schedule, date, onClose }) {
             <div>
               <Item as="h3" children="Cấu hình ca làm việc" className="text-xl font-bold text-gray-900" />
               <p className="text-sm text-gray-600 mt-1">
-                {doctor?.firstName + " " + doctor?.lastName} -{" "}
+                {doctor?.name} -{" "}
                 {new Date(date).toLocaleDateString("vi-VN", {
                   weekday: "long",
                   day: "2-digit",

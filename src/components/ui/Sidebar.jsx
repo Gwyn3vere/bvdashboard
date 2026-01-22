@@ -1,8 +1,7 @@
-// Libraries - Constants - Hooks
+import { useEffect } from "react";
 import classNames from "classnames/bind";
 import { Link, useLocation } from "react-router-dom";
 import { SIDEBAR_MENU } from "../../constants";
-// Styles - UI - Icons
 import style from "../../styles/ui.module.css";
 import { Item, Logo } from ".";
 
@@ -11,6 +10,12 @@ const cx = classNames.bind(style);
 function Sidebar({ collapsed, setCollapsed }) {
   const location = useLocation();
   const pathname = location.pathname;
+
+  useEffect(() => {
+    if (window.innerWidth < 1280) {
+      setCollapsed(true);
+    }
+  }, [pathname, setCollapsed]);
   return (
     <>
       {!collapsed && (
@@ -19,16 +24,14 @@ function Sidebar({ collapsed, setCollapsed }) {
       <aside
         className={cx(
           "xl:p-3 h-full transition-all duration-300",
-          "bg-[var(--color-bg-light-primary-100)]",
+          "bg-[var(--color-bg-light-primary-200)] xl:bg-[var(--color-bg-light-primary-100)]",
           // Responsive positioning
           "fixed xl:relative",
           "top-[70px] xl:top-0",
           "left-0",
           "z-40",
           // Responsive visibility - ẩn khi collapsed trên mobile, luôn hiện trên xl
-          collapsed ? "-translate-x-full xl:translate-x-0" : "translate-x-0",
-          // Shadow cho mobile
-          "shadow-lg xl:shadow-none"
+          collapsed ? "-translate-x-full xl:translate-x-0" : "translate-x-0"
         )}
       >
         <div className={cx("flex flex-col h-full rounded-[8px]")}>

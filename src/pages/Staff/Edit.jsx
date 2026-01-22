@@ -1,221 +1,290 @@
-// Libraries - Mock - Hooks - Store - Constants
+import React, { useState, useEffect } from "react";
 import classNames from "classnames/bind";
-import { useState, useEffect } from "react";
-import { STAFF_ROLE_OPTIONS, STAFF_STATUS_OPTIONS } from "../../constants/option";
+import { POSITION_OPTIONS, ROLE_OPTIONS } from "../../constants/option";
+import { useActive, useForm, useValidation } from "../../components/hooks";
 import { INITIAL_STAFF } from "../../constants/field";
-import { useActive, useForm } from "../../components/hooks";
-import { useStaffStore } from "../../store/staffStore";
-// Styles - UI
 import styles from "../../styles/pages.module.css";
-import { Item, Form, Input, Button, Select } from "../../components/ui";
-import { LuX, LuCamera } from "react-icons/lu";
+import { Item, Form, Input, Button, Select, Toast, TitleForm, TextArea } from "../../components/ui";
+import { LuX, LuCamera, LuUser } from "react-icons/lu";
+import { validateStaff } from "../../utils/validation";
+import { slugify } from "../../utils/format";
+import { useStaffStore } from "../../store/staffStore";
 
 const cx = classNames.bind(styles);
 
 function Edit({ onClose }) {
-  const editingStaffId = useStaffStore((s) => s.editingStaffId);
-  const getStaffById = useStaffStore((s) => s.getStaffById);
-  const staff = getStaffById(editingStaffId);
+  const [toast, setToast] = useState(null);
+  const { validate, validateField, setAllTouched, getFieldError } = useValidation(validateStaff);
 
-  const normalizeStaffForForm = (staff) => ({
-    ...staff,
-    status: String(staff.status ?? ""),
-    role: String(staff.role ?? "")
-  });
+  const getStaffById = useStaffStore((s) => s.getStaffById);
+  const editingStaffId = useStaffStore((s) => s.editingStaffId);
+  const staff = editingStaffId ? getStaffById(editingStaffId) : null;
 
   const { values, setFieldValue } = useForm({
     initialValues: INITIAL_STAFF,
-    editValues: staff,
-    transformEditValues: normalizeStaffForForm
+    editValues: staff
   });
 
-  return (
-    <div className="relative">
-      <Item children="Cập nhật thông tin nhân sự" className="flex items-center gap-2 text-2xl font-bold" />
-      <Button
-        icon={<LuX />}
-        width={40}
-        height={40}
-        className={cx("absolute top-0 right-0", "hover:bg-[var(--color-error)] hover:text-white")}
-        iconClassName="text-[20px]"
-        onClick={onClose}
-      />
-      <Item
-        as="div"
-        children="Điền đầy đủ thông tin nhân sự vào danh sách của bạn."
-        className="mb-5 mt-1"
-        itemClassName="text-[14px] text-gray-500"
-      />
-      <Form id="staffForm" className="flex flex-col gap-2">
-        <AddAvatar data={values} setData={setFieldValue} />
-        <StaffAccount data={values} setData={setFieldValue} />
-        <hr className="mt-5 text-gray-300" />
-        <StaffInfo data={values} setData={setFieldValue} />
-      </Form>
-    </div>
-  );
-}
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-export default Edit;
+    const isValid = validate(values);
+    if (!isValid) {
+      setAllTouched(values);
+      setToast({
+        type: "INFO",
+        message: "Vui lòng điền đầy đủ thông tin bắt buộc"
+      });
+      return;
+    }
 
-export function AddAvatar({ data, setData }) {
-  return (
-    <div>
-      <div className="flex gap-5">
-        <div className="relative w-auto h-full">
-          <img src={data?.avatarUrl} alt="avatar" className="w-[100px] h-[100px] rounded-full" />
-          <Item
-            as="div"
-            icon={<LuCamera />}
-            className="flex items-center justify-center w-[30px] h-[30px] absolute bottom-0 right-0 bg-gray-200 rounded-full"
-            iconClassName="text-[14px]"
-          />
-        </div>
-        <div className="flex flex-col justify-between">
-          <Item as="strong" children="Upload ảnh đại diện" itemClassName="text-[20px]" />
-          <Item
-            as="span"
-            children="Ảnh không được vượt quá 4MB"
-            itemClassName="text-[12px] text-[var(--color-text-light-secondary)]"
-          />
-          <div className="flex gap-2">
-            <Button type="button" children="Chọn ảnh" className="bg-black border-2 border-gray-700 text-white" />
-            <Button type="button" children="Xoá ảnh" className="border-2 border-gray-300" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function StaffAccount({ data, setData }) {
-  return (
-    <div className="mt-5">
-      <div className={cx("mb-2 rounded-[8px]", "bg-[var(--color-primary)] p-1.5")}>
-        <Item as="span" children="Thông tin tài khoản" itemClassName="text-[14px] text-white font-bold" />
-      </div>
-      <div className="flex justify-between gap-2">
-        <Input
-          label="Email *"
-          name="email"
-          type="email"
-          value={data?.email}
-          onChange={(e) => setData("email", e.target.value)}
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          required
-        />
-        <Input
-          label="Mật khẩu *"
-          name="password"
-          type="password"
-          value={data?.password}
-          onChange={(e) => setData("password", e.target.value)}
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          required
-        />
-      </div>
-      <div className="mt-2 flex justify-between gap-2">
-        <Input
-          label="Họ và tên đệm *"
-          name="firstname"
-          type="text"
-          value={data?.firstname}
-          onChange={(e) => setData("firstname", e.target.value)}
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          required
-        />
-        <Input
-          label="Tên *"
-          name="lastname"
-          type="text"
-          value={data?.lastname}
-          onChange={(e) => setData("lastname", e.target.value)}
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          required
-        />
-      </div>
-    </div>
-  );
-}
-
-export function StaffInfo({ data, setData }) {
-  const select = {
-    status: useActive(),
-    role: useActive()
+    // Gửi data lên server
+    console.log("Submit data:", values);
+    // submitDoctor(values);
   };
   return (
-    <div className="mt-5">
-      <div className={cx("mb-2 rounded-[8px]", "bg-[var(--color-primary)] p-1.5")}>
-        <Item as="span" children="Thông tin bổ sung" itemClassName="text-[14px] text-white font-bold" />
+    <>
+      <TitleForm
+        onClose={onClose}
+        title={"Cập nhật nhân sự"}
+        subTitle={"Điền đầy đủ thông tin nhân sự vào danh sách của bạn."}
+      />
+
+      {/* Content */}
+      <Form
+        id="staffForm"
+        noValidate
+        onSubmit={handleSubmit}
+        className="space-y-4 p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]"
+      >
+        <>
+          <Avatar value={values} setValue={setFieldValue} setToast={setToast} />
+          <InputForm
+            value={values}
+            setValue={setFieldValue}
+            getFieldError={getFieldError}
+            validateField={validateField}
+          />
+        </>
+      </Form>
+
+      {/* Footer */}
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
+        <Button
+          type="button"
+          children={"Huỷ"}
+          onClick={onClose}
+          width="100%"
+          className={cx(
+            "text-gray-700 font-semibold transition-all duration-200",
+            "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]"
+          )}
+        />
+        <Button
+          type={"submit"}
+          form={"staffForm"}
+          children={"Xác nhận"}
+          width="100%"
+          className="bg-[var(--color-primary)] text-white font-semibold"
+        />
       </div>
-      <div className="flex justify-between gap-2 mb-2">
+
+      <Toast
+        visible={!!toast}
+        duration={3000}
+        position="bottom-right"
+        onClose={() => setToast(null)}
+        type={toast?.type}
+        content={toast?.message}
+      />
+    </>
+  );
+}
+
+export default React.memo(Edit);
+
+function Avatar({ value, setValue, setToast }) {
+  const [previewAvatar, setPreviewAvatar] = useState(null);
+
+  useEffect(() => {
+    if (!value.avatar) {
+      setPreviewAvatar(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(value.avatar);
+    setPreviewAvatar(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [value.avatar]);
+
+  const handleChangeAvatar = (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (!selectedFile) return;
+
+    if (!selectedFile.type.startsWith("image/")) {
+      setToast({
+        type: "INFO",
+        message: "Vui lòng chọn một tệp hình ảnh hợp lệ."
+      });
+      return;
+    }
+
+    setValue("avatar", selectedFile);
+  };
+  return (
+    <div className="flex flex-col items-center justify-center mb-6 gap-2">
+      <div className="relative">
+        {previewAvatar ? (
+          <img src={previewAvatar} alt="Preview" className="h-[120px] w-[120px] rounded-full object-cover" />
+        ) : (
+          <>
+            <div
+              className={cx(
+                "flex items-center justify-center cursor-pointer",
+                "h-[120px] w-[120px] rounded-full bg-[var(--color-primary-300)]"
+              )}
+            >
+              <LuUser className="text-white text-4xl" />
+            </div>
+            <div
+              className={cx(
+                "flex items-center justify-center",
+                "w-8 h-8 rounded-full bg-white",
+                "absolute bottom-0 right-0 border border-gray-300"
+              )}
+            >
+              <LuCamera className="text-green-500 text-xl" />
+            </div>
+          </>
+        )}
+
         <Input
-          label="Số điện thoại"
-          name="phone"
-          type="tel"
-          value={data?.phone}
-          onChange={(e) => setData("phone", e.target.value)}
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
+          width={100}
+          height={120}
+          type="file"
+          accept="image/*"
+          onChange={handleChangeAvatar}
+          inputClassName="rounded-full"
+          className={cx("opacity-0 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2")}
         />
+      </div>
+      <Item as="span" children={"Ảnh đại diện"} />
+    </div>
+  );
+}
+
+function InputForm({ value, setValue, getFieldError, validateField }) {
+  useEffect(() => {
+    const name = value?.name?.trim() || "";
+
+    if (name) {
+      const slug = slugify(`${name}`);
+
+      setValue("slug", slug);
+    } else {
+      setValue("slug", "");
+    }
+  }, [value?.name, setValue]);
+
+  const handleBlur = (fieldName) => {
+    validateField(fieldName, value);
+  };
+  return (
+    <div className={cx("flex flex-col gap-8")}>
+      <div className="flex flex-col gap-2">
         <Input
-          label="Chức vụ"
-          name="position"
+          label={"Họ và tên"}
+          name="name"
           type="text"
-          value={data?.position}
-          onChange={(e) => setData("position", e.target.value)}
-          height={40}
-          placeholder=""
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
+          value={value?.name}
+          onChange={(val) => setValue("name", val.target.value)}
+          onBlur={() => handleBlur("name")}
+          error={getFieldError("name")}
+          placeholder="Nguyễn Văn A"
+          required
         />
-        <Select
-          label="Trạng thái"
-          name="status"
-          height={40}
-          className="w-full"
-          labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-          inputClassName="rounded-[8px] mt-1"
-          data={STAFF_STATUS_OPTIONS}
-          value={data?.status}
-          onChange={(val) => setData("status", val)}
-          active={select.status}
+        <Input
+          name="slug"
+          type="text"
+          value={value?.slug}
+          readOnly
+          disabled
+          onChange={(val) => setValue("slug", val.target.value)}
+          placeholder="Slug (tự động tạo)"
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Input
+          label={"Tài khoản"}
+          name="email"
+          type="email"
+          value={value?.email}
+          onChange={(val) => setValue("email", val.target.value)}
+          onBlur={() => handleBlur("email")}
+          error={getFieldError("email")}
+          placeholder="example@gmail.com"
+          required
+        />
+        <Input
+          name="password"
+          type="password"
+          value={value?.password}
+          onChange={(val) => setValue("password", val.target.value)}
+          placeholder="Nhập mật khẩu"
+          onBlur={() => handleBlur("password")}
+          error={getFieldError("password")}
           required
         />
       </div>
-      <Select
-        label="Vai trò"
-        name="role"
-        height={40}
-        className="w-full"
-        labelClassName="text-sm text-[var(--color-text-light-secondary)]"
-        inputClassName="rounded-[8px] mt-1"
-        data={STAFF_ROLE_OPTIONS}
-        value={data?.role}
-        onChange={(val) => setData("role", val)}
-        active={select.role}
-        required
-      />
+      <div className="flex flex-col gap-2">
+        <Select
+          label="Chức vụ"
+          name="position"
+          data={POSITION_OPTIONS}
+          value={value?.position}
+          onChange={(val) => setValue("position", val)}
+          onBlur={() => handleBlur("position")}
+          error={getFieldError("position")}
+          placeholder="Chọn chức vụ"
+          required
+        />
+        <Select
+          name="role"
+          data={ROLE_OPTIONS}
+          value={value?.role}
+          onChange={(val) => setValue("role", val)}
+          onBlur={() => handleBlur("role")}
+          error={getFieldError("role")}
+          placeholder="Chọn vai trò hệ thống"
+          required
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Input
+          label={"Liên hệ"}
+          name="phone"
+          type="text"
+          value={value?.phone}
+          onChange={(val) => setValue("phone", val.target.value)}
+          onBlur={() => handleBlur("phone")}
+          error={getFieldError("phone")}
+          placeholder="Nhập số điện thoại liên hệ"
+          required
+        />
+        <TextArea
+          name="facility"
+          type="text"
+          value={value?.facility}
+          onChange={(val) => setValue("facility", val.target.value)}
+          onBlur={() => handleBlur("facility")}
+          error={getFieldError("facility")}
+          placeholder="Nhập cơ sở công tác"
+          rows={3}
+          required
+        />
+      </div>
     </div>
   );
 }

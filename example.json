@@ -1,0 +1,67 @@
+{
+  "state": {
+    "workSchedules": {
+      "2026-01-21": [
+        {
+          "scheduleId": "schedule_1768983180550_0.36090994730983383",
+          "doctorId": "5",
+          "colorName": "warning",
+          "date": "2026-01-21",
+          "configured": true,
+          "syncStatus": "dirty",
+          "sessionType": "morning",
+          "slotDuration": 30,
+          "startTime": "08:00",
+          "endTime": "11:00",
+          "slots": [
+            { "start": "08:00", "end": "08:30" },
+            { "start": "08:30", "end": "09:00" },
+            { "start": "09:00", "end": "09:30" },
+            { "start": "09:30", "end": "10:00" },
+            { "start": "10:00", "end": "10:30" },
+            { "start": "10:30", "end": "11:00" }
+          ],
+          "generatedSlots": [
+            { "start": "08:00", "end": "08:30" },
+            { "start": "08:30", "end": "09:00" },
+            { "start": "09:00", "end": "09:30" },
+            { "start": "09:30", "end": "10:00" },
+            { "start": "10:00", "end": "10:30" },
+            { "start": "10:30", "end": "11:00" }
+          ],
+          "selectedSlotIndices": [0, 1, 2, 3, 4, 5]
+        },
+        {
+          "scheduleId": "schedule_1768989224703_0.6846047191036971",
+          "doctorId": "4",
+          "colorName": "cyan",
+          "date": "2026-01-21",
+          "configured": true,
+          "syncStatus": "dirty",
+          "sessionType": "morning",
+          "slotDuration": 30,
+          "startTime": "08:00",
+          "endTime": "11:00",
+          "slots": [
+            { "start": "08:00", "end": "08:30" },
+            { "start": "08:30", "end": "09:00" },
+            { "start": "09:00", "end": "09:30" },
+            { "start": "09:30", "end": "10:00" },
+            { "start": "10:00", "end": "10:30" },
+            { "start": "10:30", "end": "11:00" }
+          ],
+          "generatedSlots": [
+            { "start": "08:00", "end": "08:30" },
+            { "start": "08:30", "end": "09:00" },
+            { "start": "09:00", "end": "09:30" },
+            { "start": "09:30", "end": "10:00" },
+            { "start": "10:00", "end": "10:30" },
+            { "start": "10:30", "end": "11:00" }
+          ],
+          "selectedSlotIndices": [0, 1, 2, 3, 4, 5]
+        }
+      ]
+    }
+  },
+  "version": 0
+}
