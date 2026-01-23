@@ -142,7 +142,7 @@ function Calendar() {
               height={50}
             />
 
-            <div className={cx("flex-1 w-full overflow-auto hidden-scrollbar", "h-[200px] md:h-[500px]")}>
+            <div className={cx("flex-1 w-full overflow-auto", "h-[200px] md:h-[500px]", TWCSS.scrollbarY)}>
               {filteredDoctor.map((doctor) => (
                 <Card
                   key={doctor.id}
