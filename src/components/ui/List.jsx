@@ -4,6 +4,7 @@ import classNames from "classnames/bind";
 import { usePagination } from "../hooks";
 
 import style from "../../styles/ui.module.css";
+import { TWCSS } from "../../styles/defineTailwindcss";
 import { Item, Pagination } from "../ui";
 
 const cx = classNames.bind(style);
@@ -12,7 +13,7 @@ function List({ className, columns = [], data = [], style = {} }) {
   const { currentPage, totalPages, pagedData, pages, setCurrentPage, nextPage, prevPage } = usePagination(data, 10);
   return (
     <div className={cx(className, "overflow-hidden")} style={{ ...style }}>
-      <div className={cx("overflow-x-auto")}>
+      <div className={cx("overflow-x-auto", TWCSS.scrollbarX)}>
         <div
           className={cx("w-[1600px] xl:w-full px-4 py-3 flex items-center bg-[var(--color-primary)] rounded-t-[8px]")}
         >

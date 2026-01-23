@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
+import { TWCSS } from "../../styles/defineTailwindcss";
 import { SPECIALTIES_OPTIONS } from "../../constants/option";
 import { TitleForm, Item, Button } from "../../components/ui";
 import { useDoctorStore } from "../../store/doctorStore";
@@ -110,7 +111,7 @@ function Tabs({ active, setActive }) {
   ];
   return (
     <div className={cx("sticky top-25 bg-white", "border-b border-t border-gray-200", "overflow-hidden w-full px-6")}>
-      <div className="flex gap-6 overflow-x-auto w-full px-2 py-4">
+      <div className={cx("flex gap-6 overflow-x-auto w-full px-2 py-4", TWCSS.scrollbarX)}>
         {sections.map((sect) => (
           <Button
             key={sect.id}

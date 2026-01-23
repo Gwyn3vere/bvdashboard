@@ -24,5 +24,17 @@ export const TWCSS = {
     "focus:border-[var(--color-primary-500)] focus:outline-none cursor-pointer",
     "flex items-center justify-between bg-white hover:border-gray-300 transition-colors"
   ],
-  inputError: ["border-2 border-[var(--color-error)]"]
+  inputError: ["border-2 border-[var(--color-error)]"],
+  scrollbarX: [
+    "[&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:rounded-full",
+    "[&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full",
+    "[&::-webkit-scrollbar-thumb]:bg-gray-300",
+    "dark:[&::-webkit-scrollbar-track]:bg-[var(--color-primary-100)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--color-primary-300)]"
+  ],
+  scrollbarY: [
+    "[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full",
+    "[&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full",
+    "[&::-webkit-scrollbar-thumb]:bg-gray-300",
+    "dark:[&::-webkit-scrollbar-track]:bg-[var(--color-primary-100)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--color-primary-300)]"
+  ]
 };
