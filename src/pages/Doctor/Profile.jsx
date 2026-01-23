@@ -110,7 +110,9 @@ function Tabs({ active, setActive }) {
     { id: "publications", label: "Công trình nghiên cứu" }
   ];
   return (
-    <div className={cx("sticky top-25 bg-white", "border-b border-t border-gray-200", "overflow-hidden w-full px-6")}>
+    <div
+      className={cx("sticky top-25 z-50 bg-white", "border-b border-t border-gray-200", "overflow-hidden w-full px-6")}
+    >
       <div className={cx("flex gap-6 overflow-x-auto w-full px-2 py-4", TWCSS.scrollbarX)}>
         {sections.map((sect) => (
           <Button
@@ -131,7 +133,7 @@ function Tabs({ active, setActive }) {
 
 function CardInfo({ icon: Icon, title, children, id }) {
   return (
-    <div id={id} className="flex flex-col gap-6 scroll-mt-[180px]">
+    <div id={id} className={cx("flex flex-col gap-6 scroll-mt-[180px]")}>
       <Item
         as="strong"
         icon={<Icon />}

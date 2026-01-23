@@ -15,7 +15,7 @@ function List({ className, columns = [], data = [], style = {} }) {
     <div className={cx(className, "overflow-hidden")} style={{ ...style }}>
       <div className={cx("overflow-x-auto", TWCSS.scrollbarX)}>
         <div
-          className={cx("w-[1600px] xl:w-full px-4 py-3 flex items-center bg-[var(--color-primary)] rounded-t-[8px]")}
+          className={cx("w-[1600px] 2xl:w-full px-4 py-3 flex items-center bg-[var(--color-primary)] rounded-t-[8px]")}
         >
           {columns.map((col) => (
             <label
@@ -32,7 +32,7 @@ function List({ className, columns = [], data = [], style = {} }) {
             <div
               key={row.id}
               className={cx(
-                "px-4 w-[1600px] xl:w-full",
+                "px-4 w-[1600px] 2xl:w-full",
                 "flex items-center border-b border-gray-100 transition cursor-pointer",
                 "hover:bg-[var(--color-primary)] hover:text-white"
               )}
