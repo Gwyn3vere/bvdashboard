@@ -63,7 +63,7 @@ function Header({ collapsed, toggle }) {
           className={cx(
             "text-[14px] text-[var(--color-primary)]",
             "cursor-pointer",
-            "inline-flex transition-all duration-300 ease-in-out",
+            "inline-flex justify-start transition-all duration-300 ease-in-out",
             collapsed ? "opacity-100 scale-100" : "opacity-80 scale-95"
           )}
           onClick={toggle}

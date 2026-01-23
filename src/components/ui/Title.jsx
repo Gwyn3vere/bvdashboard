@@ -9,10 +9,7 @@ const cx = classNames.bind(style);
 function TitleForm({ onClose, title, subTitle }) {
   return (
     <div
-      className={cx(
-        "sticky top-0 bg-white border-b border-gray-200",
-        "p-6 flex items-center justify-between z-10 rounded-t-[8px]"
-      )}
+      className={cx("sticky top-0 bg-white border-b border-gray-200", "p-6 flex justify-between z-50 rounded-t-[8px]")}
     >
       <div>
         <Item as="h3" children={title} className="text-xl font-bold text-gray-900" />
