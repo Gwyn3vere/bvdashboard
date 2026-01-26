@@ -80,7 +80,33 @@ export const ROLE_OPTIONS = [
 ];
 
 export const DEPARTMENTS_OPTIONS = [
-  // Khối Lâm sàng
+  // ===== Khối Phòng Chức Năng =====
+  {
+    id: "ke-hoach-nghiep-vu",
+    value: "PLANNING_PROFESSIONAL",
+    name: "Phòng Kế hoạch - Nghiệp vụ",
+    block: "PHONG_CHUC_NANG"
+  },
+  {
+    id: "to-chuc-hanh-chinh",
+    value: "ORGANIZATION_ADMIN",
+    name: "Phòng Tổ chức - Hành chính",
+    block: "PHONG_CHUC_NANG"
+  },
+  {
+    id: "tai-chinh-ke-toan",
+    value: "FINANCE_ACCOUNTING",
+    name: "Phòng Tài chính kế toán",
+    block: "PHONG_CHUC_NANG"
+  },
+  {
+    id: "dieu-duong",
+    value: "NURSING_DEPARTMENT",
+    name: "Phòng Điều dưỡng",
+    block: "PHONG_CHUC_NANG"
+  },
+
+  // ===== Khối Lâm sàng =====
   { id: "noi", value: "INTERNAL_MEDICINE", name: "Khoa Nội", block: "LAM_SANG" },
   { id: "ngoai", value: "SURGERY", name: "Khoa Ngoại", block: "LAM_SANG" },
   { id: "san", value: "OBSTETRICS_GYNECOLOGY", name: "Khoa CSSKSS & Phụ Sản", block: "LAM_SANG" },
@@ -92,7 +118,7 @@ export const DEPARTMENTS_OPTIONS = [
   { id: "yhct-phcn", value: "TRADITIONAL_REHABILITATION", name: "Khoa YHCT và PHCN", block: "LAM_SANG" },
   { id: "rhm-m-tmh", value: "DENTAL_ENT_OPHTHALMOLOGY", name: "Khoa RHM - M - TMH", block: "LAM_SANG" },
 
-  // Khối Cận lâm sàng
+  // ===== Khối Cận lâm sàng =====
   { id: "cdha", value: "DIAGNOSTIC_IMAGING", name: "Khoa Chẩn đoán hình ảnh", block: "CAN_LAM_SANG" },
   { id: "xet-nghiem", value: "LABORATORY", name: "Khoa Xét nghiệm", block: "CAN_LAM_SANG" },
   { id: "ksnk", value: "INFECTION_CONTROL", name: "Khoa Kiểm soát nhiễm khuẩn", block: "CAN_LAM_SANG" },
