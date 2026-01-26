@@ -6,6 +6,7 @@ import { Staff } from "../pages/Staff";
 import { Doctor, Calendar } from "../pages/Doctor";
 import { News, Post } from "../pages/News";
 import { Banner } from "../pages/Banner";
+import { Medical } from "../pages/Medical";
 
 const privateRoutes = [
   {
@@ -53,6 +54,12 @@ const privateRoutes = [
   {
     path: "/quan-ly-banner",
     component: Banner,
+    layout: dashboardLayout,
+    role: ["admin", "user"]
+  },
+  {
+    path: "/quan-ly-chuyen-mon",
+    component: Medical,
     layout: dashboardLayout,
     role: ["admin", "user"]
   }

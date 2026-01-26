@@ -12,7 +12,7 @@ export const validateDoctor = (doctor) => {
   if (!doctor.name?.trim()) errors.name = "Tên bác sĩ không được để trống";
   if (!doctor.title) errors.title = "Chức danh không được để trống";
   if (!doctor.department) errors.department = "Khoa không được để trống";
-  if (!doctor.specialty) errors.specialty = "Chuyên khoa không được để trống";
+  // if (!doctor.specialty) errors.specialty = "Chuyên khoa không được để trống";
   if (!doctor.tags || doctor.tags.length === 0) errors.tags = "Vui lòng chọn ít nhất 1 tag";
   if (!doctor.experienceYears || doctor.experienceYears < 0) errors.experienceYears = "Kinh nghiệm không hợp lệ";
   if (!doctor.facility?.trim()) errors.facility = "Cơ sở công tác không được để trống";

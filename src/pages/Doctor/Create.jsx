@@ -205,6 +205,8 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
     validateField(fieldName, value);
   };
 
+  const filteredDepartments = DEPARTMENTS_OPTIONS.filter((item) => item.block !== "PHONG_CHUC_NANG");
+
   const filteredSpecialties = useMemo(() => {
     if (!value?.department) return [];
 
@@ -293,7 +295,7 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
           <Select
             label="Khoa"
             name="department"
-            data={DEPARTMENTS_OPTIONS}
+            data={filteredDepartments}
             value={value?.department}
             onChange={handleChangeDepartment}
             onBlur={() => handleBlur("department")}
@@ -306,8 +308,8 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
             data={filteredSpecialties}
             value={value?.specialty}
             onChange={(val) => setValue("specialty", val)}
-            onBlur={() => handleBlur("specialty")}
-            error={getFieldError("specialty")}
+            // onBlur={() => handleBlur("specialty")}
+            // error={getFieldError("specialty")}
             placeholder={value?.department ? "Chọn chuyên khoa" : "Vui lòng chọn khoa trước"}
             required
           />
