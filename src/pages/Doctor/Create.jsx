@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, use } from "react";
 import {
   DEPARTMENTS_OPTIONS,
   SPECIALTIES_OPTIONS,
@@ -7,6 +7,7 @@ import {
   DOCTOR_TITLES_OPTIONS,
   LANGUAGE_OPTIONS
 } from "../../constants/option";
+import { MOCK_GROUPS_LIST } from "../../mock/groups";
 import { useForm, usePagination, useActive, useSearch, useValidation } from "../../components/hooks";
 import { INITIAL_DETAIL_DOCTOR } from "../../constants/field";
 import styles from "../../styles/pages.module.css";
@@ -205,15 +206,17 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
     validateField(fieldName, value);
   };
 
-  const filteredDepartments = DEPARTMENTS_OPTIONS.filter((item) => item.block !== "PHONG_CHUC_NANG");
+  const DEPARTMENTS_LIST = MOCK_GROUPS_LIST.filter((block) => block.value !== "PHONG_CHUC_NANG").flatMap(
+    (block) => block.departments
+  );
 
-  const filteredSpecialties = useMemo(() => {
+  const SPECIALTIES_LIST = useMemo(() => {
     if (!value?.department) return [];
 
-    const department = DEPARTMENTS_OPTIONS.find((item) => item.value === value.department);
+    const department = DEPARTMENTS_LIST.find((item) => item.value === value?.department);
 
-    return SPECIALTIES_OPTIONS.filter((item) => item.departmentId === department?.id);
-  }, [value?.department]);
+    return department?.specialties ?? [];
+  }, [value?.department, DEPARTMENTS_LIST]);
 
   return (
     <>
@@ -295,7 +298,7 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
           <Select
             label="Khoa"
             name="department"
-            data={filteredDepartments}
+            data={DEPARTMENTS_LIST}
             value={value?.department}
             onChange={handleChangeDepartment}
             onBlur={() => handleBlur("department")}
@@ -305,7 +308,7 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
           />
           <Select
             name="specialty"
-            data={filteredSpecialties}
+            data={SPECIALTIES_LIST}
             value={value?.specialty}
             onChange={(val) => setValue("specialty", val)}
             // onBlur={() => handleBlur("specialty")}
