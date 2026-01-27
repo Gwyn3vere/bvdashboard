@@ -80,6 +80,24 @@ export const ROLE_OPTIONS = [
 ];
 
 export const DEPARTMENTS_OPTIONS = [
+  // ===== Khối Lâm sàng =====
+  { id: "noi", value: "INTERNAL_MEDICINE", name: "Khoa Nội", block: "LAM_SANG" },
+  { id: "ngoai", value: "SURGERY", name: "Khoa Ngoại", block: "LAM_SANG" },
+  { id: "san", value: "OBSTETRICS_GYNECOLOGY", name: "Khoa CSSKSS & Phụ Sản", block: "LAM_SANG" },
+  { id: "kham-benh", value: "OUTPATIENT", name: "Khoa Khám Bệnh", block: "LAM_SANG" },
+  { id: "cap-cuu", value: "EMERGENCY_ICU", name: "Khoa Cấp cứu - Hồi sức tích cực", block: "LAM_SANG" },
+  { id: "gmhs", value: "ANESTHESIOLOGY", name: "Khoa Phẫu thuật - Gây mê hồi sức", block: "LAM_SANG" },
+  { id: "nhi", value: "PEDIATRICS", name: "Khoa Nhi", block: "LAM_SANG" },
+  { id: "truyen-nhiem", value: "INFECTIOUS_DISEASES", name: "Khoa Truyền Nhiễm", block: "LAM_SANG" },
+  { id: "yhct-phcn", value: "TRADITIONAL_REHABILITATION", name: "Khoa YHCT và PHCN", block: "LAM_SANG" },
+  { id: "rhm-m-tmh", value: "DENTAL_ENT_OPHTHALMOLOGY", name: "Khoa RHM - M - TMH", block: "LAM_SANG" },
+
+  // ===== Khối Cận lâm sàng =====
+  { id: "cdha", value: "DIAGNOSTIC_IMAGING", name: "Khoa Chẩn đoán hình ảnh", block: "CAN_LAM_SANG" },
+  { id: "xet-nghiem", value: "LABORATORY", name: "Khoa Xét nghiệm", block: "CAN_LAM_SANG" },
+  { id: "ksnk", value: "INFECTION_CONTROL", name: "Khoa Kiểm soát nhiễm khuẩn", block: "CAN_LAM_SANG" },
+  { id: "duoc", value: "PHARMACY", name: "Khoa Dược - VT, TBYT", block: "CAN_LAM_SANG" },
+
   // ===== Khối Phòng Chức Năng =====
   {
     id: "ke-hoach-nghiep-vu",
@@ -104,25 +122,7 @@ export const DEPARTMENTS_OPTIONS = [
     value: "NURSING_DEPARTMENT",
     name: "Phòng Điều dưỡng",
     block: "PHONG_CHUC_NANG"
-  },
-
-  // ===== Khối Lâm sàng =====
-  { id: "noi", value: "INTERNAL_MEDICINE", name: "Khoa Nội", block: "LAM_SANG" },
-  { id: "ngoai", value: "SURGERY", name: "Khoa Ngoại", block: "LAM_SANG" },
-  { id: "san", value: "OBSTETRICS_GYNECOLOGY", name: "Khoa CSSKSS & Phụ Sản", block: "LAM_SANG" },
-  { id: "kham-benh", value: "OUTPATIENT", name: "Khoa Khám Bệnh", block: "LAM_SANG" },
-  { id: "cap-cuu", value: "EMERGENCY_ICU", name: "Khoa Cấp cứu - Hồi sức tích cực", block: "LAM_SANG" },
-  { id: "gmhs", value: "ANESTHESIOLOGY", name: "Khoa Phẫu thuật - Gây mê hồi sức", block: "LAM_SANG" },
-  { id: "nhi", value: "PEDIATRICS", name: "Khoa Nhi", block: "LAM_SANG" },
-  { id: "truyen-nhiem", value: "INFECTIOUS_DISEASES", name: "Khoa Truyền Nhiễm", block: "LAM_SANG" },
-  { id: "yhct-phcn", value: "TRADITIONAL_REHABILITATION", name: "Khoa YHCT và PHCN", block: "LAM_SANG" },
-  { id: "rhm-m-tmh", value: "DENTAL_ENT_OPHTHALMOLOGY", name: "Khoa RHM - M - TMH", block: "LAM_SANG" },
-
-  // ===== Khối Cận lâm sàng =====
-  { id: "cdha", value: "DIAGNOSTIC_IMAGING", name: "Khoa Chẩn đoán hình ảnh", block: "CAN_LAM_SANG" },
-  { id: "xet-nghiem", value: "LABORATORY", name: "Khoa Xét nghiệm", block: "CAN_LAM_SANG" },
-  { id: "ksnk", value: "INFECTION_CONTROL", name: "Khoa Kiểm soát nhiễm khuẩn", block: "CAN_LAM_SANG" },
-  { id: "duoc", value: "PHARMACY", name: "Khoa Dược - VT, TBYT", block: "CAN_LAM_SANG" }
+  }
 ];
 
 export const SPECIALTIES_OPTIONS = [

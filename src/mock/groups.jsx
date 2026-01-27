@@ -99,14 +99,12 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "san-khoa",
             value: "OBSTETRICS",
-            name: "Sản khoa",
-            departmentId: "san"
+            name: "Sản khoa"
           },
           {
             id: "phu-khoa",
             value: "GYNECOLOGY",
-            name: "Phụ khoa",
-            departmentId: "san"
+            name: "Phụ khoa"
           }
         ]
       },
@@ -119,14 +117,12 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "da-lieu",
             value: "DERMATOLOGY",
-            name: "Da liễu",
-            departmentId: "kham-benh"
+            name: "Da liễu"
           },
           {
             id: "kham-tong-quat",
             value: "GENERAL_PRACTICE",
-            name: "Khám tổng quát",
-            departmentId: "kham-benh"
+            name: "Khám tổng quát"
           }
         ]
       },
@@ -139,14 +135,12 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "cap-cuu",
             value: "EMERGENCY_MEDICINE",
-            name: "Cấp cứu",
-            departmentId: "cap-cuu"
+            name: "Cấp cứu"
           },
           {
             id: "hoi-suc",
             value: "CRITICAL_CARE",
-            name: "Hồi sức cấp cứu",
-            departmentId: "cap-cuu"
+            name: "Hồi sức cấp cứu"
           }
         ]
       },
@@ -159,8 +153,7 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "gay-me",
             value: "ANESTHESIA",
-            name: "Gây mê hồi sức",
-            departmentId: "gmhs"
+            name: "Gây mê hồi sức"
           }
         ]
       },
@@ -173,8 +166,7 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "nhi-tong-quat",
             value: "GENERAL_PEDIATRICS",
-            name: "Nhi khoa",
-            departmentId: "nhi"
+            name: "Nhi khoa"
           }
         ]
       },
@@ -187,8 +179,7 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "truyen-nhiem",
             value: "INFECTIOUS_MEDICINE",
-            name: "Truyền nhiễm",
-            departmentId: "truyen-nhiem"
+            name: "Truyền nhiễm"
           }
         ]
       },
@@ -201,14 +192,12 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "yhct",
             value: "TRADITIONAL_MEDICINE",
-            name: "Y học cổ truyền",
-            departmentId: "yhct-phcn"
+            name: "Y học cổ truyền"
           },
           {
             id: "phcn",
             value: "REHABILITATION",
-            name: "Phục hồi chức năng",
-            departmentId: "yhct-phcn"
+            name: "Phục hồi chức năng"
           }
         ]
       },
@@ -221,20 +210,17 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "rang-ham-mat",
             value: "DENTISTRY",
-            name: "Răng Hàm Mặt",
-            departmentId: "rhm-m-tmh"
+            name: "Răng Hàm Mặt"
           },
           {
             id: "mat",
             value: "OPHTHALMOLOGY",
-            name: "Mắt",
-            departmentId: "rhm-m-tmh"
+            name: "Mắt"
           },
           {
             id: "tai-mui-hong",
             value: "OTORHINOLARYNGOLOGY",
-            name: "Tai Mũi Họng",
-            departmentId: "rhm-m-tmh"
+            name: "Tai Mũi Họng"
           }
         ]
       }
@@ -254,8 +240,7 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "cdha",
             value: "RADIOLOGY",
-            name: "Chẩn đoán hình ảnh",
-            departmentId: "cdha"
+            name: "Chẩn đoán hình ảnh"
           }
         ]
       },
@@ -268,8 +253,7 @@ export const MOCK_GROUPS_LIST = [
           {
             id: "xet-nghiem",
             value: "CLINICAL_LABORATORY",
-            name: "Xét nghiệm",
-            departmentId: "xet-nghiem"
+            name: "Xét nghiệm"
           }
         ]
       },

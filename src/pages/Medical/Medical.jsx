@@ -5,15 +5,15 @@ import { TWCSS } from "../../styles/defineTailwindcss";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
 import {
   LuLayoutDashboard,
-  LuBuilding2,
-  LuTestTubeDiagonal,
-  LuZap,
   LuChevronRight,
   LuListFilter,
   LuGrid3X3,
-  LuPlus
+  LuPlus,
+  LuEllipsisVertical,
+  LuBuilding2
 } from "react-icons/lu";
-import { DEPARTMENTS_OPTIONS } from "../../constants/option";
+import { GROUP_ICON_MAP } from "../../constants/icon";
+import { MOCK_GROUPS_LIST } from "../../mock/groups";
 
 const cx = classNames.bind(styles);
 
@@ -105,35 +105,107 @@ function HeaderMedical({ totalGroups, totalDepartments, totalSpecialties }) {
 }
 
 function Groups({}) {
-  return (
-    <div className={cx("bg-[var(--color-primary)] p-6 text-white rounded-[8px]")}>
-      <div className={cx("flex items-center justify-between")}>
-        <div className={cx("flex items-center gap-5")}>
-          <Button icon={<LuChevronRight />} width={50} height={50} />
-          <Item
-            as="div"
-            icon={<LuBuilding2 />}
-            className={cx(
-              "p-3 bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
-              "text-[var(--color-primary)] text-2xl"
-            )}
-          />
-          <div className={cx("")}>
-            <Item as="strong" children={"Khối lâm sàng"} itemClassName={cx("text-lg")} />
-            <Item as="div" children={"3 Khoa ● 7 Chuyên khoa"} itemClassName={cx("text-sm")} />
-          </div>
-        </div>
+  const [expandedGroups, setExpandedGroups] = useState({});
 
-        <Button
-          icon={<LuPlus />}
-          children={"Thêm mới"}
-          width={"auto"}
-          className={cx(
-            "px-3 py-2 bg-[var(--color-bg-light-primary-100)] text-[var(--color-primary)] font-semibold",
-            "flex items-center gap-2"
+  const toggleGroup = (groupId) => {
+    setExpandedGroups((prev) => ({ ...prev, [groupId]: !prev[groupId] }));
+  };
+
+  return MOCK_GROUPS_LIST.map((group) => {
+    const departments = group.departments;
+    const specialties = departments.flatMap((item) => item.specialties);
+    const GroupIcon = GROUP_ICON_MAP[group.value] ?? LuBuilding2;
+
+    return (
+      <div key={group.id} className="mb-6">
+        <div className={cx("bg-white rounded-[8px] overflow-hidden")} style={{ boxShadow: "var(--shadow)" }}>
+          {/* Groups */}
+          <div className={cx("flex items-center justify-between", "bg-[var(--color-primary)] p-6 text-white")}>
+            <div className={cx("flex items-center gap-2 sm:gap-5")}>
+              <Button
+                onClick={() => toggleGroup(group.id)}
+                icon={<LuChevronRight />}
+                className={expandedGroups[group.id] ? "rotate-90 transition-transform" : "transition-transform"}
+                width={40}
+                height={40}
+              />
+              <Item
+                as="div"
+                icon={<GroupIcon />}
+                className={cx(
+                  "p-3 bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
+                  "text-[var(--color-primary)] text-2xl"
+                )}
+              />
+              <div className={cx("")}>
+                <Item as="strong" children={group.name} itemClassName={cx("text-md sm:text-lg")} />
+                <Item
+                  as="div"
+                  children={`${departments?.length} Khoa • ${specialties.length} Chuyên khoa`}
+                  itemClassName={cx("text-[12px] sm:text-sm")}
+                />
+              </div>
+            </div>
+
+            <Button
+              icon={<LuPlus />}
+              children={"Thêm mới"}
+              width={"auto"}
+              className={cx(
+                "px-4 py-2 bg-[var(--color-bg-light-primary-100)] text-[var(--color-primary)] font-semibold",
+                "flex items-center gap-2 text-sm sm:text-md"
+              )}
+            />
+          </div>
+          {/* Departments */}
+          {expandedGroups[group.id] && (
+            <div className="p-6 space-y-4">
+              {departments.map((dept) => (
+                <div
+                  key={dept.id}
+                  className={cx(
+                    "flex items-center justify-between",
+                    "p-3 bg-[var(--color-primary-100)] rounded-[8px] border-2 border-[var(--color-primary)]"
+                  )}
+                >
+                  <div className={cx("flex items-center gap-2")}>
+                    <Button
+                      // onClick={() => toggleGroup(group.id)}
+                      icon={<LuChevronRight />}
+                      className={expandedGroups[group.id] ? "rotate-90 transition-transform" : "transition-transform"}
+                      width={40}
+                      height={40}
+                    />
+                    <Item
+                      as="div"
+                      icon={<LuBuilding2 />}
+                      className={cx(
+                        "p-3 bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
+                        "text-[var(--color-primary)] text-2xl"
+                      )}
+                    />
+                    <div className={cx("")}>
+                      <Item as="span" children={dept.name} itemClassName={cx("text-md sm:text-md font-medium")} />
+                      <Item
+                        as="div"
+                        children={`${dept.specialties.length} Chuyên khoa`}
+                        itemClassName={cx("text-[12px]")}
+                      />
+                    </div>
+                  </div>
+
+                  <Button
+                    icon={<LuEllipsisVertical />}
+                    width={40}
+                    height={40}
+                    className={cx("text-[var(--color-primary)]")}
+                  />
+                </div>
+              ))}
+            </div>
           )}
-        />
+        </div>
       </div>
-    </div>
-  );
+    );
+  });
 }
