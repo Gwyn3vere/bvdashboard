@@ -1,49 +1,16 @@
 export const MOCK_GROUPS_LIST = [
   {
-    id: "phong-chuc-nang",
-    value: "PHONG_CHUC_NANG",
-    name: "Khối phòng chức năng",
-    departments: [
-      {
-        id: "ke-hoach-nghiep-vu",
-        value: "PLANNING_PROFESSIONAL",
-        name: "Phòng Kế hoạch - Nghiệp vụ",
-        block: "PHONG_CHUC_NANG",
-        specialties: []
-      },
-      {
-        id: "to-chuc-hanh-chinh",
-        value: "ORGANIZATION_ADMIN",
-        name: "Phòng Tổ chức - Hành chính",
-        block: "PHONG_CHUC_NANG",
-        specialties: []
-      },
-      {
-        id: "tai-chinh-ke-toan",
-        value: "FINANCE_ACCOUNTING",
-        name: "Phòng Tài chính kế toán",
-        block: "PHONG_CHUC_NANG",
-        specialties: []
-      },
-      {
-        id: "dieu-duong",
-        value: "NURSING_DEPARTMENT",
-        name: "Phòng Điều dưỡng",
-        block: "PHONG_CHUC_NANG",
-        specialties: []
-      }
-    ]
-  },
-  {
     id: "lam-sang",
     value: "LAM_SANG",
     name: "Khối lâm sàng",
+    icon: "medical-clinic",
     departments: [
       {
         id: "noi",
         value: "INTERNAL_MEDICINE",
         name: "Khoa Nội",
         block: "LAM_SANG",
+        icon: "internal-medicine",
         specialties: [
           {
             id: "noi-tong-quat",
@@ -77,6 +44,7 @@ export const MOCK_GROUPS_LIST = [
         value: "SURGERY",
         name: "Khoa Ngoại",
         block: "LAM_SANG",
+        icon: "surgery",
         specialties: [
           {
             id: "ngoai-tong-quat",
@@ -95,6 +63,7 @@ export const MOCK_GROUPS_LIST = [
         value: "OBSTETRICS_GYNECOLOGY",
         name: "Khoa CSSKSS & Phụ Sản",
         block: "LAM_SANG",
+        icon: "obstetrics",
         specialties: [
           {
             id: "san-khoa",
@@ -113,6 +82,7 @@ export const MOCK_GROUPS_LIST = [
         value: "OUTPATIENT",
         name: "Khoa Khám Bệnh",
         block: "LAM_SANG",
+        icon: "outpatient",
         specialties: [
           {
             id: "da-lieu",
@@ -131,6 +101,7 @@ export const MOCK_GROUPS_LIST = [
         value: "EMERGENCY_ICU",
         name: "Khoa Cấp cứu - Hồi sức tích cực",
         block: "LAM_SANG",
+        icon: "emergency",
         specialties: [
           {
             id: "cap-cuu",
@@ -149,6 +120,7 @@ export const MOCK_GROUPS_LIST = [
         value: "ANESTHESIOLOGY",
         name: "Khoa Phẫu thuật - Gây mê hồi sức",
         block: "LAM_SANG",
+        icon: "anesthesia",
         specialties: [
           {
             id: "gay-me",
@@ -162,6 +134,7 @@ export const MOCK_GROUPS_LIST = [
         value: "PEDIATRICS",
         name: "Khoa Nhi",
         block: "LAM_SANG",
+        icon: "pediatrics",
         specialties: [
           {
             id: "nhi-tong-quat",
@@ -175,6 +148,7 @@ export const MOCK_GROUPS_LIST = [
         value: "INFECTIOUS_DISEASES",
         name: "Khoa Truyền Nhiễm",
         block: "LAM_SANG",
+        icon: "infectious",
         specialties: [
           {
             id: "truyen-nhiem",
@@ -188,6 +162,7 @@ export const MOCK_GROUPS_LIST = [
         value: "TRADITIONAL_REHABILITATION",
         name: "Khoa YHCT và PHCN",
         block: "LAM_SANG",
+        icon: "traditional",
         specialties: [
           {
             id: "yhct",
@@ -206,6 +181,7 @@ export const MOCK_GROUPS_LIST = [
         value: "DENTAL_ENT_OPHTHALMOLOGY",
         name: "Khoa RHM - M - TMH",
         block: "LAM_SANG",
+        icon: "dental-ent",
         specialties: [
           {
             id: "rang-ham-mat",
@@ -230,12 +206,14 @@ export const MOCK_GROUPS_LIST = [
     id: "can-lam-sang",
     value: "CAN_LAM_SANG",
     name: "Khối cận lâm sàng",
+    icon: "laboratory",
     departments: [
       {
         id: "cdha",
         value: "DIAGNOSTIC_IMAGING",
         name: "Khoa Chẩn đoán hình ảnh",
         block: "CAN_LAM_SANG",
+        icon: "imaging",
         specialties: [
           {
             id: "cdha",
@@ -249,6 +227,7 @@ export const MOCK_GROUPS_LIST = [
         value: "LABORATORY",
         name: "Khoa Xét nghiệm",
         block: "CAN_LAM_SANG",
+        icon: "lab-test",
         specialties: [
           {
             id: "xet-nghiem",
@@ -262,6 +241,7 @@ export const MOCK_GROUPS_LIST = [
         value: "INFECTION_CONTROL",
         name: "Khoa Kiểm soát nhiễm khuẩn",
         block: "CAN_LAM_SANG",
+        icon: "infection-control",
         specialties: []
       },
       {
@@ -269,6 +249,47 @@ export const MOCK_GROUPS_LIST = [
         value: "PHARMACY",
         name: "Khoa Dược - VT, TBYT",
         block: "CAN_LAM_SANG",
+        icon: "pharmacy",
+        specialties: []
+      }
+    ]
+  },
+  {
+    id: "phong-chuc-nang",
+    value: "PHONG_CHUC_NANG",
+    name: "Khối phòng chức năng",
+    icon: "building-corporate",
+    departments: [
+      {
+        id: "ke-hoach-nghiep-vu",
+        value: "PLANNING_PROFESSIONAL",
+        name: "Phòng Kế hoạch - Nghiệp vụ",
+        block: "PHONG_CHUC_NANG",
+        icon: "planning",
+        specialties: []
+      },
+      {
+        id: "to-chuc-hanh-chinh",
+        value: "ORGANIZATION_ADMIN",
+        name: "Phòng Tổ chức - Hành chính",
+        block: "PHONG_CHUC_NANG",
+        icon: "admin",
+        specialties: []
+      },
+      {
+        id: "tai-chinh-ke-toan",
+        value: "FINANCE_ACCOUNTING",
+        name: "Phòng Tài chính kế toán",
+        block: "PHONG_CHUC_NANG",
+        icon: "finance",
+        specialties: []
+      },
+      {
+        id: "dieu-duong",
+        value: "NURSING_DEPARTMENT",
+        name: "Phòng Điều dưỡng",
+        block: "PHONG_CHUC_NANG",
+        icon: "nursing",
         specialties: []
       }
     ]
