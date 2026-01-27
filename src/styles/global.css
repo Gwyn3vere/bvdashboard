@@ -17,6 +17,7 @@
   --color-primary-700: #14a444;
   --color-primary-500: #19c953;
   --color-primary-300: #7ee3a6;
+  --color-primary-200: #b2eeca;
   --color-primary-100: #e6f9ee;
 
   /* ===== Secondary (Blue) ===== */
@@ -72,7 +73,7 @@
   --color-grd-error: linear-gradient(90deg, #ff9ab3ff 0%, #f7416fff 100%);
   --color-grd-unavailable: linear-gradient(90deg, #f0f0f0 0%, #c9c9c9 100%);
 
-  --shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 body {
