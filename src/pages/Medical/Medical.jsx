@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useActive, useSearch, useDebouncedCallback } from "../../components/hooks";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
-import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
+import { Breadcrumb, Item, Search, Button, Modal, Filter } from "../../components/ui";
 import {
   LuLayoutDashboard,
   LuChevronRight,
@@ -10,16 +11,68 @@ import {
   LuGrid3X3,
   LuList,
   LuPlus,
-  LuEllipsisVertical,
-  LuCircle
+  LuCircle,
+  LuSquarePen,
+  LuTrash2
 } from "react-icons/lu";
 import { ICON_MAP } from "../../constants/icon";
-import { MOCK_GROUPS_LIST } from "../../mock/groups";
+import { CreateGroup, EditGroup } from "./index";
+import { useGroupStore } from "../../store/groupStore";
+import { slugify } from "../../utils/format";
 
 const cx = classNames.bind(styles);
 
 function Medical() {
   const [viewMode, setViewMode] = useState("hierarchy");
+  const [keyword, setKeyword] = useState("");
+
+  const groups = useGroupStore((gr) => gr.groups);
+  const setEditingGroupId = useGroupStore((gr) => gr.setEditingGroupId);
+
+  const modal = {
+    grCreate: useActive(),
+    grEdit: useActive(),
+    grDel: useActive(),
+    department: useActive(),
+    specialty: useActive()
+  };
+
+  const totals = useMemo(() => {
+    let totalGroups = 0;
+    let totalDepartments = 0;
+    let totalSpecialties = 0;
+
+    groups?.forEach((group) => {
+      totalGroups += 1;
+
+      const departments = group.departments ?? [];
+      totalDepartments += departments.length;
+
+      departments.forEach((dept) => {
+        totalSpecialties += (dept.specialties ?? []).length;
+      });
+    });
+
+    return {
+      totalGroups,
+      totalDepartments,
+      totalSpecialties
+    };
+  }, [groups]);
+
+  const filtered = useSearch(groups, keyword, (gr) => {
+    const groupName = gr.name;
+
+    const departmentNames = gr.departments?.map((dept) => dept.name) || [];
+
+    const specialtyNames = gr.departments?.flatMap((dept) => dept.specialties?.map((spec) => spec.name) || []) || [];
+
+    return [groupName, ...departmentNames, ...specialtyNames].filter(Boolean).join(" ");
+  });
+
+  const normalizedKeyword = useMemo(() => slugify(keyword), [keyword]);
+
+  const isMatched = (targetName) => normalizedKeyword && slugify(targetName).includes(normalizedKeyword);
   const changeViewMode = () => {
     setViewMode((prev) => (prev === "hierarchy" ? "grid" : "hierarchy"));
   };
@@ -41,23 +94,59 @@ function Medical() {
 
       {/* Header */}
       <HeaderMedical
-        totalGroups={3}
-        totalDepartments={6}
-        totalSpecialties={11}
+        totalGroups={totals.totalGroups}
+        totalDepartments={totals.totalDepartments}
+        totalSpecialties={totals.totalSpecialties}
         viewMode={viewMode}
         onClick={changeViewMode}
+        onAdd={modal.grCreate.toggleActive}
+        keyword={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
       />
 
-      {/* Groups dropdown */}
-      {viewMode === "hierarchy" && <HierarchyGroups />}
-      {viewMode === "grid" && <GridGroups />}
+      {/* Groups */}
+      {viewMode === "hierarchy" && (
+        <HierarchyGroups
+          onEdit={modal.grEdit.toggleActive}
+          groups={filtered}
+          setEdit={setEditingGroupId}
+          keyword={keyword}
+          isMatched={isMatched}
+        />
+      )}
+      {viewMode === "grid" && (
+        <GridGroups
+          onEdit={modal.grEdit.toggleActive}
+          groups={filtered}
+          setEdit={setEditingGroupId}
+          keyword={keyword}
+          isMatched={isMatched}
+        />
+      )}
+
+      {/* Groups Modal */}
+      <Modal open={modal.grCreate.isActive} onClose={modal.grCreate.deactivate} backdrop={true} width="max-w-lg">
+        <CreateGroup onClose={modal.grCreate.deactivate} />
+      </Modal>
+      <Modal open={modal.grEdit.isActive} onClose={modal.grEdit.deactivate} backdrop={true} width="max-w-lg">
+        <EditGroup onClose={modal.grEdit.deactivate} />
+      </Modal>
     </div>
   );
 }
 
 export default Medical;
 
-function HeaderMedical({ totalGroups, totalDepartments, totalSpecialties, viewMode, onClick }) {
+function HeaderMedical({
+  totalGroups,
+  totalDepartments,
+  totalSpecialties,
+  viewMode,
+  onClick,
+  onAdd,
+  keyword,
+  onChange
+}) {
   return (
     <div className={cx("flex flex-col md:flex-row items-start md:items-end justify-between w-full gap-2 mb-4")}>
       <div className="flex items-center gap-5 w-full">
@@ -84,7 +173,7 @@ function HeaderMedical({ totalGroups, totalDepartments, totalSpecialties, viewMo
       </div>
 
       <div className="flex items-center justify-between md:justify-end gap-2 w-full">
-        <Search className={cx("rounded-[8px]")} />
+        <Search value={keyword} onChange={onChange} className={cx("rounded-[8px]")} />
         <div className="flex gap-2">
           <Button
             icon={<LuListFilter />}
@@ -118,6 +207,7 @@ function HeaderMedical({ totalGroups, totalDepartments, totalSpecialties, viewMo
               "flex items-center justify-between gap-2",
               "bg-[var(--color-primary)] text-[14px] px-3"
             )}
+            onClick={onAdd}
           />
         </div>
       </div>
@@ -125,9 +215,56 @@ function HeaderMedical({ totalGroups, totalDepartments, totalSpecialties, viewMo
   );
 }
 
-function HierarchyGroups({}) {
+function HierarchyGroups({ onEdit, groups, setEdit, isMatched, keyword }) {
   const [expandedGroups, setExpandedGroups] = useState({});
   const [expandedDepartments, setExpandedDepartments] = useState({});
+
+  const handleAutoExpand = useDebouncedCallback((currentKeyword) => {
+    if (!currentKeyword.trim()) {
+      setExpandedGroups({});
+      setExpandedDepartments({});
+      return;
+    }
+
+    const searchStr = slugify(currentKeyword);
+    const newExpandedGroups = {};
+    const newExpandedDepts = {};
+
+    // Dùng chính danh sách 'groups' đang hiển thị để duyệt
+    groups?.forEach((group) => {
+      let groupShouldOpen = false;
+
+      group.departments?.forEach((dept) => {
+        // 1. Kiểm tra nếu tên Khoa khớp
+        const deptMatches = slugify(dept.name).includes(searchStr);
+
+        // 2. Kiểm tra nếu có bất kỳ Chuyên khoa nào bên trong khớp
+        const hasSpecMatch = dept.specialties?.some((spec) => slugify(spec.name).includes(searchStr));
+
+        // Nếu Khoa khớp HOẶC Chuyên khoa bên trong khớp -> Mở Khoa này
+        if (deptMatches || hasSpecMatch) {
+          newExpandedDepts[dept.id] = true;
+          groupShouldOpen = true; // Đánh dấu là Group chứa Khoa này cũng phải mở
+        }
+      });
+
+      // 3. Kiểm tra nếu chính tên Group (Khối) khớp
+      const groupMatches = slugify(group.name).includes(searchStr);
+
+      if (groupMatches || groupShouldOpen) {
+        newExpandedGroups[group.id] = true;
+      }
+    });
+
+    // Cập nhật state (Sử dụng ghi đè để chỉ mở những cái khớp search)
+    setExpandedGroups(newExpandedGroups);
+    setExpandedDepartments(newExpandedDepts);
+  }, 300);
+
+  // 2. Lắng nghe keyword thay đổi
+  useEffect(() => {
+    handleAutoExpand(keyword);
+  }, [keyword, handleAutoExpand]);
 
   const toggleGroup = (groupId) => {
     setExpandedGroups((prev) => ({ ...prev, [groupId]: !prev[groupId] }));
@@ -136,10 +273,10 @@ function HierarchyGroups({}) {
     setExpandedDepartments((prev) => ({ ...prev, [departmentId]: !prev[departmentId] }));
   };
 
-  return MOCK_GROUPS_LIST ? (
-    MOCK_GROUPS_LIST.map((group) => {
-      const departments = group.departments;
-      const specialties = departments.flatMap((item) => item.specialties);
+  return groups ? (
+    groups.map((group) => {
+      const departments = group.departments ?? [];
+      const specialties = departments.flatMap((d) => d.specialties ?? []);
       const GroupIcon = ICON_MAP[group.icon] ?? LuCircle;
 
       return (
@@ -173,15 +310,20 @@ function HierarchyGroups({}) {
                 </div>
               </div>
 
-              <Button
-                icon={<LuPlus />}
-                children={"Thêm mới"}
-                width={"auto"}
-                className={cx(
-                  "px-4 py-2 bg-[var(--color-bg-light-primary-100)] text-[var(--color-primary)] font-semibold",
-                  "flex items-center gap-2 text-sm sm:text-md"
-                )}
-              />
+              <div className="flex items-center">
+                <Button
+                  width={40}
+                  height={40}
+                  iconClassName="text-sm font-bold"
+                  icon={<LuSquarePen />}
+                  onClick={() => {
+                    setEdit(group.id);
+                    onEdit();
+                  }}
+                />
+                <Button width={40} height={40} iconClassName="text-sm font-bold" icon={<LuTrash2 />} />
+                <Button width={40} height={40} iconClassName="text-sm font-bold" icon={<LuPlus />} />
+              </div>
             </div>
             {/* Departments */}
             {expandedGroups[group.id] && (
@@ -191,10 +333,29 @@ function HierarchyGroups({}) {
                   return (
                     <div
                       key={dept.id}
-                      className={cx("overflow-hidden rounded-[8px] border-2 border-[var(--color-primary)]")}
+                      className={cx(
+                        "overflow-hidden rounded-[8px] border-2",
+                        isMatched(dept.name, keyword)
+                          ? "border-[var(--color-secondary)]"
+                          : "border-[var(--color-primary)]"
+                      )}
                     >
-                      <div className={cx("bg-[var(--color-primary-200)]")}>
-                        <div className={cx("flex items-center justify-between", "p-4 bg-[var(--color-primary-100)]")}>
+                      <div
+                        className={cx(
+                          isMatched(dept.name, keyword)
+                            ? "bg-[var(--color-secondary-200)]"
+                            : "bg-[var(--color-primary-200)]"
+                        )}
+                      >
+                        <div
+                          className={cx(
+                            "flex items-center justify-between",
+                            "p-4",
+                            isMatched(dept.name, keyword)
+                              ? "bg-[var(--color-secondary-100)]"
+                              : "bg-[var(--color-primary-100)]"
+                          )}
+                        >
                           <div className={cx("flex items-center gap-2")}>
                             <Button
                               onClick={() => toggleDepartment(dept.id)}
@@ -208,7 +369,12 @@ function HierarchyGroups({}) {
                             <Item
                               as="div"
                               icon={<DeptIcon />}
-                              className={cx("p-3 text-[var(--color-primary)] text-2xl")}
+                              className={cx(
+                                "p-3 text-2xl",
+                                isMatched(dept.name, keyword)
+                                  ? "text-[var(--color-secondary)]"
+                                  : "text-[var(--color-primary)]"
+                              )}
                             />
                             <div className={cx("")}>
                               <Item
@@ -224,15 +390,41 @@ function HierarchyGroups({}) {
                             </div>
                           </div>
 
-                          <Button
-                            icon={<LuEllipsisVertical />}
-                            width={40}
-                            height={40}
-                            className={cx(
-                              "text-[var(--color-primary)] transition-all duration-300",
-                              "hover:bg-[var(--color-primary-200)]"
-                            )}
-                          />
+                          <div className="flex items-center">
+                            <Button
+                              width={40}
+                              height={40}
+                              iconClassName={cx(
+                                "text-sm font-bold ",
+                                isMatched(dept.name, keyword)
+                                  ? "text-[var(--color-secondary-500)]"
+                                  : "text-[var(--color-primary-500)]"
+                              )}
+                              icon={<LuSquarePen />}
+                            />
+                            <Button
+                              width={40}
+                              height={40}
+                              iconClassName={cx(
+                                "text-sm font-bold",
+                                isMatched(dept.name, keyword)
+                                  ? "text-[var(--color-secondary-500)]"
+                                  : "text-[var(--color-primary-500)]"
+                              )}
+                              icon={<LuTrash2 />}
+                            />
+                            <Button
+                              width={40}
+                              height={40}
+                              iconClassName={cx(
+                                "text-sm font-bold",
+                                isMatched(dept.name, keyword)
+                                  ? "text-[var(--color-secondary-500)]"
+                                  : "text-[var(--color-primary-500)]"
+                              )}
+                              icon={<LuPlus />}
+                            />
+                          </div>
                         </div>
 
                         {/* Specialties */}
@@ -243,23 +435,46 @@ function HierarchyGroups({}) {
                                 <div
                                   key={spec.id}
                                   className={cx(
-                                    "bg-white rounded-[8px] py-2 px-4",
-                                    "flex items-center justify-between"
+                                    " rounded-[8px] py-2 px-4",
+                                    "flex items-center justify-between",
+                                    "group",
+                                    isMatched(spec?.name, keyword) ? "bg-[var(--color-secondary-100)]" : "bg-white"
                                   )}
                                 >
                                   <div className="flex items-center gap-2">
-                                    <div className={cx("w-2 h-2 rounded-full bg-[var(--color-primary)]")} />
-                                    <Item as="span" children={spec.name} itemClassName={cx("text-sm font-medium")} />
+                                    <div
+                                      className={cx(
+                                        "w-2 h-2 rounded-full",
+                                        isMatched(dept.name, keyword) || isMatched(spec?.name, keyword)
+                                          ? "bg-[var(--color-secondary)]"
+                                          : "bg-[var(--color-primary)]"
+                                      )}
+                                    />
+                                    <Item
+                                      as="span"
+                                      children={spec.name}
+                                      itemClassName={cx(
+                                        "text-sm font-medium",
+                                        isMatched(spec?.name, keyword)
+                                          ? "text-[var(--color-secondary)]"
+                                          : "text-[var(--color-text-bg-light-primary)]"
+                                      )}
+                                    />
                                   </div>
-                                  <Button
-                                    icon={<LuEllipsisVertical />}
-                                    width={30}
-                                    height={40}
-                                    className={cx(
-                                      "text-[var(--color-primary)] transition-all duration-300",
-                                      "hover:bg-[var(--color-primary-100)]"
-                                    )}
-                                  />
+                                  <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <Button
+                                      width={40}
+                                      height={40}
+                                      iconClassName="text-sm font-bold text-[var(--color-secondary)]"
+                                      icon={<LuSquarePen />}
+                                    />
+                                    <Button
+                                      width={40}
+                                      height={40}
+                                      iconClassName="text-sm font-bold text-[var(--color-error)]"
+                                      icon={<LuTrash2 />}
+                                    />
+                                  </div>
                                 </div>
                               ))
                             ) : (
@@ -284,23 +499,39 @@ function HierarchyGroups({}) {
   );
 }
 
-function GridGroups({}) {
-  return MOCK_GROUPS_LIST ? (
-    MOCK_GROUPS_LIST.map((group) => {
+function GridGroups({ onEdit, groups, setEdit, isMatched, keyword }) {
+  return groups ? (
+    groups.map((group) => {
       const departments = group.departments;
       const GroupIcon = ICON_MAP[group.icon] ?? LuCircle;
       return (
         <div key={group.id} className={cx("space-y-6 my-6")}>
-          <Item
-            icon={<GroupIcon />}
-            children={group.name}
-            iconClassName={cx(
-              "p-3 bg-[var(--color-primary-100)] rounded-[8px]",
-              "text-[var(--color-primary)] text-2xl"
-            )}
-            itemClassName={cx("text-xl font-semibold")}
-            className={cx("flex items-center gap-2")}
-          />
+          <div className={cx("flex items-center justify-between")}>
+            <Item
+              icon={<GroupIcon />}
+              children={group.name}
+              iconClassName={cx(
+                "p-3 bg-[var(--color-primary-100)] rounded-[8px]",
+                "text-[var(--color-primary)] text-2xl"
+              )}
+              itemClassName={cx("text-xl font-semibold")}
+              className={cx("flex items-center gap-2")}
+            />
+            <div className="flex items-center">
+              <Button
+                width={40}
+                height={40}
+                iconClassName="text-sm font-bold"
+                icon={<LuSquarePen />}
+                onClick={() => {
+                  setEdit(group.id);
+                  onEdit();
+                }}
+              />
+              <Button width={40} height={40} iconClassName="text-sm font-bold" icon={<LuTrash2 />} />
+              <Button width={40} height={40} iconClassName="text-sm font-bold" icon={<LuPlus />} />
+            </div>
+          </div>
           <div className={cx("grid grid-cols-1 md:grid-cols-3 gap-3")}>
             {departments.map((dept) => {
               const DeptIcon = ICON_MAP[dept.icon] ?? LuCircle;
@@ -318,26 +549,56 @@ function GridGroups({}) {
                         />
                       </div>
                     </div>
-                    <Button
-                      icon={<LuEllipsisVertical />}
-                      width={30}
-                      height={40}
-                      className={cx(
-                        "text-[var(--color-primary)] transition-all duration-300",
-                        "hover:bg-[var(--color-primary-100)]"
-                      )}
-                    />
+                    <div className="flex items-center">
+                      <Button
+                        width={40}
+                        height={40}
+                        iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
+                        icon={<LuSquarePen />}
+                      />
+                      <Button
+                        width={40}
+                        height={40}
+                        iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
+                        icon={<LuTrash2 />}
+                      />
+                      <Button
+                        width={40}
+                        height={40}
+                        iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
+                        icon={<LuPlus />}
+                      />
+                    </div>
                   </div>
                   <div className="py-2">
                     {dept.specialties.length > 0 ? (
                       dept.specialties.map((spec) => (
                         <div
                           key={spec.id}
-                          className={cx("bg-white rounded-[8px] py-2", "flex items-center justify-between")}
+                          className={cx(
+                            "bg-white rounded-[8px] p-2",
+                            "flex items-center justify-between",
+                            "hover:bg-[var(--color-primary-100)]",
+                            "group"
+                          )}
                         >
                           <div className="flex items-center gap-2">
                             <div className={cx("w-2 h-2 rounded-full bg-[var(--color-primary)]")} />
                             <Item as="span" children={spec.name} itemClassName={cx("text-sm font-medium")} />
+                          </div>
+                          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                              width={30}
+                              height={30}
+                              iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
+                              icon={<LuSquarePen />}
+                            />
+                            <Button
+                              width={30}
+                              height={30}
+                              iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
+                              icon={<LuTrash2 />}
+                            />
                           </div>
                         </div>
                       ))

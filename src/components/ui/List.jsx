@@ -14,9 +14,7 @@ function List({ className, columns = [], data = [], style = {} }) {
   return (
     <div className={cx(className, "overflow-hidden")} style={{ ...style }}>
       <div className={cx("overflow-x-auto", TWCSS.scrollbarX)}>
-        <div
-          className={cx("w-[1600px] 2xl:w-full px-4 py-3 flex items-center bg-[var(--color-primary)] rounded-t-[8px]")}
-        >
+        <div className={cx("w-[1600px] 2xl:w-full px-4 py-3 flex items-center bg-[var(--color-primary)]")}>
           {columns.map((col) => (
             <label
               key={col.key}

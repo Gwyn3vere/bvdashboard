@@ -58,3 +58,11 @@ export const INITAL_WORK_SCHEDULES = {
     }
   ]
 };
+
+export const INITAL_GROUP = {
+  id: "",
+  value: "",
+  name: "",
+  icon: "",
+  department: []
+};

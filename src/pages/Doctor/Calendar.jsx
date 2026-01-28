@@ -119,7 +119,7 @@ function Calendar() {
       <div className="rounded-[8px] flex-col flex md:flex-row gap-5 ">
         {/* Sidebar - Danh sách bác sĩ */}
         <div
-          className={cx("bg-white p-6 flex flex-col justify-between md:w-80")}
+          className={cx("bg-white p-6 flex flex-col justify-between md:w-80 rounded-[8px]")}
           style={{
             boxShadow: "var(--shadow)"
           }}
@@ -185,7 +185,7 @@ function Calendar() {
 
         {/* Calendar */}
         <div
-          className="p-2 sm:p-6 bg-white w-full flex-1 "
+          className="p-2 sm:p-6 bg-white w-full flex-1 rounded-[8px]"
           style={{
             boxShadow: "var(--shadow)"
           }}

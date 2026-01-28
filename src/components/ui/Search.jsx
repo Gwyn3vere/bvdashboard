@@ -34,7 +34,7 @@ function Search({
         defaultValue={defaultValue}
         onChange={onChange}
         placeholder={placeholder}
-        className={cx("outline-none bg-transparent text-[14px] h-full flex-1", inputClass)}
+        className={cx("w-full outline-none bg-transparent text-[14px] h-full flex-1", inputClass)}
       />
     </div>
   );
