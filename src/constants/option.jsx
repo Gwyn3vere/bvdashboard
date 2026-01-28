@@ -1,8 +1,3 @@
-export const STAFF_STATUS_OPTIONS = [
-  { value: "ACTIVE", name: "Hoạt động" },
-  { value: "INACTIVE", name: "Không hoạt động" }
-];
-
 export const APPOINTMENT_YEAR_OPTIONS = [
   { value: "2024", name: "2024" },
   { value: "2023", name: "2023" },
@@ -319,6 +314,31 @@ export const TAGS_DOCTOR_OPTIONS = [
 
   { id: 38, value: "RHEUMATOLOGY", name: "Cơ xương khớp" },
   { id: 39, value: "JOINT_INJECTION", name: "Tiêm khớp" }
+];
+
+export const ICONS_OPTIONS = [
+  { id: "building-corporate", value: "building-corporate", name: "Building Corporate" },
+  { id: "medical-clinic", value: "medical-clinic", name: "Medical Clinic" },
+  { id: "laboratory", value: "laboratory", name: "Laboratory" },
+  { id: "planning", value: "planning", name: "Planning" },
+  { id: "admin", value: "admin", name: "Admin" },
+  { id: "finance", value: "finance", name: "Finance" },
+  { id: "nursing", value: "nursing", name: "Nursing" },
+  { id: "internal-medicine", value: "internal-medicine", name: "Internal Medicine" },
+  { id: "surgery", value: "surgery", name: "Surgery" },
+  { id: "obstetrics", value: "obstetrics", name: "Obstetrics" },
+  { id: "outpatient", value: "outpatient", name: "Outpatient" },
+  { id: "emergency", value: "emergency", name: "Emergency" },
+  { id: "anesthesia", value: "anesthesia", name: "Anesthesia" },
+  { id: "pediatrics", value: "pediatrics", name: "Pediatrics" },
+  { id: "infectious", value: "infectious", name: "Infectious" },
+  { id: "traditional", value: "traditional", name: "Traditional" },
+  { id: "dental-ent", value: "dental-ent", name: "Dental ENT" },
+  { id: "imaging", value: "imaging", name: "Imaging" },
+  { id: "lab-test", value: "lab-test", name: "Lab Test" },
+  { id: "infection-control", value: "infection-control", name: "Infection Control" },
+  { id: "pharmacy", value: "pharmacy", name: "Pharmacy" },
+  { id: "stethoscope", value: "stethoscope", name: "Stethoscope" }
 ];
 
 export const SESSION_PRESETS = {

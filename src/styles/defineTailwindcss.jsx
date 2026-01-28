@@ -4,7 +4,7 @@ export const TWCSS = {
     "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
     " hover:bg-[var(--color-primary)] hover:text-[var(--color-bg-light-primary-100)]"
   ],
-  list: "p-4 w-full h-full bg-[var(--color-bg-light-primary-100)]",
+  list: "rounded-[8px] w-full h-full bg-[var(--color-bg-light-primary-100)]",
   tagButton: [
     "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200",
     "gap-1 border-1 border-[var(--color-gray-400)]",

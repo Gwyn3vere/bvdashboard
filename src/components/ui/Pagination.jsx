@@ -10,7 +10,7 @@ const cx = classNames.bind(style);
 
 function Pagination({ pages = [], currentPage, setCurrentPage, nextPage, prevPage }) {
   return (
-    <div className="flex items-center justify-center gap-1.5 text-[14px] pt-5 py-2">
+    <div className="flex items-center justify-center gap-1.5 text-[14px] py-5">
       <Button
         icon={<HiMiniChevronLeft />}
         width={30}
