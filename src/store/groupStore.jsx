@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { MOCK_GROUPS_LIST } from "../mock/groups";
+import { MOCK_GROUPS } from "../mock/expertise";
 
 export const useGroupStore = create((set, get) => ({
   /* =======================
      STATE
   ======================= */
-  groups: MOCK_GROUPS_LIST,
+  groups: MOCK_GROUPS,
   editingGroupId: null,
   loading: false,
 
@@ -50,7 +50,7 @@ export const useGroupStore = create((set, get) => ({
     // const res = await api.get("/groups");
 
     set({
-      groups: MOCK_GROUPS_LIST,
+      groups: MOCK_GROUPS,
       loading: false
     });
   }

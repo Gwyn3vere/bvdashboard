@@ -1,38 +1,84 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
-import { TitleForm, Input, Button, Select, Form } from "../../components/ui";
-import { useForm } from "../../components/hooks";
+import { TitleForm, Input, Button, Select, Form, Toast } from "../../components/ui";
+import { useForm, useValidation } from "../../components/hooks";
 import { ICONS_OPTIONS } from "../../constants/option";
 import { INITAL_GROUP } from "../../constants/field";
 import { slugify, toUpperSlug } from "../../utils/format";
+import { validateExpertise } from "../../utils/validation";
 import { useGroupStore } from "../../store/groupStore";
 
 const cx = classNames.bind(styles);
 
-function EditGroup({ onClose }) {
+function GroupForm({ onClose }) {
+  const [toast, setToast] = useState(null);
+
   const getGroupById = useGroupStore((gr) => gr.getGroupById);
   const editingGroupId = useGroupStore((gr) => gr.editingGroupId);
+  const updateGroup = useGroupStore((gr) => gr.updateGroup);
   const group = editingGroupId ? getGroupById(editingGroupId) : null;
 
-  const { values, setFieldValue } = useForm({
+  const { validate, validateField, setAllTouched, getFieldError } = useValidation(validateExpertise);
+  const { values, setFieldValue, resetForm } = useForm({
     initialValues: INITAL_GROUP,
     editValues: group
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const isValid = validate(values);
+    if (!isValid) {
+      setAllTouched(values);
+      setToast({
+        type: "INFO",
+        message: "Vui lòng điền đầy đủ thông tin bắt buộc"
+      });
+      return;
+    }
+
+    if (editingGroupId) {
+      updateGroup(values);
+      setToast({
+        type: "SUCCESS",
+        message: "Cập nhật khối chuyên môn thành công"
+      });
+    } else {
+      setToast({
+        type: "SUCCESS",
+        message: "Tạo mới khối chuyên môn thành công"
+      });
+    }
+
+    // Gửi data lên server
+    console.log("Submit data:", values);
+    // submitDoctor(values);
+  };
+
   return (
     <>
       <TitleForm
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          resetForm();
+        }}
         title={"Thêm khối chuyên môn"}
         subTitle={"Điền đầy đủ thông tin khối chuyên môn vào danh sách."}
       />
 
       <Form
         id="groupForm"
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         className="space-y-4 p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]"
       >
-        <GroupForm icons={ICONS_OPTIONS} value={values} setValue={setFieldValue} />
+        <GroupInput
+          icons={ICONS_OPTIONS}
+          value={values}
+          setValue={setFieldValue}
+          getFieldError={getFieldError}
+          validateField={validateField}
+        />
       </Form>
 
       {/* Footer */}
@@ -55,15 +101,27 @@ function EditGroup({ onClose }) {
           className="bg-[var(--color-primary)] text-white font-semibold"
         />
       </div>
+      <Toast
+        visible={!!toast}
+        duration={3000}
+        position="bottom-right"
+        onClose={() => setToast(null)}
+        type={toast?.type}
+        content={toast?.message}
+      />
     </>
   );
 }
 
-export default EditGroup;
+export default React.memo(GroupForm);
 
-function GroupForm({ icons, value, setValue }) {
+function GroupInput({ icons, value, setValue, getFieldError, validateField }) {
   useEffect(() => {
     const name = value?.name?.trim() || "";
+
+    if (!value?.id && value?.name) {
+      setValue("value", toUpperSlug(value.name));
+    }
 
     if (name) {
       const id = slugify(`${name}`);
@@ -77,6 +135,10 @@ function GroupForm({ icons, value, setValue }) {
     }
   }, [value?.name, setValue]);
 
+  const handleBlur = (fieldName) => {
+    validateField(fieldName, value);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <Input
@@ -89,6 +151,8 @@ function GroupForm({ icons, value, setValue }) {
         type="text"
         value={value?.id}
         onChange={(val) => setValue("id", val.target.value)}
+        onBlur={() => handleBlur("id")}
+        error={getFieldError("id")}
         placeholder="Tự động tạo từ tên"
         inputClassName={cx("bg-gray-100")}
         disabled
@@ -105,6 +169,8 @@ function GroupForm({ icons, value, setValue }) {
         type="text"
         value={value?.value}
         onChange={(val) => setValue("value", val.target.value)}
+        onBlur={() => handleBlur("value")}
+        error={getFieldError("value")}
         placeholder="Tự động tạo từ tên"
         inputClassName={cx("bg-gray-100")}
         disabled
@@ -120,21 +186,18 @@ function GroupForm({ icons, value, setValue }) {
         type="text"
         value={value?.name}
         onChange={(val) => setValue("name", val.target.value)}
+        onBlur={() => handleBlur("name")}
+        error={getFieldError("name")}
         placeholder="VD: Lâm sàng"
         required
       />
       <Select
-        label={
-          <span>
-            Icon <span className="text-red-500">*</span>
-          </span>
-        }
+        label={"Icon"}
         name="icon"
         data={icons}
         value={value?.icon}
         onChange={(val) => setValue("icon", val)}
         placeholder="Chọn biểu tượng"
-        required
       />
     </div>
   );
