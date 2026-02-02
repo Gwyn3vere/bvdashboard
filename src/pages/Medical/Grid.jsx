@@ -4,11 +4,31 @@ import styles from "../../styles/pages.module.css";
 import { Item, Button } from "../../components/ui";
 import { ICON_MAP } from "../../constants/icon";
 import { LuPlus, LuCircle, LuSquarePen, LuTrash2 } from "react-icons/lu";
-import { EntityActionBar } from "./index";
+import { EntityActionBar, DeptActionBar, SpecActionBar } from "./index";
 
 const cx = classNames.bind(styles);
 
-function Grid({ onGrEdit, onGrDel, onDeptCreate, group, setEdit, isMatched, keyword, departments, groupIcon }) {
+function Grid({
+  // Handle Specialty
+  onSpecCreate,
+  onSpecEdit,
+  setSpecEdit,
+  onSpecDel,
+  // Handle Department
+  onDeptCreate,
+  onDeptEdit,
+  setDeptEdit,
+  onDeptDel,
+  // handle Group
+  onGrEdit,
+  onGrDel,
+  group,
+  setEdit,
+  isMatched,
+  keyword,
+  departments,
+  groupIcon
+}) {
   return (
     <div className={cx("space-y-6 my-6")}>
       {/* Groups */}
@@ -16,6 +36,7 @@ function Grid({ onGrEdit, onGrDel, onDeptCreate, group, setEdit, isMatched, keyw
         onDeptCreate={onDeptCreate}
         onGrEdit={onGrEdit}
         onGrDel={onGrDel}
+        setDeptEdit={setDeptEdit}
         setEdit={setEdit}
         groupId={group.id}
         className={cx("flex items-center justify-between")}
@@ -40,7 +61,20 @@ function Grid({ onGrEdit, onGrDel, onDeptCreate, group, setEdit, isMatched, keyw
               )}
               style={{ boxShadow: "var(--shadow)" }}
             >
-              <div className={cx("flex items-center justify-between")}>
+              <DeptActionBar
+                groupId={group.id}
+                deptId={dept.id}
+                // Handle Specialty
+                onSpecCreate={onSpecCreate}
+                // Handle Department
+                onDeptEdit={onDeptEdit}
+                setDeptEdit={setDeptEdit}
+                onDeptDel={onDeptDel}
+                // Handle Group
+                setGrEdit={setEdit}
+                isMatched={isMatched}
+                className={cx("flex items-center justify-between")}
+              >
                 <div className="flex items-center gap-2">
                   <Item as="div" icon={<DeptIcon />} className={cx("p-2 text-[var(--color-primary)] text-2xl")} />
                   <div>
@@ -52,31 +86,22 @@ function Grid({ onGrEdit, onGrDel, onDeptCreate, group, setEdit, isMatched, keyw
                     />
                   </div>
                 </div>
-                <div className="flex items-center">
-                  <Button
-                    width={40}
-                    height={40}
-                    iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
-                    icon={<LuSquarePen />}
-                  />
-                  <Button
-                    width={40}
-                    height={40}
-                    iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
-                    icon={<LuTrash2 />}
-                  />
-                  <Button
-                    width={40}
-                    height={40}
-                    iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
-                    icon={<LuPlus />}
-                  />
-                </div>
-              </div>
+              </DeptActionBar>
               <div className="py-2">
                 {dept.specialties.length > 0 ? (
                   dept.specialties.map((spec) => (
-                    <div
+                    <SpecActionBar
+                      groupId={group.id}
+                      deptId={dept.id}
+                      specId={spec.id}
+                      // Handle Specialty
+                      onSpecEdit={onSpecEdit}
+                      setSpecEdit={setSpecEdit}
+                      onSpecDel={onSpecDel}
+                      // Handle Group
+                      setGrEdit={setEdit}
+                      // Handle Department
+                      setDeptEdit={setDeptEdit}
                       key={spec.id}
                       className={cx(
                         "rounded-[8px] p-2",
@@ -95,21 +120,7 @@ function Grid({ onGrEdit, onGrDel, onDeptCreate, group, setEdit, isMatched, keyw
                         />
                         <Item as="span" children={spec.name} itemClassName={cx("text-sm font-medium")} />
                       </div>
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          width={30}
-                          height={30}
-                          iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
-                          icon={<LuSquarePen />}
-                        />
-                        <Button
-                          width={30}
-                          height={30}
-                          iconClassName="text-sm font-bold text-[var(--color-primary-500)]"
-                          icon={<LuTrash2 />}
-                        />
-                      </div>
-                    </div>
+                    </SpecActionBar>
                   ))
                 ) : (
                   <Item as="div" children={"Không có chuyên khoa"} itemClassName={cx("text-sm font-medium")} />

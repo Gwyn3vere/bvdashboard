@@ -6,7 +6,7 @@ import { LuPlus, LuSquarePen, LuTrash2 } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
-function EntityActionBar({ children, onDeptCreate, onGrEdit, onGrDel, setEdit, groupId, className }) {
+function EntityActionBar({ children, onDeptCreate, onGrEdit, onGrDel, setEdit, setDeptEdit, groupId, className }) {
   return (
     <div className={className}>
       {children}
@@ -38,6 +38,7 @@ function EntityActionBar({ children, onDeptCreate, onGrEdit, onGrDel, setEdit, g
           icon={<LuPlus />}
           onClick={() => {
             setEdit(groupId);
+            setDeptEdit(null);
             onDeptCreate();
           }}
         />

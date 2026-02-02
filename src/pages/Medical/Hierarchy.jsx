@@ -6,12 +6,22 @@ import { Item, Button } from "../../components/ui";
 import { LuChevronRight, LuPlus, LuCircle, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { ICON_MAP } from "../../constants/icon";
 import { slugify } from "../../utils/format";
-import { EntityActionBar } from "./index";
+import { EntityActionBar, DeptActionBar, SpecActionBar } from "./index";
 
 const cx = classNames.bind(styles);
 
 function Hierarchy({
+  //Handle Specialty
+  onSpecCreate,
+  onSpecEdit,
+  setSpecEdit,
+  onSpecDel,
+  // Handle Department
   onDeptCreate,
+  onDeptEdit,
+  setDeptEdit,
+  onDeptDel,
+  // Handle Group
   onGrEdit,
   onGrDel,
   group,
@@ -77,6 +87,7 @@ function Hierarchy({
         {/* Groups */}
         <EntityActionBar
           onDeptCreate={onDeptCreate}
+          setDeptEdit={setDeptEdit}
           onGrEdit={onGrEdit}
           onGrDel={onGrDel}
           setEdit={setEdit}
@@ -129,7 +140,20 @@ function Hierarchy({
                         : "bg-[var(--color-primary-200)]"
                     )}
                   >
-                    <div
+                    <DeptActionBar
+                      groupId={group.id}
+                      deptId={dept.id}
+                      // Handle Specialty
+                      onSpecCreate={onSpecCreate}
+                      // Handle Department
+                      onDeptEdit={onDeptEdit}
+                      setDeptEdit={setDeptEdit}
+                      // Handle Group
+                      setGrEdit={setEdit}
+                      onDeptDel={onDeptDel}
+                      isMatched={isMatched}
+                      keyword={keyword}
+                      deptName={dept.name}
                       className={cx(
                         "flex items-center justify-between",
                         "p-4",
@@ -167,50 +191,25 @@ function Hierarchy({
                           />
                         </div>
                       </div>
-
-                      <div className="flex items-center">
-                        <Button
-                          width={40}
-                          height={40}
-                          iconClassName={cx(
-                            "text-sm font-bold ",
-                            isMatched(dept.name, keyword)
-                              ? "text-[var(--color-secondary-500)]"
-                              : "text-[var(--color-primary-500)]"
-                          )}
-                          icon={<LuSquarePen />}
-                        />
-                        <Button
-                          width={40}
-                          height={40}
-                          iconClassName={cx(
-                            "text-sm font-bold",
-                            isMatched(dept.name, keyword)
-                              ? "text-[var(--color-secondary-500)]"
-                              : "text-[var(--color-primary-500)]"
-                          )}
-                          icon={<LuTrash2 />}
-                        />
-                        <Button
-                          width={40}
-                          height={40}
-                          iconClassName={cx(
-                            "text-sm font-bold",
-                            isMatched(dept.name, keyword)
-                              ? "text-[var(--color-secondary-500)]"
-                              : "text-[var(--color-primary-500)]"
-                          )}
-                          icon={<LuPlus />}
-                        />
-                      </div>
-                    </div>
+                    </DeptActionBar>
 
                     {/* Specialties */}
                     {expandedDepartments[dept.id] && (
                       <div className="p-4 space-y-3">
                         {dept.specialties.length > 0 ? (
                           dept.specialties.map((spec) => (
-                            <div
+                            <SpecActionBar
+                              groupId={group.id}
+                              deptId={dept.id}
+                              specId={spec.id}
+                              // Handle Specialty
+                              onSpecEdit={onSpecEdit}
+                              setSpecEdit={setSpecEdit}
+                              onSpecDel={onSpecDel}
+                              // Handle Group
+                              setGrEdit={setEdit}
+                              // Handle Department
+                              setDeptEdit={setDeptEdit}
                               key={spec.id}
                               className={cx(
                                 " rounded-[8px] py-2 px-4",
@@ -239,21 +238,7 @@ function Hierarchy({
                                   )}
                                 />
                               </div>
-                              <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Button
-                                  width={40}
-                                  height={40}
-                                  iconClassName="text-sm font-bold text-[var(--color-secondary)]"
-                                  icon={<LuSquarePen />}
-                                />
-                                <Button
-                                  width={40}
-                                  height={40}
-                                  iconClassName="text-sm font-bold text-[var(--color-error)]"
-                                  icon={<LuTrash2 />}
-                                />
-                              </div>
-                            </div>
+                            </SpecActionBar>
                           ))
                         ) : (
                           <Item as="div" children={"Không có chuyên khoa"} itemClassName={cx("text-sm font-medium")} />

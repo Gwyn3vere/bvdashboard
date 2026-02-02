@@ -16,7 +16,9 @@ function GroupForm({ onClose }) {
 
   const getGroupById = useGroupStore((gr) => gr.getGroupById);
   const editingGroupId = useGroupStore((gr) => gr.editingGroupId);
+  const createGroup = useGroupStore((gr) => gr.createGroup);
   const updateGroup = useGroupStore((gr) => gr.updateGroup);
+
   const group = editingGroupId ? getGroupById(editingGroupId) : null;
 
   const { validate, validateField, setAllTouched, getFieldError } = useValidation(validateExpertise);
@@ -63,7 +65,7 @@ function GroupForm({ onClose }) {
           onClose();
           resetForm();
         }}
-        title={"Thêm khối chuyên môn"}
+        title={group ? "Cập nhật khối" : "Thêm khối"}
         subTitle={"Điền đầy đủ thông tin khối chuyên môn vào danh sách."}
       />
 
@@ -86,7 +88,10 @@ function GroupForm({ onClose }) {
         <Button
           type="button"
           children={"Huỷ"}
-          onClick={onClose}
+          onClose={() => {
+            onClose();
+            resetForm();
+          }}
           width="100%"
           className={cx(
             "text-gray-700 font-semibold transition-all duration-200",

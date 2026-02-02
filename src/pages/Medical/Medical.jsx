@@ -6,8 +6,10 @@ import { TWCSS } from "../../styles/defineTailwindcss";
 import { Breadcrumb, Item, Search, Button, Modal } from "../../components/ui";
 import { LuLayoutDashboard, LuListFilter, LuGrid3X3, LuList, LuPlus, LuCircle } from "react-icons/lu";
 import { ICON_MAP } from "../../constants/icon";
-import { Delete, Hierarchy, Grid, HeaderMedical, GroupForm, DeptForm } from "./index";
+import { Delete, Hierarchy, Grid, HeaderMedical, GroupForm, DeptForm, SpecForm } from "./index";
 import { useGroupStore } from "../../store/groupStore";
+import { useDepartmentStore } from "../../store/departmentStore";
+import { useSpecialtyStore } from "../../store/specialtyStore";
 import { slugify } from "../../utils/format";
 
 const cx = classNames.bind(styles);
@@ -23,15 +25,34 @@ function Medical() {
   const editingGroupId = useGroupStore((gr) => gr.editingGroupId);
   const selectedGroup = useGroupStore((s) => s.groups.find((g) => g.id === editingGroupId));
   // Department Store
+  const setEditingDepartmentId = useDepartmentStore((d) => d.setEditingDepartmentId);
+  const editingDepartmentId = useDepartmentStore((d) => d.editingDepartmentId);
+  const selectedDepartment = useDepartmentStore((d) => d.departments.find((d) => d.id === editingDepartmentId));
+  // Specialty Store
+  const setEditingSpecialtyId = useSpecialtyStore((s) => s.setEditingSpecialtyId);
+  const editingSpecialtyId = useSpecialtyStore((s) => s.editingSpecialtyId);
+  const selectedSpecialty = useSpecialtyStore((s) => s.specialties.find((s) => s.id === editingSpecialtyId));
 
   const modal = {
     grForm: useActive(),
     grDel: useActive(),
-    deptCreate: useActive()
+    deptForm: useActive(),
+    deptDel: useActive(),
+    specForm: useActive(),
+    specDel: useActive()
   };
   const handleClose = () => {
+    if (modal.grForm.isActive) {
+      modal.grForm.deactivate();
+    } else if (modal.deptForm.isActive) {
+      setEditingDepartmentId(null);
+      modal.deptForm.deactivate();
+    } else {
+      setEditingSpecialtyId(null);
+      setEditingDepartmentId(null);
+      modal.specForm.deactivate();
+    }
     setEditingGroupId(null);
-    modal.grForm.deactivate();
   };
   const totals = useMemo(() => {
     let totalGroups = 0;
@@ -112,27 +133,47 @@ function Medical() {
             <div key={group.id}>
               {viewMode === "hierarchy" && (
                 <Hierarchy
-                  onDeptCreate={modal.deptCreate.toggleActive}
+                  // Modal Specialty
+                  onSpecCreate={modal.specForm.toggleActive}
+                  onSpecEdit={modal.specForm.toggleActive}
+                  setSpecEdit={setEditingSpecialtyId}
+                  onSpecDel={modal.specDel.toggleActive}
+                  // Modal Department
+                  onDeptCreate={modal.deptForm.toggleActive}
+                  onDeptEdit={modal.deptForm.toggleActive}
+                  setDeptEdit={setEditingDepartmentId}
+                  onDeptDel={modal.deptDel.toggleActive}
+                  // Modal Group
                   onGrEdit={modal.grForm.toggleActive}
+                  setEdit={setEditingGroupId}
                   onGrDel={modal.grDel.toggleActive}
                   group={group}
                   groupIcon={<GroupIcon />}
                   departments={departments}
                   specialties={specialties}
-                  setEdit={setEditingGroupId}
                   keyword={keyword}
                   isMatched={isMatched}
                 />
               )}
               {viewMode === "grid" && (
                 <Grid
-                  onDeptCreate={modal.deptCreate.toggleActive}
+                  // Modal Specialty
+                  onSpecCreate={modal.specForm.toggleActive}
+                  onSpecEdit={modal.specForm.toggleActive}
+                  setSpecEdit={setEditingSpecialtyId}
+                  onSpecDel={modal.specDel.toggleActive}
+                  // Modal Department
+                  onDeptCreate={modal.deptForm.toggleActive}
+                  onDeptEdit={modal.deptForm.toggleActive}
+                  setDeptEdit={setEditingDepartmentId}
+                  onDeptDel={modal.deptDel.toggleActive}
+                  // Modal Group
                   onGrEdit={modal.grForm.toggleActive}
+                  setEdit={setEditingGroupId}
                   onGrDel={modal.grDel.toggleActive}
                   group={group}
                   groupIcon={<GroupIcon />}
                   departments={departments}
-                  setEdit={setEditingGroupId}
                   keyword={keyword}
                   isMatched={isMatched}
                 />
@@ -155,16 +196,44 @@ function Medical() {
           onClose={modal.grDel.deactivate}
           title={
             <span>
-              Hành động này sẽ xoá toàn bộ <span className="text-[var(--color-secondary)]">Khoa</span> và{" "}
-              <span className="text-[var(--color-secondary)]">Chuyên khoa</span> có trong{" "}
-              <span className="text-[var(--color-error)]">Khối {selectedGroup?.name}</span>! Bạn có muốn tiếp tục?
+              Hành động này sẽ xoá <span className="text-[var(--color-error)]">Khối {selectedGroup?.name}</span> và toàn
+              bộ <span className="text-[var(--color-secondary)]">Khoa</span>,
+              <span className="text-[var(--color-secondary)]"> Chuyên khoa</span> thuộc khối này! Bạn có muốn tiếp tục?
             </span>
           }
         />
       </Modal>
       {/* Department Modal */}
-      <Modal open={modal.deptCreate.isActive} onClose={modal.deptCreate.deactivate} backdrop={true} width="max-w-lg">
-        <DeptForm onClose={modal.deptCreate.deactivate} />
+      <Modal open={modal.deptForm.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
+        <DeptForm onClose={handleClose} />
+      </Modal>
+      <Modal open={modal.deptDel.isActive} onClose={modal.deptDel.deactivate} backdrop={true} width="max-w-lg">
+        <Delete
+          onClose={modal.deptDel.deactivate}
+          title={
+            <span>
+              Hành động này sẽ xoá <span className="text-[var(--color-error)]">{selectedDepartment?.name}</span> và toàn
+              bộ <span className="text-[var(--color-secondary)]">Chuyên khoa</span> thuộc khoa này! Bạn có muốn tiếp
+              tục?
+            </span>
+          }
+        />
+      </Modal>
+      {/* Specialty Modal */}
+      <Modal open={modal.specForm.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
+        <SpecForm onClose={handleClose} />
+      </Modal>
+      <Modal open={modal.specDel.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
+        <Delete
+          onClose={handleClose}
+          title={
+            <span>
+              Hành động này sẽ xoá chuyên khoa{" "}
+              <span className="text-[var(--color-error)]">{selectedSpecialty?.name}</span> ra khỏi danh sách thuộc{" "}
+              <span className="text-[var(--color-secondary)]">{selectedDepartment?.name}</span>! Bạn có muốn tiếp tục?
+            </span>
+          }
+        />
       </Modal>
     </div>
   );

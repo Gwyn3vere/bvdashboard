@@ -53,7 +53,7 @@ function Header({ collapsed, toggle }) {
   }, []);
 
   return (
-    <header className="px-2 xl:px-10 pt-5 sticky top-0 w-full flex justify-between mb-5 max-w-[1800px] mx-auto">
+    <header className={cx("px-2 xl:px-10 pt-5 sticky top-0 w-full flex justify-between mb-5 max-w-[1800px] mx-auto")}>
       <div className="flex gap-2">
         <Button
           icon={collapsed ? <LuAlignLeft /> : <LuAlignRight />}
