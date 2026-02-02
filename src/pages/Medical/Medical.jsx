@@ -223,9 +223,9 @@ function Medical() {
       <Modal open={modal.specForm.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
         <SpecForm onClose={handleClose} />
       </Modal>
-      <Modal open={modal.specDel.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
+      <Modal open={modal.specDel.isActive} onClose={modal.specDel.deactivate} backdrop={true} width="max-w-lg">
         <Delete
-          onClose={handleClose}
+          onClose={modal.specDel.deactivate}
           title={
             <span>
               Hành động này sẽ xoá chuyên khoa{" "}
