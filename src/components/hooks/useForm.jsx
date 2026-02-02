@@ -1,19 +1,24 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export default function useForm({ initialValues = {}, editValues = null, transformEditValues }) {
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(() => ({ ...initialValues }));
+  const prevEditValuesRef = useRef(null);
 
+  // Handle edit mode
   useEffect(() => {
-    if (editValues) {
-      const nextValues = transformEditValues ? transformEditValues(editValues) : editValues;
+    if (!editValues) return;
 
-      setValues({
-        ...initialValues,
-        ...nextValues
-      });
-    } else {
-      setValues(initialValues);
-    }
+    // tránh set lại khi cùng 1 editValues
+    if (prevEditValuesRef.current === editValues) return;
+
+    const nextValues = transformEditValues ? transformEditValues(editValues) : editValues;
+
+    setValues({
+      ...initialValues,
+      ...nextValues
+    });
+
+    prevEditValuesRef.current = editValues;
   }, [editValues, initialValues, transformEditValues]);
 
   const setFieldValue = useCallback((name, value) => {
@@ -21,7 +26,8 @@ export default function useForm({ initialValues = {}, editValues = null, transfo
   }, []);
 
   const resetForm = useCallback(() => {
-    setValues(initialValues);
+    prevEditValuesRef.current = null;
+    setValues({ ...initialValues });
   }, [initialValues]);
 
   return {

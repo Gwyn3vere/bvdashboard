@@ -7,7 +7,7 @@ import {
   DOCTOR_TITLES_OPTIONS,
   LANGUAGE_OPTIONS
 } from "../../constants/option";
-import { MOCK_GROUPS_LIST } from "../../mock/groups";
+import { MOCK_DEPARTMENTS, MOCK_SPECIALTIES } from "../../mock/expertise";
 import { useForm, usePagination, useActive, useSearch, useValidation } from "../../components/hooks";
 import { INITIAL_DETAIL_DOCTOR } from "../../constants/field";
 import styles from "../../styles/pages.module.css";
@@ -206,17 +206,14 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
     validateField(fieldName, value);
   };
 
-  const DEPARTMENTS_LIST = MOCK_GROUPS_LIST.filter((block) => block.value !== "PHONG_CHUC_NANG").flatMap(
-    (block) => block.departments
-  );
-
   const SPECIALTIES_LIST = useMemo(() => {
     if (!value?.department) return [];
 
-    const department = DEPARTMENTS_LIST.find((item) => item.value === value?.department);
+    const dept = MOCK_DEPARTMENTS.find((d) => d.value === value.department);
+    if (!dept) return [];
 
-    return department?.specialties ?? [];
-  }, [value?.department, DEPARTMENTS_LIST]);
+    return MOCK_SPECIALTIES.filter((s) => s.departmentId === dept.id);
+  }, [value?.department]);
 
   return (
     <>
@@ -298,7 +295,7 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
           <Select
             label="Khoa"
             name="department"
-            data={DEPARTMENTS_LIST}
+            data={MOCK_DEPARTMENTS}
             value={value?.department}
             onChange={handleChangeDepartment}
             onBlur={() => handleBlur("department")}

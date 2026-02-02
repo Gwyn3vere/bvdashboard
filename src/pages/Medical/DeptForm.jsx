@@ -1,32 +1,67 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
-import { TitleForm, Input, Button, Select, Form } from "../../components/ui";
+import { TitleForm, Input, Button, Select, Form, Toast } from "../../components/ui";
 import { useForm } from "../../components/hooks";
 import { ICONS_OPTIONS } from "../../constants/option";
-import { INITAL_GROUP } from "../../constants/field";
-import { slugify, toUpperSlug } from "../../utils/format";
+import { INITAL_DEPARTMENT } from "../../constants/field";
+import { toUpperSlug } from "../../utils/format";
+import { useGroupStore } from "../../store/groupStore";
+import { useDepartmentStore } from "../../store/departmentStore";
 
 const cx = classNames.bind(styles);
 
-function CreateGroup({ onClose }) {
-  const { values, setFieldValue } = useForm({
-    initialValues: INITAL_GROUP
+function DeptForm({ onClose }) {
+  const [toast, setToast] = useState(null);
+
+  const getDepartmentById = useDepartmentStore((d) => d.getDepartmentById);
+  const editingDepartmentId = useDepartmentStore((d) => d.editingDepartmentId);
+  const createDepartment = useDepartmentStore((d) => d.createDepartment);
+  const updateDepartment = useDepartmentStore((d) => d.updateDepartment);
+
+  const department = editingDepartmentId ? getDepartmentById(editingDepartmentId) : null;
+
+  const editingGroupId = useGroupStore((gr) => gr.editingGroupId);
+  const group = useGroupStore((s) => s.groups.find((g) => g.id === editingGroupId));
+
+  const { values, setFieldValue, resetForm } = useForm({
+    initialValues: {
+      ...INITAL_DEPARTMENT,
+      groupId: editingGroupId
+    },
+    editValues: department
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Gửi data lên server
+    console.log("Submit data:", values);
+    // submitDoctor(values);
+  };
+
   return (
     <>
       <TitleForm
-        onClose={onClose}
-        title={"Thêm khối chuyên môn"}
-        subTitle={"Điền đầy đủ thông tin khối chuyên môn vào danh sách."}
+        onClose={() => {
+          onClose();
+          resetForm();
+        }}
+        title={department ? "Cập nhật khoa" : "Thêm khoa"}
+        subTitle={
+          <span>
+            Điền đầy đủ thông tin vào danh sách khoa thuộc{" "}
+            <span className="text-[var(--color-primary)]">Khối {group?.name}</span>
+          </span>
+        }
       />
 
       <Form
-        id="groupForm"
-        // onSubmit={handleSubmit}
+        id="deptForm"
+        onSubmit={handleSubmit}
         className="space-y-4 p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]"
       >
-        <GroupForm icons={ICONS_OPTIONS} value={values} setValue={setFieldValue} />
+        <GroupInput icons={ICONS_OPTIONS} value={values} setValue={setFieldValue} />
       </Form>
 
       {/* Footer */}
@@ -34,7 +69,10 @@ function CreateGroup({ onClose }) {
         <Button
           type="button"
           children={"Huỷ"}
-          onClick={onClose}
+          onClose={() => {
+            onClose();
+            resetForm();
+          }}
           width="100%"
           className={cx(
             "text-gray-700 font-semibold transition-all duration-200",
@@ -43,7 +81,7 @@ function CreateGroup({ onClose }) {
         />
         <Button
           type={"submit"}
-          form={"groupForm"}
+          form={"deptForm"}
           children={"Xác nhận"}
           width="100%"
           className="bg-[var(--color-primary)] text-white font-semibold"
@@ -53,20 +91,17 @@ function CreateGroup({ onClose }) {
   );
 }
 
-export default CreateGroup;
+export default React.memo(DeptForm);
 
-function GroupForm({ icons, value, setValue }) {
+function GroupInput({ icons, value, setValue }) {
   useEffect(() => {
     const name = value?.name?.trim() || "";
 
     if (name) {
-      const id = slugify(`${name}`);
       const value = toUpperSlug(`${name}`);
 
-      setValue("id", id);
       setValue("value", value);
     } else {
-      setValue("id", "");
       setValue("value", "");
     }
   }, [value?.name, setValue]);
@@ -76,23 +111,20 @@ function GroupForm({ icons, value, setValue }) {
       <Input
         label={
           <span>
-            ID <span className="text-red-500">*</span> <span className="text-[11px] text-gray-500">(Tự động tạo)</span>
+            ID <span className="text-red-500">*</span>
           </span>
         }
         name="id"
         type="text"
         value={value?.id}
         onChange={(val) => setValue("id", val.target.value)}
-        placeholder="Tự động tạo từ tên"
-        inputClassName={cx("bg-gray-100")}
-        disabled
+        placeholder="VD: noi"
         required
       />
       <Input
         label={
           <span>
-            Value <span className="text-red-500">*</span>{" "}
-            <span className="text-[11px] text-gray-500">(Tự động tạo)</span>
+            Value <span className="text-red-500">*</span>
           </span>
         }
         name="value"
@@ -107,28 +139,23 @@ function GroupForm({ icons, value, setValue }) {
       <Input
         label={
           <span>
-            Tên khối <span className="text-red-500">*</span>
+            Tên khoa <span className="text-red-500">*</span>
           </span>
         }
         name="name"
         type="text"
         value={value?.name}
         onChange={(val) => setValue("name", val.target.value)}
-        placeholder="VD: Lâm sàng"
+        placeholder="VD: Khoa nội"
         required
       />
       <Select
-        label={
-          <span>
-            Icon <span className="text-red-500">*</span>
-          </span>
-        }
+        label={"Icon"}
         name="icon"
         data={icons}
         value={value?.icon}
         onChange={(val) => setValue("icon", val)}
         placeholder="Chọn biểu tượng"
-        required
       />
     </div>
   );

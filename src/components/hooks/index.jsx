@@ -11,3 +11,4 @@ export { default as usePagination } from "./usePagination";
 export { default as useDebouncedCallback } from "./useDebouncedCallback";
 export { default as useSearch } from "./useSearch";
 export { default as useValidation } from "./useValidation";
+export { default as useGroupTree } from "./useGroupTree";

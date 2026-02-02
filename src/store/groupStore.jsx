@@ -1,56 +1,57 @@
 import { create } from "zustand";
-import { MOCK_GROUPS_LIST } from "../mock/groups";
+import { MOCK_GROUPS } from "../mock/expertise";
 
 export const useGroupStore = create((set, get) => ({
   /* =======================
      STATE
   ======================= */
-  groups: MOCK_GROUPS_LIST,
+  groups: MOCK_GROUPS,
   editingGroupId: null,
   loading: false,
 
   /* =======================
-     GETTERS (selectors)
+     GETTERS
   ======================= */
-  getGroupById: (id) => {
-    return get().groups.find((s) => s.id === id);
-  },
+  getGroupById: (id) => get().groups.find((g) => g.id === id),
 
   /* =======================
      ACTIONS
   ======================= */
 
-  // dùng cho List
-  setGroups: (groups) => set({ groups }),
-
-  // mở modal edit
-  setEditingGroupId: (id) => set({ editingGroupId: id }),
-
-  // update group (MOCK)
-  updateGroup: (updatedGroup) =>
+  // CREATE
+  createGroup: (newGroup) =>
     set((state) => ({
-      groups: state.groups.map((s) => (s.id === updatedGroup.id ? { ...s, ...updatedGroup } : s))
+      groups: [...state.groups, newGroup]
     })),
 
-  // delete group (MOCK)
+  // READ (list)
+  setGroups: (groups) => set({ groups }),
+
+  // EDIT MODE
+  setEditingGroupId: (id) => set({ editingGroupId: id }),
+
+  // UPDATE
+  updateGroup: (updatedGroup) =>
+    set((state) => ({
+      groups: state.groups.map((g) => (g.id === updatedGroup.id ? { ...g, ...updatedGroup } : g))
+    })),
+
+  // DELETE
   deleteGroup: (id) =>
     set((state) => ({
-      groups: state.groups.filter((s) => s.id !== id)
+      groups: state.groups.filter((g) => g.id !== id)
     })),
 
   /* =======================
      API PLACEHOLDER
-     (sau này chỉ đổi phần này)
   ======================= */
-
   fetchGroups: async () => {
     set({ loading: true });
 
-    // TODO: thay bằng API thật
     // const res = await api.get("/groups");
 
     set({
-      groups: MOCK_GROUPS_LIST,
+      groups: MOCK_GROUPS,
       loading: false
     });
   }

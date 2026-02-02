@@ -32,3 +32,12 @@ export const validateStaff = (staff) => {
 
   return errors;
 };
+
+export const validateExpertise = (expertise) => {
+  const errors = {};
+
+  if (!expertise.id?.trim()) errors.id = "Mã ID không được để trống";
+  if (!expertise.value) errors.value = "Vlue không được để trống";
+  if (!expertise.name) errors.name = "Tên khối không được để trống";
+  return errors;
+};

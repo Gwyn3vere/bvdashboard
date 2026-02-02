@@ -63,6 +63,20 @@ export const INITAL_GROUP = {
   id: "",
   value: "",
   name: "",
-  icon: "",
-  department: []
+  icon: ""
+};
+
+export const INITAL_DEPARTMENT = {
+  id: "",
+  groupId: "",
+  value: "",
+  name: "",
+  icon: ""
+};
+
+export const INITAL_SPECIALTY = {
+  id: "",
+  departmentId: "",
+  value: "",
+  name: ""
 };
