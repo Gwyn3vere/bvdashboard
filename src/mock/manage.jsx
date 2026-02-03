@@ -1,16 +1,16 @@
 import { DOCTOR_COLORS } from "../utils/color";
 
 export const mockAccounts = [
-  { id: 1, email: "nguyenvana@example.com", username: "Nguyen Van A", password: "password1", role: "admin" },
-  { id: 2, email: "tranthib@example.com", username: "Tran Thi B", password: "password2", role: "user" },
-  { id: 3, email: "levanc@example.com", username: "Le Van C", password: "password3", role: "user" },
-  { id: 4, email: "phamthid@example.com", username: "Pham Thi D", password: "password4", role: "user" },
-  { id: 5, email: "hoangvane@example.com", username: "Hoang Van E", password: "password5", role: "user" },
-  { id: 6, email: "vuthif@example.com", username: "Vu Thi F", password: "password6", role: "user" },
-  { id: 7, email: "dangvang@example.com", username: "Dang Van G", password: "password7", role: "user" },
-  { id: 8, email: "buithih@example.com", username: "Bui Thi H", password: "password8", role: "user" },
-  { id: 9, email: "dovani@example.com", username: "Do Van I", password: "password9", role: "user" },
-  { id: 10, email: "caothij@example.com", username: "Cao Thi J", password: "password10", role: "user" }
+  { id: 1, email: "nguyenvana@example.com", username: "Nguyen Van A", password: "password1", role: "ADMIN" },
+  { id: 2, email: "tranthib@example.com", username: "Tran Thi B", password: "password2", role: "MEMBER" },
+  { id: 3, email: "levanc@example.com", username: "Le Van C", password: "password3", role: "MEMBER" },
+  { id: 4, email: "phamthid@example.com", username: "Pham Thi D", password: "password4", role: "MEMBER" },
+  { id: 5, email: "hoangvane@example.com", username: "Hoang Van E", password: "password5", role: "MEMBER" },
+  { id: 6, email: "vuthif@example.com", username: "Vu Thi F", password: "password6", role: "MEMBER" },
+  { id: 7, email: "dangvang@example.com", username: "Dang Van G", password: "password7", role: "MEMBER" },
+  { id: 8, email: "buithih@example.com", username: "Bui Thi H", password: "password8", role: "MEMBER" },
+  { id: 9, email: "dovani@example.com", username: "Do Van I", password: "password9", role: "MEMBER" },
+  { id: 10, email: "caothij@example.com", username: "Cao Thi J", password: "password10", role: "MEMBER" }
 ];
 
 export const mockStaff = [
