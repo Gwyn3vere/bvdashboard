@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { loginService } from "../../services/auth.index";
 import { logoutService } from "../../services/auth";
 import { validateLogin } from "../../utils/validation";
+import { authStorage } from "../../utils/mockToken";
 
 export default function useLogin() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,6 +34,8 @@ export default function useLogin() {
       return null;
     }
 
+    authStorage.save(result.accessToken, rememberMe);
+
     setErrors({});
     navigate("/bang-dieu-khien");
     return result.user;
@@ -40,6 +44,7 @@ export default function useLogin() {
   const handleLogout = async () => {
     try {
       await logoutService();
+      authStorage.clear();
       navigate("/");
     } catch (error) {
       console.error("Logout failed", error);
@@ -47,5 +52,5 @@ export default function useLogin() {
     }
   };
 
-  return { form, errors, loading, handleChange, handleSubmit, handleLogout };
+  return { form, errors, loading, handleChange, handleSubmit, handleLogout, rememberMe, setRememberMe };
 }
