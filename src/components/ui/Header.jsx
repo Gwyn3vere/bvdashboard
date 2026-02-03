@@ -1,16 +1,15 @@
-// Libraries - Hooks - Motions - Services
 import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { useActive, useLogin } from "../hooks";
 import { DropdownMotion } from "../../motions";
 import { Link } from "react-router-dom";
-import { userService, logoutService } from "../../services/auth";
-// Styles - UI - Icons
+import { userService } from "../../services/auth.mock";
 import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
 import { CiBellOn, CiLight, CiCalendar, CiLogout, CiUser, CiSettings } from "react-icons/ci";
 import { IoIosArrowDown, IoIosArrowBack } from "react-icons/io";
 import { LuAlignRight, LuAlignLeft } from "react-icons/lu";
+import { ROLE_OPTIONS } from "../../constants/option";
 
 const cx = classNames.bind(style);
 
@@ -21,9 +20,12 @@ function Header({ collapsed, toggle }) {
 
   const { handleLogout } = useLogin();
 
-  const username = user?.data?.firstName + user?.data?.lastName || "Guest";
-  const role = user?.data?.role || "Visitor";
+  const username = user?.username || "Guest";
+  const role = user?.role || "Visitor";
   const avatar = useActive(false);
+
+  const roleConfig = ROLE_OPTIONS.find((item) => item.value === role);
+  console.log(roleConfig);
 
   const dateNow = new Date().toLocaleDateString("vi-VN", {
     weekday: "long",
@@ -99,7 +101,7 @@ function Header({ collapsed, toggle }) {
           <Avatar className="rounded-full" onClick={avatar.toggleActive}>
             <div className="hidden sm:block h-[40px]">
               <Username children={username} className="font-bold text-[14px] uppercase" />
-              <Role children={role} className="text-small text-[14px]" />
+              <Role children={roleConfig ? roleConfig.name : role} className="text-small text-[14px]" />
             </div>
             <IoIosArrowDown
               className={cx(
