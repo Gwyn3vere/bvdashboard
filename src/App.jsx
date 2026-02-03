@@ -3,21 +3,23 @@ import { Fragment } from "react";
 import privateRoutes from "./routes/privateRoutes";
 import publicRoutes from "./routes/publicRoutes";
 import NotFound from "./pages/NotFound";
-// Global styles - tailwindcss
+import { ProtectedRoute, PublicRoute } from "./components/auth";
 import "./styles/global.css";
 
 function App() {
-  const renderRoutes = (routes) => {
+  const renderRoutes = (routes, isPrivate = false) => {
     return routes.map(({ path, component: Component, layout: Layout = Fragment }, index) => {
+      const element = (
+        <Layout>
+          <Component />
+        </Layout>
+      );
+
       return (
         <Route
           key={index}
           path={path}
-          element={
-            <Layout>
-              <Component />
-            </Layout>
-          }
+          element={isPrivate ? <ProtectedRoute>{element}</ProtectedRoute> : <PublicRoute>{element}</PublicRoute>}
         />
       );
     });
@@ -26,12 +28,8 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          {/* public routes */}
           {renderRoutes(publicRoutes)}
-
-          {/* private routes */}
-          {renderRoutes(privateRoutes)}
-
+          {renderRoutes(privateRoutes, true)}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

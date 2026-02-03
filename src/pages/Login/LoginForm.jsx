@@ -11,7 +11,7 @@ import { IoIosMail, IoIosKey } from "react-icons/io";
 const cx = classNames.bind(style);
 
 function LoginForm() {
-  const { form, errors, loading, handleChange, handleSubmit } = useLogin();
+  const { form, errors, loading, handleChange, handleSubmit, rememberMe, setRememberMe } = useLogin();
 
   return (
     <div className="flex h-screen">
@@ -23,12 +23,12 @@ function LoginForm() {
           <strong className="text-2xl pb-2">Chào mừng trở lại!</strong>
           <p className="text-[11px] text-[var(--color-text-light-secondary)]">Vui lòng đăng nhập để tiếp tục</p>
         </div>
-        <Form className="sm:px-20 pt-10" onSubmit={handleSubmit}>
+        <Form className=" px-5 md:px-20 xl:px-5 2xl:px-20 pt-10" onSubmit={handleSubmit}>
           <Input
             name="email"
             type="email"
             label="Email"
-            value={form.email}
+            value={(form.email = "nguyenvana@example.com")}
             onChange={handleChange}
             labelClassName="text-sm"
             icon={<IoIosMail />}
@@ -42,7 +42,7 @@ function LoginForm() {
             name="password"
             type="password"
             label="Password"
-            value={form.password}
+            value={(form.password = "password1")}
             onChange={handleChange}
             labelClassName="text-sm"
             icon={<IoIosKey />}
@@ -57,7 +57,12 @@ function LoginForm() {
             <Item as="span" children={errors.login} width="w-auto" className="text-red-500 text-[14px] mt-1" />
           )}
           <div className="flex items-center justify-between mt-5">
-            <Checkbox text="Nhớ tài khoản" className="text-[14px]" />
+            <Checkbox
+              text="Nhớ tài khoản"
+              className="text-[14px]"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
             <Item as={Link} to="/" children="Quên mật khẩu?" width="w-auto" className="text-blue-500 text-[14px]" />
           </div>
           <Button
@@ -77,9 +82,7 @@ function LoginForm() {
           />
         </Form>
       </div>
-      <div className="relative hidden sm:flex flex-1 items-center justify-center bg-[var(--color-bg-light-primary-300)] overflow-hidden">
-        <LoginBackground />
-      </div>
+      <LoginBackground />
     </div>
   );
 }

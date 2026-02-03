@@ -1,4 +1,5 @@
 import { mockAccounts } from "../mock/manage";
+import { generateMockToken, authStorage, decodeMockToken } from "../utils/mockToken";
 
 /**
  * Mock login service
@@ -23,7 +24,8 @@ export const loginService = async ({ email, password }) => {
 
   return {
     success: true,
-    user: safeUser
+    user: safeUser,
+    accessToken: generateMockToken(user)
   };
 };
 
@@ -33,8 +35,23 @@ export const loginService = async ({ email, password }) => {
 export const userService = async () => {
   await new Promise((resolve) => setTimeout(resolve, 300));
 
-  // giả lập user đang đăng nhập (lấy account đầu tiên)
-  const { password: _, ...safeUser } = mockAccounts[0];
+  const token = authStorage.getToken();
+  if (!token) {
+    return { success: false };
+  }
+
+  const payload = decodeMockToken(token);
+  if (!payload || payload.exp < Date.now()) {
+    authStorage.clear();
+    return { success: false };
+  }
+
+  const user = mockAccounts.find((acc) => acc.id === payload.sub);
+  if (!user) {
+    return { success: false };
+  }
+
+  const { password: _, ...safeUser } = user;
 
   return {
     success: true,
