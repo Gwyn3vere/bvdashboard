@@ -8,8 +8,9 @@ import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
 import { CiBellOn, CiLight, CiCalendar, CiLogout, CiUser, CiSettings } from "react-icons/ci";
 import { IoIosArrowDown, IoIosArrowBack } from "react-icons/io";
-import { LuAlignRight, LuAlignLeft } from "react-icons/lu";
+import { LuAlignRight, LuAlignLeft, LuLogOut } from "react-icons/lu";
 import { ROLE_OPTIONS } from "../../constants/option";
+import { NAV_MENU } from "../../constants/menu";
 
 const cx = classNames.bind(style);
 
@@ -25,7 +26,6 @@ function Header({ collapsed, toggle }) {
   const avatar = useActive(false);
 
   const roleConfig = ROLE_OPTIONS.find((item) => item.value === role);
-  console.log(roleConfig);
 
   const dateNow = new Date().toLocaleDateString("vi-VN", {
     weekday: "long",
@@ -55,7 +55,9 @@ function Header({ collapsed, toggle }) {
   }, []);
 
   return (
-    <header className={cx("px-2 xl:px-10 pt-5 sticky top-0 w-full flex justify-between mb-5 max-w-[1800px] mx-auto")}>
+    <header
+      className={cx("px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between mb-5 max-w-[1800px] mx-auto")}
+    >
       <div className="flex gap-2">
         <Button
           icon={collapsed ? <LuAlignLeft /> : <LuAlignRight />}
@@ -110,43 +112,41 @@ function Header({ collapsed, toggle }) {
               )}
             />
           </Avatar>
-          <DropdownMotion isOpen={avatar.isActive} duration={0.3}>
-            <Dropdown
-              className="absolute right-0 rounded-[8px] mt-2 shadow-sm p-2 z-10 text-[14px]"
-              style={{ background: "var(--color-bg-light-primary-300)" }}
-            >
+          <Dropdown
+            minWidth="230px"
+            className={cx(
+              "absolute right-0 rounded-[8px]",
+              "mt-2 shadow-sm p-3 z-10 text-[14px]",
+              "border-1 border-gray-200",
+              avatar.isActive ? "" : "hidden"
+            )}
+            style={{ background: "var(--color-bg-light-primary-100)" }}
+          >
+            {NAV_MENU.map((item) => (
               <Item
+                key={item.id}
                 as={Link}
-                children="Tài khoản"
+                children={item.name}
                 to="/"
-                icon={<CiUser />}
-                className={cx(
-                  "flex gap-2 px-3 py-2 cursor-pointer rounded-[8px] ",
-                  "hover:bg-[var(--color-bg-light-primary-200)]"
-                )}
+                icon={item.icon}
+                iconClassName={cx("text-lg")}
+                itemClassName={cx("font-medium")}
+                className={cx("flex gap-2 p-3 cursor-pointer rounded-[8px] ", "hover:bg-[var(--color-primary-100)]")}
               />
-              <Item
-                as={Link}
-                children="Cài đặt"
-                to="/"
-                icon={<CiSettings />}
-                className={cx(
-                  "flex gap-2 px-3 py-2 cursor-pointer rounded-[8px] ",
-                  "hover:bg-[var(--color-bg-light-primary-200)]"
-                )}
-              />
-              <Item
-                as="button"
-                onClick={handleLogout}
-                children="Đăng xuất"
-                icon={<CiLogout />}
-                className={cx(
-                  "flex gap-2 px-3 py-2 cursor-pointer rounded-[8px] w-full",
-                  "hover:bg-[var(--color-bg-light-primary-200)]"
-                )}
-              />
-            </Dropdown>
-          </DropdownMotion>
+            ))}
+            <hr className="border-1 border-gray-100 my-1" />
+            <Item
+              as="button"
+              children={"Dăng xuất"}
+              icon={<LuLogOut />}
+              iconClassName={cx("text-lg")}
+              itemClassName={cx("font-medium")}
+              className={cx(
+                "flex gap-2 p-3 cursor-pointer rounded-[8px] ",
+                "hover:bg-[var(--color-primary-100)] w-full"
+              )}
+            />
+          </Dropdown>
         </div>
       </div>
     </header>
