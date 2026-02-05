@@ -1,146 +1,36 @@
-// Libraries - Mock -Hooks
-import { useState } from "react";
 import classNames from "classnames/bind";
-import { Link } from "react-router-dom";
-import { useActive } from "../../components/hooks";
-import { mockNews } from "../../mock/news";
-import { mockStaff } from "../../mock/manage";
-// Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
-import { Breadcrumb, Item, Button, Search, Avatar } from "../../components/ui";
-import { HiMiniChevronRight, HiMiniChevronLeft, HiBookmark } from "react-icons/hi2";
-import { LuListFilter, LuLayoutDashboard, LuEye } from "react-icons/lu";
-import { SliderMotion } from "../../motions";
+import { Breadcrumb, Item, Button, Search, Checkbox, Pagination } from "../../components/ui";
+import { LuFilter, LuLayoutDashboard, LuList, LuPlus } from "react-icons/lu";
+import { TWCSS } from "../../styles/defineTailwindcss";
+import { NEWS_TOTAL_STATUS } from "../../mock/news";
+import { NEWS_CATEGORIES } from "../../constants/menu";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const cx = classNames.bind(styles);
 
 function News() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [direction, setDirection] = useState("next");
-
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(mockNews.length / itemsPerPage);
-  const startIndex = currentPage * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentNews = mockNews.slice(startIndex, endIndex);
-
-  const next = () => {
-    setDirection("next");
-    setCurrentPage((p) => Math.min(p + 1, totalPages - 1));
-  };
-
-  const prev = () => {
-    setDirection("prev");
-    setCurrentPage((p) => Math.max(p - 1, 0));
-  };
-
-  const modal = {
-    filter: useActive(),
-    add: useActive(),
-    edit: useActive(),
-    delete: useActive()
-  };
   return (
-    <div className="px-10 pb-5 flex flex-col 2xl:grid grid-cols-[1200px_auto] h-auto gap-5">
-      <div className="flex flex-col gap-5">
-        <div
-          className="flex flex-col justify-between h-[250px] rounded-[8px] bg-[var(--color-secondary)] p-5"
-          style={{ boxShadow: "var(--shadow)" }}
-        >
-          <Breadcrumb
-            className="mb-3"
-            textStyle="text-white"
-            items={[
-              { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
-              { label: "Quản lý tin tức" }
-            ]}
-          />
-          <div className="text-white">
-            <Item as="strong" children="Tổng quan tin tức" itemClassName={cx("text-[25px]")} />
-            <Item
-              as="div"
-              children="Nơi bạn có thể theo dõi hiệu suất bài viết, tình trạng biên tập và các hoạt động liên quan đến tin tức trong hệ thống."
-              className={cx("mt-2 w-[600px]")}
-              whitespace=""
-            />
-          </div>
-          <Item
-            as={Link}
-            to="/quan-ly-tin-tuc/dang-bai"
-            children="Đăng tin tức mới"
-            className={cx("flex justify-center w-[200px] px-4 py-2 bg-white rounded-full")}
-            itemClassName={cx("font-bold text-blue-500")}
-          />
-        </div>
+    <div className={cx(TWCSS.container)}>
+      <Breadcrumb
+        className="mb-3"
+        items={[
+          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
+          { label: "Quản lý tin tức" }
+        ]}
+      />
+      <Item as="strong" children="Quản lý tin tức" itemClassName="text-3xl" />
+      <Item
+        as="span"
+        children="Trang quản lý thống kê, danh sách tin tức tại đây."
+        itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
+      />
 
-        <div
-          className="flex-1 bg-[var(--color-bg-light-primary-100)] p-4 rounded-[8px]"
-          style={{ boxShadow: "var(--shadow)" }}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2">
-              <Item as="strong" children="Tổng bài đăng:" />
-              <span>{mockNews.length}</span>
-            </div>
-            <div className="flex gap-2 pb-5 pt-1">
-              <Button
-                icon={<HiMiniChevronLeft />}
-                width={40}
-                onClick={prev}
-                className={cx(
-                  "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
-                  " hover:bg-[var(--color-primary)] hover:text-[var(--color-bg-light-primary-100)]"
-                )}
-              />
-              <Button
-                icon={<HiMiniChevronRight />}
-                width={40}
-                onClick={next}
-                className={cx(
-                  "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
-                  " hover:bg-[var(--color-primary)] hover:text-[var(--color-bg-light-primary-100)]"
-                )}
-              />
-              <Search className="rounded-[8px]" />
-              <Button
-                icon={<LuListFilter />}
-                children="Bộ lọc"
-                width="auto"
-                onClick={modal.filter.toggleActive}
-                className={cx(
-                  "px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer",
-                  "text-[14px] text-white font-bold flex items-center gap-2"
-                )}
-              />
-            </div>
-          </div>
-
-          <SliderMotion page={currentPage} direction={direction}>
-            <NewsTable items={currentNews} />
-          </SliderMotion>
-        </div>
-      </div>
-
-      <div className="bg-[var(--color-bg-light-primary-100)] p-4 rounded-[8px]" style={{ boxShadow: "var(--shadow)" }}>
-        <Item as="strong" children="Bài đăng mới nhất" className="h-[20px]" itemClassName={cx("text-sm mb-3")} />
-        {mockNews.slice(0, 4).map((item, index) => (
-          <NewsCard key={index} news={item} />
-        ))}
-        <hr className="my-5 text-gray-300" />
-        <div className="flex items-center justify-between my-3">
-          <Item as="strong" children="Những người đóng góp" className="h-[20px]" itemClassName={cx("text-sm")} />
-          <Item
-            as={Link}
-            to="/quan-ly-tin-tuc/nguoi-dong-gop"
-            children="Xem tất cả"
-            className={cx("text-sm text-blue-500")}
-          />
-        </div>
-        {mockStaff.slice(0, 4).map((staff, index) => (
-          <div key={index} className="mb-4">
-            <Author staff={staff} />
-          </div>
-        ))}
+      <div className="space-y-10">
+        <Overview total={NEWS_TOTAL_STATUS} />
+        <ActionBar />
+        <NewsList />
       </div>
     </div>
   );
@@ -148,73 +38,133 @@ function News() {
 
 export default News;
 
-export function NewsTable({ items }) {
+function Overview({ total }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 h-full">
-      {items.map((news) => (
-        <div key={news.id} className="">
-          <img src={news.banner} alt="news-banner" className="w-auto h-[150px] rounded-[8px] object-cover" />
-          <Item as="strong" children={news.title} itemClassName="text-md mt-2 truncate " />
-          <div className="text-sm text-gray-500 mt-1">
-            <span>Ngày đăng: {news.date}</span> <br />
-            <div>
-              <div>
-                Trạng thái:{" "}
-                <span className={cx("font-bold", news.status === "Đã xuất bản" ? "text-green-500" : "text-red-500")}>
-                  {news.status}
-                </span>
-              </div>
-            </div>
-          </div>
+    <div className={cx("grid gap-5 w-full", "grid-cols-[repeat(auto-fit,minmax(280px,1fr))]")}>
+      {total.map((item, idx) => (
+        <div
+          key={idx}
+          className={cx(
+            "relative",
+            "bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
+            "p-6 flex flex-col gap-2 border-b-4 border-transparent",
+            "transition-all duration-300 ease-out",
+            "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
+            "hover:border-b-[var(--color-primary)]"
+          )}
+          style={{ boxShadow: "var(--shadow" }}
+        >
+          <Item as="span" children={item.title} itemClassName={cx("text-[12px]")} />
+          <Item as="span" children={item.total} itemClassName={cx("text-3xl font-bold")} />
+          <Item as="span" children={item.desc} itemClassName={cx("text-[12px] text-[var(--color-unavailable-700)]")} />
+          <Item
+            icon={item.icon}
+            iconClassName={cx("text-xl text-[var(--color-primary)]")}
+            className={cx(
+              "absolute top-6 right-6",
+              "bg-[var(--color-primary-100)] rounded-[8px]",
+              "w-10 h-10 flex items-center justify-center"
+            )}
+          />
         </div>
       ))}
     </div>
   );
 }
 
-export function NewsCard({ news }) {
+function ActionBar({}) {
   return (
-    <div className={cx("grid grid-cols-[150px_auto] gap-2 mb-2 h-[100px]")}>
-      <img src={news.banner} alt="news-banner" loading="lazy" className="h-[100px] object-cover rounded-[8px]" />
-      <div className="flex flex-col justify-between w-auto">
-        <Item
-          as="strong"
-          children={news.title}
-          itemClassName="text-md mt-2 block max-w-[240px] max-h-[48px] overflow-hidden line-clamp-2"
-          whitespace="whitespace-normal"
-        />
-        <div className="flex items-end justify-between">
-          <span className="text-sm text-gray-500">{news.date}</span>
-          <span className="flex items-center gap-1 text-sm">
-            {news.view} <LuEye />
-          </span>
+    <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-8")}>
+      <Search width={"auto"} height={45} className={cx("rounded-[8px]")} />
+      <div className={cx("flex justify-between")}>
+        <div className="flex gap-2">
+          <Button
+            width={"auto"}
+            height={45}
+            icon={<LuFilter />}
+            children={"Bộ lọc"}
+            className={cx(
+              "p-2 border-2 border-[var(--color-unavailable-300)]",
+              "gap-2 bg-[var(--color-bg-light-primary-100)]"
+            )}
+          />
+          <Button
+            width={"auto"}
+            height={45}
+            icon={<LuList />}
+            children={"Danh sách"}
+            className={cx(
+              "p-2 border-2 border-[var(--color-unavailable-300)]",
+              "gap-2 bg-[var(--color-bg-light-primary-100)]"
+            )}
+          />
         </div>
+        <Item
+          as={Link}
+          to={"/quan-ly-tin-tuc/dang-bai"}
+          icon={<LuPlus />}
+          children={"Đăng tin tức mới"}
+          iconClassName={cx("text-xl text-white font-semibold")}
+          itemClassName={cx("text-sm text-white font-semibold")}
+          className={cx("bg-[var(--color-primary)] flex items-center gap-2 h-[45px] px-4 rounded-[8px]")}
+        />
       </div>
     </div>
   );
 }
 
-export function Author({ staff }) {
+function NewsList({ news }) {
+  const [status, setStatus] = useState();
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Avatar src={staff.avatarUrl} className="rounded-full" width={50} height={50} />
-          <div>
-            <span className="font-bold">Author Name</span>
-            <p className="text-sm opacity-70">author@example.com</p>
+    <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-8")}>
+      <div className="flex flex-col gap-5">
+        <div className={cx("bg-white rounded-[8px] overflow-hidden h-auto")} style={{ boxShadow: "var(--shadow)" }}>
+          <div className={cx("px-6 py-4 bg-[var(--color-primary)] flex items-center justify-between")}>
+            <Item children={"Danh mục"} itemClassName={cx("font-semibold text-white text-md")} />
+            <Button width={"auto"} height={"auto"} icon={<LuPlus />} iconClassName={cx("text-xl text-white")} />
+          </div>
+          <div className="flex flex-col gap-5">
+            <div className={cx("p-6")}>
+              {NEWS_CATEGORIES.map((cate) => (
+                <div
+                  key={cate.id}
+                  className={cx("flex items-center justify-between py-2 border-b-1 last:border-b-0 border-gray-200")}
+                >
+                  <Checkbox
+                    text={cate.name}
+                    className={cx("text-sm")}
+                    style={{
+                      "--size": "20px"
+                    }}
+                  />
+                  <Item
+                    children={cate.totalNews}
+                    itemClassName={cx("text-[11px] text-[var(--color-primary-500)]")}
+                    className={cx("p-2 bg-[var(--color-primary-100)] rounded-[8px]")}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <span
-          className={cx(
-            "px-3 rounded-full border-2",
-            staff.role === "admin"
-              ? " bg-green-200 border-green-500 text-green-700"
-              : "bg-blue-200 border-blue-500 text-blue-700"
-          )}
-        >
-          {staff.role}
-        </span>
+      </div>
+      <div
+        className={cx("bg-white rounded-[8px] overflow-hidden flex flex-col justify-between")}
+        style={{ boxShadow: "var(--shadow)" }}
+      >
+        <div className="">
+          <Item
+            children={"Danh sách tin tức"}
+            itemClassName={cx("font-semibold text-white text-md")}
+            className={cx("px-6 py-4 bg-[var(--color-primary)]")}
+          />
+          <div className="p-6">
+            {news
+              ? "Danh sách tin tức"
+              : 'Chưa có tin tức nào được đăng tải, hãy ấn nút "Đăng tin tức mới" để đăng bài'}
+          </div>
+        </div>
+        <Pagination />
       </div>
     </div>
   );
