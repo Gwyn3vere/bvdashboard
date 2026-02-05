@@ -6,8 +6,7 @@ import {
   LuStethoscope,
   LuImages,
   LuNewspaper,
-  LuLayers3,
-  LuSlidersHorizontal
+  LuLayers3
 } from "react-icons/lu";
 
 export const SIDEBAR_MENU = [
@@ -26,8 +25,7 @@ export const SIDEBAR_MENU = [
       { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <LuStethoscope /> },
       { title: "Banner", to: "/quan-ly-banner", icon: <LuImages /> },
       { title: "Tin tức", to: "/quan-ly-tin-tuc", icon: <LuNewspaper /> },
-      { title: "Chuyên môn", to: "/quan-ly-chuyen-mon", icon: <LuLayers3 /> },
-      { title: "Cấu hình bác sĩ", to: "/quan-ly-cau-hinh", icon: <LuSlidersHorizontal /> }
+      { title: "Chuyên môn", to: "/quan-ly-chuyen-mon", icon: <LuLayers3 /> }
     ]
   }
 ];

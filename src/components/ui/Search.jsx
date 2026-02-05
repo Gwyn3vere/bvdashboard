@@ -22,7 +22,12 @@ function Search({
 }) {
   return (
     <div
-      className={cx("bg-[var(--color-primary-100)] px-4 flex items-center gap-2", wrapperClass, className)}
+      className={cx(
+        "bg-[var(--color-bg-light-primary-100)] px-4 flex items-center gap-2",
+        "border-2 border-[var(--color-unavailable-300)]",
+        wrapperClass,
+        className
+      )}
       style={{ width, height, ...style }}
       {...props}
     >

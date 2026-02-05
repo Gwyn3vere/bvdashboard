@@ -134,11 +134,7 @@ function Content({ value, setValue, setFieldValue }) {
       </div>
       <div className={cx("")}>
         <Item children="Nội dung bài viết" itemClassName={cx("text-sm uppercase font-medium")} className={cx("p-8")} />
-        <RichTextEditor
-          content={value.content}
-          onChange={(html) => setFieldValue("content", html)}
-          placeholder="Viết nội dung bài viết của bạn tại đây..."
-        />
+        <RichTextEditor content={value.content} onChange={(html) => setFieldValue("content", html)} />
       </div>
     </div>
   );
