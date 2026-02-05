@@ -5,12 +5,23 @@ import style from "../../styles/ui.module.css";
 
 const cx = classNames.bind(style);
 
-function Checkbox({ text, className, checkboxClassName, style = {}, ...props }) {
+function Checkbox({ text, className, checkboxClassName, style = {}, checked, onChange, disabled, ...props }) {
   return (
-    <div className={cx("cursor-pointer", text ? "flex items-center gap-2" : "", className)} style={{ ...style }}>
-      <input type="checkbox" className={cx(checkboxClassName)} readOnly {...props} />
-      <span>{text}</span>
-    </div>
+    <label
+      className={cx(
+        "cursor-pointer select-none",
+        text && "flex items-center gap-3",
+        disabled && "opacity-50 pointer-events-none",
+        className
+      )}
+    >
+      <input type="checkbox" hidden checked={checked} disabled={disabled} onChange={onChange} {...props} />
+
+      {/* custom checkbox */}
+      <span className={cx("checkbox-indicator", checkboxClassName)} style={style} />
+
+      {text && <span>{text}</span>}
+    </label>
   );
 }
 

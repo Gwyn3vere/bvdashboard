@@ -80,3 +80,16 @@ export const INITAL_SPECIALTY = {
   value: "",
   name: ""
 };
+
+export const INITAL_NEWS = {
+  id: "",
+  title: "",
+  shotDesc: "",
+  content: "",
+  category: "",
+  tags: ["sức khoẻ", "y tế"],
+  metaTitle: "",
+  metaDesc: "",
+  status: "DRAFT",
+  image: null
+};

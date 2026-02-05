@@ -13,13 +13,16 @@ export { default as Logo } from "./Logo";
 export { default as Form } from "./Form";
 export { default as TitleForm } from "./Title";
 export { default as Input } from "./Input";
+export { default as TagInput } from "./TagInput";
 export { default as ArrayInput } from "./ArrayInput";
 export { default as TextArea } from "./TextArea";
+export { default as RichTextEditor } from "./RichTextEditor";
 
 export { default as Username } from "./Username";
 export { default as Role } from "./Role";
 
 export { default as Checkbox } from "./Checkbox";
+export { default as Radio } from "./Radio";
 export { default as List } from "./List";
 
 export { default as Breadcrumb } from "./Breadcrumb";
