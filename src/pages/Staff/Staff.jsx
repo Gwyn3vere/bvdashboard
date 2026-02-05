@@ -62,15 +62,9 @@ function Staff() {
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row) => row.id },
           {
-            key: "checkbox",
-            label: <Checkbox checkboxClassName="w-5 h-5" />,
-            width: "3%",
-            render: () => <Checkbox checkboxClassName="w-5 h-5" />
-          },
-          {
             key: "Username",
             label: "Tên thành viên",
-            width: "25%",
+            width: "28%",
             render: (row) => (
               <div className="flex items-center gap-2">
                 <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
