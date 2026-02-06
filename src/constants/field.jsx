@@ -25,6 +25,7 @@ export const INITIAL_DOCTOR = {
   department: "",
   facility: "",
   experienceYears: 0,
+  position: "",
   languages: [],
   tags: [],
   featured: false,

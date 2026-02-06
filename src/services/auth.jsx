@@ -1,4 +1,4 @@
-import { API_TOKEN_KEY, api } from "./api.config";
+import { API_TOKEN_KEY, api, USE_TOKEN } from "./api.config";
 
 /**
  * Login

@@ -49,4 +49,4 @@ api.interceptors.response.use(
 );
 
 // Export để dùng ở mọi nơi
-export { API_TOKEN_KEY };
+export { API_TOKEN_KEY, USE_TOKEN };
