@@ -5,6 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const fetchUsersService = async () => {
   try {
     const res = await axios.get(`${API_URL}/users`, { withCredentials: true });
+    console.log(res);
 
     return { success: true, users: res.data.data };
   } catch (error) {

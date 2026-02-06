@@ -28,7 +28,7 @@ function LoginForm() {
             name="email"
             type="email"
             label="Email"
-            value={(form.email = "nguyenvana@example.com")}
+            value={form.email}
             onChange={handleChange}
             labelClassName="text-sm"
             icon={<IoIosMail />}
@@ -42,7 +42,7 @@ function LoginForm() {
             name="password"
             type="password"
             label="Password"
-            value={(form.password = "password1")}
+            value={form.password}
             onChange={handleChange}
             labelClassName="text-sm"
             icon={<IoIosKey />}

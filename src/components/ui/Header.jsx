@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import { useActive, useLogin } from "../hooks";
 import { DropdownMotion } from "../../motions";
 import { Link } from "react-router-dom";
-import { userService } from "../../services/auth.mock";
+import { userService } from "../../services/auth";
 import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
 import { CiBellOn, CiLight, CiCalendar, CiLogout, CiUser, CiSettings } from "react-icons/ci";
@@ -21,7 +21,7 @@ function Header({ collapsed, toggle }) {
 
   const { handleLogout } = useLogin();
 
-  const username = user?.username || "Guest";
+  const username = user?.lastName || "Guest";
   const role = user?.role || "Visitor";
   const avatar = useActive(false);
 
@@ -41,7 +41,7 @@ function Header({ collapsed, toggle }) {
         const res = await userService();
 
         if (res.success) {
-          setUser(res.user);
+          setUser(res?.user?.data);
         } else {
           setError(res.errors.user);
         }
@@ -141,6 +141,7 @@ function Header({ collapsed, toggle }) {
               icon={<LuLogOut />}
               iconClassName={cx("text-lg")}
               itemClassName={cx("font-medium")}
+              onClick={handleLogout}
               className={cx(
                 "flex gap-2 p-3 cursor-pointer rounded-[8px] ",
                 "hover:bg-[var(--color-primary-100)] w-full"

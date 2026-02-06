@@ -5,6 +5,7 @@ const IS_PROD = import.meta.env.VITE_NODE_ENV === "production";
 
 // Chọn baseURL dựa trên ENV
 const API_URL = IS_PROD ? import.meta.env.VITE_API_PROD_URL : import.meta.env.VITE_API_URL;
+const API_TOKEN_KEY = import.meta.env.VITE_USE_TOKEN_KEY;
 
 // Kiểm tra dev có dùng token không
 const USE_TOKEN = import.meta.env.VITE_API_USE_TOKEN === "true";
@@ -18,7 +19,7 @@ export const api = axios.create({
 // Interceptor request: thêm token header nếu dev
 if (USE_TOKEN) {
   api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("accessToken");
+    const token = sessionStorage.getItem(API_TOKEN_KEY);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -31,7 +32,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401 && USE_TOKEN) {
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem(API_TOKEN_KEY);
       // Optional: redirect login nếu muốn
       // window.location.href = "/login";
     }
@@ -48,11 +49,11 @@ export const loginService = async ({ email, password }) => {
     const res = await api.post("/auth/login", { email, password });
 
     // Lưu token nếu dev
-    if (USE_TOKEN && res.data.data.accessToken) {
-      localStorage.setItem("accessToken", res.data.data.accessToken);
+    if (USE_TOKEN && res.data.data.access_token) {
+      sessionStorage.setItem(API_TOKEN_KEY, res.data.data.access_token);
     }
 
-    return { success: true, user: res.data.user ?? res.data };
+    return { success: true, access_token: res.data.data.access_token ?? res.data };
   } catch (error) {
     const message = error?.response?.data?.message || error.message || "Login failed";
     return { success: false, errors: { login: message } };
@@ -71,7 +72,7 @@ export const userService = async () => {
 
 export const logoutService = async () => {
   try {
-    if (USE_TOKEN) localStorage.removeItem("accessToken");
+    if (USE_TOKEN) localStorage.removeItem(API_TOKEN_KEY);
     await api.post("/auth/logout", {});
     return { success: true };
   } catch (error) {
