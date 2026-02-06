@@ -7,7 +7,7 @@ import { TWCSS } from "../../styles/defineTailwindcss";
 import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical, LuUserPlus } from "react-icons/lu";
 import { getDaysInMonth, formatDate } from "../../utils/format";
 import { getColorHexByName, getColorByIndex } from "../../utils/color";
-import { Card, Create, Shift, DragPreview } from "./index";
+import { Card, DoctorForm, Shift, DragPreview } from "./index";
 import { Breadcrumb, Item, Button, Search, Toast, Modal } from "../../components/ui";
 import styles from "../../styles/pages.module.css";
 
@@ -178,7 +178,7 @@ function Calendar() {
               )}
             />
             <Modal open={create.isActive} onClose={create.deactivate} backdrop={true} width="max-w-2xl">
-              <Create onClose={create.deactivate} />
+              <DoctorForm onClose={create.deactivate} />
             </Modal>
           </div>
         </div>

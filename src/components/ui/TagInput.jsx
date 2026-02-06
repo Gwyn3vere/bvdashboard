@@ -5,7 +5,7 @@ import { LuX } from "react-icons/lu";
 
 const cx = classNames.bind(style);
 
-function TagInput({ values = [], onChange, placeholder = "Thêm tag...", ...props }) {
+function TagInput({ values = [], label, onChange, placeholder = "Thêm tag...", ...props }) {
   const [inputValue, setInputValue] = useState("");
 
   const tags = values;
@@ -34,30 +34,33 @@ function TagInput({ values = [], onChange, placeholder = "Thêm tag...", ...prop
   };
 
   return (
-    <div className="w-full rounded-lg border-2 border-slate-300 p-3 focus-within:border-[var(--color-primary)]">
-      <div className="flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <span
-            key={tag}
-            className="flex items-center gap-1 rounded-md bg-[var(--color-primary)] p-2 text-sm text-white"
-          >
-            {tag}
-            <button type="button" onClick={() => removeTag(tag)} className="text-white hover:text-red-500">
-              <LuX />
-            </button>
-          </span>
-        ))}
+    <>
+      <label className="font-medium">{label}</label>
+      <div className="w-full rounded-lg border-2 border-slate-300 p-3 focus-within:border-[var(--color-primary)]">
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="flex items-center gap-1 rounded-md bg-[var(--color-primary)] p-2 text-sm text-white"
+            >
+              {tag}
+              <button type="button" onClick={() => removeTag(tag)} className="text-white hover:text-red-500">
+                <LuX />
+              </button>
+            </span>
+          ))}
 
-        <input
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={placeholder}
-          className="min-w-[120px] flex-1 bg-transparent outline-none text-sm"
-          {...props}
-        />
+          <input
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={placeholder}
+            className="min-w-[120px] flex-1 bg-transparent outline-none text-sm"
+            {...props}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
