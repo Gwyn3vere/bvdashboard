@@ -1,44 +1,4 @@
-import axios from "axios";
-
-// Kiểm tra môi trường
-const IS_PROD = import.meta.env.VITE_NODE_ENV === "production";
-
-// Chọn baseURL dựa trên ENV
-const API_URL = IS_PROD ? import.meta.env.VITE_API_PROD_URL : import.meta.env.VITE_API_URL;
-const API_TOKEN_KEY = import.meta.env.VITE_USE_TOKEN_KEY;
-
-// Kiểm tra dev có dùng token không
-const USE_TOKEN = import.meta.env.VITE_API_USE_TOKEN === "true";
-
-// Tạo instance axios
-export const api = axios.create({
-  baseURL: API_URL,
-  withCredentials: true // để cookie gửi kèm
-});
-
-// Interceptor request: thêm token header nếu dev
-if (USE_TOKEN) {
-  api.interceptors.request.use((config) => {
-    const token = sessionStorage.getItem(API_TOKEN_KEY);
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
-}
-
-// Interceptor response: tự logout khi 401 (dev)
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401 && USE_TOKEN) {
-      localStorage.removeItem(API_TOKEN_KEY);
-      // Optional: redirect login nếu muốn
-      // window.location.href = "/login";
-    }
-    return Promise.reject(error);
-  }
-);
+import { API_TOKEN_KEY, api, USE_TOKEN } from "./api.config";
 
 /**
  * Login

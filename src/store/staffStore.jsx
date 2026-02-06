@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { MOCK_STAFF_LIST } from "../mock/staffs";
-import { fetchUsersService } from "../services/user";
+import { fetchUsersService } from "../services/staff";
+
 const result = await fetchUsersService();
-console.log(result);
 
 export const useStaffStore = create((set, get) => ({
   /* =======================

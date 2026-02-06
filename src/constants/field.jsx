@@ -9,6 +9,8 @@ export const INITIAL_STAFF = {
   position: "",
   role: "",
   facility: "",
+  isActive: true,
+  isVerifyEmail: false,
   featured: false
 };
 
@@ -23,6 +25,7 @@ export const INITIAL_DOCTOR = {
   department: "",
   facility: "",
   experienceYears: 0,
+  position: "",
   languages: [],
   tags: [],
   featured: false,
