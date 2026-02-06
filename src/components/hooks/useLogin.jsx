@@ -34,11 +34,11 @@ export default function useLogin() {
       return null;
     }
 
-    authStorage.save(result.accessToken, rememberMe);
+    authStorage.save(result?.access_token, rememberMe);
 
     setErrors({});
     navigate("/bang-dieu-khien");
-    return result.user;
+    return result.access_token;
   };
 
   const handleLogout = async () => {

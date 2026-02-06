@@ -1,15 +1,15 @@
 import { Navigate } from "react-router-dom";
-import { authStorage, decodeMockToken } from "../../utils/mockToken";
+import { authStorage, decodeToken } from "../../utils/mockToken";
 
 export default function PublicRoute({ children }) {
   const token = authStorage.getToken();
 
   if (!token) return children;
 
-  const payload = decodeMockToken(token);
+  const payload = decodeToken(token);
 
   // token hợp lệ → redirect dashboard
-  if (payload && payload.exp > Date.now()) {
+  if (payload && payload.exp * 1000 > Date.now()) {
     return <Navigate to="/bang-dieu-khien" replace />;
   }
 

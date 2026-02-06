@@ -1,3 +1,6 @@
+import { jwtDecode } from "jwt-decode";
+const API_TOKEN_KEY = import.meta.env.VITE_USE_TOKEN_KEY;
+
 export const generateMockToken = (user) => {
   return btoa(
     JSON.stringify({
@@ -9,31 +12,30 @@ export const generateMockToken = (user) => {
   );
 };
 
-export const decodeMockToken = (token) => {
+export const decodeToken = (token) => {
   try {
-    return JSON.parse(atob(token));
+    return jwtDecode(token);
   } catch {
     return null;
   }
 };
 
-const TOKEN_KEY = "access_token";
-
 export const authStorage = {
   save(token, remember) {
     if (remember) {
-      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(API_TOKEN_KEY, token);
+      sessionStorage.setItem(API_TOKEN_KEY, token);
     } else {
-      sessionStorage.setItem(TOKEN_KEY, token);
+      sessionStorage.setItem(API_TOKEN_KEY, token);
     }
   },
 
   getToken() {
-    return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
+    return localStorage.getItem(API_TOKEN_KEY) || sessionStorage.getItem(API_TOKEN_KEY);
   },
 
   clear() {
-    localStorage.removeItem(TOKEN_KEY);
-    sessionStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(API_TOKEN_KEY);
+    sessionStorage.removeItem(API_TOKEN_KEY);
   }
 };

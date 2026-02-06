@@ -1,5 +1,5 @@
 import { mockAccounts } from "../mock/manage";
-import { generateMockToken, authStorage, decodeMockToken } from "../utils/mockToken";
+import { generateMockToken, authStorage, decodeToken } from "../utils/mockToken";
 
 /**
  * Mock login service
@@ -40,7 +40,7 @@ export const userService = async () => {
     return { success: false };
   }
 
-  const payload = decodeMockToken(token);
+  const payload = decodeToken(token);
   if (!payload || payload.exp < Date.now()) {
     authStorage.clear();
     return { success: false };
