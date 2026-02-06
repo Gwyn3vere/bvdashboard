@@ -2,13 +2,13 @@ import { create } from "zustand";
 import { MOCK_STAFF_LIST } from "../mock/staffs";
 import { fetchUsersService } from "../services/user";
 const result = await fetchUsersService();
-console.log(result);
+console.log(result?.users?.data);
 
 export const useStaffStore = create((set, get) => ({
   /* =======================
      STATE
   ======================= */
-  staffs: MOCK_STAFF_LIST,
+  staffs: result?.users?.data,
   editingStaffId: null,
   loading: false,
 
