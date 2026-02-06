@@ -25,6 +25,12 @@ export const useDoctorStore = create((set, get) => ({
      ACTIONS
   ======================= */
 
+  // CREATE
+  createDoctor: (newDoctor) =>
+    set((state) => ({
+      doctors: [...state.doctors, newDoctor]
+    })),
+
   // dùng cho List
   setDoctors: (doctors) => set({ doctors }),
 

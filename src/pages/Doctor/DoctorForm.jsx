@@ -1,40 +1,39 @@
 import classNames from "classnames/bind";
-import React, { useState, useEffect, useMemo, use } from "react";
-import {
-  DEPARTMENTS_OPTIONS,
-  SPECIALTIES_OPTIONS,
-  TAGS_DOCTOR_OPTIONS,
-  DOCTOR_TITLES_OPTIONS,
-  LANGUAGE_OPTIONS
-} from "../../constants/option";
+import React, { useState, useEffect, useMemo } from "react";
+import { POSITION_OPTIONS, DOCTOR_TITLES_OPTIONS } from "../../constants/option";
 import { MOCK_DEPARTMENTS, MOCK_SPECIALTIES } from "../../mock/expertise";
-import { useForm, usePagination, useActive, useSearch, useValidation } from "../../components/hooks";
+import { useForm, usePagination, useValidation } from "../../components/hooks";
 import { INITIAL_DETAIL_DOCTOR } from "../../constants/field";
 import styles from "../../styles/pages.module.css";
-import { TWCSS } from "../../styles/defineTailwindcss";
 import {
   Item,
   Form,
   Input,
   Button,
   Select,
-  TagsSelector,
   TextArea,
-  Modal,
   ArrayInput,
   TitleForm,
-  Toast
+  Toast,
+  TagInput
 } from "../../components/ui";
-import { LuX, LuCamera, LuUser, LuSearch, LuPlus } from "react-icons/lu";
+import { LuCamera, LuUser } from "react-icons/lu";
 import { slugify } from "../../utils/format";
 import { validateDoctor } from "../../utils/validation";
+import { useDoctorStore } from "../../store/doctorStore";
 
 const cx = classNames.bind(styles);
 
-function Create({ onClose }) {
-  const { values, setFieldValue } = useForm({
-    initialValues: INITIAL_DETAIL_DOCTOR
+function DoctorForm({ onClose }) {
+  const getDoctorById = useDoctorStore((doc) => doc.getDoctorById);
+  const editingDoctorId = useDoctorStore((s) => s.editingDoctorId);
+  const doctor = editingDoctorId ? getDoctorById(editingDoctorId) : null;
+
+  const { values, setFieldValue, resetForm } = useForm({
+    initialValues: INITIAL_DETAIL_DOCTOR,
+    editValues: doctor
   });
+
   const [toast, setToast] = useState(null);
   const { validate, validateField, setAllTouched, getFieldError } = useValidation(validateDoctor);
   const component = [
@@ -87,7 +86,10 @@ function Create({ onClose }) {
   return (
     <>
       <TitleForm
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          resetForm();
+        }}
         title={"Thêm bác sĩ"}
         subTitle={"Điền đầy đủ thông tin bác sĩ vào danh sách của bạn."}
       />
@@ -145,22 +147,10 @@ function Create({ onClose }) {
   );
 }
 
-export default React.memo(Create);
+export default React.memo(DoctorForm);
 
 function MainForm({ value, setValue, getFieldError, validateField }) {
   const [previewAvatar, setPreviewAvatar] = useState(null);
-  const [tagKeyword, setTagKeyword] = useState("");
-  const [languageKeyword, setLanguageKeyword] = useState("");
-
-  const filteredTags = useSearch(TAGS_DOCTOR_OPTIONS, tagKeyword, (tag) => tag.name, 9);
-  const filteredLanguages = useSearch(LANGUAGE_OPTIONS, languageKeyword, (lang) => lang.name, 5);
-
-  const modal = {
-    addTag: useActive(),
-    searchTag: useActive(),
-    addLanguage: useActive(),
-    searchLanguage: useActive()
-  };
 
   useEffect(() => {
     const title = value?.title?.trim() || "";
@@ -308,51 +298,36 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
             data={SPECIALTIES_LIST}
             value={value?.specialty}
             onChange={(val) => setValue("specialty", val)}
-            // onBlur={() => handleBlur("specialty")}
-            // error={getFieldError("specialty")}
+            onBlur={() => handleBlur("specialty")}
+            error={getFieldError("specialty")}
             placeholder={value?.department ? "Chọn chuyên khoa" : "Vui lòng chọn khoa trước"}
+            required
+          />
+          <Select
+            name="position"
+            data={POSITION_OPTIONS}
+            value={value?.position}
+            onChange={(val) => setValue("position", val)}
+            onBlur={() => handleBlur("position")}
+            error={getFieldError("position")}
+            placeholder="Chọn chức vụ"
             required
           />
         </div>
         <div className="flex flex-col gap-2">
-          <TagsSelector
-            label={"Tags"}
-            data={filteredTags}
-            value={value?.tags}
-            onChange={(val) => setValue("tags", val)}
-            required
+          <TagInput
+            label={"Tags & Ngôn ngữ"}
+            name="tags"
+            values={value?.tags}
+            onChange={(tags) => setValue("tags", tags)}
           />
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              width={"auto"}
-              height={"auto"}
-              className={cx(TWCSS.tagButton)}
-              onClick={modal.addTag.toggleActive}
-              icon={<LuPlus />}
-              children={"Thêm tag mới"}
-            />
-            <Button
-              type="button"
-              width={"auto"}
-              height={"auto"}
-              className={cx(TWCSS.tagButton, modal.searchTag.isActive && TWCSS.tagButtonActive)}
-              onClick={modal.searchTag.toggleActive}
-              icon={<LuSearch />}
-              children={"Tim kiếm tag"}
-            />
-          </div>
-          {modal.searchTag.isActive && (
-            <div className="w-full">
-              <Input
-                type="text"
-                value={tagKeyword}
-                onChange={(e) => setTagKeyword(e.target.value)}
-                name="searchTag"
-                placeholder="Nhập tên tag cần tìm kiếm"
-              />
-            </div>
-          )}
+          <TagInput
+            name="languages"
+            values={value?.languages}
+            onChange={(languages) => setValue("languages", languages)}
+            placeholder="Thêm ngôn ngữ..."
+          />
+          <Item as="span" children={"Ấn Enter sau khi nhập"} itemClassName={cx("text-[12px] text-gray-500")} />
         </div>
         <div className="flex flex-col gap-2">
           <Input
@@ -378,122 +353,7 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
             required
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <TagsSelector
-            label={"Ngôn ngữ"}
-            data={filteredLanguages}
-            value={value?.languages}
-            onChange={(val) => setValue("languages", val)}
-            required
-          />
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              width={"auto"}
-              height={"auto"}
-              className={cx(TWCSS.tagButton)}
-              onClick={modal.addLanguage.toggleActive}
-              icon={<LuPlus />}
-              children={"Thêm ngôn ngữ"}
-            />
-            <Button
-              type="button"
-              width={"auto"}
-              height={"auto"}
-              className={cx(TWCSS.tagButton, modal.searchLanguage.isActive && TWCSS.tagButtonActive)}
-              onClick={modal.searchLanguage.toggleActive}
-              icon={<LuSearch />}
-              children={"Tim kiếm ngôn ngữ"}
-            />
-          </div>
-          {modal.searchLanguage.isActive && (
-            <div className="w-full">
-              <Input
-                type="text"
-                value={languageKeyword}
-                onChange={(e) => setLanguageKeyword(e.target.value)}
-                name="searchLanguage"
-                placeholder="Nhập tên ngôn ngữ cần tìm kiếm"
-              />
-            </div>
-          )}
-        </div>
       </div>
-
-      {/* Modal Tag - Languages Add */}
-      <>
-        <Modal open={modal.addTag.isActive} onClose={modal.addTag.deactivate} backdrop={true} width="max-w-xl">
-          <>
-            <TitleForm
-              onClose={modal.addTag.deactivate}
-              title={"Thêm tag mới"}
-              subTitle={"Thêm tag mới vào danh sách."}
-            />
-            <Form id={"tagForm"} className="p-6">
-              <Input type="text" name="newTag" placeholder="Nhập tên tag mới" />
-            </Form>
-
-            {/* Footer */}
-            <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
-              <Button
-                type="button"
-                children={"Huỷ"}
-                onClick={modal.addTag.deactivate}
-                width="100%"
-                className={cx(
-                  "text-gray-700 font-semibold transition-all duration-200",
-                  "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]"
-                )}
-              />
-              <Button
-                type={"submit"}
-                form={"tagForm"}
-                children={"Xác nhận"}
-                width="100%"
-                className="bg-[var(--color-primary)] text-white font-semibold"
-              />
-            </div>
-          </>
-        </Modal>
-        <Modal
-          open={modal.addLanguage.isActive}
-          onClose={modal.addLanguage.deactivate}
-          backdrop={true}
-          width="max-w-xl"
-        >
-          <>
-            <TitleForm
-              onClose={modal.addLanguage.deactivate}
-              title={"Thêm ngôn ngữ mới"}
-              subTitle={"Thêm ngôn ngữ mới vào danh sách."}
-            />
-            <Form id={"languageForm"} className="p-6">
-              <Input type="text" name="newLanguage" placeholder="Nhập tên ngôn ngữ mới" />
-            </Form>
-
-            {/* Footer */}
-            <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
-              <Button
-                type="button"
-                children={"Huỷ"}
-                onClick={modal.addLanguage.deactivate}
-                width="100%"
-                className={cx(
-                  "text-gray-700 font-semibold transition-all duration-200",
-                  "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]"
-                )}
-              />
-              <Button
-                type={"submit"}
-                form={"languageForm"}
-                children={"Xác nhận"}
-                width="100%"
-                className="bg-[var(--color-primary)] text-white font-semibold"
-              />
-            </div>
-          </>
-        </Modal>
-      </>
     </>
   );
 }

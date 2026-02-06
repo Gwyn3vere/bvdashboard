@@ -15,7 +15,7 @@ import {
   LuCalendarRange,
   LuSquareUser
 } from "react-icons/lu";
-import { Create, Edit, Delete, Profile } from ".";
+import { DoctorForm, Delete, Profile } from ".";
 import { useDoctorStore } from "../../store/doctorStore";
 
 const cx = classNames.bind(styles);
@@ -28,14 +28,20 @@ function Doctor() {
   const [doctorKeyword, setDoctorKeyword] = useState("");
   const modal = {
     filter: useActive(),
-    add: useActive(),
-    edit: useActive(),
+    doctorFom: useActive(),
     delete: useActive(),
     profile: useActive()
   };
   const filteredDoctor = useSearch(doctors, doctorKeyword, (doctor) =>
     [doctor.name, doctor.specialty, doctor.tags].filter(Boolean).join(" ")
   );
+
+  const handleClose = () => {
+    if (modal.doctorFom.isActive) {
+      modal.doctorFom.deactivate();
+      setEditingDoctorId(null);
+    }
+  };
 
   return (
     <div className={TWCSS.container}>
@@ -58,6 +64,7 @@ function Doctor() {
         totalDoctor={filteredDoctor.length}
         keyword={doctorKeyword}
         onChange={(e) => setDoctorKeyword(e.target.value)}
+        onClose={handleClose}
       />
 
       <List
@@ -144,7 +151,7 @@ function Doctor() {
               <Button
                 onClick={() => {
                   setEditingDoctorId(row.id);
-                  modal.edit.toggleActive();
+                  modal.doctorFom.toggleActive();
                 }}
                 width={40}
                 height={40}
@@ -184,9 +191,6 @@ function Doctor() {
       <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-4xl">
         <Profile doctorId={editingDoctorId} onClose={modal.profile.deactivate} />
       </Modal>
-      <Modal open={modal.edit.isActive} onClose={() => modal.edit.toggleActive(false)} backdrop={true}>
-        <Edit onClose={() => modal.edit.toggleActive(false)} />
-      </Modal>
       <Modal
         open={modal.delete.isActive}
         onClose={() => modal.delete.toggleActive(false)}
@@ -201,7 +205,7 @@ function Doctor() {
 
 export default Doctor;
 
-function OptionBar({ modal, totalDoctor, keyword, onChange }) {
+function OptionBar({ modal, totalDoctor, keyword, onChange, onClose }) {
   return (
     <div className="md:flex justify-between items-end mb-5">
       <div className="flex gap-2 mb-3 md:mb-0">
@@ -264,7 +268,7 @@ function OptionBar({ modal, totalDoctor, keyword, onChange }) {
             icon={<LuUserRoundPlus />}
             children="Thêm mới"
             width="auto"
-            onClick={modal.add.toggleActive}
+            onClick={modal.doctorFom.toggleActive}
             iconClassName="text-[20px]"
             btnClassName={cx("hidden md:inline")}
             className={cx(
@@ -272,8 +276,8 @@ function OptionBar({ modal, totalDoctor, keyword, onChange }) {
               "bg-[var(--color-primary)] cursor-pointer "
             )}
           />
-          <Modal open={modal.add.isActive} onClose={modal.add.toggleActive} backdrop={true} width="max-w-2xl">
-            <Create onClose={modal.add.deactivate} />
+          <Modal open={modal.doctorFom.isActive} onClose={onClose} backdrop={true} width="max-w-2xl">
+            <DoctorForm onClose={onClose} />
           </Modal>
         </div>
       </div>
