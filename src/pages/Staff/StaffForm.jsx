@@ -8,14 +8,21 @@ import { Item, Form, Input, Button, Select, Toast, TitleForm, TextArea } from ".
 import { LuX, LuCamera, LuUser } from "react-icons/lu";
 import { validateStaff } from "../../utils/validation";
 import { slugify } from "../../utils/format";
+import { useStaffStore } from "../../store/staffStore";
 
 const cx = classNames.bind(styles);
 
-function Create({ onClose }) {
+function StaffForm({ onClose }) {
   const [toast, setToast] = useState(null);
   const { validate, validateField, setAllTouched, getFieldError } = useValidation(validateStaff);
-  const { values, setFieldValue } = useForm({
-    initialValues: INITIAL_STAFF
+
+  const getStaffById = useStaffStore((s) => s.getStaffById);
+  const editingStaffId = useStaffStore((s) => s.editingStaffId);
+  const staff = editingStaffId ? getStaffById(editingStaffId) : null;
+
+  const { values, setFieldValue, resetForm } = useForm({
+    initialValues: INITIAL_STAFF,
+    editValues: staff
   });
 
   const handleSubmit = (e) => {
@@ -38,7 +45,10 @@ function Create({ onClose }) {
   return (
     <>
       <TitleForm
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          resetForm();
+        }}
         title={"Thêm nhân sự"}
         subTitle={"Điền đầy đủ thông tin nhân sự vào danh sách của bạn."}
       />
@@ -66,7 +76,10 @@ function Create({ onClose }) {
         <Button
           type="button"
           children={"Huỷ"}
-          onClick={onClose}
+          onClose={() => {
+            onClose();
+            resetForm();
+          }}
           width="100%"
           className={cx(
             "text-gray-700 font-semibold transition-all duration-200",
@@ -94,7 +107,7 @@ function Create({ onClose }) {
   );
 }
 
-export default React.memo(Create);
+export default React.memo(StaffForm);
 
 function Avatar({ value, setValue, setToast }) {
   const [previewAvatar, setPreviewAvatar] = useState(null);

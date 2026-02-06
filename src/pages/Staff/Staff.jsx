@@ -12,7 +12,7 @@ import { TWCSS } from "../../styles/defineTailwindcss";
 import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
 import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuSquareUser } from "react-icons/lu";
 
-import { Create, Edit, Delete, Profile } from "../Staff";
+import { StaffForm, Delete, Profile } from "../Staff";
 
 const cx = classNames.bind(styles);
 
@@ -29,9 +29,16 @@ function Staff() {
   const modal = {
     filter: useActive(),
     profile: useActive(),
-    add: useActive(),
+    staffForm: useActive(),
     edit: useActive(),
     delete: useActive()
+  };
+
+  const handleClose = () => {
+    if (modal.staffForm.isActive) {
+      modal.staffForm.deactivate();
+      setEditingStaffId(null);
+    }
   };
 
   return (
@@ -54,6 +61,7 @@ function Staff() {
         totalStaff={filteredStaff.length}
         keyword={staffKeyword}
         onChange={(e) => setStaffKeyword(e.target.value)}
+        onClose={handleClose}
       />
 
       <List
@@ -139,7 +147,7 @@ function Staff() {
               <Button
                 onClick={() => {
                   setEditingStaffId(row.id);
-                  modal.edit.toggleActive();
+                  modal.staffForm.toggleActive();
                 }}
                 width={40}
                 height={40}
@@ -179,9 +187,6 @@ function Staff() {
       <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-xl">
         <Profile staffId={editingStaffId} onClose={modal.profile.deactivate} />
       </Modal>
-      <Modal open={modal.edit.isActive} onClose={modal.edit.deactivate} backdrop={true} width="max-w-xl">
-        <Edit onClose={modal.edit.deactivate} />
-      </Modal>
       <Modal
         open={modal.delete.isActive}
         onClose={() => modal.delete.toggleActive(false)}
@@ -196,7 +201,7 @@ function Staff() {
 
 export default Staff;
 
-function OptionBar({ modal, totalStaff, keyword, onChange }) {
+function OptionBar({ modal, totalStaff, keyword, onChange, onClose }) {
   return (
     <div className="md:flex justify-between items-end mb-5">
       <div className="flex gap-2 mb-3 md:mb-0">
@@ -244,7 +249,7 @@ function OptionBar({ modal, totalStaff, keyword, onChange }) {
             icon={<LuUserRoundPlus />}
             children="Thêm mới"
             width="auto"
-            onClick={modal.add.toggleActive}
+            onClick={modal.staffForm.toggleActive}
             iconClassName="text-[20px]"
             btnClassName={cx("hidden md:inline")}
             className={cx(
@@ -252,8 +257,8 @@ function OptionBar({ modal, totalStaff, keyword, onChange }) {
               "bg-[var(--color-primary)] cursor-pointer "
             )}
           />
-          <Modal open={modal.add.isActive} onClose={modal.add.toggleActive} backdrop={true} width="max-w-2xl">
-            <Create onClose={modal.add.deactivate} />
+          <Modal open={modal.staffForm.isActive} onClose={onClose} backdrop={true} width="max-w-xl">
+            <StaffForm onClose={onClose} />
           </Modal>
         </div>
       </div>
