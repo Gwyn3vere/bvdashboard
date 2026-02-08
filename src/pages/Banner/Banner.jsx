@@ -6,6 +6,7 @@ import { useActive } from "../../components/hooks";
 import styles from "../../styles/pages.module.css";
 import { Breadcrumb, Item, List, Checkbox, Modal, Button } from "../../components/ui";
 import { LuPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuCheck, LuX } from "react-icons/lu";
+import { TWCSS } from "../../styles/defineTailwindcss";
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +18,7 @@ function Banner() {
     delete: useActive()
   };
   return (
-    <div className="px-10 pb-5 flex flex-col overflow-hidden w-full h-full min-h-0">
+    <div className={cx(TWCSS.container)}>
       <Breadcrumb
         className="mb-3"
         items={[
@@ -41,9 +42,10 @@ function Banner() {
           icon={<LuPlus />}
           children="Thêm mới"
           width="auto"
+          height={45}
           onClick={modal.add.toggleActive}
-          iconClassName="text-[20px]"
-          className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-bold"
+          iconClassName="text-xl"
+          className="gap-2 text-[14px] px-3 rounded-[8px] bg-[var(--color-primary)] cursor-pointer text-white font-semibold"
         />
         <Modal
           open={modal.add.isActive}
@@ -67,10 +69,7 @@ function Banner() {
         </Modal>
       </div>
       <List
-        className={cx(
-          "p-4 w-full h-full min-h-0 bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
-          "flex flex-col justify-between"
-        )}
+        className={TWCSS.list}
         style={{ boxShadow: "var(--shadow)" }}
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row) => row.id },
