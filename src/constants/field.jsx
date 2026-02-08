@@ -11,7 +11,7 @@ export const INITIAL_STAFF = {
   facility: "",
   isActive: true,
   isVerifyEmail: false,
-  featured: false
+  featured: false,
 };
 
 export const INITIAL_DOCTOR = {
@@ -29,7 +29,7 @@ export const INITIAL_DOCTOR = {
   languages: [],
   tags: [],
   featured: false,
-  avatar: null
+  avatar: null,
 };
 
 export const INITIAL_DETAIL_DOCTOR = {
@@ -39,7 +39,7 @@ export const INITIAL_DETAIL_DOCTOR = {
   expertise: [],
   experience: [],
   education: [],
-  publications: []
+  publications: [],
 };
 
 export const INITAL_WORK_SCHEDULES = {
@@ -57,16 +57,16 @@ export const INITAL_WORK_SCHEDULES = {
       slots: [],
       configured: false,
       syncStatus: "dirty",
-      colorName: "warning"
-    }
-  ]
+      colorName: "warning",
+    },
+  ],
 };
 
 export const INITAL_GROUP = {
   id: "",
   value: "",
   name: "",
-  icon: ""
+  icon: "",
 };
 
 export const INITAL_DEPARTMENT = {
@@ -74,25 +74,25 @@ export const INITAL_DEPARTMENT = {
   groupId: "",
   value: "",
   name: "",
-  icon: ""
+  icon: "",
 };
 
 export const INITAL_SPECIALTY = {
   id: "",
   departmentId: "",
   value: "",
-  name: ""
+  name: "",
 };
 
 export const INITAL_NEWS = {
   id: "",
   title: "",
-  shotDesc: "",
+  shortDesc: "",
   content: "",
-  category: "",
+  category: [],
   tags: ["sức khoẻ", "y tế"],
   metaTitle: "",
   metaDesc: "",
   status: "DRAFT",
-  image: null
+  thumbnail: null,
 };
