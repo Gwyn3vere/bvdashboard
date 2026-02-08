@@ -19,16 +19,26 @@ function Item({
   style = {},
   editable = false,
   onEdit,
-  placeholder
+  placeholder,
+  ...props
 }) {
   const handleInput = (e) => {
-    if (editable && onEdit) {
-      onEdit(e.target.innerText);
-    }
+    const text = e.target.innerText;
+    onEdit?.(text);
+    props.onChange?.(text);
   };
   return (
-    <Component to={to} onClick={onClick} className={cx(className)} style={{ ...style }}>
-      {icon && <span className={cx("flex items-center justify-center", iconClassName)}>{icon}</span>}
+    <Component
+      to={to}
+      onClick={onClick}
+      className={cx(className)}
+      style={{ ...style }}
+    >
+      {icon && (
+        <span className={cx("flex items-center justify-center", iconClassName)}>
+          {icon}
+        </span>
+      )}
       <div
         contentEditable={editable}
         suppressContentEditableWarning={editable}
@@ -45,11 +55,12 @@ function Item({
         className={cx(
           "overflow-hidden transition-all duration-300",
           editable ? "whitespace-normal outline-none" : whitespace,
-          itemClassName
+          itemClassName,
         )}
         style={{
-          wordBreak: "break-word"
+          wordBreak: "break-word",
         }}
+        {...props}
       >
         {children}
       </div>
