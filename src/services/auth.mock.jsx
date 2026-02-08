@@ -9,6 +9,7 @@ export const loginService = async ({ email, password }) => {
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   const user = mockAccounts.find((acc) => acc.email === email && acc.password === password);
+  
 
   if (!user) {
     return {
@@ -25,7 +26,7 @@ export const loginService = async ({ email, password }) => {
   return {
     success: true,
     user: safeUser,
-    accessToken: generateMockToken(user)
+    access_token: generateMockToken(user)
   };
 };
 
@@ -41,7 +42,7 @@ export const userService = async () => {
   }
 
   const payload = decodeToken(token);
-  if (!payload || payload.exp < Date.now()) {
+  if (!payload || payload.exp * 1000 < Date.now()) {
     authStorage.clear();
     return { success: false };
   }

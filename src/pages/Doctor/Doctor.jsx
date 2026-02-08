@@ -61,7 +61,6 @@ function Doctor() {
 
       <OptionBar
         modal={modal}
-        totalDoctor={filteredDoctor.length}
         keyword={doctorKeyword}
         onChange={(e) => setDoctorKeyword(e.target.value)}
         onClose={handleClose}
@@ -205,49 +204,43 @@ function Doctor() {
 
 export default Doctor;
 
-function OptionBar({ modal, totalDoctor, keyword, onChange, onClose }) {
+function OptionBar({ modal, keyword, onChange, onClose }) {
   return (
-    <div className="md:flex justify-between items-end mb-5">
-      <div className="flex gap-2 mb-3 md:mb-0">
-        <Item as="strong" children="Tổng bác sĩ:" />
-        <span>{totalDoctor}</span>
-      </div>
-      <div className={cx("flex justify-between md:justify-end gap-2")}>
-        <Search value={keyword} onChange={onChange} className="rounded-[8px]" inputClass="max-w-[150px]" />
+    <div className="grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-5 mb-5">
+      <Search value={keyword} onChange={onChange} width={"auto"} height={45} className={cx("rounded-[8px]")} />
+
+      <div className="flex justify-between xl:justify-end gap-2">
+        <Button
+          width={"auto"}
+          height={45}
+          icon={<LuListFilter />}
+          children={"Bộ lọc"}
+          className={cx(
+            "p-2 border-2 border-[var(--color-unavailable-300)]",
+            "gap-2 bg-[var(--color-bg-light-primary-100)]"
+          )}
+        />
+        <Modal
+          open={modal.filter.isActive}
+          onClose={() => modal.filter.toggleActive(false)}
+          backdrop={true}
+          style={{ boxShadow: "var(--shadow)" }}
+          className="bg-[var(--color-bg-light-primary-300)]"
+          footer={
+            <Button
+              form="staffForm"
+              type="submit"
+              children="Xác nhận"
+              width="100%"
+              height={40}
+              className="px-4 py-2 font-bold"
+              style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+            />
+          }
+        >
+          <Filter onClose={() => modal.filter.toggleActive(false)} />
+        </Modal>
         <div className="flex gap-2">
-          {/* Filter */}
-          <Button
-            icon={<LuListFilter />}
-            children="Bộ lọc"
-            width="auto"
-            onClick={modal.filter.toggleActive}
-            iconClassName="text-[20px]"
-            btnClassName={cx("hidden md:inline")}
-            className={cx(
-              "gap-2 text-[14px] px-3 rounded-[8px] font-medium",
-              " border-2 border-[var(--color-bg-light-primary-300)] cursor-pointer"
-            )}
-          />
-          <Modal
-            open={modal.filter.isActive}
-            onClose={() => modal.filter.toggleActive(false)}
-            backdrop={true}
-            style={{ boxShadow: "var(--shadow)" }}
-            className="bg-[var(--color-bg-light-primary-300)]"
-            footer={
-              <Button
-                form="staffForm"
-                type="submit"
-                children="Xác nhận"
-                width="100%"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-              />
-            }
-          >
-            <Filter onClose={() => modal.filter.toggleActive(false)} />
-          </Modal>
           {/* Shift */}
           <Item
             as={Link}
@@ -258,8 +251,8 @@ function OptionBar({ modal, totalDoctor, keyword, onChange, onClose }) {
             iconClassName="text-[20px]"
             itemClassName={cx("hidden md:inline")}
             className={cx(
-              "gap-2 text-[14px] border-2 px-3 rounded-[8px]",
-              "border-[var(--color-bg-light-primary-300)] cursor-pointer",
+              "gap-2 text-[14px] border-2 px-3 rounded-[8px] bg-[var(--color-bg-light-primary-100)]",
+              "border-2 border-[var(--color-unavailable-300)] h-[45px] cursor-pointer",
               "font-medium flex items-center"
             )}
           />
@@ -268,18 +261,18 @@ function OptionBar({ modal, totalDoctor, keyword, onChange, onClose }) {
             icon={<LuUserRoundPlus />}
             children="Thêm mới"
             width="auto"
+            height={45}
             onClick={modal.doctorFom.toggleActive}
             iconClassName="text-[20px]"
-            btnClassName={cx("hidden md:inline")}
             className={cx(
               "gap-2 text-[14px] px-3 rounded-[8px] text-white font-medium",
               "bg-[var(--color-primary)] cursor-pointer "
             )}
           />
-          <Modal open={modal.doctorFom.isActive} onClose={onClose} backdrop={true} width="max-w-2xl">
-            <DoctorForm onClose={onClose} />
-          </Modal>
         </div>
+        <Modal open={modal.doctorFom.isActive} onClose={onClose} backdrop={true} width="max-w-2xl">
+          <DoctorForm onClose={onClose} />
+        </Modal>
       </div>
     </div>
   );

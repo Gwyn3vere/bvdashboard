@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 const API_TOKEN_KEY = import.meta.env.VITE_USE_TOKEN_KEY;
+const MOCK_DECODE = import.meta.env.VITE_USE_MOCK_DECODE
 
 export const generateMockToken = (user) => {
   return btoa(
@@ -14,11 +15,16 @@ export const generateMockToken = (user) => {
 
 export const decodeToken = (token) => {
   try {
-    return jwtDecode(token);
+    if (MOCK_DECODE) {
+          return JSON.parse(atob(token));
+    } else {
+      return jwtDecode(token);
+    }
   } catch {
     return null;
   }
 };
+
 
 export const authStorage = {
   save(token, remember) {

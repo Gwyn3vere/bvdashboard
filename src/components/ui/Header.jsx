@@ -3,7 +3,8 @@ import classNames from "classnames/bind";
 import { useActive, useLogin } from "../hooks";
 import { DropdownMotion } from "../../motions";
 import { Link } from "react-router-dom";
-import { userService } from "../../services/auth";
+import { userService } from "../../services/auth.mock";
+// import { userService } from "../../services/auth";
 import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
 import { CiBellOn, CiLight, CiCalendar, CiLogout, CiUser, CiSettings } from "react-icons/ci";
@@ -18,10 +19,13 @@ function Header({ collapsed, toggle }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  
+ const MOCK_DECODE = import.meta.env.VITE_USE_MOCK_DECODE
 
   const { handleLogout } = useLogin();
 
-  const username = user?.name || "Guest";
+  const username = user?.name || user?.username || "Guest";
   const role = user?.role || "Visitor";
   const avatar = useActive(false);
 
@@ -39,9 +43,9 @@ function Header({ collapsed, toggle }) {
       try {
         setLoading(true);
         const res = await userService();
-
+        
         if (res.success) {
-          setUser(res?.user?.data);
+          MOCK_DECODE ? setUser(res?.user) : setUser(res?.user?.data);
         } else {
           setError(res.errors.user);
         }

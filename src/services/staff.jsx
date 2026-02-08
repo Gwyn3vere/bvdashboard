@@ -3,7 +3,6 @@ import { API_TOKEN_KEY, api } from "./api.config";
 export const fetchUsersService = async () => {
   try {
     const res = await api.get("staffs");
-    console.log(res);
 
     return { success: true, users: res.data.data };
   } catch (error) {
