@@ -7,7 +7,14 @@ import { userService } from "../../services/auth.mock";
 // import { userService } from "../../services/auth";
 import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
-import { CiBellOn, CiLight, CiCalendar, CiLogout, CiUser, CiSettings } from "react-icons/ci";
+import {
+  CiBellOn,
+  CiLight,
+  CiCalendar,
+  CiLogout,
+  CiUser,
+  CiSettings,
+} from "react-icons/ci";
 import { IoIosArrowDown, IoIosArrowBack } from "react-icons/io";
 import { LuAlignRight, LuAlignLeft, LuLogOut } from "react-icons/lu";
 import { ROLE_OPTIONS } from "../../constants/option";
@@ -19,13 +26,12 @@ function Header({ collapsed, toggle }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  
- const MOCK_DECODE = import.meta.env.VITE_USE_MOCK_DECODE
+
+  const MOCK_DECODE = import.meta.env.VITE_USE_MOCK_DECODE;
 
   const { handleLogout } = useLogin();
 
-  const username = user?.name || user?.username || "Guest";
+  const username = user?.name || "Guest";
   const role = user?.role || "Visitor";
   const avatar = useActive(false);
 
@@ -35,7 +41,7 @@ function Header({ collapsed, toggle }) {
     weekday: "long",
     day: "2-digit",
     month: "2-digit",
-    year: "numeric"
+    year: "numeric",
   });
 
   useEffect(() => {
@@ -43,7 +49,7 @@ function Header({ collapsed, toggle }) {
       try {
         setLoading(true);
         const res = await userService();
-        
+
         if (res.success) {
           MOCK_DECODE ? setUser(res?.user) : setUser(res?.user?.data);
         } else {
@@ -60,7 +66,9 @@ function Header({ collapsed, toggle }) {
 
   return (
     <header
-      className={cx("px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between mb-5 max-w-[1800px] mx-auto")}
+      className={cx(
+        "px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between mb-5 max-w-[1800px] mx-auto",
+      )}
     >
       <div className="flex gap-2">
         <Button
@@ -72,7 +80,7 @@ function Header({ collapsed, toggle }) {
             "text-[14px] text-[var(--color-primary)]",
             "cursor-pointer",
             "inline-flex justify-start transition-all duration-300 ease-in-out",
-            collapsed ? "opacity-100 scale-100" : "opacity-80 scale-95"
+            collapsed ? "opacity-100 scale-100" : "opacity-80 scale-95",
           )}
           onClick={toggle}
         />
@@ -96,7 +104,7 @@ function Header({ collapsed, toggle }) {
         <div
           className={cx(
             "w-auto h-[40px] py-2 px-4 bg-[var(--color-primary-100)] rounded-[8px] ",
-            "text-[14px] flex items-center justify-center font-medium gap-1"
+            "text-[14px] flex items-center justify-center font-medium gap-1",
           )}
         >
           <CiCalendar className="text-[18px]" />
@@ -106,13 +114,21 @@ function Header({ collapsed, toggle }) {
         <div className="relative">
           <Avatar className="rounded-full" onClick={avatar.toggleActive}>
             <div className="hidden sm:block h-[40px]">
-              <Username children={username} className="font-bold text-[14px] uppercase" />
-              <Role children={roleConfig ? roleConfig.name : role} className="text-small text-[14px]" />
+              <Username
+                children={username}
+                className="font-bold text-[14px] uppercase"
+              />
+              <Role
+                children={roleConfig ? roleConfig.name : role}
+                className="text-small text-[14px]"
+              />
             </div>
             <IoIosArrowDown
               className={cx(
                 "hidden sm:block text-[14px]",
-                avatar.isActive ? "rotate-180 transition-transform" : "transition-transform"
+                avatar.isActive
+                  ? "rotate-180 transition-transform"
+                  : "transition-transform",
               )}
             />
           </Avatar>
@@ -122,7 +138,7 @@ function Header({ collapsed, toggle }) {
               "absolute right-0 rounded-[8px]",
               "mt-2 shadow-sm p-3 z-10 text-[14px]",
               "border-1 border-gray-200",
-              avatar.isActive ? "" : "hidden"
+              avatar.isActive ? "" : "hidden",
             )}
             style={{ background: "var(--color-bg-light-primary-100)" }}
           >
@@ -135,7 +151,10 @@ function Header({ collapsed, toggle }) {
                 icon={item.icon}
                 iconClassName={cx("text-lg")}
                 itemClassName={cx("font-medium")}
-                className={cx("flex gap-2 p-3 cursor-pointer rounded-[8px] ", "hover:bg-[var(--color-primary-100)]")}
+                className={cx(
+                  "flex gap-2 p-3 cursor-pointer rounded-[8px] ",
+                  "hover:bg-[var(--color-primary-100)]",
+                )}
               />
             ))}
             <hr className="border-1 border-gray-100 my-1" />
@@ -148,7 +167,7 @@ function Header({ collapsed, toggle }) {
               onClick={handleLogout}
               className={cx(
                 "flex gap-2 p-3 cursor-pointer rounded-[8px] ",
-                "hover:bg-[var(--color-primary-100)] w-full"
+                "hover:bg-[var(--color-primary-100)] w-full",
               )}
             />
           </Dropdown>

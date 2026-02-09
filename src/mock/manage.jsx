@@ -1,16 +1,76 @@
 import { DOCTOR_COLORS } from "../utils/color";
 
 export const mockAccounts = [
-  { id: 1, email: "nguyenvana@example.com", username: "Nguyen Van A", password: "password1", role: "ADMIN" },
-  { id: 2, email: "tranthib@example.com", username: "Tran Thi B", password: "password2", role: "MEMBER" },
-  { id: 3, email: "levanc@example.com", username: "Le Van C", password: "password3", role: "MEMBER" },
-  { id: 4, email: "phamthid@example.com", username: "Pham Thi D", password: "password4", role: "MEMBER" },
-  { id: 5, email: "hoangvane@example.com", username: "Hoang Van E", password: "password5", role: "MEMBER" },
-  { id: 6, email: "vuthif@example.com", username: "Vu Thi F", password: "password6", role: "MEMBER" },
-  { id: 7, email: "dangvang@example.com", username: "Dang Van G", password: "password7", role: "MEMBER" },
-  { id: 8, email: "buithih@example.com", username: "Bui Thi H", password: "password8", role: "MEMBER" },
-  { id: 9, email: "dovani@example.com", username: "Do Van I", password: "password9", role: "MEMBER" },
-  { id: 10, email: "caothij@example.com", username: "Cao Thi J", password: "password10", role: "MEMBER" }
+  {
+    id: 1,
+    email: "nguyenvana@example.com",
+    username: "Nguyen Van A",
+    password: "password1",
+    role: "ADMIN",
+  },
+  {
+    id: 2,
+    email: "tranthib@example.com",
+    username: "Tran Thi B",
+    password: "password2",
+    role: "MEMBER",
+  },
+  {
+    id: 3,
+    email: "levanc@example.com",
+    username: "Le Van C",
+    password: "password3",
+    role: "MEMBER",
+  },
+  {
+    id: 4,
+    email: "phamthid@example.com",
+    username: "Pham Thi D",
+    password: "password4",
+    role: "MEMBER",
+  },
+  {
+    id: 5,
+    email: "hoangvane@example.com",
+    username: "Hoang Van E",
+    password: "password5",
+    role: "MEMBER",
+  },
+  {
+    id: 6,
+    email: "vuthif@example.com",
+    username: "Vu Thi F",
+    password: "password6",
+    role: "MEMBER",
+  },
+  {
+    id: 7,
+    email: "dangvang@example.com",
+    username: "Dang Van G",
+    password: "password7",
+    role: "MEMBER",
+  },
+  {
+    id: 8,
+    email: "buithih@example.com",
+    username: "Bui Thi H",
+    password: "password8",
+    role: "MEMBER",
+  },
+  {
+    id: 9,
+    email: "dovani@example.com",
+    username: "Do Van I",
+    password: "password9",
+    role: "MEMBER",
+  },
+  {
+    id: 10,
+    email: "caothij@example.com",
+    username: "Cao Thi J",
+    password: "password10",
+    role: "MEMBER",
+  },
 ];
 
 export const mockStaff = [
@@ -25,7 +85,7 @@ export const mockStaff = [
     position: "Quản lý",
     phone: "0123456789",
     status: "ACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 2,
@@ -38,7 +98,7 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "INACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 3,
@@ -51,7 +111,7 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "ACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 4,
@@ -64,7 +124,7 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "ACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 5,
@@ -77,7 +137,7 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "INACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 6,
@@ -90,7 +150,7 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "ACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 7,
@@ -103,7 +163,7 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "INACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 8,
@@ -116,7 +176,7 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "ACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 9,
@@ -129,7 +189,7 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "ACTIVE",
-    dateAdded: "1/12/2025"
+    dateAdded: "1/12/2025",
   },
   {
     id: 10,
@@ -142,8 +202,8 @@ export const mockStaff = [
     position: "Nhân viên",
     phone: "0123456789",
     status: "INACTIVE",
-    dateAdded: "1/12/2025"
-  }
+    dateAdded: "1/12/2025",
+  },
 ];
 
 export const mockDoctors = [
@@ -158,7 +218,7 @@ export const mockDoctors = [
     email: "nguyenvana@example.com",
     phone: "0901000001",
     status: "OFF_SHIFT",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 2,
@@ -171,7 +231,7 @@ export const mockDoctors = [
     email: "tranthib@example.com",
     phone: "0901000002",
     status: "ON_SHIFT",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 3,
@@ -184,7 +244,7 @@ export const mockDoctors = [
     email: "levanc@example.com",
     phone: "0901000003",
     status: "ON_LEAVE",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 4,
@@ -197,7 +257,7 @@ export const mockDoctors = [
     email: "phamthid@example.com",
     phone: "0901000004",
     status: "ON_SHIFT",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 5,
@@ -210,7 +270,7 @@ export const mockDoctors = [
     email: "hoangvane@example.com",
     phone: "0901000005",
     status: "ON_SHIFT",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 6,
@@ -223,7 +283,7 @@ export const mockDoctors = [
     email: "vuthif@example.com",
     phone: "0901000006",
     status: "ON_SHIFT",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 7,
@@ -236,7 +296,7 @@ export const mockDoctors = [
     email: "dangvang@example.com",
     phone: "0901000007",
     status: "TERMINATED",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 8,
@@ -249,7 +309,7 @@ export const mockDoctors = [
     email: "ngothih@example.com",
     phone: "0901000008",
     status: "ON_SHIFT",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 9,
@@ -262,7 +322,7 @@ export const mockDoctors = [
     email: "buivani@example.com",
     phone: "0901000009",
     status: "ON_SHIFT",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 10,
@@ -275,8 +335,8 @@ export const mockDoctors = [
     email: "phanthik@example.com",
     phone: "0901000010",
     status: "ON_LEAVE",
-    dateAdded: "2025-12-01"
-  }
+    dateAdded: "2025-12-01",
+  },
 ];
 
 export const mockDoctorAppointmentStats = {
@@ -289,7 +349,7 @@ export const mockDoctorAppointmentStats = {
   7: { appointments: 0 },
   8: { appointments: 6 },
   9: { appointments: 4 },
-  10: { appointments: 7 }
+  10: { appointments: 7 },
 };
 
 export const mockDoctorExperienceStats = {
@@ -302,7 +362,7 @@ export const mockDoctorExperienceStats = {
   7: { yearsOfExperience: 18 },
   8: { yearsOfExperience: 7 },
   9: { yearsOfExperience: 9 },
-  10: { yearsOfExperience: 6 }
+  10: { yearsOfExperience: 6 },
 };
 
 export const mockPatients = [
@@ -316,7 +376,7 @@ export const mockPatients = [
     email: "nguyenvana@example.com",
     treatmentStatus: "NEW_PATIENT",
     disease: "Sốt",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 2,
@@ -328,7 +388,7 @@ export const mockPatients = [
     email: "tranthib@example.com",
     treatmentStatus: "RECOVERED",
     disease: "Đau dạ dày",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 3,
@@ -340,7 +400,7 @@ export const mockPatients = [
     email: "levanc@example.com",
     treatmentStatus: "RECOVERED",
     disease: "Rối loạn giất ngủ",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 4,
@@ -352,7 +412,7 @@ export const mockPatients = [
     email: "phamthid@example.com",
     treatmentStatus: "IN_TREATMENT",
     disease: "Đái tháo đường",
-    dateAdded: "2025-12-01"
+    dateAdded: "2025-12-01",
   },
   {
     id: 5,
@@ -364,8 +424,8 @@ export const mockPatients = [
     email: "phamthid@example.com",
     treatmentStatus: "IN_TREATMENT",
     disease: "Dị ứng và huyen suyễn",
-    dateAdded: "2025-12-01"
-  }
+    dateAdded: "2025-12-01",
+  },
 ];
 
 const addDays = (days) => {
@@ -384,7 +444,7 @@ export const mockAppointments = [
     scheduled: "09:00 - 09:30",
     rescheduled: "",
     status: "SCHEDULED",
-    description: ""
+    description: "",
   },
   {
     id: 2,
@@ -395,7 +455,7 @@ export const mockAppointments = [
     scheduled: "14:00 - 14:30",
     rescheduled: "16:00 - 16:30",
     status: "SCHEDULED",
-    description: ""
+    description: "",
   },
   {
     id: 3,
@@ -406,7 +466,7 @@ export const mockAppointments = [
     scheduled: "09:30 - 10:00",
     rescheduled: "",
     status: "CANCELLED",
-    description: ""
+    description: "",
   },
   {
     id: 4,
@@ -417,7 +477,7 @@ export const mockAppointments = [
     scheduled: "11:00 - 11:30",
     rescheduled: "",
     status: "NO_SHOW",
-    description: ""
+    description: "",
   },
   {
     id: 5,
@@ -428,8 +488,8 @@ export const mockAppointments = [
     scheduled: "15:00 - 15:30",
     rescheduled: "",
     status: "SCHEDULED",
-    description: ""
-  }
+    description: "",
+  },
 ];
 
 export const mockBanners = [
@@ -438,34 +498,34 @@ export const mockBanners = [
     imageUrl: "https://picsum.photos/300/150?random=1",
     viewOrder: 1,
     isActive: true,
-    url: "http://localhost:5173/quan-ly-banner"
+    url: "http://localhost:5173/quan-ly-banner",
   },
   {
     id: 2,
     imageUrl: "https://picsum.photos/300/150?random=2",
     viewOrder: 2,
     isActive: false,
-    url: "http://localhost:5173/quan-ly-banner"
+    url: "http://localhost:5173/quan-ly-banner",
   },
   {
     id: 3,
     imageUrl: "https://picsum.photos/300/150?random=3",
     viewOrder: 3,
     isActive: true,
-    url: "http://localhost:5173/quan-ly-banner"
+    url: "http://localhost:5173/quan-ly-banner",
   },
   {
     id: 4,
     imageUrl: "https://picsum.photos/300/150?random=4",
     viewOrder: 4,
     isActive: true,
-    url: "http://localhost:5173/quan-ly-banner"
+    url: "http://localhost:5173/quan-ly-banner",
   },
   {
     id: 5,
     imageUrl: "https://picsum.photos/300/150?random=5",
     viewOrder: 5,
     isActive: false,
-    url: "http://localhost://5173/quan-ly-banner"
-  }
+    url: "http://localhost://5173/quan-ly-banner",
+  },
 ];

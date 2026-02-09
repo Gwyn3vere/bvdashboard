@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton+SC&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
+@plugin '@tailwindcss/typography';
 
 /*===== Global Styles =====*/
 :root {
@@ -84,41 +85,6 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-@layer base {
-  .content h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 1.5rem 0;
-  }
-
-  .content h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 1.25rem 0;
-  }
-
-  .content h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-
-  .content h4 {
-    font-size: 1.125rem;
-    font-weight: 600;
-  }
-}
-
-@layer base {
-  .content .is-editor-empty::before {
-    content: attr(data-placeholder);
-    float: left;
-    color: #9ca3af; /* gray-400 */
-    pointer-events: none;
-    height: 0;
-  }
 }
 
 /* ===== Shared Styles =====*/

@@ -10,7 +10,7 @@ export const MOCK_STAFF_LIST = [
     position: "HR_MANAGER",
     role: "ADMIN",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: true
+    featured: true,
   },
   {
     id: "2",
@@ -23,7 +23,7 @@ export const MOCK_STAFF_LIST = [
     position: "PLANNING_MANAGER",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: true
+    featured: true,
   },
   {
     id: "3",
@@ -36,7 +36,7 @@ export const MOCK_STAFF_LIST = [
     position: "PLANNING_STAFF",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "4",
@@ -49,7 +49,7 @@ export const MOCK_STAFF_LIST = [
     position: "HR_MANAGER",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "5",
@@ -62,7 +62,7 @@ export const MOCK_STAFF_LIST = [
     position: "HR_STAFF",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "6",
@@ -75,7 +75,7 @@ export const MOCK_STAFF_LIST = [
     position: "CHIEF_ACCOUNTANT",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: true
+    featured: true,
   },
   {
     id: "7",
@@ -88,7 +88,7 @@ export const MOCK_STAFF_LIST = [
     position: "ACCOUNTANT",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "8",
@@ -101,7 +101,7 @@ export const MOCK_STAFF_LIST = [
     position: "HEAD_NURSE",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: true
+    featured: true,
   },
   {
     id: "9",
@@ -114,7 +114,7 @@ export const MOCK_STAFF_LIST = [
     position: "NURSE",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "10",
@@ -127,7 +127,7 @@ export const MOCK_STAFF_LIST = [
     position: "NURSE",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "11",
@@ -140,7 +140,7 @@ export const MOCK_STAFF_LIST = [
     position: "PLANNING_STAFF",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "12",
@@ -153,7 +153,7 @@ export const MOCK_STAFF_LIST = [
     position: "HR_STAFF",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "13",
@@ -166,7 +166,7 @@ export const MOCK_STAFF_LIST = [
     position: "ACCOUNTANT",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "14",
@@ -179,7 +179,7 @@ export const MOCK_STAFF_LIST = [
     position: "NURSE",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
+    featured: false,
   },
   {
     id: "15",
@@ -192,6 +192,114 @@ export const MOCK_STAFF_LIST = [
     position: "NURSE",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false
-  }
+    featured: false,
+  },
+];
+
+export const MOCK_STAFF_ACCOUNT = [
+  {
+    id: "1",
+    email: "admin@hospital.vn",
+    name: "Trần Văn Admin",
+    password: "123456",
+    role: "ADMIN",
+  },
+  {
+    id: "2",
+    email: "planning.manager@hospital.vn",
+    name: "Nguyễn Thị Lan",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "3",
+    email: "planning.staff@hospital.vn",
+    name: "Lê Văn Minh",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "4",
+    email: "hr.manager@hospital.vn",
+    name: "Phạm Thị Hương",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "5",
+    email: "hr.staff@hospital.vn",
+    name: "Đỗ Văn Long",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "6",
+    email: "chief.accountant@hospital.vn",
+    name: "Trần Thị Mai",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "7",
+    email: "accountant@hospital.vn",
+    name: "Nguyễn Văn Tài",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "8",
+    email: "head.nurse@hospital.vn",
+    name: "Lê Thị Hồng",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "9",
+    email: "nurse1@hospital.vn",
+    name: "Phạm Văn An",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "10",
+    email: "nurse2@hospital.vn",
+    name: "Nguyễn Thị Bình",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "11",
+    email: "planning.staff2@hospital.vn",
+    name: "Hoàng Văn Đức",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "12",
+    email: "hr.staff2@hospital.vn",
+    name: "Võ Thị Thảo",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "13",
+    email: "accountant2@hospital.vn",
+    name: "Trần Văn Phúc",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "14",
+    email: "nurse3@hospital.vn",
+    name: "Nguyễn Thị Ngọc",
+    password: "123456",
+    role: "MEMBER",
+  },
+  {
+    id: "15",
+    email: "nurse4@hospital.vn",
+    name: "Lê Văn Sơn",
+    password: "123456",
+    role: "MEMBER",
+  },
 ];
