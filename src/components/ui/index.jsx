@@ -17,6 +17,7 @@ export { default as TagInput } from "./TagInput";
 export { default as ArrayInput } from "./ArrayInput";
 export { default as TextArea } from "./TextArea";
 export { default as RichTextEditor } from "./RichTextEditor";
+export { default as ArticleContent } from "./ArticleContent";
 
 export { default as Username } from "./Username";
 export { default as Role } from "./Role";

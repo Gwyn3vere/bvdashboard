@@ -1,28 +1,43 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import privateRoutes from "./routes/privateRoutes";
 import publicRoutes from "./routes/publicRoutes";
 import NotFound from "./pages/NotFound";
 import { ProtectedRoute, PublicRoute } from "./components/auth";
 import "./styles/global.css";
+import { useAuthStore } from "./store/authStore";
 
 function App() {
-  const renderRoutes = (routes, isPrivate = false) => {
-    return routes.map(({ path, component: Component, layout: Layout = Fragment }, index) => {
-      const element = (
-        <Layout>
-          <Component />
-        </Layout>
-      );
+  const init = useAuthStore((s) => s.init);
 
-      return (
-        <Route
-          key={index}
-          path={path}
-          element={isPrivate ? <ProtectedRoute>{element}</ProtectedRoute> : <PublicRoute>{element}</PublicRoute>}
-        />
-      );
-    });
+  useEffect(() => {
+    init();
+  }, [init]);
+
+  const renderRoutes = (routes, isPrivate = false) => {
+    return routes.map(
+      ({ path, component: Component, layout: Layout = Fragment }, index) => {
+        const element = (
+          <Layout>
+            <Component />
+          </Layout>
+        );
+
+        return (
+          <Route
+            key={index}
+            path={path}
+            element={
+              isPrivate ? (
+                <ProtectedRoute>{element}</ProtectedRoute>
+              ) : (
+                <PublicRoute>{element}</PublicRoute>
+              )
+            }
+          />
+        );
+      },
+    );
   };
   return (
     <Router>

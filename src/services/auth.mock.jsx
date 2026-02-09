@@ -1,5 +1,9 @@
-import { mockAccounts } from "../mock/manage";
-import { generateMockToken, authStorage, decodeToken } from "../utils/mockToken";
+import { MOCK_STAFF_ACCOUNT } from "../mock/staffs";
+import {
+  generateMockToken,
+  authStorage,
+  decodeToken,
+} from "../utils/mockToken";
 
 /**
  * Mock login service
@@ -8,15 +12,16 @@ export const loginService = async ({ email, password }) => {
   // giả lập độ trễ mạng (simulate network latency)
   await new Promise((resolve) => setTimeout(resolve, 500));
 
-  const user = mockAccounts.find((acc) => acc.email === email && acc.password === password);
-  
+  const user = MOCK_STAFF_ACCOUNT.find(
+    (acc) => acc.email === email && acc.password === password,
+  );
 
   if (!user) {
     return {
       success: false,
       errors: {
-        login: "Email hoặc mật khẩu không đúng"
-      }
+        login: "Email hoặc mật khẩu không đúng",
+      },
     };
   }
 
@@ -26,7 +31,7 @@ export const loginService = async ({ email, password }) => {
   return {
     success: true,
     user: safeUser,
-    access_token: generateMockToken(user)
+    access_token: generateMockToken(user),
   };
 };
 
@@ -47,7 +52,7 @@ export const userService = async () => {
     return { success: false };
   }
 
-  const user = mockAccounts.find((acc) => acc.id === payload.sub);
+  const user = MOCK_STAFF_ACCOUNT.find((acc) => acc.id === payload.sub);
   if (!user) {
     return { success: false };
   }
@@ -56,6 +61,6 @@ export const userService = async () => {
 
   return {
     success: true,
-    user: safeUser
+    user: safeUser,
   };
 };

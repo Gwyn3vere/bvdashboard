@@ -298,6 +298,7 @@ const MenuBar = ({ editor }) => {
     >
       {/* Undo/Redo */}
       <button
+        type="button"
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().undo()}
         className={cx(
@@ -309,6 +310,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().redo()}
         className={cx(
@@ -322,6 +324,7 @@ const MenuBar = ({ editor }) => {
 
       {/* Text formatting */}
       <button
+        type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={buttonClass(editor.isActive("bold"))}
         title="Bold (Ctrl+B)"
@@ -330,6 +333,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={buttonClass(editor.isActive("italic"))}
         title="Italic (Ctrl+I)"
@@ -338,6 +342,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         className={buttonClass(editor.isActive("underline"))}
         title="Underline (Ctrl+U)"
@@ -346,6 +351,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().toggleStrike().run()}
         className={buttonClass(editor.isActive("strike"))}
         title="Strikethrough"
@@ -354,6 +360,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().toggleCode().run()}
         className={buttonClass(editor.isActive("code"))}
         title="Code"
@@ -363,20 +370,21 @@ const MenuBar = ({ editor }) => {
 
       <div className="relative" ref={highlightRef}>
         <button
+          type="button"
           onClick={modal.highlighter.toggleActive}
           className={buttonClass(editor.isActive("highlight"))}
           title="Highlight"
         >
           <LuHighlighter size={18} />
+          <LuChevronDown
+            className={cx(
+              "absolute bottom-1/2 translate-y-1/2 right-0 text-[8px]",
+              modal.highlighter.isActive
+                ? "rotate-180 transition-transform"
+                : "transition-transform",
+            )}
+          />
         </button>
-        <LuChevronDown
-          className={cx(
-            "absolute bottom-1 right-0 text-[8px]",
-            modal.highlighter.isActive
-              ? "rotate-180 transition-transform"
-              : "transition-transform",
-          )}
-        />
 
         {modal.highlighter.isActive && (
           <div
@@ -388,6 +396,7 @@ const MenuBar = ({ editor }) => {
           >
             {RICH_TEXT_HIGHLIGHT_COLORS.map((color) => (
               <button
+                type="button"
                 key={color}
                 onClick={() => {
                   editor.chain().focus().toggleHighlight({ color }).run();
@@ -403,6 +412,7 @@ const MenuBar = ({ editor }) => {
             ))}
             <div className="w-px h-5 bg-gray-300 mx-1" />
             <button
+              type="button"
               onClick={() => {
                 editor.chain().focus().unsetHighlight().run();
               }}
@@ -417,20 +427,21 @@ const MenuBar = ({ editor }) => {
 
       <div className="relative" ref={colorRef}>
         <button
+          type="button"
           onClick={modal.color.toggleActive}
           className={buttonClass(editor.isActive("color"))}
           title="Color"
         >
           <LuPalette size={18} />
+          <LuChevronDown
+            className={cx(
+              "absolute bottom-1/2 translate-y-1/2 right-0 text-[8px]",
+              modal.color.isActive
+                ? "rotate-180 transition-transform"
+                : "transition-transform",
+            )}
+          />
         </button>
-        <LuChevronDown
-          className={cx(
-            "absolute bottom-1 right-0 text-[8px]",
-            modal.color.isActive
-              ? "rotate-180 transition-transform"
-              : "transition-transform",
-          )}
-        />
 
         {modal.color.isActive && (
           <div
@@ -443,6 +454,7 @@ const MenuBar = ({ editor }) => {
           >
             {RICH_TEXT_COLORS.map((color) => (
               <button
+                type="button"
                 key={color}
                 onClick={() => {
                   editor.chain().focus().setColor(color).run();
@@ -457,6 +469,7 @@ const MenuBar = ({ editor }) => {
               />
             ))}
             <button
+              type="button"
               onClick={() => {
                 editor.chain().focus().unsetColor().run();
               }}
@@ -474,21 +487,21 @@ const MenuBar = ({ editor }) => {
       {/* Headings */}
       <div className="relative" ref={headingRef}>
         <button
+          type="button"
           onClick={modal.heading.toggleActive}
           className={buttonClass(editor.isActive("heading"))}
           title="Heading"
         >
           <LuHeading size={18} />
+          <LuChevronDown
+            className={cx(
+              "absolute bottom-1/2 translate-y-1/2 right-0 text-[8px]",
+              modal.heading.isActive
+                ? "rotate-180 transition-transform"
+                : "transition-transform",
+            )}
+          />
         </button>
-
-        <LuChevronDown
-          className={cx(
-            "absolute bottom-1 right-0 text-[8px]",
-            modal.heading.isActive
-              ? "rotate-180 transition-transform"
-              : "transition-transform",
-          )}
-        />
 
         {modal.heading.isActive && (
           <div
@@ -500,6 +513,7 @@ const MenuBar = ({ editor }) => {
           >
             {RICH_TEXT_HEADINGS.map((item) => (
               <Button
+                type="button"
                 width={"100%"}
                 key={item.level}
                 onClick={() => {
@@ -528,6 +542,7 @@ const MenuBar = ({ editor }) => {
 
       {/* Lists */}
       <button
+        type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={buttonClass(editor.isActive("bulletList"))}
         title="Bullet List"
@@ -536,6 +551,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={buttonClass(editor.isActive("orderedList"))}
         title="Numbered List"
@@ -544,6 +560,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={buttonClass(editor.isActive("blockquote"))}
         title="Quote"
@@ -555,6 +572,7 @@ const MenuBar = ({ editor }) => {
 
       {/* Alignment */}
       <button
+        type="button"
         onClick={() => editor.chain().focus().setTextAlign("left").run()}
         className={buttonClass(editor.isActive({ textAlign: "left" }))}
         title="Align Left"
@@ -563,6 +581,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().setTextAlign("center").run()}
         className={buttonClass(editor.isActive({ textAlign: "center" }))}
         title="Align Center"
@@ -571,6 +590,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().setTextAlign("right").run()}
         className={buttonClass(editor.isActive({ textAlign: "right" }))}
         title="Align Right"
@@ -579,6 +599,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={() => editor.chain().focus().setTextAlign("justify").run()}
         className={buttonClass(editor.isActive({ textAlign: "justify" }))}
         title="Align Justify"
@@ -590,6 +611,7 @@ const MenuBar = ({ editor }) => {
 
       {/* Media */}
       <button
+        type="button"
         onClick={addImageUpload}
         className={buttonClass(false)}
         title="Insert Image"
@@ -598,6 +620,7 @@ const MenuBar = ({ editor }) => {
       </button>
 
       <button
+        type="button"
         onClick={addLink}
         className={buttonClass(editor.isActive("link"))}
         title="Insert Link"
@@ -619,7 +642,7 @@ function RichTextEditor({
       Underline,
       TextStyle,
       Color,
-      ImageUploadExtension, // Thêm extension mới
+      ImageUploadExtension,
       Highlight.configure({
         multicolor: true,
       }),
@@ -656,7 +679,7 @@ function RichTextEditor({
   return (
     <div className="overflow-hidden bg-white">
       <MenuBar editor={editor} />
-      <EditorContent className="content" editor={editor} />
+      <EditorContent className="" editor={editor} />
     </div>
   );
 }

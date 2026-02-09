@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import classNames from "classnames/bind";
-import { useForm } from "../../components/hooks";
+import { useForm, useActive } from "../../components/hooks";
 import style from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import {
@@ -13,16 +13,24 @@ import {
   TextArea,
   Button,
   RichTextEditor,
+  Modal,
+  Form,
 } from "../../components/ui";
 import { LuLayoutDashboard, LuX } from "react-icons/lu";
 import { NEWS_STATUS_PUBLISH, NEWS_CATEGORIES } from "../../constants/menu";
 import { INITAL_NEWS } from "../../constants/field";
+import { Preview } from "./index";
 
 const cx = classNames.bind(style);
 
 function Post() {
+  const [preview, setPreview] = useState(null);
+  const previewModal = useActive();
   const { values, setValues, setFieldValue, resetForm } = useForm({
-    initialValues: INITAL_NEWS,
+    initialValues: {
+      ...INITAL_NEWS,
+      authorId: "",
+    },
   });
 
   return (
@@ -45,7 +53,7 @@ function Post() {
         children="Đăng tin tức, blog tại đây."
         itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
-      <div className={cx(TWCSS.container, "max-w-[1400px] mx-auto")}>
+      <Form className={cx(TWCSS.container, "max-w-[1400px] mx-auto")}>
         <div
           className={cx("grid grid-cols-1fr xl:grid-cols-[1fr_380px] gap-8")}
         >
@@ -53,6 +61,9 @@ function Post() {
             value={values}
             setValue={setValues}
             setFieldValue={setFieldValue}
+            togglePreview={previewModal.toggleActive}
+            preview={preview}
+            setPreview={setPreview}
           />
           <Settings
             value={values}
@@ -60,16 +71,26 @@ function Post() {
             setFieldValue={setFieldValue}
           />
         </div>
-      </div>
+      </Form>
+      <Modal
+        open={previewModal.isActive}
+        onClose={previewModal.deactivate}
+        width={"max-w-5xl"}
+      >
+        <Preview
+          onClose={previewModal.deactivate}
+          previewData={values}
+          previewThumbnail={preview}
+        />
+      </Modal>
     </div>
   );
 }
 
 export default Post;
 
-function Content({ value, setFieldValue }) {
+function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
   const inputRef = useRef(null);
-  const [preview, setPreview] = useState(null);
 
   const handleSelectImage = () => {
     inputRef.current?.click();
@@ -202,6 +223,7 @@ function Content({ value, setFieldValue }) {
             "text-[var(--color-unavailable-900)] font-semibold text-md",
             "hover:bg-[var(--color-unavailable-100)] transition-all",
           )}
+          onClick={togglePreview}
         />
         <Button
           width={"auto"}
@@ -281,19 +303,10 @@ function Settings({ value, setFieldValue }) {
               <Checkbox
                 text={cate.name}
                 className={cx("text-sm")}
-                style={{
-                  "--size": "20px",
-                }}
-                checked={value.category.includes(cate.name)}
+                style={{ "--size": "20px" }}
+                checked={value.category === cate.name}
                 onChange={(e) => {
-                  const checked = e.target.checked;
-
-                  setFieldValue(
-                    "category",
-                    checked
-                      ? [...value.category, cate.name]
-                      : value.category.filter((name) => name !== cate.name),
-                  );
+                  setFieldValue("category", e.target.checked ? cate.name : "");
                 }}
               />
               <Item
