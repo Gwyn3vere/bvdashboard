@@ -12,7 +12,7 @@ import { generateTableOfContents } from "../../utils/helper";
 
 const cx = classNames.bind(style);
 
-function Preview({ onClose, previewData, previewThumbnail }) {
+function Preview({ onClose, previewData, previewThumbnail, user }) {
   const tableOfContents = generateTableOfContents(previewData?.content);
   const dateNow = new Date().toLocaleDateString("vi-VN", {
     day: "2-digit",
@@ -68,7 +68,7 @@ function Preview({ onClose, previewData, previewThumbnail }) {
               NA
             </div>
             <Item
-              children={"Tên tác giả"}
+              children={user?.name || "Tên tác giả"}
               itemClassName={cx(
                 "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
               )}

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { userService } from "../services/auth.mock";
+// import { userService } from "../services/auth";
 import { authStorage } from "../utils/mockToken";
 
 const MOCK_DECODE = import.meta.env.VITE_USE_MOCK_DECODE;
@@ -8,19 +9,19 @@ export const useAuthStore = create((set) => ({
   user: null,
   initialized: false,
 
+  setUser: (user) => set({ user, initialized: true }),
+
   init: async () => {
     const res = await userService();
-    console.log(res);
 
-    if (res.success) {
-      set({ user: res.user, initialized: true });
-    } else {
-      set({ user: null, initialized: true });
-    }
+    set({
+      user: res.success ? res.user : null,
+      initialized: true,
+    });
   },
 
   logout: () => {
     authStorage.clear();
-    set({ user: null });
+    set({ user: null, initialized: true });
   },
 }));

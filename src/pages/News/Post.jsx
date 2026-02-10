@@ -20,16 +20,19 @@ import { LuLayoutDashboard, LuX } from "react-icons/lu";
 import { NEWS_STATUS_PUBLISH, NEWS_CATEGORIES } from "../../constants/menu";
 import { INITAL_NEWS } from "../../constants/field";
 import { Preview } from "./index";
+import { useAuthStore } from "../../store/authStore";
 
 const cx = classNames.bind(style);
 
 function Post() {
   const [preview, setPreview] = useState(null);
+  const { user } = useAuthStore();
+
   const previewModal = useActive();
   const { values, setValues, setFieldValue, resetForm } = useForm({
     initialValues: {
       ...INITAL_NEWS,
-      authorId: "",
+      authorId: user?.id,
     },
   });
 
@@ -81,6 +84,7 @@ function Post() {
           onClose={previewModal.deactivate}
           previewData={values}
           previewThumbnail={preview}
+          user={user}
         />
       </Modal>
     </div>

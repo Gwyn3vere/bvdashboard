@@ -7,35 +7,22 @@ import { userService } from "../../services/auth.mock";
 // import { userService } from "../../services/auth";
 import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
-import {
-  CiBellOn,
-  CiLight,
-  CiCalendar,
-  CiLogout,
-  CiUser,
-  CiSettings,
-} from "react-icons/ci";
-import { IoIosArrowDown, IoIosArrowBack } from "react-icons/io";
+import { CiBellOn, CiLight, CiCalendar } from "react-icons/ci";
+import { IoIosArrowDown } from "react-icons/io";
 import { LuAlignRight, LuAlignLeft, LuLogOut } from "react-icons/lu";
 import { ROLE_OPTIONS } from "../../constants/option";
 import { NAV_MENU } from "../../constants/menu";
+import { useAuthStore } from "../../store/authStore";
 
 const cx = classNames.bind(style);
 
 function Header({ collapsed, toggle }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { user, initialized, logout } = useAuthStore();
 
-  const MOCK_DECODE = import.meta.env.VITE_USE_MOCK_DECODE;
+  if (!initialized) return null;
 
-  const { handleLogout } = useLogin();
-
-  const username = user?.name || "Guest";
-  const role = user?.role || "Visitor";
   const avatar = useActive(false);
-
-  const roleConfig = ROLE_OPTIONS.find((item) => item.value === role);
+  const roleConfig = ROLE_OPTIONS.find((item) => item.value === user?.role);
 
   const dateNow = new Date().toLocaleDateString("vi-VN", {
     weekday: "long",
@@ -43,26 +30,6 @@ function Header({ collapsed, toggle }) {
     month: "2-digit",
     year: "numeric",
   });
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        setLoading(true);
-        const res = await userService();
-
-        if (res.success) {
-          MOCK_DECODE ? setUser(res?.user) : setUser(res?.user?.data);
-        } else {
-          setError(res.errors.user);
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, []);
 
   return (
     <header
@@ -115,11 +82,13 @@ function Header({ collapsed, toggle }) {
           <Avatar className="rounded-full" onClick={avatar.toggleActive}>
             <div className="hidden sm:block h-[40px]">
               <Username
-                children={username}
+                children={user?.name || "Guest"}
                 className="font-bold text-[14px] uppercase"
               />
               <Role
-                children={roleConfig ? roleConfig.name : role}
+                children={
+                  roleConfig ? roleConfig.name : user?.role || "Visitor"
+                }
                 className="text-small text-[14px]"
               />
             </div>
@@ -164,7 +133,7 @@ function Header({ collapsed, toggle }) {
               icon={<LuLogOut />}
               iconClassName={cx("text-lg")}
               itemClassName={cx("font-medium")}
-              onClick={handleLogout}
+              onClick={logout}
               className={cx(
                 "flex gap-2 p-3 cursor-pointer rounded-[8px] ",
                 "hover:bg-[var(--color-primary-100)] w-full",

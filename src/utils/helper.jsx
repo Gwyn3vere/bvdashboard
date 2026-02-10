@@ -19,16 +19,3 @@ export const generateTableOfContents = (htmlContent) => {
     return [];
   }
 };
-
-export const isAuthenticated = () => {
-  const token = authStorage.getToken();
-  if (!token) return false;
-
-  const payload = decodeToken(token);
-  if (!payload || payload.exp * 1000 < Date.now()) {
-    authStorage.clear();
-    return false;
-  }
-
-  return true;
-};
