@@ -4,7 +4,13 @@ import classNames from "classnames/bind";
 // Styles - UI
 import { Item } from "../../components/ui";
 import style from "../../styles/pages.module.css";
-import { OverviewStatistics, DoctorStatistics, AppointmentActivity, PatientActivity, PatientPercentage } from ".";
+import {
+  OverviewStatistics,
+  DoctorStatistics,
+  AppointmentActivity,
+  PatientActivity,
+  PatientPercentage,
+} from ".";
 const PatientStatistics = lazy(() => import("./PatientStatistics"));
 const AppointmentStatistics = lazy(() => import("./AppointmentStatistics"));
 
@@ -13,8 +19,13 @@ const cx = classNames.bind(style);
 function Dashboard() {
   return (
     <div className="px-4 xl:px-10 pb-5">
-      <Item as="strong" children="Xin chào, Guest👋" itemClassName="text-3xl" width="100%" />
       <Item
+        as="strong"
+        children="Xin chào, Guest👋"
+        itemClassName="text-3xl"
+        width="100%"
+      />
+      {/* <Item
         as="span"
         children="Bảng điều khiển quản trị bệnh viện."
         itemClassName="text-xl text-gray-500 mt-2"
@@ -41,7 +52,7 @@ function Dashboard() {
       <div className={cx("xl:grid grid-cols-[50%_50%] gap-5")}>
         <PatientActivity />
         <PatientPercentage />
-      </div>
+      </div> */}
     </div>
   );
 }
