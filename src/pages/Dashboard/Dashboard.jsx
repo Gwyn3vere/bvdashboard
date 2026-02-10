@@ -1,9 +1,8 @@
-// Libraries
 import { lazy, Suspense } from "react";
 import classNames from "classnames/bind";
-// Styles - UI
 import { Item } from "../../components/ui";
 import style from "../../styles/pages.module.css";
+import { useAuthStore } from "../../store/authStore";
 import {
   OverviewStatistics,
   DoctorStatistics,
@@ -17,11 +16,12 @@ const AppointmentStatistics = lazy(() => import("./AppointmentStatistics"));
 const cx = classNames.bind(style);
 
 function Dashboard() {
+  const { user, initialized } = useAuthStore();
   return (
     <div className="px-4 xl:px-10 pb-5">
       <Item
         as="strong"
-        children="Xin chào, Guest👋"
+        children={`Xin chào, ${initialized ? user?.name : "Guest"} 👋`}
         itemClassName="text-3xl"
         width="100%"
       />

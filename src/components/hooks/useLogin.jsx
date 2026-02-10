@@ -4,6 +4,7 @@ import { loginService } from "../../services/auth.index";
 import { logoutService } from "../../services/auth";
 import { validateLogin } from "../../utils/validation";
 import { authStorage } from "../../utils/mockToken";
+import { useAuthStore } from "../../store/authStore";
 
 export default function useLogin() {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ export default function useLogin() {
     }
 
     authStorage.save(result?.access_token, rememberMe);
+    useAuthStore.getState().setUser(result.user);
 
     setErrors({});
     navigate("/bang-dieu-khien");
@@ -52,5 +54,14 @@ export default function useLogin() {
     }
   };
 
-  return { form, errors, loading, handleChange, handleSubmit, handleLogout, rememberMe, setRememberMe };
+  return {
+    form,
+    errors,
+    loading,
+    handleChange,
+    handleSubmit,
+    handleLogout,
+    rememberMe,
+    setRememberMe,
+  };
 }

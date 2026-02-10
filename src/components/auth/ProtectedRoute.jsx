@@ -1,19 +1,14 @@
 import { Navigate } from "react-router-dom";
-import { authStorage, decodeToken } from "../../utils/mockToken";
+import { useAuthStore } from "../../store/authStore";
 
 export default function ProtectedRoute({ children }) {
-  const token = authStorage?.getToken();
+  const { user, initialized } = useAuthStore();
 
-  // chưa login
-  if (!token) {
-    return <Navigate to="/" replace />;
+  if (!initialized) {
+    return null;
   }
 
-  const payload = decodeToken(token);
-
-  // token lỗi / hết hạn
-  if (!payload || payload.exp * 1000 < Date.now()) {
-    authStorage.clear();
+  if (!user) {
     return <Navigate to="/" replace />;
   }
 

@@ -1,9 +1,12 @@
 import { Navigate } from "react-router-dom";
-import { isAuthenticated } from "../../utils/helper";
+import { useAuthStore } from "../../store/authStore";
 
 export default function PublicRoute({ children }) {
-  if (isAuthenticated()) {
+  const { user, initialized } = useAuthStore();
+
+  if (user && initialized) {
     return <Navigate to="/bang-dieu-khien" replace />;
   }
+
   return children;
 }
