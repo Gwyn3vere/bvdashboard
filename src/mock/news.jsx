@@ -37,7 +37,10 @@ export const NEWS_TOTAL_STATUS = [
 export const MOCK_NEWS_LIST = [
   {
     id: "news-001",
-    authorId: "3",
+    author: {
+      id: "3",
+      name: "Lê Văn Minh",
+    },
     title: "7 thói quen vàng giúp phòng ngừa bệnh tim mạch hiệu quả",
     shortDesc:
       "Bệnh tim mạch đang là nguyên nhân gây tử vong hàng đầu. Tìm hiểu 7 thói quen đơn giản giúp bạn bảo vệ trái tim khỏe mạnh mỗi ngày.",
@@ -87,11 +90,16 @@ export const MOCK_NEWS_LIST = [
     status: "PUBLISH",
     thumbnail: "https://picsum.photos/seed/news001/800/450",
     view: 1247,
+    createdAt: "2026-01-15T08:30:00.000Z",
+    updatedAt: "2026-01-20T14:45:00.000Z",
   },
 
   {
     id: "news-002",
-    authorId: "7",
+    author: {
+      id: "7",
+      name: "Nguyễn Văn Tài",
+    },
     title: "Phòng chống COVID-19: Hướng dẫn tiêm vaccine mũi nhắc lại 2026",
     shortDesc:
       "Cập nhật mới nhất về chương trình tiêm vaccine COVID-19 mũi nhắc lại năm 2026, đối tượng ưu tiên và lịch tiêm tại Trung tâm Y tế Liên Chiểu.",
@@ -138,11 +146,16 @@ export const MOCK_NEWS_LIST = [
     status: "PUBLISH",
     thumbnail: "https://picsum.photos/seed/news002/800/450",
     view: 892,
+    createdAt: "2026-01-22T10:15:00.000Z",
+    updatedAt: "2026-01-25T16:20:00.000Z",
   },
 
   {
     id: "news-003",
-    authorId: "12",
+    author: {
+      id: "12",
+      name: "Võ Thị Thảo",
+    },
     title: "Dinh dưỡng cho trẻ em: Thực đơn cân bằng theo từng độ tuổi",
     shortDesc:
       "Bí quyết xây dựng thực đơn dinh dưỡng cân bằng cho trẻ từ 0-12 tuổi, đảm bảo sự phát triển toàn diện về thể chất và trí tuệ.",
@@ -207,11 +220,16 @@ export const MOCK_NEWS_LIST = [
     status: "PUBLISH",
     thumbnail: "https://picsum.photos/seed/news003/800/450",
     view: 2156,
+    createdAt: "2026-01-10T07:00:00.000Z",
+    updatedAt: "2026-01-18T09:30:00.000Z",
   },
 
   {
     id: "news-004",
-    authorId: "5",
+    author: {
+      id: "5",
+      name: "Đỗ Văn Long",
+    },
     title: "Chăm sóc sức khỏe răng miệng: Phòng ngừa sâu răng hiệu quả",
     shortDesc:
       "Hướng dẫn chi tiết cách chăm sóc răng miệng đúng cách, phòng ngừa sâu răng và các bệnh lý răng miệng thường gặp.",
@@ -290,11 +308,16 @@ export const MOCK_NEWS_LIST = [
     status: "WAITING",
     thumbnail: "https://picsum.photos/seed/news004/800/450",
     view: 567,
+    createdAt: "2026-02-05T13:20:00.000Z",
+    updatedAt: "2026-02-08T11:10:00.000Z",
   },
 
   {
     id: "news-005",
-    authorId: "9",
+    author: {
+      id: "9",
+      name: "Phạm Văn An",
+    },
     title: "Y tế cộng đồng: Chương trình khám sức khỏe miễn phí tháng 3",
     shortDesc:
       "Thông báo chương trình khám sức khỏe tổng quát miễn phí dành cho người cao tuổi và hộ nghèo tại Liên Chiểu trong tháng 3/2026.",
@@ -390,11 +413,16 @@ export const MOCK_NEWS_LIST = [
     status: "PUBLISH",
     thumbnail: "https://picsum.photos/seed/news005/800/450",
     view: 3421,
+    createdAt: "2026-01-05T09:45:00.000Z",
+    updatedAt: "2026-01-12T15:30:00.000Z",
   },
 
   {
     id: "news-006",
-    authorId: "2",
+    author: {
+      id: "2",
+      name: "Nguyễn Thị Lan",
+    },
     title: "Đái tháo đường type 2: Triệu chứng, nguyên nhân và cách phòng ngừa",
     shortDesc:
       "Tìm hiểu về bệnh đái tháo đường type 2 - căn bệnh nguy hiểm nhưng có thể phòng ngừa được bằng lối sống lành mạnh.",
@@ -486,11 +514,16 @@ export const MOCK_NEWS_LIST = [
     status: "DRAFT",
     thumbnail: "https://picsum.photos/seed/news006/800/450",
     view: 0,
+    createdAt: "2026-02-09T14:00:00.000Z",
+    updatedAt: "2026-02-10T10:25:00.000Z",
   },
 
   {
     id: "news-007",
-    authorId: "14",
+    author: {
+      id: "14",
+      name: "Nguyễn Thị Ngọc",
+    },
     title:
       "Sức khỏe tinh thần: Nhận biết và đối phó với stress trong công việc",
     shortDesc:
@@ -611,11 +644,16 @@ export const MOCK_NEWS_LIST = [
     status: "PUBLISH",
     thumbnail: "https://picsum.photos/seed/news007/800/450",
     view: 1834,
+    createdAt: "2026-01-28T11:30:00.000Z",
+    updatedAt: "2026-02-03T08:15:00.000Z",
   },
 
   {
     id: "news-008",
-    authorId: "6",
+    author: {
+      id: "6",
+      name: "Trần Thị Mai",
+    },
     title: "Hướng dẫn sơ cứu cơ bản: Kỹ năng quan trọng mọi người cần biết",
     shortDesc:
       "Trang bị kiến thức sơ cứu cơ bản để xử lý các tình huống khẩn cấp, có thể cứu sống người khác trong những phút quan trọng.",
@@ -763,11 +801,16 @@ export const MOCK_NEWS_LIST = [
     status: "PUBLISH",
     thumbnail: "https://picsum.photos/seed/news008/800/450",
     view: 2678,
+    createdAt: "2026-01-18T15:45:00.000Z",
+    updatedAt: "2026-01-26T13:20:00.000Z",
   },
 
   {
     id: "news-009",
-    authorId: "11",
+    author: {
+      id: "11",
+      name: "Hoàng Văn Đức",
+    },
     title: "Chế độ ăn Địa Trung Hải: Bí quyết sống thọ và khỏe mạnh",
     shortDesc:
       "Khám phá chế độ ăn Địa Trung Hải - một trong những chế độ ăn lành mạnh nhất thế giới, giúp kéo dài tuổi thọ và phòng ngừa bệnh tật.",
@@ -911,11 +954,16 @@ export const MOCK_NEWS_LIST = [
     status: "WAITING",
     thumbnail: "https://picsum.photos/seed/news009/800/450",
     view: 412,
+    createdAt: "2026-02-07T16:10:00.000Z",
+    updatedAt: "2026-02-09T12:40:00.000Z",
   },
 
   {
     id: "news-010",
-    authorId: "8",
+    author: {
+      id: "8",
+      name: "Lê Thị Hồng",
+    },
     title: "Tầm soát ung thư: Những xét nghiệm quan trọng theo từng độ tuổi",
     shortDesc:
       "Hướng dẫn lịch tầm soát ung thư theo độ tuổi giúp phát hiện sớm và điều trị kịp thời, tăng tỷ lệ khỏi bệnh lên 90%.",
@@ -1106,5 +1154,7 @@ export const MOCK_NEWS_LIST = [
     status: "DRAFT",
     thumbnail: "https://picsum.photos/seed/news010/800/450",
     view: 0,
+    createdAt: "2026-02-10T17:30:00.000Z",
+    updatedAt: "2026-02-11T09:15:00.000Z",
   },
 ];
