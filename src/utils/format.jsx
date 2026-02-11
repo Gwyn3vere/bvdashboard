@@ -1,8 +1,12 @@
 export const formatDateVN = (isoDate) => {
   if (!isoDate) return "—";
 
-  const [yyyy, mm, dd] = isoDate.split("-");
-  return `${dd}-${mm}-${yyyy}`;
+  const date = new Date(isoDate);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
 };
 
 export const formatDate = (date) => {
@@ -12,7 +16,10 @@ export const formatDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
-export const formatPercent = (value, { decimals = 0, rounding = "round" } = {}) => {
+export const formatPercent = (
+  value,
+  { decimals = 0, rounding = "round" } = {},
+) => {
   if (value == null || Number.isNaN(value)) return "0%";
 
   const factor = 10 ** decimals;
@@ -48,7 +55,7 @@ export const generateTimeSlots = (startTime, endTime, slotDuration) => {
 
     slots.push({
       start: `${String(startH).padStart(2, "0")}:${String(startM).padStart(2, "0")}`,
-      end: `${String(endH).padStart(2, "0")}:${String(endM).padStart(2, "0")}`
+      end: `${String(endH).padStart(2, "0")}:${String(endM).padStart(2, "0")}`,
     });
 
     currentTime += slotDuration;
@@ -72,14 +79,14 @@ export const getDaysInMonth = (date) => {
   for (let i = prevMonthDays; i > 0; i--) {
     days.push({
       date: new Date(year, month - 1, prevMonthLastDay - i + 1),
-      isCurrentMonth: false
+      isCurrentMonth: false,
     });
   }
 
   for (let i = 1; i <= daysInMonth; i++) {
     days.push({
       date: new Date(year, month, i),
-      isCurrentMonth: true
+      isCurrentMonth: true,
     });
   }
 
@@ -87,7 +94,7 @@ export const getDaysInMonth = (date) => {
   for (let i = 1; i <= remainingDays; i++) {
     days.push({
       date: new Date(year, month + 1, i),
-      isCurrentMonth: false
+      isCurrentMonth: false,
     });
   }
 
