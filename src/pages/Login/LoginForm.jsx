@@ -11,7 +11,15 @@ import { IoIosMail, IoIosKey } from "react-icons/io";
 const cx = classNames.bind(style);
 
 function LoginForm() {
-  const { form, errors, loading, handleChange, handleSubmit, rememberMe, setRememberMe } = useLogin();
+  const {
+    form,
+    errors,
+    loading,
+    handleChange,
+    handleSubmit,
+    rememberMe,
+    setRememberMe,
+  } = useLogin();
 
   return (
     <div className="flex h-screen">
@@ -21,14 +29,19 @@ function LoginForm() {
         </div>
         <div className="flex flex-col items-center">
           <strong className="text-2xl pb-2">Chào mừng trở lại!</strong>
-          <p className="text-[11px] text-[var(--color-text-light-secondary)]">Vui lòng đăng nhập để tiếp tục</p>
+          <p className="text-[11px] text-[var(--color-text-light-secondary)]">
+            Vui lòng đăng nhập để tiếp tục
+          </p>
         </div>
-        <Form className=" px-5 md:px-20 xl:px-5 2xl:px-20 pt-10" onSubmit={handleSubmit}>
+        <Form
+          className=" px-5 md:px-20 xl:px-5 2xl:px-20 pt-10"
+          onSubmit={handleSubmit}
+        >
           <Input
             name="email"
             type="email"
             label="Email"
-            value={form.email}
+            value={(form.email = "admin@hospital.vn")}
             onChange={handleChange}
             labelClassName="text-sm"
             icon={<IoIosMail />}
@@ -36,13 +49,18 @@ function LoginForm() {
             inputClassName="rounded-[8px] mt-1"
           />
           {errors.email && (
-            <Item as="span" children={errors.email} width="w-auto" className="text-red-500 text-[14px] mt-1" />
+            <Item
+              as="span"
+              children={errors.email}
+              width="w-auto"
+              className="text-red-500 text-[14px] mt-1"
+            />
           )}
           <Input
             name="password"
             type="password"
             label="Password"
-            value={form.password}
+            value={(form.password = "123456")}
             onChange={handleChange}
             labelClassName="text-sm"
             icon={<IoIosKey />}
@@ -51,10 +69,20 @@ function LoginForm() {
             className="mt-5"
           />
           {errors.password && (
-            <Item as="span" children={errors.password} width="w-auto" className="text-red-500 text-[14px] mt-1" />
+            <Item
+              as="span"
+              children={errors.password}
+              width="w-auto"
+              className="text-red-500 text-[14px] mt-1"
+            />
           )}
           {errors.login && (
-            <Item as="span" children={errors.login} width="w-auto" className="text-red-500 text-[14px] mt-1" />
+            <Item
+              as="span"
+              children={errors.login}
+              width="w-auto"
+              className="text-red-500 text-[14px] mt-1"
+            />
           )}
           <div className="flex items-center justify-between mt-5">
             <Checkbox
@@ -63,7 +91,13 @@ function LoginForm() {
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
             />
-            <Item as={Link} to="/" children="Quên mật khẩu?" width="w-auto" className="text-blue-500 text-[14px]" />
+            <Item
+              as={Link}
+              to="/"
+              children="Quên mật khẩu?"
+              width="w-auto"
+              className="text-blue-500 text-[14px]"
+            />
           </div>
           <Button
             type="submit"
