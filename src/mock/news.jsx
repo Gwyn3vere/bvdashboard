@@ -87,7 +87,7 @@ export const MOCK_NEWS_LIST = [
       "7 Thói Quen Vàng Phòng Ngừa Bệnh Tim Mạch | Trung Tâm Y Tế Liên Chiểu",
     metaDesc:
       "Khám phá 7 thói quen đơn giản nhưng hiệu quả giúp bạn phòng ngừa bệnh tim mạch, bảo vệ sức khỏe tim mạch toàn diện.",
-    status: "PUBLISH",
+    status: "PUBLISHED",
     thumbnail: "https://picsum.photos/seed/news001/800/450",
     view: 1247,
     createdAt: "2026-01-15T08:30:00.000Z",
@@ -143,7 +143,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Hướng Dẫn Tiêm Vaccine COVID-19 Mũi Nhắc Lại 2026",
     metaDesc:
       "Thông tin chi tiết về chương trình tiêm vaccine COVID-19 mũi nhắc lại, đối tượng ưu tiên và lịch tiêm tại Liên Chiểu.",
-    status: "PUBLISH",
+    status: "PUBLISHED",
     thumbnail: "https://picsum.photos/seed/news002/800/450",
     view: 892,
     createdAt: "2026-01-22T10:15:00.000Z",
@@ -217,7 +217,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Thực Đơn Dinh Dưỡng Cân Bằng Cho Trẻ Em 0-12 Tuổi",
     metaDesc:
       "Hướng dẫn chi tiết xây dựng thực đơn dinh dưỡng khoa học cho trẻ từ 0-12 tuổi, giúp bé phát triển toàn diện.",
-    status: "PUBLISH",
+    status: "PUBLISHED",
     thumbnail: "https://picsum.photos/seed/news003/800/450",
     view: 2156,
     createdAt: "2026-01-10T07:00:00.000Z",
@@ -307,7 +307,7 @@ export const MOCK_NEWS_LIST = [
       "Cách đánh răng đúng, sử dụng chỉ nha khoa và chế độ ăn uống để có hàm răng khỏe mạnh, phòng ngừa sâu răng hiệu quả.",
     status: "WAITING",
     thumbnail: "https://picsum.photos/seed/news004/800/450",
-    view: 567,
+    view: 0,
     createdAt: "2026-02-05T13:20:00.000Z",
     updatedAt: "2026-02-08T11:10:00.000Z",
   },
@@ -410,7 +410,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Chương Trình Khám Sức Khỏe Miễn Phí Tháng 3/2026 | Liên Chiểu",
     metaDesc:
       "Thông tin chi tiết về chương trình khám sức khỏe miễn phí dành cho người cao tuổi và hộ nghèo tại Liên Chiểu tháng 3/2026.",
-    status: "PUBLISH",
+    status: "PUBLISHED",
     thumbnail: "https://picsum.photos/seed/news005/800/450",
     view: 3421,
     createdAt: "2026-01-05T09:45:00.000Z",
@@ -641,7 +641,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Nhận Biết Và Quản Lý Stress Công Việc Hiệu Quả",
     metaDesc:
       "Hướng dẫn chi tiết cách nhận biết triệu chứng stress công việc và các phương pháp quản lý stress hiệu quả.",
-    status: "PUBLISH",
+    status: "PUBLISHED",
     thumbnail: "https://picsum.photos/seed/news007/800/450",
     view: 1834,
     createdAt: "2026-01-28T11:30:00.000Z",
@@ -798,7 +798,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Hướng Dẫn Sơ Cứu Cơ Bản - Kỹ Năng Cứu Người",
     metaDesc:
       "Trang bị kiến thức sơ cứu cơ bản: CPR, cầm máu, xử lý bỏng, ngạt thở và gãy xương. Kỹ năng quan trọng mọi người cần biết.",
-    status: "PUBLISH",
+    status: "PUBLISHED",
     thumbnail: "https://picsum.photos/seed/news008/800/450",
     view: 2678,
     createdAt: "2026-01-18T15:45:00.000Z",
@@ -953,7 +953,7 @@ export const MOCK_NEWS_LIST = [
       "Hướng dẫn chi tiết về chế độ ăn Địa Trung Hải, lợi ích sức khỏe, thực đơn mẫu và cách thực hành tại Việt Nam.",
     status: "WAITING",
     thumbnail: "https://picsum.photos/seed/news009/800/450",
-    view: 412,
+    view: 0,
     createdAt: "2026-02-07T16:10:00.000Z",
     updatedAt: "2026-02-09T12:40:00.000Z",
   },
