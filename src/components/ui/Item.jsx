@@ -11,6 +11,7 @@ function Item({
   icon,
   children,
   to,
+  href,
   onClick,
   className,
   itemClassName,
@@ -30,6 +31,7 @@ function Item({
   return (
     <Component
       to={to}
+      href={href}
       onClick={onClick}
       className={cx(className)}
       style={{ ...style }}

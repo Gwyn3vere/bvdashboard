@@ -1,22 +1,24 @@
 import {
   LuLayoutDashboard,
   LuClipboardList,
-  LuFrown,
   LuUsers,
   LuStethoscope,
   LuImages,
   LuNewspaper,
-  LuLayers3
+  LuLayers3,
 } from "react-icons/lu";
 
 export const SIDEBAR_MENU = [
   {
     group: "Menu chính",
     items: [
-      { title: "Tổng quan", to: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
-      { title: "Bệnh nhân", to: "/patients", icon: <LuFrown /> },
-      { title: "Lịch hẹn", to: "/quan-ly-lich-hen", icon: <LuClipboardList /> }
-    ]
+      {
+        title: "Tổng quan",
+        to: "/bang-dieu-khien",
+        icon: <LuLayoutDashboard />,
+      },
+      { title: "Lịch hẹn", to: "/quan-ly-lich-hen", icon: <LuClipboardList /> },
+    ],
   },
   {
     group: "Quản lý",
@@ -25,7 +27,7 @@ export const SIDEBAR_MENU = [
       { title: "Bác sĩ", to: "/quan-ly-bac-si", icon: <LuStethoscope /> },
       { title: "Banner", to: "/quan-ly-banner", icon: <LuImages /> },
       { title: "Tin tức", to: "/quan-ly-tin-tuc", icon: <LuNewspaper /> },
-      { title: "Chuyên môn", to: "/quan-ly-chuyen-mon", icon: <LuLayers3 /> }
-    ]
-  }
+      { title: "Chuyên môn", to: "/quan-ly-chuyen-mon", icon: <LuLayers3 /> },
+    ],
+  },
 ];

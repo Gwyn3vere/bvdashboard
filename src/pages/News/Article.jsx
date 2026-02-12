@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
-import { Breadcrumb, Item, ArticleContent } from "../../components/ui";
+import { Breadcrumb, Item, ArticleContent, Image } from "../../components/ui";
 import {
   LuLayoutDashboard,
   LuCalendar,
@@ -8,12 +8,16 @@ import {
   LuCircleCheckBig,
   LuFileText,
   LuTag,
+  LuSparkle,
 } from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { useNewsStore } from "../../store/newsStore";
 import { useParams } from "react-router-dom";
 import { generateTableOfContents } from "../../utils/helper";
 import { formatDateVN } from "../../utils/format";
+import { useForm } from "../../components/hooks";
+import { INITAL_NEWS } from "../../constants/field";
+import { NEWS_STATUS } from "../../constants/status";
 
 const cx = classNames.bind(styles);
 
@@ -21,6 +25,12 @@ function Article() {
   const { id } = useParams();
   const news = useNewsStore((state) => state.getNewsById(id));
   const tableOfContents = generateTableOfContents(news?.content);
+  const { values, setFieldValue } = useForm({
+    initialValues: INITAL_NEWS,
+    editValues: news,
+  });
+
+  const statusMeta = NEWS_STATUS[news?.status] || {};
 
   return (
     <div className={cx(TWCSS.container)}>
@@ -38,8 +48,8 @@ function Article() {
       />
 
       <div className={cx("py-15 px-5 md:px-10 mx-auto max-w-[720px]")}>
+        {/* Category */}
         <div className="inline-block">
-          {/* Category */}
           <Item
             icon={<LuCircleCheckBig />}
             children={news?.category || "Tên danh mục"}
@@ -62,7 +72,8 @@ function Article() {
         {/* Author - Daytime - view */}
         <div
           className={cx(
-            "flex items-center gap-5 text-[var(--color-unavailable-700)] py-4",
+            "grid md:grid-cols-4 grid-cols-2 items-center",
+            "gap-5 text-[var(--color-unavailable-700)] py-4",
             "border-b border-gray-200",
             "transition-all mb-10",
           )}
@@ -107,12 +118,22 @@ function Article() {
             )}
             className={cx("flex items-center gap-2")}
           />
+          {/* Status */}
+          <Item
+            icon={<LuSparkle />}
+            children={`${statusMeta?.label || "Trạng thái không xác định"}`}
+            itemClassName={cx("font-semibold text-sm")}
+            className={cx("flex items-center gap-2")}
+            style={{
+              color: statusMeta?.color || "var(--color-unavailable-700)",
+            }}
+          />
         </div>
         <div className={cx("space-y-10 border-b border-gray-200 pb-10")}>
           {/* Thumbnail */}
           <div className={cx("rounded-[12px] overflow-hidden")}>
             {news?.thumbnail ? (
-              <img src={news?.thumbnail} alt="Ảnh đại diện" />
+              <Image src={news?.thumbnail} alt="Ảnh đại diện" />
             ) : (
               <Item
                 icon={"🖼️"}
@@ -171,7 +192,7 @@ function Article() {
           />
         </div>
         {/* Tags */}
-        <div className={cx("flex items-center gap-2 py-10")}>
+        <div className={cx("flex flex-wrap items-center gap-2 py-10")}>
           {news?.tags.length > 0 ? (
             news?.tags.map((item, idx) => (
               <Item

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
@@ -8,6 +8,7 @@ import {
   Button,
   Search,
   Pagination,
+  Image,
 } from "../../components/ui";
 import {
   LuFilter,
@@ -16,6 +17,7 @@ import {
   LuPlus,
   LuCircleCheckBig,
   LuSparkle,
+  LuCheck,
 } from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { NEWS_TOTAL_STATUS } from "../../mock/news";
@@ -23,11 +25,15 @@ import { NEWS_STATUS } from "../../constants/status";
 import { useNewsStore } from "../../store/newsStore";
 import { usePagination } from "../../components/hooks";
 import { formatDateVN } from "../../utils/format";
+import { Skeleton } from "./index";
 
 const cx = classNames.bind(styles);
 
 function News() {
-  const news = useNewsStore((n) => n.news);
+  const { news, loading, fetchNews } = useNewsStore();
+  useEffect(() => {
+    fetchNews();
+  }, []);
   const filterNews = news.filter((n) => n.status !== "DRAFT");
 
   return (
@@ -53,7 +59,7 @@ function News() {
       <div className="space-y-10">
         <Overview total={NEWS_TOTAL_STATUS} />
         <ActionBar />
-        <NewsList news={filterNews} />
+        <NewsList news={filterNews} loading={loading} />
       </div>
     </div>
   );
@@ -125,20 +131,24 @@ function ActionBar({}) {
             height={45}
             icon={<LuFilter />}
             children={"Bộ lọc"}
-            className={cx(
-              "p-2 border-2 border-[var(--color-unavailable-300)]",
-              "gap-2 bg-[var(--color-bg-light-primary-100)]",
-            )}
+            className={cx(TWCSS.button)}
+            btnClassName={cx("hidden md:block")}
           />
           <Button
             width={"auto"}
             height={45}
             icon={<LuList />}
-            children={"Danh sách"}
-            className={cx(
-              "p-2 border-2 border-[var(--color-unavailable-300)]",
-              "gap-2 bg-[var(--color-bg-light-primary-100)]",
-            )}
+            children={"Danh mục tin tức"}
+            className={cx(TWCSS.button)}
+            btnClassName={cx("hidden md:block")}
+          />
+          <Button
+            width={"auto"}
+            height={45}
+            icon={<LuCheck />}
+            children={"Danh sách phê duyệt"}
+            className={cx(TWCSS.button)}
+            btnClassName={cx("hidden md:block")}
           />
         </div>
         <Item
@@ -157,7 +167,8 @@ function ActionBar({}) {
   );
 }
 
-function NewsList({ news }) {
+function NewsList({ news, loading }) {
+  const ITEMS_PER_PAGE = 6;
   const {
     currentPage,
     totalPages,
@@ -166,7 +177,7 @@ function NewsList({ news }) {
     setCurrentPage,
     nextPage,
     prevPage,
-  } = usePagination(news, 6);
+  } = usePagination(news, ITEMS_PER_PAGE);
 
   return (
     <div className={cx("")}>
@@ -175,103 +186,111 @@ function NewsList({ news }) {
           "grid sm:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-5 w-full",
         )}
       >
-        {pagedData
-          ? pagedData.map((news) => {
-              const statusMeta = NEWS_STATUS[news?.status] || {};
+        {loading
+          ? Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+              <Skeleton key={index} />
+            ))
+          : pagedData.length > 0
+            ? pagedData.map((news) => {
+                const statusMeta = NEWS_STATUS[news?.status] || {};
 
-              return (
-                <Item
-                  as={Link}
-                  to={`/quan-ly-tin-tuc/${news.id}`}
-                  key={news.id}
-                  className={cx(
-                    "bg-white p-4 rounded-[8px]",
-                    "transition-all duration-300 ease-out",
-                    "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
-                  )}
-                  style={{ boxShadow: "var(--shadow)" }}
-                >
-                  <div className={cx("space-y-5")}>
-                    {/* Thumbnail */}
-                    <div
-                      className={cx(
-                        "relative rounded-[8px] overflow-hidden max-h-50",
-                      )}
-                    >
-                      <img src={news.thumbnail} alt="Ảnh đại diện" />
-                      <Item
-                        icon={<LuCircleCheckBig />}
-                        children={news?.category || "Tên danh mục"}
+                return (
+                  <Item
+                    as="a"
+                    href={`/quan-ly-tin-tuc/${news.id}`}
+                    key={news.id}
+                    className={cx(
+                      "bg-white p-4 rounded-[8px]",
+                      "transition-all duration-300 ease-out",
+                      "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
+                    )}
+                    style={{ boxShadow: "var(--shadow)" }}
+                  >
+                    <div className={cx("space-y-5")}>
+                      {/* Thumbnail */}
+                      <div
                         className={cx(
-                          "absolute z-10 bottom-2 left-2",
-                          "flex items-center gap-2 rounded-[8px]",
-                          "text-sm font-semibold text-[var(--color-primary-900)]",
-                          "bg-[var(--color-primary-100)] p-2",
-                          "border border-[var(--color-primary-200)]",
+                          "relative rounded-[8px] overflow-hidden max-h-50",
                         )}
-                      />
-                    </div>
-                    {/* Status */}
-                    <Item
-                      icon={<LuSparkle />}
-                      children={`${statusMeta?.label || "Trạng thái không xác định"}`}
-                      itemClassName={cx("font-semibold text-sm")}
-                      className={cx("flex items-center gap-2")}
-                      style={{
-                        color:
-                          statusMeta?.color || "var(--color-unavailable-700)",
-                      }}
-                    />
-                    {/* Title */}
-                    <Item
-                      children={news?.title || "Tiêu đề bài viết"}
-                      itemClassName={cx(
-                        "text-md font-bold leading-[1.6] tracking-[-0.03em]",
-                      )}
-                    />
-                    {/* Short Description */}
-                    <Item
-                      children={
-                        news?.shortDesc ||
-                        "Chưa có mô tả ngắn gọn nào cho bài viết"
-                      }
-                      itemClassName={cx(
-                        "font-medium text-sm text-[var(--color-unavailable-900)] leading-[1.7]",
-                        "line-clamp-2",
-                      )}
-                    />
-                    {/* Author and Date */}
-                    <div className={cx("flex flex-col justify-between gap-2")}>
+                      >
+                        <Image src={news.thumbnail} alt="Ảnh đại diện" />
+                        <Item
+                          icon={<LuCircleCheckBig />}
+                          children={news?.category || "Tên danh mục"}
+                          className={cx(
+                            "absolute z-10 bottom-2 left-2",
+                            "flex items-center gap-2 rounded-[8px]",
+                            "text-sm font-semibold text-[var(--color-primary-900)]",
+                            "bg-[var(--color-primary-100)] p-2",
+                            "border border-[var(--color-primary-200)]",
+                          )}
+                        />
+                      </div>
+                      {/* Status */}
                       <Item
-                        children={news?.author?.name}
+                        icon={<LuSparkle />}
+                        children={`${statusMeta?.label || "Trạng thái không xác định"}`}
+                        itemClassName={cx("font-semibold text-sm")}
+                        className={cx("flex items-center gap-2")}
+                        style={{
+                          color:
+                            statusMeta?.color || "var(--color-unavailable-700)",
+                        }}
+                      />
+                      {/* Title */}
+                      <Item
+                        children={news?.title || "Tiêu đề bài viết"}
                         itemClassName={cx(
-                          "text-sm font-bold text-[var(--color-unavailable-900)]",
+                          "text-md font-bold leading-[1.6] tracking-[-0.03em]",
                         )}
                       />
+                      {/* Short Description */}
                       <Item
                         children={
-                          news?.createdAt
-                            ? formatDateVN(news.createdAt)
-                            : "Ngày không xác định"
+                          news?.shortDesc ||
+                          "Chưa có mô tả ngắn gọn nào cho bài viết"
                         }
                         itemClassName={cx(
-                          "text-xs text-[var(--color-unavailable-700)]",
+                          "font-medium text-sm text-[var(--color-unavailable-900)] leading-[1.7]",
+                          "line-clamp-2",
                         )}
                       />
+                      {/* Author and Date */}
+                      <div
+                        className={cx("flex flex-col justify-between gap-2")}
+                      >
+                        <Item
+                          children={news?.author?.name}
+                          itemClassName={cx(
+                            "text-sm font-bold text-[var(--color-unavailable-900)]",
+                          )}
+                        />
+                        <Item
+                          children={
+                            news?.createdAt
+                              ? formatDateVN(news.createdAt)
+                              : "Ngày không xác định"
+                          }
+                          itemClassName={cx(
+                            "text-xs text-[var(--color-unavailable-700)]",
+                          )}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </Item>
-              );
-            })
-          : 'Chưa có tin tức nào được đăng tải, hãy ấn nút "Đăng tin tức mới" để đăng bài'}
+                  </Item>
+                );
+              })
+            : 'Chưa có tin tức nào được đăng tải, hãy ấn nút "Đăng tin tức mới" để đăng bài'}
       </div>
-      <Pagination
-        pages={pages}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        nextPage={nextPage}
-        prevPage={prevPage}
-      />
+      {!loading && pagedData.length > 0 && (
+        <Pagination
+          pages={pages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          nextPage={nextPage}
+          prevPage={prevPage}
+        />
+      )}
     </div>
   );
 }

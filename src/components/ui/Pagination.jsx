@@ -8,9 +8,21 @@ import { Button } from "../ui";
 
 const cx = classNames.bind(style);
 
-function Pagination({ pages = [], currentPage, setCurrentPage, nextPage, prevPage }) {
+function Pagination({
+  pages = [],
+  currentPage,
+  setCurrentPage,
+  nextPage,
+  prevPage,
+  className,
+}) {
   return (
-    <div className="flex items-center justify-center gap-1.5 text-[14px] py-5">
+    <div
+      className={cx(
+        "flex items-center justify-center gap-1.5 text-[14px] py-5",
+        className,
+      )}
+    >
       <Button
         icon={<HiMiniChevronLeft />}
         width={30}
@@ -28,7 +40,8 @@ function Pagination({ pages = [], currentPage, setCurrentPage, nextPage, prevPag
             onClick={() => setCurrentPage(page)}
             className={cx(
               TWCSS.paginationButton.join(" "),
-              currentPage === page && "bg-[var(--color-primary)] text-[var(--color-bg-light-primary-100)]"
+              currentPage === page &&
+                "bg-[var(--color-primary)] text-[var(--color-bg-light-primary-100)]",
             )}
           />
         ))}
