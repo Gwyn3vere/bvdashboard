@@ -639,7 +639,7 @@ function RichTextEditor({
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Underline,
+      // Underline,
       TextStyle,
       Color,
       ImageUploadExtension,
@@ -655,12 +655,12 @@ function RichTextEditor({
           class: "max-w-full h-auto rounded-lg",
         },
       }),
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: "text-blue-500 underline",
-        },
-      }),
+      // Link.configure({
+      //   openOnClick: false,
+      //   HTMLAttributes: {
+      //     class: "text-blue-500 underline",
+      //   },
+      // }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),

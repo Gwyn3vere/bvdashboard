@@ -2,11 +2,16 @@ export const STAFF_ROLE = {
   ADMIN: {
     label: "Quản trị viên",
     color: "var(--color-bg-light-primary-100)",
-    background: "var(--color-grd-secondary)"
+    background: "var(--color-grd-secondary)",
   },
   MEMBER: {
     label: "Thành viên",
     color: "#000000",
-    background: "var(--color-grd-unavailable)"
-  }
+    background: "var(--color-grd-unavailable)",
+  },
+};
+
+export const NEWS_STATUS_ROLE = {
+  ADMIN: ["DRAFT", "PUBLISHED", "ARCHIVED"],
+  MEMBER: ["DRAFT", "WAITING"],
 };

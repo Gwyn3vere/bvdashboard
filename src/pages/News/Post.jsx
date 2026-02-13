@@ -19,6 +19,7 @@ import {
 import { LuLayoutDashboard, LuX } from "react-icons/lu";
 import { NEWS_STATUS_PUBLISH, NEWS_CATEGORIES } from "../../constants/menu";
 import { INITAL_NEWS } from "../../constants/field";
+import { NEWS_STATUS_ROLE } from "../../constants/role";
 import { Preview } from "./index";
 import { useAuthStore } from "../../store/authStore";
 
@@ -72,6 +73,7 @@ function Post() {
             value={values}
             setValue={setValues}
             setFieldValue={setFieldValue}
+            user={user}
           />
         </div>
       </Form>
@@ -262,13 +264,17 @@ function Card({ children, title }) {
   );
 }
 
-function Settings({ value, setFieldValue }) {
+function Settings({ value, setFieldValue, user }) {
+  const allowedStatus = NEWS_STATUS_PUBLISH.filter((item) =>
+    NEWS_STATUS_ROLE[user.role].includes(item.value),
+  );
+
   return (
     <div className={cx("-order-1 xl:order-0 flex flex-col gap-5")}>
       {/* Status */}
       <Card title={"Trạng thái xuất bản"}>
         <div className={cx("p-6 flex flex-col gap-3")}>
-          {NEWS_STATUS_PUBLISH.map((item) => (
+          {allowedStatus.map((item) => (
             <Radio
               key={item.id}
               name={"status"}
@@ -281,9 +287,7 @@ function Settings({ value, setFieldValue }) {
                 </div>
               }
               checked={value?.status === item.value}
-              onChange={(status) =>
-                setFieldValue("status", (status = item.value))
-              }
+              onChange={() => setFieldValue("status", item.value)}
               className={cx(
                 "p-4 border-1 transition-all rounded-[8px]",
                 value?.status === item.value
@@ -308,9 +312,9 @@ function Settings({ value, setFieldValue }) {
                 text={cate.name}
                 className={cx("text-sm")}
                 style={{ "--size": "20px" }}
-                checked={value.category === cate.name}
+                checked={value.categoryId === cate.id}
                 onChange={(e) => {
-                  setFieldValue("category", e.target.checked ? cate.name : "");
+                  setFieldValue("categoryId", e.target.checked ? cate.id : "");
                 }}
               />
               <Item
