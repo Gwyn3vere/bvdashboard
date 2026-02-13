@@ -15,44 +15,40 @@ import { useNewsStore } from "../../store/newsStore";
 import { useParams } from "react-router-dom";
 import { generateTableOfContents } from "../../utils/helper";
 import { formatDateVN } from "../../utils/format";
-import { useForm } from "../../components/hooks";
-import { INITAL_NEWS } from "../../constants/field";
 import { NEWS_STATUS } from "../../constants/status";
 
 const cx = classNames.bind(styles);
 
-function Article() {
+function Article({ newsId }) {
   const { id } = useParams();
-  const news = useNewsStore((state) => state.getNewsById(id));
+  const news = useNewsStore((state) => state.getNewsById(id || newsId));
   const tableOfContents = generateTableOfContents(news?.content);
-  const { values, setFieldValue } = useForm({
-    initialValues: INITAL_NEWS,
-    editValues: news,
-  });
 
   const statusMeta = NEWS_STATUS[news?.status] || {};
 
   return (
     <div className={cx(TWCSS.container)}>
-      <Breadcrumb
-        className="mb-3"
-        items={[
-          {
-            label: "Bảng điều khiển",
-            href: "/bang-dieu-khien",
-            icon: <LuLayoutDashboard />,
-          },
-          { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-          { label: "Chi tiết bài viết" },
-        ]}
-      />
+      {!newsId && (
+        <Breadcrumb
+          className="mb-3"
+          items={[
+            {
+              label: "Bảng điều khiển",
+              href: "/bang-dieu-khien",
+              icon: <LuLayoutDashboard />,
+            },
+            { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
+            { label: "Chi tiết bài viết" },
+          ]}
+        />
+      )}
 
       <div className={cx("py-15 px-5 md:px-10 mx-auto max-w-[720px]")}>
         {/* Category */}
         <div className="inline-block">
           <Item
             icon={<LuCircleCheckBig />}
-            children={news?.category || "Tên danh mục"}
+            children={news?.category?.name || "Tên danh mục"}
             className={cx(
               "flex items-center gap-2 rounded-[8px]",
               "text-sm font-semibold text-[var(--color-primary-900)]",

@@ -109,4 +109,12 @@ export const NEWS_STATUS = {
     label: "Chờ duyệt",
     color: "var(--color-purple)",
   },
+  ARCHIVED: {
+    label: "Lưu trữ",
+    color: "var(--color-unavailable)",
+  },
+  REJECTED: {
+    label: "Lưu trữ",
+    color: "var(--color-error)",
+  },
 };

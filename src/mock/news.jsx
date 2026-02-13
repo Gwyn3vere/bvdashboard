@@ -81,7 +81,10 @@ export const MOCK_NEWS_LIST = [
       <h2>Kết luận</h2>
       <p>Chăm sóc sức khỏe tim mạch là hành trình dài hạn đòi hỏi sự kiên trì. Bằng cách áp dụng những thói quen lành mạnh vào cuộc sống hàng ngày, bạn không chỉ bảo vệ được sức khỏe tim mạch mà còn nâng cao chất lượng cuộc sống.</p>
     `,
-    category: "Tin tức sức khỏe",
+    category: {
+      id: "ttsk",
+      name: "Tin tức sức khỏe",
+    },
     tags: ["tim mạch", "sức khỏe", "phòng ngừa bệnh", "lối sống lành mạnh"],
     metaTitle:
       "7 Thói Quen Vàng Phòng Ngừa Bệnh Tim Mạch | Trung Tâm Y Tế Liên Chiểu",
@@ -138,7 +141,10 @@ export const MOCK_NEWS_LIST = [
         <li>Liên hệ y tế nếu có triệu chứng bất thường</li>
       </ul>
     `,
-    category: "Phòng chống dịch",
+    category: {
+      id: "pcd",
+      name: "Phòng chống dịch",
+    },
     tags: ["covid-19", "vaccine", "tiêm chủng", "phòng dịch"],
     metaTitle: "Hướng Dẫn Tiêm Vaccine COVID-19 Mũi Nhắc Lại 2026",
     metaDesc:
@@ -212,7 +218,10 @@ export const MOCK_NEWS_LIST = [
       <h2>Lời khuyên từ chuyên gia dinh dưỡng</h2>
       <p>Bác sĩ Nguyễn Thị Lan, chuyên gia dinh dưỡng tại Trung tâm Y tế Liên Chiểu khuyên: "Cha mẹ nên tạo thói quen ăn uống lành mạnh từ sớm, làm gương cho con và tạo bầu không khí vui vẻ trong bữa ăn."</p>
     `,
-    category: "Dinh dưỡng",
+    category: {
+      id: "dd",
+      name: "Dinh dưỡng",
+    },
     tags: ["dinh dưỡng", "trẻ em", "thực đơn", "phát triển"],
     metaTitle: "Thực Đơn Dinh Dưỡng Cân Bằng Cho Trẻ Em 0-12 Tuổi",
     metaDesc:
@@ -300,14 +309,17 @@ export const MOCK_NEWS_LIST = [
         <li>Chỉnh nha niềng răng</li>
       </ul>
     `,
-    category: "Chăm sóc sức khỏe",
+    category: {
+      id: "cssk",
+      name: "Chăm sóc sức khỏe",
+    },
     tags: ["răng miệng", "sức khỏe", "phòng ngừa", "nha khoa"],
     metaTitle: "Hướng Dẫn Chăm Sóc Răng Miệng Và Phòng Ngừa Sâu Răng",
     metaDesc:
       "Cách đánh răng đúng, sử dụng chỉ nha khoa và chế độ ăn uống để có hàm răng khỏe mạnh, phòng ngừa sâu răng hiệu quả.",
     status: "WAITING",
     thumbnail: "https://picsum.photos/seed/news004/800/450",
-    view: 0,
+    view: 567,
     createdAt: "2026-02-05T13:20:00.000Z",
     updatedAt: "2026-02-08T11:10:00.000Z",
   },
@@ -405,7 +417,10 @@ export const MOCK_NEWS_LIST = [
         <li>Tuân thủ các quy định về phòng chống dịch</li>
       </ul>
     `,
-    category: "Y tế cộng đồng",
+    category: {
+      id: "ytcd",
+      name: "Y tế cộng đồng",
+    },
     tags: ["khám bệnh", "miễn phí", "cộng đồng", "người cao tuổi"],
     metaTitle: "Chương Trình Khám Sức Khỏe Miễn Phí Tháng 3/2026 | Liên Chiểu",
     metaDesc:
@@ -505,7 +520,10 @@ export const MOCK_NEWS_LIST = [
       <h2>Kết luận</h2>
       <p>Đái tháo đường type 2 là căn bệnh nguy hiểm nhưng có thể phòng ngừa được. Với lối sống lành mạnh và theo dõi sức khỏe định kỳ, bạn hoàn toàn có thể giảm thiểu nguy cơ mắc bệnh.</p>
     `,
-    category: "Tin tức sức khỏe",
+    category: {
+      id: "ttsk",
+      name: "Tin tức sức khỏe",
+    },
     tags: ["đái tháo đường", "bệnh mạn tính", "phòng ngừa", "sức khỏe"],
     metaTitle:
       "Đái Tháo Đường Type 2: Triệu Chứng, Nguyên Nhân Và Cách Phòng Ngừa",
@@ -636,7 +654,10 @@ export const MOCK_NEWS_LIST = [
         <li>Hotline tư vấn: 0236.123.4567 (24/7)</li>
       </ul>
     `,
-    category: "Chăm sóc sức khỏe",
+    category: {
+      id: "cssk",
+      name: "Chăm sóc sức khỏe",
+    },
     tags: ["sức khỏe tinh thần", "stress", "tâm lý", "công việc"],
     metaTitle: "Nhận Biết Và Quản Lý Stress Công Việc Hiệu Quả",
     metaDesc:
@@ -793,7 +814,10 @@ export const MOCK_NEWS_LIST = [
         <li>Đăng ký: 0236.123.4567</li>
       </ul>
     `,
-    category: "Chăm sóc sức khỏe",
+    category: {
+      id: "cssk",
+      name: "Chăm sóc sức khỏe",
+    },
     tags: ["sơ cứu", "kỹ năng", "an toàn", "cấp cứu"],
     metaTitle: "Hướng Dẫn Sơ Cứu Cơ Bản - Kỹ Năng Cứu Người",
     metaDesc:
@@ -946,14 +970,17 @@ export const MOCK_NEWS_LIST = [
         <li>Lớp học nấu ăn lành mạnh</li>
       </ul>
     `,
-    category: "Dinh dưỡng",
+    category: {
+      id: "dd",
+      name: "Dinh dưỡng",
+    },
     tags: ["dinh dưỡng", "chế độ ăn", "địa trung hải", "sống khỏe"],
     metaTitle: "Chế Độ Ăn Địa Trung Hải - Bí Quyết Sống Thọ Và Khỏe Mạnh",
     metaDesc:
       "Hướng dẫn chi tiết về chế độ ăn Địa Trung Hải, lợi ích sức khỏe, thực đơn mẫu và cách thực hành tại Việt Nam.",
     status: "WAITING",
     thumbnail: "https://picsum.photos/seed/news009/800/450",
-    view: 0,
+    view: 412,
     createdAt: "2026-02-07T16:10:00.000Z",
     updatedAt: "2026-02-09T12:40:00.000Z",
   },
@@ -1146,7 +1173,10 @@ export const MOCK_NEWS_LIST = [
       
       <p><strong>Ưu đãi:</strong> Giảm 20% cho khách hàng đăng ký online trong tháng 3/2026</p>
     `,
-    category: "Tin tức sức khỏe",
+    category: {
+      id: "ttsk",
+      name: "Tin tức sức khỏe",
+    },
     tags: ["ung thư", "tầm soát", "phát hiện sớm", "sức khỏe"],
     metaTitle: "Lịch Tầm Soát Ung Thư Theo Độ Tuổi - Phát Hiện Sớm Cứu Sống",
     metaDesc:
@@ -1157,4 +1187,12 @@ export const MOCK_NEWS_LIST = [
     createdAt: "2026-02-10T17:30:00.000Z",
     updatedAt: "2026-02-11T09:15:00.000Z",
   },
+];
+
+export const MOCK_NEWS_CATEGORIES = [
+  { id: "ttsk", name: "Tin tức sức khoẻ", totalNews: 42 },
+  { id: "pcd", name: "Phòng chống dịch", totalNews: 28 },
+  { id: "cssk", name: "Chăm sóc sức khoẻ", totalNews: 35 },
+  { id: "ytcd", name: "Y tế cộng đồng", totalNews: 19 },
+  { id: "dd", name: "Dinh dưỡng", totalNews: 24 },
 ];

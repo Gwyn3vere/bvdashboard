@@ -122,46 +122,63 @@ function Overview({ total }) {
 
 function ActionBar({}) {
   return (
-    <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-8")}>
-      <Search width={"auto"} height={45} className={cx("rounded-[8px]")} />
-      <div className={cx("flex justify-between")}>
-        <div className="flex gap-2">
-          <Button
-            width={"auto"}
-            height={45}
-            icon={<LuFilter />}
-            children={"Bộ lọc"}
-            className={cx(TWCSS.button)}
-            btnClassName={cx("hidden md:block")}
-          />
-          <Button
-            width={"auto"}
-            height={45}
-            icon={<LuList />}
-            children={"Danh mục tin tức"}
-            className={cx(TWCSS.button)}
-            btnClassName={cx("hidden md:block")}
-          />
-          <Button
-            width={"auto"}
-            height={45}
-            icon={<LuCheck />}
-            children={"Danh sách phê duyệt"}
-            className={cx(TWCSS.button)}
-            btnClassName={cx("hidden md:block")}
+    <div
+      className={cx("bg-white rounded-[8px] p-6")}
+      style={{ boxShadow: "var(--shadow)" }}
+    >
+      <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-2")}>
+        <Search width={"auto"} height={45} className={cx("rounded-[8px]")} />
+        <div className={cx("flex justify-between")}>
+          <div className="flex gap-2">
+            <Button
+              width={"auto"}
+              height={45}
+              icon={<LuFilter />}
+              children={"Bộ lọc"}
+              className={cx(TWCSS.button)}
+              iconClassName={cx("px-1.5 md:px-0")}
+              btnClassName={cx("hidden md:block")}
+            />
+            <Item
+              as={Link}
+              to={"/quan-ly-tin-tuc/duyet-bai"}
+              width={"auto"}
+              height={45}
+              icon={<LuList />}
+              children={"Danh sách duyệt"}
+              className={cx(
+                TWCSS.button,
+                "flex items-center gap-2 rounded-[8px]",
+              )}
+              iconClassName={cx("px-1.5 md:px-0")}
+              itemClassName={cx("hidden md:block")}
+            />
+            <Item
+              as={Link}
+              width={"auto"}
+              height={45}
+              icon={<LuCheck />}
+              children={"Bài viết của bạn"}
+              className={cx(
+                TWCSS.button,
+                "flex items-center gap-2 rounded-[8px]",
+              )}
+              iconClassName={cx("px-1.5 md:px-0")}
+              itemClassName={cx("hidden md:block")}
+            />
+          </div>
+          <Item
+            as={Link}
+            to={"/quan-ly-tin-tuc/dang-bai"}
+            icon={<LuPlus />}
+            children={"Đăng tin tức mới"}
+            iconClassName={cx("text-xl text-white font-semibold")}
+            itemClassName={cx("text-sm text-white font-semibold")}
+            className={cx(
+              "bg-[var(--color-primary)] flex items-center gap-2 h-[45px] px-4 rounded-[8px]",
+            )}
           />
         </div>
-        <Item
-          as={Link}
-          to={"/quan-ly-tin-tuc/dang-bai"}
-          icon={<LuPlus />}
-          children={"Đăng tin tức mới"}
-          iconClassName={cx("text-xl text-white font-semibold")}
-          itemClassName={cx("text-sm text-white font-semibold")}
-          className={cx(
-            "bg-[var(--color-primary)] flex items-center gap-2 h-[45px] px-4 rounded-[8px]",
-          )}
-        />
       </div>
     </div>
   );
@@ -216,7 +233,7 @@ function NewsList({ news, loading }) {
                         <Image src={news.thumbnail} alt="Ảnh đại diện" />
                         <Item
                           icon={<LuCircleCheckBig />}
-                          children={news?.category || "Tên danh mục"}
+                          children={news?.category?.name || "Tên danh mục"}
                           className={cx(
                             "absolute z-10 bottom-2 left-2",
                             "flex items-center gap-2 rounded-[8px]",

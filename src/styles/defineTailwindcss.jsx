@@ -15,7 +15,7 @@ export const TWCSS = {
   ],
   button: [
     "p-2 border-2 border-[var(--color-unavailable-300)]",
-    "gap-2 bg-[var(--color-bg-light-primary-100)] font-medium",
+    "gap-2 bg-[var(--color-bg-light-primary-100)] text-sm",
   ],
   input: [
     "flex items-center px-3 rounded-[8px] mt-1",

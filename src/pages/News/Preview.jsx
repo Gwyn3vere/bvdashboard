@@ -157,7 +157,7 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
           />
         </div>
         {/* Tags */}
-        <div className={cx("flex items-center gap-2 py-10")}>
+        <div className={cx("flex flex-wrap items-center gap-2 py-10")}>
           {previewData?.tags.length > 0 ? (
             previewData?.tags.map((item, idx) => (
               <Item

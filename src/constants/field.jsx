@@ -90,7 +90,7 @@ export const INITAL_NEWS = {
   title: "",
   shortDesc: "",
   content: "",
-  category: "",
+  categoryId: "",
   tags: ["sức khoẻ", "y tế"],
   metaTitle: "",
   metaDesc: "",

@@ -22,7 +22,7 @@ export const NEWS_STATUS_PUBLISH = [
   },
   {
     id: "publish",
-    value: "PUBLISH",
+    value: "PUBLISHED",
     name: "Xuất bản",
     title: "Công khai cho mọi người",
   },
@@ -31,6 +31,12 @@ export const NEWS_STATUS_PUBLISH = [
     value: "WAITING",
     name: "Chờ duyệt",
     title: "Gửi yêu cầu kiểm tra và xét duyệt",
+  },
+  {
+    id: "archived",
+    value: "ARCHIVED",
+    name: "Lưu trữ",
+    title: "Lưu trữ trong hệ thống",
   },
 ];
 

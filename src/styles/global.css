@@ -75,7 +75,7 @@
   --color-grd-error: linear-gradient(90deg, #ff9ab3ff 0%, #f7416fff 100%);
   --color-grd-unavailable: linear-gradient(90deg, #f0f0f0 0%, #c9c9c9 100%);
 
-  --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 body {
