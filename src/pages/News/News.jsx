@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
@@ -9,21 +9,23 @@ import {
   Search,
   Pagination,
   Image,
+  Tooltip,
 } from "../../components/ui";
 import {
-  LuFilter,
+  LuSlidersHorizontal,
   LuLayoutDashboard,
   LuList,
   LuPlus,
   LuCircleCheckBig,
   LuSparkle,
-  LuCheck,
+  LuPen,
+  LuFolder,
 } from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { NEWS_TOTAL_STATUS } from "../../mock/news";
 import { NEWS_STATUS } from "../../constants/status";
 import { useNewsStore } from "../../store/newsStore";
-import { usePagination } from "../../components/hooks";
+import { usePagination, useActive } from "../../components/hooks";
 import { formatDateVN } from "../../utils/format";
 import { Skeleton } from "./index";
 
@@ -76,18 +78,7 @@ function Overview({ total }) {
       )}
     >
       {total.map((item, idx) => (
-        <div
-          key={idx}
-          className={cx(
-            "relative",
-            "bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
-            "p-6 flex flex-col gap-2 border-b-4 border-transparent",
-            "transition-all duration-300 ease-out",
-            "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
-            "hover:border-b-[var(--color-primary)]",
-          )}
-          style={{ boxShadow: "var(--shadow" }}
-        >
+        <div key={idx} className={cx(TWCSS.overview)}>
           <Item
             as="span"
             children={item.title}
@@ -121,51 +112,65 @@ function Overview({ total }) {
 }
 
 function ActionBar({}) {
+  const category = useActive();
   return (
     <div
-      className={cx("bg-white rounded-[8px] p-6")}
-      style={{ boxShadow: "var(--shadow)" }}
+      className={cx(
+        "bg-white rounded-[8px] p-4 outline outline-[var(--color-unavailable-300)]",
+      )}
     >
-      <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-2")}>
+      <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-3")}>
         <Search width={"auto"} height={45} className={cx("rounded-[8px]")} />
-        <div className={cx("flex justify-between")}>
-          <div className="flex gap-2">
-            <Button
-              width={"auto"}
-              height={45}
-              icon={<LuFilter />}
-              children={"Bộ lọc"}
-              className={cx(TWCSS.button)}
-              iconClassName={cx("px-1.5 md:px-0")}
-              btnClassName={cx("hidden md:block")}
-            />
-            <Item
-              as={Link}
-              to={"/quan-ly-tin-tuc/duyet-bai"}
-              width={"auto"}
-              height={45}
-              icon={<LuList />}
-              children={"Danh sách duyệt"}
-              className={cx(
-                TWCSS.button,
-                "flex items-center gap-2 rounded-[8px]",
-              )}
-              iconClassName={cx("px-1.5 md:px-0")}
-              itemClassName={cx("hidden md:block")}
-            />
-            <Item
-              as={Link}
-              width={"auto"}
-              height={45}
-              icon={<LuCheck />}
-              children={"Bài viết của bạn"}
-              className={cx(
-                TWCSS.button,
-                "flex items-center gap-2 rounded-[8px]",
-              )}
-              iconClassName={cx("px-1.5 md:px-0")}
-              itemClassName={cx("hidden md:block")}
-            />
+        <div className={cx("flex flex-col md:flex-row justify-between gap-3")}>
+          <div className="flex gap-1">
+            <Tooltip content="Bộ lọc" position="top">
+              <Button
+                width={45}
+                height={45}
+                icon={<LuSlidersHorizontal />}
+                className={cx(
+                  "font-medium",
+                  "hover:bg-[var(--color-primary-100)]",
+                )}
+              />
+            </Tooltip>
+            <Tooltip content="Duyệt bài viết" position="top">
+              <Item
+                as={Link}
+                to={"/quan-ly-tin-tuc/duyet-bai"}
+                icon={<LuList />}
+                className={cx(
+                  "flex items-center justify-center rounded-[8px]",
+                  "hover:bg-[var(--color-primary-100)]",
+                  "w-[45px] h-[45px]",
+                )}
+              />
+            </Tooltip>
+            <Tooltip content="Bài viết của bạn" position="top">
+              <Item
+                as={Link}
+                to={"/quan-ly-tin-tuc/bai-viet-cua-toi"}
+                width={"auto"}
+                height={45}
+                icon={<LuPen />}
+                className={cx(
+                  "flex items-center justify-center rounded-[8px]",
+                  "hover:bg-[var(--color-primary-100)]",
+                  "w-[45px] h-[45px]",
+                )}
+              />
+            </Tooltip>
+            <Tooltip content="Danh mục bài viết" position="top">
+              <Button
+                width={45}
+                height={45}
+                icon={<LuFolder />}
+                className={cx(
+                  "font-medium",
+                  "hover:bg-[var(--color-primary-100)]",
+                )}
+              />
+            </Tooltip>
           </div>
           <Item
             as={Link}
@@ -220,8 +225,8 @@ function NewsList({ news, loading }) {
                       "bg-white p-4 rounded-[8px]",
                       "transition-all duration-300 ease-out",
                       "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
+                      "outline outline-[var(--color-unavailable-300)]",
                     )}
-                    style={{ boxShadow: "var(--shadow)" }}
                   >
                     <div className={cx("space-y-5")}>
                       {/* Thumbnail */}

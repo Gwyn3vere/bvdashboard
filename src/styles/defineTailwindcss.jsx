@@ -1,10 +1,19 @@
 export const TWCSS = {
   container: "px-2 pb-2 sm:px-10 sm:pb-5",
+  overview: [
+    "relative",
+    "bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
+    "p-6 flex flex-col gap-2 border-b-4 border-transparent",
+    "transition-all duration-300 ease-out",
+    "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
+    "hover:border-b-[var(--color-primary)]",
+    "outline outline-[var(--color-unavailable-300)]",
+  ],
   paginationButton: [
     "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
     " hover:bg-[var(--color-primary)] hover:text-[var(--color-bg-light-primary-100)]",
   ],
-  list: "rounded-[8px] w-full h-full bg-[var(--color-bg-light-primary-100)]",
+  list: "rounded-[8px] w-full h-full bg-[var(--color-bg-light-primary-100)] outline outline-[var(--color-unavailable-300)]",
   tagButton: [
     "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200",
     "gap-1 border-1 border-[var(--color-gray-400)]",
@@ -14,8 +23,10 @@ export const TWCSS = {
     "bg-[var(--color-primary)] text-white border-[var(--color-primary)]",
   ],
   button: [
-    "p-2 border-2 border-[var(--color-unavailable-300)]",
+    "py-2 px-3 border border-[var(--color-unavailable-300)]",
     "gap-2 bg-[var(--color-bg-light-primary-100)] text-sm",
+    "hover:bg-[var(--color-primary-100)]",
+    "transition-all",
   ],
   input: [
     "flex items-center px-3 rounded-[8px] mt-1",

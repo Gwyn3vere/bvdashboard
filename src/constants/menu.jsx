@@ -38,6 +38,12 @@ export const NEWS_STATUS_PUBLISH = [
     name: "Lưu trữ",
     title: "Lưu trữ trong hệ thống",
   },
+  {
+    id: "rejected",
+    value: "REJECTED",
+    name: "Từ chối",
+    title: "Bài viết bị từ chối xuất bản",
+  },
 ];
 
 export const NEWS_CATEGORIES = [

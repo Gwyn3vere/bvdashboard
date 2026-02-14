@@ -10,11 +10,23 @@ import { Item, Pagination } from "../ui";
 const cx = classNames.bind(style);
 
 function List({ className, columns = [], data = [], style = {} }) {
-  const { currentPage, totalPages, pagedData, pages, setCurrentPage, nextPage, prevPage } = usePagination(data, 10);
+  const {
+    currentPage,
+    totalPages,
+    pagedData,
+    pages,
+    setCurrentPage,
+    nextPage,
+    prevPage,
+  } = usePagination(data, 10);
   return (
     <div className={cx(className, "overflow-hidden")} style={{ ...style }}>
       <div className={cx("overflow-x-auto", TWCSS.scrollbarX)}>
-        <div className={cx("w-[1600px] 2xl:w-full px-4 py-3 flex items-center bg-[var(--color-primary)]")}>
+        <div
+          className={cx(
+            "w-[1600px] 2xl:w-full px-4 py-3 flex items-center bg-[var(--color-primary)]",
+          )}
+        >
           {columns.map((col) => (
             <label
               key={col.key}
@@ -32,11 +44,15 @@ function List({ className, columns = [], data = [], style = {} }) {
               className={cx(
                 "px-4 w-[1600px] 2xl:w-full",
                 "flex items-center border-b border-gray-100 transition cursor-pointer",
-                "hover:bg-[var(--color-primary)] hover:text-white"
+                "hover:bg-[var(--color-primary)] hover:text-white",
               )}
             >
               {columns.map((col) => (
-                <div key={col.key} className={cx("text-left px-4 py-3 whitespace-nowrap")} style={{ width: col.width }}>
+                <div
+                  key={col.key}
+                  className={cx("text-left px-4 py-3 whitespace-nowrap")}
+                  style={{ width: col.width }}
+                >
                   {col.render ? col.render(row, index) : row[col.key]}
                 </div>
               ))}
@@ -48,18 +64,20 @@ function List({ className, columns = [], data = [], style = {} }) {
             children="Danh sách trống"
             className={cx(
               "flex items-center justify-center h-full",
-              "text-[16px] text-[var(--color-text-light-secondary)]"
+              "text-[16px] text-[var(--color-text-light-secondary)]",
             )}
           />
         )}
       </div>
-      <Pagination
-        pages={pages}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        nextPage={nextPage}
-        prevPage={prevPage}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          pages={pages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          nextPage={nextPage}
+          prevPage={prevPage}
+        />
+      )}
     </div>
   );
 }

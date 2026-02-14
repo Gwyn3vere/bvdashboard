@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import classNames from "classnames/bind";
-import { useActive, useLogin } from "../hooks";
-import { DropdownMotion } from "../../motions";
+import { useActive, useClickOutsideManager } from "../hooks";
 import { Link } from "react-router-dom";
 import { userService } from "../../services/auth.mock";
 // import { userService } from "../../services/auth";
@@ -13,6 +12,7 @@ import { LuAlignRight, LuAlignLeft, LuLogOut } from "react-icons/lu";
 import { ROLE_OPTIONS } from "../../constants/option";
 import { NAV_MENU } from "../../constants/menu";
 import { useAuthStore } from "../../store/authStore";
+import { TWCSS } from "../../styles/defineTailwindcss";
 
 const cx = classNames.bind(style);
 
@@ -21,7 +21,6 @@ function Header({ collapsed, toggle }) {
 
   if (!initialized) return null;
 
-  const avatar = useActive(false);
   const roleConfig = ROLE_OPTIONS.find((item) => item.value === user?.role);
 
   const dateNow = new Date().toLocaleDateString("vi-VN", {
@@ -31,10 +30,23 @@ function Header({ collapsed, toggle }) {
     year: "numeric",
   });
 
+  const clickOutside = useClickOutsideManager();
+  const avatar = useActive();
+  const avatarRef = useRef(null);
+  useEffect(() => {
+    if (avatar.isActive) {
+      clickOutside.register(avatarRef, avatar.deactivate);
+    } else {
+      clickOutside.unregister(avatarRef);
+    }
+  }, [avatar.isActive]);
+
   return (
     <header
       className={cx(
-        "px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between mb-5 max-w-[1800px] mx-auto",
+        "px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between",
+        TWCSS.container,
+        "shadow-xs mb-5",
       )}
     >
       <div className="flex gap-2">
@@ -78,7 +90,7 @@ function Header({ collapsed, toggle }) {
           {dateNow}
         </div>
         {/* Avatar with Dropdown */}
-        <div className="relative">
+        <div className="relative" ref={avatarRef}>
           <Avatar className="rounded-full" onClick={avatar.toggleActive}>
             <div className="hidden sm:block h-[40px]">
               <Username
@@ -102,6 +114,7 @@ function Header({ collapsed, toggle }) {
             />
           </Avatar>
           <Dropdown
+            open={avatar.isActive}
             minWidth="230px"
             className={cx(
               "absolute right-0 rounded-[8px]",

@@ -5,11 +5,25 @@ import style from "../../styles/ui.module.css";
 
 const cx = classNames.bind(style);
 
-function Dropdown({ minWidth = "200px", minHeight = "100px", children, className, style = {}, ...props }) {
+function Dropdown({
+  open,
+  minWidth = "200px",
+  minHeight = "100px",
+  children,
+  className,
+  style = {},
+  ...props
+}) {
   return (
-    <div className={cx(className)} style={{ minWidth, minHeight, ...style }} {...props}>
-      {children}
-    </div>
+    open && (
+      <div
+        className={cx(className)}
+        style={{ minWidth, minHeight, ...style }}
+        {...props}
+      >
+        {children}
+      </div>
+    )
   );
 }
 
