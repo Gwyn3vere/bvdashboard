@@ -13,6 +13,7 @@ import { generateTableOfContents } from "../../utils/helper";
 const cx = classNames.bind(style);
 
 function Preview({ onClose, previewData, previewThumbnail, user }) {
+  const displayImage = previewThumbnail || previewData?.thumbnail;
   const tableOfContents = generateTableOfContents(previewData?.content);
   const dateNow = new Date().toLocaleDateString("vi-VN", {
     day: "2-digit",
@@ -31,7 +32,7 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
           {/* Category */}
           <Item
             icon={<LuCircleCheckBig />}
-            children={previewData?.category || "Tên danh mục"}
+            children={previewData?.category?.name || "Tên danh mục"}
             className={cx(
               "flex items-center gap-2 rounded-[8px]",
               "text-sm font-semibold text-[var(--color-primary-900)]",
@@ -68,7 +69,11 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
               NA
             </div>
             <Item
-              children={user?.name || "Tên tác giả"}
+              children={
+                previewData?.author?.name
+                  ? previewData?.author?.name
+                  : user?.name || "Tên tác giả"
+              }
               itemClassName={cx(
                 "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
               )}
@@ -96,8 +101,8 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
         <div className={cx("space-y-10 border-b border-gray-200 pb-10")}>
           {/* Thumbnail */}
           <div className={cx("rounded-[12px] overflow-hidden")}>
-            {previewThumbnail ? (
-              <img src={previewThumbnail} alt="Ảnh đại diện" />
+            {displayImage ? (
+              <img src={displayImage} alt="Ảnh đại diện" />
             ) : (
               <Item
                 icon={"🖼️"}

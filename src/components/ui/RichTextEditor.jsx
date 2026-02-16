@@ -676,6 +676,16 @@ function RichTextEditor({
     },
   });
 
+  useEffect(() => {
+    if (!editor) return;
+
+    const currentHTML = editor.getHTML();
+
+    if (content !== currentHTML) {
+      editor.commands.setContent(content || "", false);
+    }
+  }, [content, editor]);
+
   return (
     <div className="overflow-hidden bg-white">
       <MenuBar editor={editor} />

@@ -9,8 +9,25 @@ import { POSITION_OPTIONS, ROLE_OPTIONS } from "../../constants/option";
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 
-import { List, Breadcrumb, Item, Search, Checkbox, Avatar, Button, Modal, Filter } from "../../components/ui";
-import { LuListFilter, LuUserRoundPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuSquareUser } from "react-icons/lu";
+import {
+  List,
+  Breadcrumb,
+  Item,
+  Search,
+  Tooltip,
+  Avatar,
+  Button,
+  Modal,
+  Filter,
+} from "../../components/ui";
+import {
+  LuSlidersHorizontal,
+  LuUserRoundPlus,
+  LuLayoutDashboard,
+  LuTrash2,
+  LuUserPen,
+  LuSquareUser,
+} from "react-icons/lu";
 
 import { StaffForm, Delete, Profile } from "../Staff";
 
@@ -23,7 +40,7 @@ function Staff() {
 
   const [staffKeyword, setStaffKeyword] = useState("");
   const filteredStaff = useSearch(staffs, staffKeyword, (staff) =>
-    [staff.name, staff.position, staff.role].filter(Boolean).join(" ")
+    [staff.name, staff.position, staff.role].filter(Boolean).join(" "),
   );
 
   const modal = {
@@ -31,7 +48,7 @@ function Staff() {
     profile: useActive(),
     staffForm: useActive(),
     edit: useActive(),
-    delete: useActive()
+    delete: useActive(),
   };
 
   const handleClose = () => {
@@ -46,8 +63,12 @@ function Staff() {
       <Breadcrumb
         className="mb-3"
         items={[
-          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
-          { label: "Quản lý nhân sự" }
+          {
+            label: "Bảng điều khiển",
+            href: "/bang-dieu-khien",
+            icon: <LuLayoutDashboard />,
+          },
+          { label: "Quản lý nhân sự" },
         ]}
       />
       <Item as="strong" children="Quản lý nhân sự" itemClassName="text-3xl" />
@@ -56,7 +77,7 @@ function Staff() {
         children="Quản lý thành viên nhóm của bạn và quyền tài khoản của họ ở đây."
         itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
-      <OptionBar
+      <ActionBar
         modal={modal}
         totalStaff={filteredStaff.length}
         keyword={staffKeyword}
@@ -66,7 +87,6 @@ function Staff() {
 
       <List
         className={TWCSS.list}
-        style={{ boxShadow: "var(--shadow)" }}
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row) => row.id },
           {
@@ -75,48 +95,61 @@ function Staff() {
             width: "28%",
             render: (row) => (
               <div className="flex items-center gap-2">
-                <Avatar src={row.avatarUrl} className="rounded-full" width={50} height={50} />
+                <Avatar
+                  src={row.avatarUrl}
+                  className="rounded-full"
+                  width={50}
+                  height={50}
+                />
                 <div>
                   <span className="font-bold">{row.name}</span>
                   <p className="text-sm opacity-70">{row.email}</p>
                 </div>
               </div>
-            )
+            ),
           },
           {
             key: "Position",
             label: "Chức vụ",
             width: "27%",
             render: (row) => {
-              const positionConfig = POSITION_OPTIONS.find((item) => item.value === row.position);
-              return <span>{positionConfig ? positionConfig.name : row.position}</span>;
-            }
+              const positionConfig = POSITION_OPTIONS.find(
+                (item) => item.value === row.position,
+              );
+              return (
+                <span>
+                  {positionConfig ? positionConfig.name : row.position}
+                </span>
+              );
+            },
           },
           {
             key: "Phone",
             label: "Liên hệ",
             width: "17%",
-            render: (row) => <span>{row.phone}</span>
+            render: (row) => <span>{row.phone}</span>,
           },
           {
             key: "Access",
             label: "Quyền",
             width: "10%",
             render: (row) => {
-              const roleConfig = ROLE_OPTIONS.find((item) => item.value === row.role);
+              const roleConfig = ROLE_OPTIONS.find(
+                (item) => item.value === row.role,
+              );
 
               if (!roleConfig) return row.role;
               return (
                 <span
                   className={cx(
                     "px-2 py-1 text-xs rounded-full",
-                    "bg-[var(--color-unavailable-100)] text-black font-medium"
+                    "bg-[var(--color-unavailable-100)] text-black font-medium",
                   )}
                 >
                   {roleConfig.name}
                 </span>
               );
-            }
+            },
           },
           {
             key: "Profile",
@@ -133,11 +166,11 @@ function Staff() {
                 iconClassName="text-[20px] font-bold"
                 className={cx(
                   "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition"
+                  "rounded-full transition",
                 )}
                 icon={<LuSquareUser />}
               />
-            )
+            ),
           },
           {
             key: "Edit",
@@ -154,11 +187,11 @@ function Staff() {
                 iconClassName="text-[20px] font-bold"
                 className={cx(
                   "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition"
+                  "rounded-full transition",
                 )}
                 icon={<LuUserPen />}
               />
-            )
+            ),
           },
           {
             key: "Delete",
@@ -175,16 +208,21 @@ function Staff() {
                 iconClassName="text-[20px] font-bold"
                 className={cx(
                   "hover:bg-[var(--color-error)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition"
+                  "rounded-full transition",
                 )}
                 icon={<LuTrash2 />}
               />
-            )
-          }
+            ),
+          },
         ]}
         data={filteredStaff}
       />
-      <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-xl">
+      <Modal
+        open={modal.profile.isActive}
+        onClose={modal.profile.deactivate}
+        backdrop={true}
+        width="max-w-xl"
+      >
         <Profile staffId={editingStaffId} onClose={modal.profile.deactivate} />
       </Modal>
       <Modal
@@ -193,7 +231,10 @@ function Staff() {
         backdrop={true}
         width="max-w-xl"
       >
-        <Delete staffId={editingStaffId} onClose={() => modal.delete.toggleActive(false)} />
+        <Delete
+          staffId={editingStaffId}
+          onClose={() => modal.delete.toggleActive(false)}
+        />
       </Modal>
     </div>
   );
@@ -201,58 +242,80 @@ function Staff() {
 
 export default Staff;
 
-function OptionBar({ modal, keyword, onChange, onClose }) {
+function ActionBar({ modal, keyword, onChange, onClose }) {
   return (
-    <div className="grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-5 mb-5">
-      <Search value={keyword} onChange={onChange} width={"auto"} height={45} className={cx("rounded-[8px]")} />
-      <div className="flex justify-between xl:justify-end gap-2">
-        {/* Filter */}
-        <Button
+    <div
+      className={cx(
+        "bg-white rounded-[8px] p-4 outline outline-[var(--color-unavailable-300)] mb-5",
+      )}
+    >
+      <div className="grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-3">
+        <Search
+          value={keyword}
+          onChange={onChange}
           width={"auto"}
           height={45}
-          icon={<LuListFilter />}
-          children={"Bộ lọc"}
-          className={cx(
-            "p-2 border-2 border-[var(--color-unavailable-300)]",
-            "gap-2 bg-[var(--color-bg-light-primary-100)]"
-          )}
+          className={cx("rounded-[8px]")}
         />
-        <Modal
-          open={modal.filter.isActive}
-          onClose={() => modal.filter.toggleActive(false)}
-          backdrop={true}
-          style={{ boxShadow: "var(--shadow)" }}
-          className="bg-[var(--color-bg-light-primary-300)]"
-          footer={
-            <Button
-              form="staffForm"
-              type="submit"
-              children="Xác nhận"
-              width="100%"
-              height={40}
-              className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
-            />
-          }
-        >
-          <Filter onClose={() => modal.filter.toggleActive(false)} />
-        </Modal>
-        {/* Create */}
-        <Button
-          icon={<LuUserRoundPlus />}
-          children="Thêm mới"
-          width="auto"
-          height={45}
-          onClick={modal.staffForm.toggleActive}
-          iconClassName="text-[20px]"
-          className={cx(
-            "gap-2 text-[14px] px-3 rounded-[8px] text-white font-medium",
-            "bg-[var(--color-primary)] cursor-pointer "
-          )}
-        />
-        <Modal open={modal.staffForm.isActive} onClose={onClose} backdrop={true} width="max-w-xl">
-          <StaffForm onClose={onClose} />
-        </Modal>
+        <div className="flex flex-col md:flex-row justify-between gap-3">
+          <div className="flex gap-1">
+            <Tooltip content="Bộ lọc" position="top">
+              <Button
+                width={45}
+                height={45}
+                icon={<LuSlidersHorizontal />}
+                className={cx(
+                  "font-medium",
+                  "hover:bg-[var(--color-primary-100)]",
+                )}
+              />
+            </Tooltip>
+          </div>
+          <Modal
+            open={modal.filter.isActive}
+            onClose={() => modal.filter.toggleActive(false)}
+            backdrop={true}
+            style={{ boxShadow: "var(--shadow)" }}
+            className="bg-[var(--color-bg-light-primary-300)]"
+            footer={
+              <Button
+                form="staffForm"
+                type="submit"
+                children="Xác nhận"
+                width="100%"
+                height={40}
+                className="px-4 py-2 font-bold"
+                style={{
+                  background: "var(--color-text-light-primary)",
+                  color: "var(--color-bg-light-primary-100)",
+                }}
+              />
+            }
+          >
+            <Filter onClose={() => modal.filter.toggleActive(false)} />
+          </Modal>
+          {/* Create */}
+          <Button
+            icon={<LuUserRoundPlus />}
+            children="Thêm mới"
+            width="auto"
+            height={45}
+            onClick={modal.staffForm.toggleActive}
+            iconClassName="text-[20px]"
+            className={cx(
+              "gap-2 text-[14px] px-3 rounded-[8px] text-white font-medium",
+              "bg-[var(--color-primary)] cursor-pointer ",
+            )}
+          />
+          <Modal
+            open={modal.staffForm.isActive}
+            onClose={onClose}
+            backdrop={true}
+            width="max-w-xl"
+          >
+            <StaffForm onClose={onClose} />
+          </Modal>
+        </div>
       </div>
     </div>
   );

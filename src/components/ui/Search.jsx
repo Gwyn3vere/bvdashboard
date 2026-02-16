@@ -23,10 +23,11 @@ function Search({
   return (
     <div
       className={cx(
-        "bg-[var(--color-bg-light-primary-100)] px-4 flex items-center gap-2",
-        "border-2 border-[var(--color-unavailable-300)]",
+        "bg-[var(--color-unavailable-100)] px-4 flex items-center gap-2",
+        "border border-[var(--color-unavailable-300)]",
+        "focus-within:border-[var(--color-primary)]",
         wrapperClass,
-        className
+        className,
       )}
       style={{ width, height, ...style }}
       {...props}
@@ -39,7 +40,10 @@ function Search({
         defaultValue={defaultValue}
         onChange={onChange}
         placeholder={placeholder}
-        className={cx("w-full outline-none bg-transparent text-[14px] h-full flex-1", inputClass)}
+        className={cx(
+          "w-full outline-none bg-transparent text-[14px] h-full flex-1",
+          inputClass,
+        )}
       />
     </div>
   );

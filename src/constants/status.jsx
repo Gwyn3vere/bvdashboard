@@ -114,7 +114,7 @@ export const NEWS_STATUS = {
     color: "var(--color-unavailable)",
   },
   REJECTED: {
-    label: "Lưu trữ",
+    label: "Từ chối",
     color: "var(--color-error)",
   },
 };

@@ -86,6 +86,7 @@ function Waiting() {
         totalWaiting={totalWaiting}
         waitingCountByCategory={waitingCountByCategory}
       />
+
       {waitingNews.length > 0 ? (
         waitingNews.map((news) => <NewsCard key={news?.id} news={news} />)
       ) : (
@@ -131,8 +132,10 @@ function ActionBar({
   };
   return (
     <div
-      className={cx("bg-white rounded-[8px] p-6 overflow-hidden w-full")}
-      style={{ boxShadow: "var(--shadow)" }}
+      className={cx(
+        "bg-white rounded-[8px] p-4 overflow-hidden w-full",
+        "outline outline-[var(--color-unavailable-300)]",
+      )}
     >
       <div
         className={cx(
@@ -192,95 +195,103 @@ function NewsCard({ news }) {
   const statusMeta = NEWS_STATUS[news?.status] || {};
   const preview = useActive();
   return (
-    <div
-      className={cx("bg-white rounded-[8px] p-6")}
-      style={{ boxShadow: "var(--shadow)" }}
-    >
-      <div className={cx("grid lg:grid-cols-[300px_auto_300px] gap-10")}>
-        {/* Thumbnail */}
-        <div className={cx("relative rounded-[8px] overflow-hidden max-h-40")}>
-          <Image src={news.thumbnail} alt="Ảnh đại diện" />
-          <Item
-            icon={<LuCircleCheckBig />}
-            children={news?.category?.name || "Tên danh mục"}
-            className={cx(
-              "absolute z-10 bottom-2 left-2",
-              "flex items-center gap-2 rounded-[8px]",
-              "text-sm font-semibold text-[var(--color-primary-900)]",
-              "bg-[var(--color-primary-100)] p-2",
-              "border border-[var(--color-primary-200)]",
-            )}
-          />
-        </div>
-        <div className="space-y-2">
-          <Item children={news?.title} itemClassName={cx("font-bold")} />
-          <div className="flex items-center gap-5">
+    <>
+      <div
+        className={cx(
+          "bg-white rounded-[8px] p-6",
+          "transition-all duration-300 ease-out",
+          "hover:-translate-y-1.3 hover:shadow-xl hover:scale-[1.01]",
+          "outline outline-[var(--color-unavailable-300)]",
+        )}
+      >
+        <div className={cx("grid lg:grid-cols-[300px_auto_300px] gap-10")}>
+          {/* Thumbnail */}
+          <div
+            className={cx("relative rounded-[8px] overflow-hidden max-h-40")}
+          >
+            <Image src={news.thumbnail} alt="Ảnh đại diện" />
             <Item
-              icon={<LuUser />}
-              children={news?.author?.name}
-              itemClassName={cx("font-semibold text-xs")}
+              icon={<LuCircleCheckBig />}
+              children={news?.category?.name || "Tên danh mục"}
               className={cx(
-                "flex items-center gap-2 text-[var(--color-unavailable-900)]",
-              )}
-            />
-            <Item
-              icon={<LuCalendar />}
-              children={formatDateVN(news?.createdAt)}
-              itemClassName={cx("font-semibold text-xs")}
-              className={cx(
-                "flex items-center gap-2 text-[var(--color-unavailable-900)]",
+                "absolute z-10 bottom-2 left-2",
+                "flex items-center gap-2 rounded-[8px]",
+                "text-sm font-semibold text-[var(--color-primary-900)]",
+                "bg-[var(--color-primary-100)] p-2",
+                "border border-[var(--color-primary-200)]",
               )}
             />
           </div>
-          <Item
-            children={news?.shortDesc}
-            itemClassName={cx(
-              "font-medium text-sm text-[var(--color-unavailable-900)] leading-[1.7]",
-              "line-clamp-2",
-            )}
-          />
-          <Item
-            icon={<LuSparkle />}
-            children={`${statusMeta?.label || "Trạng thái không xác định"}`}
-            itemClassName={cx("font-semibold text-sm")}
-            className={cx("flex items-center gap-2")}
-            style={{
-              color: statusMeta?.color || "var(--color-unavailable-700)",
-            }}
-          />
-        </div>
-        <div className="flex flex-col justify-between gap-2">
-          <Button
-            width={"100%"}
-            height={50}
-            icon={<LuEye />}
-            onClick={preview.toggleActive}
-            children={"Xem trước"}
-            className={cx(
-              "p-2 border-2 border-[var(--color-unavailable)] gap-2",
-              "text-sm",
-            )}
-          />
-          <Button
-            width={"100%"}
-            height={50}
-            icon={<LuCheck />}
-            children={"Phê duyệt"}
-            className={cx(
-              "p-2 bg-[var(--color-primary)] gap-2",
-              "text-sm text-white",
-            )}
-          />
-          <Button
-            width={"100%"}
-            height={50}
-            icon={<LuX />}
-            children={"Từ chối"}
-            className={cx(
-              "p-2 bg-[var(--color-error)] gap-2",
-              "text-sm text-white font-medium",
-            )}
-          />
+          <div className="space-y-2">
+            <Item children={news?.title} itemClassName={cx("font-bold")} />
+            <div className="flex items-center gap-5">
+              <Item
+                icon={<LuUser />}
+                children={news?.author?.name}
+                itemClassName={cx("font-semibold text-xs")}
+                className={cx(
+                  "flex items-center gap-2 text-[var(--color-unavailable-900)]",
+                )}
+              />
+              <Item
+                icon={<LuCalendar />}
+                children={formatDateVN(news?.createdAt)}
+                itemClassName={cx("font-semibold text-xs")}
+                className={cx(
+                  "flex items-center gap-2 text-[var(--color-unavailable-900)]",
+                )}
+              />
+            </div>
+            <Item
+              children={news?.shortDesc}
+              itemClassName={cx(
+                "font-medium text-sm text-[var(--color-unavailable-900)] leading-[1.7]",
+                "line-clamp-2",
+              )}
+            />
+            <Item
+              icon={<LuSparkle />}
+              children={`${statusMeta?.label || "Trạng thái không xác định"}`}
+              itemClassName={cx("font-semibold text-sm")}
+              className={cx("flex items-center gap-2")}
+              style={{
+                color: statusMeta?.color || "var(--color-unavailable-700)",
+              }}
+            />
+          </div>
+          <div className="flex flex-col justify-between gap-2">
+            <Button
+              width={"100%"}
+              height={50}
+              icon={<LuEye />}
+              onClick={preview.toggleActive}
+              children={"Xem trước"}
+              className={cx(
+                "p-2 border border-[var(--color-unavailable)] gap-2",
+                "text-sm hover:bg-[var(--color-unavailable-100)]",
+              )}
+            />
+            <Button
+              width={"100%"}
+              height={50}
+              icon={<LuCheck />}
+              children={"Phê duyệt"}
+              className={cx(
+                "p-2 bg-[var(--color-primary)] gap-2",
+                "text-sm text-white",
+              )}
+            />
+            <Button
+              width={"100%"}
+              height={50}
+              icon={<LuX />}
+              children={"Từ chối"}
+              className={cx(
+                "p-2 bg-[var(--color-error)] gap-2",
+                "text-sm text-white font-medium",
+              )}
+            />
+          </div>
         </div>
       </div>
       <Modal
@@ -290,6 +301,6 @@ function NewsCard({ news }) {
       >
         <Article onClose={preview.deactivate} newsId={news?.id} />
       </Modal>
-    </div>
+    </>
   );
 }

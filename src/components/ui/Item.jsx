@@ -1,8 +1,6 @@
-// Libraries
-import React from "react";
 import classNames from "classnames/bind";
-// Styles - UI - Icons
 import style from "../../styles/ui.module.css";
+import React, { useEffect, useRef } from "react";
 
 const cx = classNames.bind(style);
 
@@ -19,6 +17,7 @@ function Item({
   whitespace = "whitespace-normal",
   style = {},
   editable = false,
+  value,
   onEdit,
   placeholder,
   ...props
@@ -28,6 +27,16 @@ function Item({
     onEdit?.(text);
     props.onChange?.(text);
   };
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    if (!editable) return;
+    if (!contentRef.current) return;
+
+    if (value !== contentRef.current.innerText) {
+      contentRef.current.innerText = value || "";
+    }
+  }, [value, editable]);
   return (
     <Component
       to={to}
@@ -42,6 +51,7 @@ function Item({
         </span>
       )}
       <div
+        ref={contentRef}
         contentEditable={editable}
         suppressContentEditableWarning={editable}
         onInput={handleInput}

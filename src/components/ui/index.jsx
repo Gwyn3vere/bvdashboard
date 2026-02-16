@@ -37,4 +37,5 @@ export { default as Select } from "./Select";
 
 export { default as Toast } from "./Toast";
 export { default as Time } from "./Time";
+export { default as Tooltip } from "./Tooltip";
 export { default as TagsSelector } from "./TagsSelector";

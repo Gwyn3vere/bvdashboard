@@ -22,12 +22,18 @@ import { INITAL_NEWS } from "../../constants/field";
 import { NEWS_STATUS_ROLE } from "../../constants/role";
 import { Preview } from "./index";
 import { useAuthStore } from "../../store/authStore";
+import { useNewsStore } from "../../store/newsStore";
+import { useParams } from "react-router-dom";
 
 const cx = classNames.bind(style);
 
 function Post() {
   const [preview, setPreview] = useState(null);
+  const { id } = useParams();
   const { user } = useAuthStore();
+  const { getNewsById } = useNewsStore();
+
+  const news = id ? getNewsById(id) : null;
 
   const previewModal = useActive();
   const { values, setValues, setFieldValue, resetForm } = useForm({
@@ -35,6 +41,7 @@ function Post() {
       ...INITAL_NEWS,
       authorId: user?.id,
     },
+    editValues: news,
   });
 
   return (
@@ -48,16 +55,27 @@ function Post() {
             icon: <LuLayoutDashboard />,
           },
           { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-          { label: "Đăng bài" },
+          { label: id ? "Cập nhật bài viêt" : "Đăng bài" },
         ]}
       />
-      <Item as="strong" children="Đăng tin tức mới" itemClassName="text-3xl" />
+      <Item
+        as="strong"
+        children={id ? "Cập nhật bài viết" : "Đăng tin tức mới"}
+        itemClassName="text-3xl"
+      />
       <Item
         as="span"
-        children="Đăng tin tức, blog tại đây."
+        children={
+          id
+            ? "Cập nhật tin tức. bài viết tại dây."
+            : "Đăng tin tức, blog tại đây."
+        }
         itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
-      <Form className={cx(TWCSS.container, "max-w-[1400px] mx-auto")}>
+      <Form
+        className={cx(TWCSS.container, "max-w-[1400px] mx-auto")}
+        spellCheck={false}
+      >
         <div
           className={cx("grid grid-cols-1fr xl:grid-cols-[1fr_380px] gap-8")}
         >
@@ -97,11 +115,11 @@ export default Post;
 
 function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
   const inputRef = useRef(null);
+  const displayImage = preview || value?.thumbnail;
 
   const handleSelectImage = () => {
     inputRef.current?.click();
   };
-
   const handleChangeImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -116,12 +134,17 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
     const url = URL.createObjectURL(file);
     setPreview(url);
   };
-
   const handleRemoveImage = () => {
-    URL.revokeObjectURL(preview);
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+
     setFieldValue("thumbnail", null);
     setPreview(null);
-    inputRef.current.value = "";
+
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
   return (
     <div
@@ -135,6 +158,7 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
           className={cx("py-4")}
           placeholder={"Tiêu đề bài viết..."}
           name="title"
+          value={value?.title}
           onEdit={(title) => setFieldValue("title", title)}
         />
       </div>
@@ -143,7 +167,7 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
           children="Ảnh đại diện"
           itemClassName={cx("text-sm mb-[16px] uppercase font-medium")}
         />
-        {!preview && (
+        {!displayImage && (
           <div
             onClick={handleSelectImage}
             className={cx(
@@ -179,9 +203,13 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
           onChange={handleChangeImage}
         />
 
-        {preview && (
+        {displayImage && (
           <div className="relative mt-4 rounded-[12px] overflow-hidden">
-            <img src={preview} alt="Preview" className="w-full h-auto block" />
+            <img
+              src={displayImage}
+              alt="Preview"
+              className="w-full h-auto block"
+            />
             <Button
               width="40px"
               height="40px"
@@ -214,7 +242,7 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
           className={cx("p-8")}
         />
         <RichTextEditor
-          content={value.content}
+          content={value?.content}
           onChange={(html) => setFieldValue("content", html)}
         />
       </div>
@@ -312,7 +340,10 @@ function Settings({ value, setFieldValue, user }) {
                 text={cate.name}
                 className={cx("text-sm")}
                 style={{ "--size": "20px" }}
-                checked={value.categoryId === cate.id}
+                checked={
+                  value.categoryId === cate.id ||
+                  value.categoryId === value?.category
+                }
                 onChange={(e) => {
                   setFieldValue("categoryId", e.target.checked ? cate.id : "");
                 }}
