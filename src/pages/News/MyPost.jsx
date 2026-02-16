@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 import style from "../../styles/pages.module.css";
 import { Link } from "react-router-dom";
 import { NEWS_STATUS_PUBLISH } from "../../constants/menu";
+import { NEWS_STATUS } from "../../constants/status";
 import {
   Breadcrumb,
   Item,
@@ -29,7 +30,6 @@ const cx = classNames.bind(style);
 
 function MyPost() {
   const [selectedStatus, setSelectedStatus] = useState("ALL");
-
   const { news, loading, fetchNews } = useNewsStore();
   const { user, initialized } = useAuthStore();
   const statusNews = useMemo(() => {
@@ -97,7 +97,7 @@ function MyPost() {
           {
             key: "Category",
             label: "Danh mục",
-            width: "15%",
+            width: "16%",
             render: (row) => (
               <div className="inline-block">
                 <Item
@@ -118,24 +118,27 @@ function MyPost() {
             key: "Status",
             label: "Trạng thái",
             width: "15%",
-            render: (row) => (
-              <div className="inline-block">
-                <Item
-                  icon={<LuCircleCheckBig />}
-                  children={row?.status}
-                  itemClassName={cx("text-nowrap")}
-                  className={cx(
-                    "flex items-center gap-2 rounded-full",
-                    "text-xs font-semibold text-[var(--color-primary-900)]",
-                    "bg-[var(--color-primary-100)] p-2",
-                    "border border-[var(--color-primary-200)]",
-                  )}
-                />
-              </div>
-            ),
+            render: (row) => {
+              const statusConfig = NEWS_STATUS[row?.status];
+              if (!statusConfig) return row?.status;
+              return (
+                <div className="inline-block">
+                  <Item
+                    icon={<LuCircleCheckBig />}
+                    children={statusConfig?.label}
+                    itemClassName={cx("text-nowrap")}
+                    className={cx(
+                      "flex items-center gap-2 rounded-full p-2",
+                      `text-xs font-semibold text-[${statusConfig?.color}]`,
+                      `border border-[${statusConfig?.color}]  group-hover:text-white`,
+                    )}
+                  />
+                </div>
+              );
+            },
           },
           {
-            key: "view",
+            key: "View",
             label: "Lượt xem",
             width: "10%",
             render: (row) => (
@@ -152,20 +155,19 @@ function MyPost() {
             label: "",
             width: "3%",
             render: (row) => (
-              <Button
-                onClick={() => {
-                  setEditingDoctorId(row.id);
-                  modal.doctorFom.toggleActive();
-                }}
-                width={40}
-                height={40}
-                iconClassName="text-[20px] font-bold"
+              <div
                 className={cx(
                   "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition",
+                  "rounded-full transition w-[40px] h-[40px] flex items-center justify-center",
                 )}
-                icon={<LuSquarePen />}
-              />
+              >
+                <Item
+                  as={Link}
+                  to={`/quan-ly-tin-tuc/cap-nhat-bai-viet/${row.id}`}
+                  icon={<LuSquarePen />}
+                  iconClassName={cx("text-[20px]")}
+                />
+              </div>
             ),
           },
           {

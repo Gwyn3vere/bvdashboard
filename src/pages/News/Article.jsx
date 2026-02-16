@@ -68,7 +68,7 @@ function Article({ newsId }) {
         {/* Author - Daytime - view */}
         <div
           className={cx(
-            "grid md:grid-cols-4 grid-cols-2 items-center",
+            "flex flex-col md:flex-row md:items-center gap-2",
             "gap-5 text-[var(--color-unavailable-700)] py-4",
             "border-b border-gray-200",
             "transition-all mb-10",
@@ -113,16 +113,6 @@ function Article({ newsId }) {
               "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
             )}
             className={cx("flex items-center gap-2")}
-          />
-          {/* Status */}
-          <Item
-            icon={<LuSparkle />}
-            children={`${statusMeta?.label || "Trạng thái không xác định"}`}
-            itemClassName={cx("font-semibold text-sm")}
-            className={cx("flex items-center gap-2")}
-            style={{
-              color: statusMeta?.color || "var(--color-unavailable-700)",
-            }}
           />
         </div>
         <div className={cx("space-y-10 border-b border-gray-200 pb-10")}>

@@ -200,7 +200,7 @@ export const MOCK_STAFF_ACCOUNT = [
   {
     id: "1",
     email: "admin@hospital.vn",
-    name: "Lê Văn Minh",
+    name: "Trần Văn Admin",
     password: "123456",
     role: "ADMIN",
   },

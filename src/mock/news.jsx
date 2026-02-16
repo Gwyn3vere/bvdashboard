@@ -39,7 +39,7 @@ export const MOCK_NEWS_LIST = [
     id: "news-001",
     author: {
       id: "1",
-      name: "Lê Văn Minh",
+      name: "Trần Văn Admin",
     },
     title: "7 thói quen vàng giúp phòng ngừa bệnh tim mạch hiệu quả",
     shortDesc:

@@ -58,6 +58,12 @@ const privateRoutes = [
     role: ["admin", "user"],
   },
   {
+    path: "/quan-ly-tin-tuc/cap-nhat-bai-viet/:id",
+    component: Post,
+    layout: dashboardLayout,
+    role: ["admin", "user"],
+  },
+  {
     path: "/quan-ly-tin-tuc/:id",
     component: Article,
     layout: dashboardLayout,

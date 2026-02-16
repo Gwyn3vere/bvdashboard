@@ -6,7 +6,7 @@ function ArticleContent({ html }) {
 
   return (
     <div
-      className="prose-lg mx-auto max-w-3xl"
+      className="prose prose-lg mx-auto max-w-3xl"
       dangerouslySetInnerHTML={{ __html: cleanHtml }}
     />
   );

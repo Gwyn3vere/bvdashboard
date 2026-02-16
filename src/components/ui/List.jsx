@@ -30,7 +30,7 @@ function List({ className, columns = [], data = [], style = {} }) {
           {columns.map((col) => (
             <label
               key={col.key}
-              className="px-4 text-left font-semibold text-white whitespace-nowrap backdrop-blur-sm"
+              className="text-left font-semibold text-white whitespace-nowrap backdrop-blur-sm"
               style={{ width: col.width }}
             >
               {col.label}
@@ -42,15 +42,15 @@ function List({ className, columns = [], data = [], style = {} }) {
             <div
               key={row.id}
               className={cx(
-                "px-4 w-[1600px] 2xl:w-full",
+                "group w-[1600px] 2xl:w-full",
                 "flex items-center border-b border-gray-100 transition cursor-pointer",
-                "hover:bg-[var(--color-primary)] hover:text-white",
+                "hover:bg-[var(--color-primary)] hover:text-white px-4",
               )}
             >
               {columns.map((col) => (
                 <div
                   key={col.key}
-                  className={cx("text-left px-4 py-3 whitespace-nowrap")}
+                  className={cx("text-left py-3 whitespace-nowrap")}
                   style={{ width: col.width }}
                 >
                   {col.render ? col.render(row, index) : row[col.key]}

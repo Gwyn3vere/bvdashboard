@@ -4,8 +4,22 @@ import { mockBanners } from "../../mock/manage";
 import { useActive } from "../../components/hooks";
 // Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
-import { Breadcrumb, Item, List, Checkbox, Modal, Button } from "../../components/ui";
-import { LuPlus, LuLayoutDashboard, LuTrash2, LuUserPen, LuCheck, LuX } from "react-icons/lu";
+import {
+  Breadcrumb,
+  Item,
+  List,
+  Checkbox,
+  Modal,
+  Button,
+} from "../../components/ui";
+import {
+  LuPlus,
+  LuLayoutDashboard,
+  LuTrash2,
+  LuUserPen,
+  LuCheck,
+  LuX,
+} from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 
 const cx = classNames.bind(styles);
@@ -15,15 +29,19 @@ function Banner() {
     filter: useActive(),
     add: useActive(),
     edit: useActive(),
-    delete: useActive()
+    delete: useActive(),
   };
   return (
     <div className={cx(TWCSS.container)}>
       <Breadcrumb
         className="mb-3"
         items={[
-          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
-          { label: "Quản lý banner" }
+          {
+            label: "Bảng điều khiển",
+            href: "/bang-dieu-khien",
+            icon: <LuLayoutDashboard />,
+          },
+          { label: "Quản lý banner" },
         ]}
       />
       <Item as="strong" children="Quản lý banner" itemClassName="text-3xl" />
@@ -61,7 +79,10 @@ function Banner() {
               width="100%"
               height={40}
               className="px-4 py-2 font-bold"
-              style={{ background: "var(--color-text-light-primary)", color: "var(--color-bg-light-primary-100)" }}
+              style={{
+                background: "var(--color-text-light-primary)",
+                color: "var(--color-bg-light-primary-100)",
+              }}
             />
           }
         >
@@ -70,29 +91,46 @@ function Banner() {
       </div>
       <List
         className={TWCSS.list}
-        style={{ boxShadow: "var(--shadow)" }}
         columns={[
           { key: "Index", label: "#", width: "3%", render: (row) => row.id },
-          { key: "checkbox", label: <Checkbox />, width: "3%", render: () => <Checkbox /> },
+          {
+            key: "checkbox",
+            label: <Checkbox />,
+            width: "3%",
+            render: () => <Checkbox />,
+          },
           {
             key: "Banner",
             label: "Banner",
             width: "20%",
-            render: (row) => <img src={row.imageUrl} alt="banner" className="w-[150px] h-[80px]" />
+            render: (row) => (
+              <img
+                src={row.imageUrl}
+                alt="banner"
+                className="w-[150px] h-[80px]"
+              />
+            ),
           },
           {
             key: "View Order",
             label: "Thứ tự hiển thị",
             width: "10%",
-            render: (row) => <span className={cx("px-3")}>{row.viewOrder}</span>
+            render: (row) => (
+              <span className={cx("px-3")}>{row.viewOrder}</span>
+            ),
           },
           {
             key: "Active",
             label: "Active",
             width: "10%",
-            render: (row) => (row.isActive ? <LuCheck /> : <LuX />)
+            render: (row) => (row.isActive ? <LuCheck /> : <LuX />),
           },
-          { key: "Url", label: "Url", width: "44%", render: (row) => <span className={cx("px-3")}>{row.url}</span> },
+          {
+            key: "Url",
+            label: "Url",
+            width: "44%",
+            render: (row) => <span className={cx("px-3")}>{row.url}</span>,
+          },
           {
             key: "Edit",
             label: "",
@@ -104,11 +142,11 @@ function Banner() {
                 height={40}
                 className={cx(
                   "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition"
+                  "rounded-full transition",
                 )}
                 icon={<LuUserPen />}
               />
-            )
+            ),
           },
           {
             key: "Delete",
@@ -121,12 +159,12 @@ function Banner() {
                 height={40}
                 className={cx(
                   "hover:bg-[var(--color-error)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition"
+                  "rounded-full transition",
                 )}
                 icon={<LuTrash2 />}
               />
-            )
-          }
+            ),
+          },
         ]}
         data={mockBanners}
       />
