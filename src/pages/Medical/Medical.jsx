@@ -4,9 +4,24 @@ import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { Breadcrumb, Item, Search, Button, Modal } from "../../components/ui";
-import { LuLayoutDashboard, LuListFilter, LuGrid3X3, LuList, LuPlus, LuCircle } from "react-icons/lu";
+import {
+  LuLayoutDashboard,
+  LuListFilter,
+  LuGrid3X3,
+  LuList,
+  LuPlus,
+  LuCircle,
+} from "react-icons/lu";
 import { ICON_MAP } from "../../constants/icon";
-import { Delete, Hierarchy, Grid, HeaderMedical, GroupForm, DeptForm, SpecForm } from "./index";
+import {
+  Delete,
+  Hierarchy,
+  Grid,
+  HeaderMedical,
+  GroupForm,
+  DeptForm,
+  SpecForm,
+} from "./index";
 import { useGroupStore } from "../../store/groupStore";
 import { useDepartmentStore } from "../../store/departmentStore";
 import { useSpecialtyStore } from "../../store/specialtyStore";
@@ -23,15 +38,25 @@ function Medical() {
   // Group Store
   const setEditingGroupId = useGroupStore((gr) => gr.setEditingGroupId);
   const editingGroupId = useGroupStore((gr) => gr.editingGroupId);
-  const selectedGroup = useGroupStore((s) => s.groups.find((g) => g.id === editingGroupId));
+  const selectedGroup = useGroupStore((s) =>
+    s.groups.find((g) => g.id === editingGroupId),
+  );
   // Department Store
-  const setEditingDepartmentId = useDepartmentStore((d) => d.setEditingDepartmentId);
+  const setEditingDepartmentId = useDepartmentStore(
+    (d) => d.setEditingDepartmentId,
+  );
   const editingDepartmentId = useDepartmentStore((d) => d.editingDepartmentId);
-  const selectedDepartment = useDepartmentStore((d) => d.departments.find((d) => d.id === editingDepartmentId));
+  const selectedDepartment = useDepartmentStore((d) =>
+    d.departments.find((d) => d.id === editingDepartmentId),
+  );
   // Specialty Store
-  const setEditingSpecialtyId = useSpecialtyStore((s) => s.setEditingSpecialtyId);
+  const setEditingSpecialtyId = useSpecialtyStore(
+    (s) => s.setEditingSpecialtyId,
+  );
   const editingSpecialtyId = useSpecialtyStore((s) => s.editingSpecialtyId);
-  const selectedSpecialty = useSpecialtyStore((s) => s.specialties.find((s) => s.id === editingSpecialtyId));
+  const selectedSpecialty = useSpecialtyStore((s) =>
+    s.specialties.find((s) => s.id === editingSpecialtyId),
+  );
 
   const modal = {
     grForm: useActive(),
@@ -39,7 +64,7 @@ function Medical() {
     deptForm: useActive(),
     deptDel: useActive(),
     specForm: useActive(),
-    specDel: useActive()
+    specDel: useActive(),
   };
   const handleClose = () => {
     if (modal.grForm.isActive) {
@@ -73,7 +98,7 @@ function Medical() {
     return {
       totalGroups,
       totalDepartments,
-      totalSpecialties
+      totalSpecialties,
     };
   }, [groups]);
 
@@ -82,14 +107,20 @@ function Medical() {
 
     const departmentNames = gr.departments?.map((dept) => dept.name) || [];
 
-    const specialtyNames = gr.departments?.flatMap((dept) => dept.specialties?.map((spec) => spec.name) || []) || [];
+    const specialtyNames =
+      gr.departments?.flatMap(
+        (dept) => dept.specialties?.map((spec) => spec.name) || [],
+      ) || [];
 
-    return [groupName, ...departmentNames, ...specialtyNames].filter(Boolean).join(" ");
+    return [groupName, ...departmentNames, ...specialtyNames]
+      .filter(Boolean)
+      .join(" ");
   });
   const normalizedKeyword = useMemo(() => slugify(keyword), [keyword]);
   const isMatched = useCallback(
-    (targetName) => !!normalizedKeyword && slugify(targetName).includes(normalizedKeyword),
-    [normalizedKeyword]
+    (targetName) =>
+      !!normalizedKeyword && slugify(targetName).includes(normalizedKeyword),
+    [normalizedKeyword],
   );
   const changeViewMode = () => {
     setViewMode((prev) => (prev === "hierarchy" ? "grid" : "hierarchy"));
@@ -100,22 +131,58 @@ function Medical() {
       <Breadcrumb
         className="mb-3"
         items={[
-          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
-          { label: "Quản lý chuyên môn" }
+          {
+            label: "Bảng điều khiển",
+            href: "/bang-dieu-khien",
+            icon: <LuLayoutDashboard />,
+          },
+          { label: "Quản lý chuyên môn" },
         ]}
       />
-      <Item as="strong" children="Quản lý chuyên môn" itemClassName="text-3xl" />
+      <Item
+        as="strong"
+        children="Quản lý chuyên môn"
+        itemClassName="text-3xl"
+      />
       <Item
         as="span"
         children="Quản lý danh sách chuyên môn tại đây."
         itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
       />
 
+      <div className="flex items-center gap-5 w-full mb-2">
+        <div className={cx("flex flex-col")}>
+          <Item
+            as="h3"
+            children={totals.totalGroups}
+            itemClassName={cx("text-3xl font-bold text-[var(--color-primary)]")}
+          />
+          <Item as="span" children={"Khối"} itemClassName={cx("text-sm")} />
+        </div>
+        <div className={cx("flex flex-col")}>
+          <Item
+            as="h3"
+            children={totals.totalDepartments}
+            itemClassName={cx("text-3xl font-bold text-[var(--color-primary)]")}
+          />
+          <Item as="span" children={"Khoa"} itemClassName={cx("text-sm")} />
+        </div>
+        <div className={cx("flex flex-col")}>
+          <Item
+            as="h3"
+            children={totals.totalSpecialties}
+            itemClassName={cx("text-3xl font-bold text-[var(--color-primary)]")}
+          />
+          <Item
+            as="span"
+            children={"Chuyên khoa"}
+            itemClassName={cx("text-sm")}
+          />
+        </div>
+      </div>
+
       {/* Header */}
       <HeaderMedical
-        totalGroups={totals.totalGroups}
-        totalDepartments={totals.totalDepartments}
-        totalSpecialties={totals.totalSpecialties}
         viewMode={viewMode}
         onClick={changeViewMode}
         onAdd={modal.grForm.toggleActive}
@@ -183,54 +250,106 @@ function Medical() {
         })
       ) : (
         <div className="flex items-center justify-center p-10">
-          <Item as="div" children={"Danh sách rỗng"} itemClassName={cx("text-sm font-medium")} />
+          <Item
+            as="div"
+            children={"Danh sách rỗng"}
+            itemClassName={cx("text-sm font-medium")}
+          />
         </div>
       )}
 
       {/* Groups Modal */}
-      <Modal open={modal.grForm.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
+      <Modal
+        open={modal.grForm.isActive}
+        onClose={handleClose}
+        backdrop={true}
+        width="max-w-lg"
+      >
         <GroupForm onClose={handleClose} />
       </Modal>
-      <Modal open={modal.grDel.isActive} onClose={modal.grDel.deactivate} backdrop={true} width="max-w-lg">
+      <Modal
+        open={modal.grDel.isActive}
+        onClose={modal.grDel.deactivate}
+        backdrop={true}
+        width="max-w-lg"
+      >
         <Delete
           onClose={modal.grDel.deactivate}
           title={
             <span>
-              Hành động này sẽ xoá <span className="text-[var(--color-error)]">Khối {selectedGroup?.name}</span> và toàn
-              bộ <span className="text-[var(--color-secondary)]">Khoa</span>,
-              <span className="text-[var(--color-secondary)]"> Chuyên khoa</span> thuộc khối này! Bạn có muốn tiếp tục?
+              Hành động này sẽ xoá{" "}
+              <span className="text-[var(--color-error)]">
+                Khối {selectedGroup?.name}
+              </span>{" "}
+              và toàn bộ{" "}
+              <span className="text-[var(--color-secondary)]">Khoa</span>,
+              <span className="text-[var(--color-secondary)]">
+                {" "}
+                Chuyên khoa
+              </span>{" "}
+              thuộc khối này! Bạn có muốn tiếp tục?
             </span>
           }
         />
       </Modal>
       {/* Department Modal */}
-      <Modal open={modal.deptForm.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
+      <Modal
+        open={modal.deptForm.isActive}
+        onClose={handleClose}
+        backdrop={true}
+        width="max-w-lg"
+      >
         <DeptForm onClose={handleClose} />
       </Modal>
-      <Modal open={modal.deptDel.isActive} onClose={modal.deptDel.deactivate} backdrop={true} width="max-w-lg">
+      <Modal
+        open={modal.deptDel.isActive}
+        onClose={modal.deptDel.deactivate}
+        backdrop={true}
+        width="max-w-lg"
+      >
         <Delete
           onClose={modal.deptDel.deactivate}
           title={
             <span>
-              Hành động này sẽ xoá <span className="text-[var(--color-error)]">{selectedDepartment?.name}</span> và toàn
-              bộ <span className="text-[var(--color-secondary)]">Chuyên khoa</span> thuộc khoa này! Bạn có muốn tiếp
-              tục?
+              Hành động này sẽ xoá{" "}
+              <span className="text-[var(--color-error)]">
+                {selectedDepartment?.name}
+              </span>{" "}
+              và toàn bộ{" "}
+              <span className="text-[var(--color-secondary)]">Chuyên khoa</span>{" "}
+              thuộc khoa này! Bạn có muốn tiếp tục?
             </span>
           }
         />
       </Modal>
       {/* Specialty Modal */}
-      <Modal open={modal.specForm.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
+      <Modal
+        open={modal.specForm.isActive}
+        onClose={handleClose}
+        backdrop={true}
+        width="max-w-lg"
+      >
         <SpecForm onClose={handleClose} />
       </Modal>
-      <Modal open={modal.specDel.isActive} onClose={modal.specDel.deactivate} backdrop={true} width="max-w-lg">
+      <Modal
+        open={modal.specDel.isActive}
+        onClose={modal.specDel.deactivate}
+        backdrop={true}
+        width="max-w-lg"
+      >
         <Delete
           onClose={modal.specDel.deactivate}
           title={
             <span>
               Hành động này sẽ xoá chuyên khoa{" "}
-              <span className="text-[var(--color-error)]">{selectedSpecialty?.name}</span> ra khỏi danh sách thuộc{" "}
-              <span className="text-[var(--color-secondary)]">{selectedDepartment?.name}</span>! Bạn có muốn tiếp tục?
+              <span className="text-[var(--color-error)]">
+                {selectedSpecialty?.name}
+              </span>{" "}
+              ra khỏi danh sách thuộc{" "}
+              <span className="text-[var(--color-secondary)]">
+                {selectedDepartment?.name}
+              </span>
+              ! Bạn có muốn tiếp tục?
             </span>
           }
         />
