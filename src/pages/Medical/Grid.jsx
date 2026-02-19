@@ -27,7 +27,7 @@ function Grid({
   isMatched,
   keyword,
   departments,
-  groupIcon
+  groupIcon,
 }) {
   return (
     <div className={cx("space-y-6 my-6")}>
@@ -44,7 +44,10 @@ function Grid({
         <Item
           icon={groupIcon}
           children={`Khối ${group.name}`}
-          iconClassName={cx("p-3 bg-[var(--color-primary-100)] rounded-[8px]", "text-[var(--color-primary)] text-2xl")}
+          iconClassName={cx(
+            "p-3 bg-[var(--color-primary-100)] rounded-[8px]",
+            "text-[var(--color-primary)] text-2xl",
+          )}
           itemClassName={cx("text-xl font-semibold")}
           className={cx("flex items-center gap-2")}
         />
@@ -57,9 +60,11 @@ function Grid({
               key={dept.id}
               className={cx(
                 "bg-white rounded-[8px] p-6 border-2",
-                isMatched(dept.name, keyword) ? "border-[var(--color-secondary)]" : "border-transparent"
+                "outline outline-[var(--color-unavailable-300)]",
+                isMatched(dept.name, keyword)
+                  ? "border-[var(--color-secondary)]"
+                  : "border-transparent",
               )}
-              style={{ boxShadow: "var(--shadow)" }}
             >
               <DeptActionBar
                 groupId={group.id}
@@ -76,9 +81,17 @@ function Grid({
                 className={cx("flex items-center justify-between")}
               >
                 <div className="flex items-center gap-2">
-                  <Item as="div" icon={<DeptIcon />} className={cx("p-2 text-[var(--color-primary)] text-2xl")} />
+                  <Item
+                    as="div"
+                    icon={<DeptIcon />}
+                    className={cx("p-2 text-[var(--color-primary)] text-2xl")}
+                  />
                   <div>
-                    <Item as="span" children={dept.name} itemClassName={cx("text-md font-semibold")} />
+                    <Item
+                      as="span"
+                      children={dept.name}
+                      itemClassName={cx("text-md font-semibold")}
+                    />
                     <Item
                       as="div"
                       children={`${dept.specialties.length} Chuyên khoa`}
@@ -108,22 +121,34 @@ function Grid({
                         "flex items-center justify-between",
                         "hover:bg-[var(--color-primary-100)]",
                         "group my-1",
-                        isMatched(spec.name, keyword) ? "bg-[var(--color-secondary-100)]" : "bg-white"
+                        isMatched(spec.name, keyword)
+                          ? "bg-[var(--color-secondary-100)]"
+                          : "bg-white",
                       )}
                     >
                       <div className="flex items-center gap-2">
                         <div
                           className={cx(
                             "w-2 h-2 rounded-full",
-                            isMatched(spec.name, keyword) ? "bg-[var(--color-secondary)]" : "bg-[var(--color-primary)]"
+                            isMatched(spec.name, keyword)
+                              ? "bg-[var(--color-secondary)]"
+                              : "bg-[var(--color-primary)]",
                           )}
                         />
-                        <Item as="span" children={spec.name} itemClassName={cx("text-sm font-medium")} />
+                        <Item
+                          as="span"
+                          children={spec.name}
+                          itemClassName={cx("text-sm font-medium")}
+                        />
                       </div>
                     </SpecActionBar>
                   ))
                 ) : (
-                  <Item as="div" children={"Không có chuyên khoa"} itemClassName={cx("text-sm font-medium")} />
+                  <Item
+                    as="div"
+                    children={"Không có chuyên khoa"}
+                    itemClassName={cx("text-sm font-medium")}
+                  />
                 )}
               </div>
             </div>

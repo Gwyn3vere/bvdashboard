@@ -3,7 +3,13 @@ import { useDebouncedCallback } from "../../components/hooks";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
 import { Item, Button } from "../../components/ui";
-import { LuChevronRight, LuPlus, LuCircle, LuSquarePen, LuTrash2 } from "react-icons/lu";
+import {
+  LuChevronRight,
+  LuPlus,
+  LuCircle,
+  LuSquarePen,
+  LuTrash2,
+} from "react-icons/lu";
 import { ICON_MAP } from "../../constants/icon";
 import { slugify } from "../../utils/format";
 import { EntityActionBar, DeptActionBar, SpecActionBar } from "./index";
@@ -30,7 +36,7 @@ function Hierarchy({
   specialties,
   setEdit,
   isMatched,
-  keyword
+  keyword,
 }) {
   const [expandedGroups, setExpandedGroups] = useState({});
   const [expandedDepartments, setExpandedDepartments] = useState({});
@@ -51,7 +57,9 @@ function Hierarchy({
     group.departments?.forEach((dept) => {
       const deptMatches = slugify(dept.name).includes(searchStr);
 
-      const hasSpecMatch = dept.specialties?.some((spec) => slugify(spec.name).includes(searchStr));
+      const hasSpecMatch = dept.specialties?.some((spec) =>
+        slugify(spec.name).includes(searchStr),
+      );
 
       if (deptMatches || hasSpecMatch) {
         newExpandedDepts[dept.id] = true;
@@ -78,11 +86,14 @@ function Hierarchy({
     setExpandedGroups((prev) => ({ ...prev, [groupId]: !prev[groupId] }));
   };
   const toggleDepartment = (departmentId) => {
-    setExpandedDepartments((prev) => ({ ...prev, [departmentId]: !prev[departmentId] }));
+    setExpandedDepartments((prev) => ({
+      ...prev,
+      [departmentId]: !prev[departmentId],
+    }));
   };
 
   return (
-    <div className="mb-6 overflow-hidden rounded-[8px]" style={{ boxShadow: "var(--shadow)" }}>
+    <div className="mb-6 overflow-hidden rounded-[8px] outline outline-[var(--color-unavailable-300)]">
       <div className={cx("bg-white")}>
         {/* Groups */}
         <EntityActionBar
@@ -92,13 +103,20 @@ function Hierarchy({
           onGrDel={onGrDel}
           setEdit={setEdit}
           groupId={group.id}
-          className={cx("flex items-center justify-between", "bg-[var(--color-primary)] p-6 text-white")}
+          className={cx(
+            "flex items-center justify-between",
+            "bg-[var(--color-primary)] p-6 text-white",
+          )}
         >
           <div className={cx("flex items-center gap-2 sm:gap-5")}>
             <Button
               onClick={() => toggleGroup(group.id)}
               icon={<LuChevronRight />}
-              className={expandedGroups[group.id] ? "rotate-90 transition-transform" : "transition-transform"}
+              className={
+                expandedGroups[group.id]
+                  ? "rotate-90 transition-transform"
+                  : "transition-transform"
+              }
               width={40}
               height={40}
             />
@@ -107,11 +125,15 @@ function Hierarchy({
               icon={groupIcon}
               className={cx(
                 "p-3 bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
-                "text-[var(--color-primary)] text-2xl"
+                "text-[var(--color-primary)] text-2xl",
               )}
             />
             <div className={cx("")}>
-              <Item as="strong" children={`Khối ${group.name}`} itemClassName={cx("text-md sm:text-lg")} />
+              <Item
+                as="strong"
+                children={`Khối ${group.name}`}
+                itemClassName={cx("text-md sm:text-lg")}
+              />
               <Item
                 as="div"
                 children={`${departments?.length} Khoa • ${specialties.length} Chuyên khoa`}
@@ -130,14 +152,16 @@ function Hierarchy({
                   key={dept.id}
                   className={cx(
                     "overflow-hidden rounded-[8px] border-2",
-                    isMatched(dept.name, keyword) ? "border-[var(--color-secondary)]" : "border-[var(--color-primary)]"
+                    isMatched(dept.name, keyword)
+                      ? "border-[var(--color-secondary)]"
+                      : "border-[var(--color-primary)]",
                   )}
                 >
                   <div
                     className={cx(
                       isMatched(dept.name, keyword)
                         ? "bg-[var(--color-secondary-200)]"
-                        : "bg-[var(--color-primary-200)]"
+                        : "bg-[var(--color-primary-200)]",
                     )}
                   >
                     <DeptActionBar
@@ -159,7 +183,7 @@ function Hierarchy({
                         "p-4",
                         isMatched(dept.name, keyword)
                           ? "bg-[var(--color-secondary-100)]"
-                          : "bg-[var(--color-primary-100)]"
+                          : "bg-[var(--color-primary-100)]",
                       )}
                     >
                       <div className={cx("flex items-center gap-2")}>
@@ -167,7 +191,9 @@ function Hierarchy({
                           onClick={() => toggleDepartment(dept.id)}
                           icon={<LuChevronRight />}
                           className={
-                            expandedDepartments[dept.id] ? "rotate-90 transition-transform" : "transition-transform"
+                            expandedDepartments[dept.id]
+                              ? "rotate-90 transition-transform"
+                              : "transition-transform"
                           }
                           width={40}
                           height={40}
@@ -179,11 +205,15 @@ function Hierarchy({
                             "p-3 text-2xl",
                             isMatched(dept.name, keyword)
                               ? "text-[var(--color-secondary)]"
-                              : "text-[var(--color-primary)]"
+                              : "text-[var(--color-primary)]",
                           )}
                         />
                         <div className={cx("")}>
-                          <Item as="span" children={dept.name} itemClassName={cx("text-md sm:text-md font-medium")} />
+                          <Item
+                            as="span"
+                            children={dept.name}
+                            itemClassName={cx("text-md sm:text-md font-medium")}
+                          />
                           <Item
                             as="div"
                             children={`${dept.specialties.length} Chuyên khoa`}
@@ -215,16 +245,19 @@ function Hierarchy({
                                 " rounded-[8px] py-2 px-4",
                                 "flex items-center justify-between",
                                 "group",
-                                isMatched(spec?.name, keyword) ? "bg-[var(--color-secondary-100)]" : "bg-white"
+                                isMatched(spec?.name, keyword)
+                                  ? "bg-[var(--color-secondary-100)]"
+                                  : "bg-white",
                               )}
                             >
                               <div className="flex items-center gap-2">
                                 <div
                                   className={cx(
                                     "w-2 h-2 rounded-full",
-                                    isMatched(dept.name, keyword) || isMatched(spec?.name, keyword)
+                                    isMatched(dept.name, keyword) ||
+                                      isMatched(spec?.name, keyword)
                                       ? "bg-[var(--color-secondary)]"
-                                      : "bg-[var(--color-primary)]"
+                                      : "bg-[var(--color-primary)]",
                                   )}
                                 />
                                 <Item
@@ -234,14 +267,18 @@ function Hierarchy({
                                     "text-sm font-medium",
                                     isMatched(spec?.name, keyword)
                                       ? "text-[var(--color-secondary)]"
-                                      : "text-[var(--color-text-bg-light-primary)]"
+                                      : "text-[var(--color-text-bg-light-primary)]",
                                   )}
                                 />
                               </div>
                             </SpecActionBar>
                           ))
                         ) : (
-                          <Item as="div" children={"Không có chuyên khoa"} itemClassName={cx("text-sm font-medium")} />
+                          <Item
+                            as="div"
+                            children={"Không có chuyên khoa"}
+                            itemClassName={cx("text-sm font-medium")}
+                          />
                         )}
                       </div>
                     )}

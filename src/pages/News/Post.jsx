@@ -148,8 +148,10 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
   };
   return (
     <div
-      className={cx("bg-[var(--color-bg-light-primary-100)] rounded-[8px]")}
-      style={{ boxShadow: "var(--shadow)" }}
+      className={cx(
+        "bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
+        "outline outline-[var(--color-unavailable-300)]",
+      )}
     >
       <div className={cx("p-8 border-b border-gray-200")}>
         <Item
@@ -279,8 +281,8 @@ function Card({ children, title }) {
     <div
       className={cx(
         "bg-[var(--color-bg-light-primary-100)] rounded-[8px] overflow-hidden",
+        "outline outline-[var(--color-unavailable-300)]",
       )}
-      style={{ boxShadow: "var(--shadow)" }}
     >
       <Item
         children={title}
