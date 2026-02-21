@@ -30,18 +30,30 @@ export const TWCSS = {
   ],
   input: [
     "flex items-center px-3 rounded-[8px] mt-1",
-    "border-2 border-[var(--color-bg-light-primary-400)]",
+    "border-2 border-transparent",
     "box-border h-[50px]",
     "focus-within:border-2 focus-within:border-[var(--color-primary)]",
     "hover:border-gray-300 transition-colors",
+    "bg-[var(--color-unavailable-100)]",
+  ],
+  tagInput: [
+    "w-full rounded-lg border-2 border-transparent p-3 ",
+    "focus-within:border-[var(--color-primary)] bg-[var(--color-unavailable-100)]",
   ],
   select: [
     "w-full px-4 py-3 border-2 rounded-[8px] mt-1",
-    "border-[var(--color-bg-light-primary-400)] hover:border-[var(--color-bg-light-primary-500)]",
+    "border-transparent hover:border-[var(--color-bg-light-primary-500)]",
     "focus:border-[var(--color-primary-500)] focus:outline-none cursor-pointer",
-    "flex items-center justify-between bg-white hover:border-gray-300 transition-colors",
+    "flex items-center justify-between hover:border-gray-300 transition-colors",
+    "bg-[var(--color-unavailable-100)]",
   ],
   inputError: ["border-2 border-[var(--color-error)]"],
+  textarea: [
+    "flex items-center p-3 rounded-[8px] mt-1",
+    "border-2 border-transparent",
+    "focus-within:border-2 focus-within:border-[var(--color-primary)]",
+    "bg-[var(--color-unavailable-100)]",
+  ],
   scrollbarX: [
     "[&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:rounded-full",
     "[&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full",

@@ -7,6 +7,7 @@ import {
   LuEye,
   LuFileText,
   LuTag,
+  LuUser,
 } from "react-icons/lu";
 import { generateTableOfContents } from "../../utils/helper";
 
@@ -52,33 +53,26 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
         {/* Author - Daytime - view */}
         <div
           className={cx(
-            "flex items-center gap-5 text-[var(--color-unavailable-700)] py-4",
+            "flex flex-col md:flex-row md:items-center gap-2",
+            "gap-5 text-[var(--color-unavailable-700)] py-4",
             "border-b border-gray-200",
             "transition-all mb-10",
           )}
         >
           {/* Author */}
-          <div className={cx("flex items-center gap-3")}>
-            <div
-              className={cx(
-                "p-2 rounded-full bg-[var(--color-primary)]",
-                "text-white font-bold w-7 h-7 text-sm",
-                "flex items-center justify-center",
-              )}
-            >
-              NA
-            </div>
-            <Item
-              children={
-                previewData?.author?.name
-                  ? previewData?.author?.name
-                  : user?.name || "Tên tác giả"
-              }
-              itemClassName={cx(
-                "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
-              )}
-            />
-          </div>
+          <Item
+            icon={<LuUser />}
+            children={
+              previewData?.author?.name
+                ? previewData?.author?.name
+                : user?.name || "Tên tác giả"
+            }
+            itemClassName={cx(
+              "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
+            )}
+            className={cx("flex items-center gap-2")}
+          />
+
           {/* Daytime */}
           <Item
             icon={<LuCalendar />}

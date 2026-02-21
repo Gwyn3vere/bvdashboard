@@ -2,10 +2,17 @@ import React, { useCallback, useState } from "react";
 import classNames from "classnames/bind";
 import style from "../../styles/ui.module.css";
 import { LuX } from "react-icons/lu";
+import { TWCSS } from "../../styles/defineTailwindcss";
 
 const cx = classNames.bind(style);
 
-function TagInput({ values = [], label, onChange, placeholder = "Thêm tag...", ...props }) {
+function TagInput({
+  values = [],
+  label,
+  onChange,
+  placeholder = "Thêm tag...",
+  ...props
+}) {
   const [inputValue, setInputValue] = useState("");
 
   const tags = values;
@@ -23,7 +30,7 @@ function TagInput({ values = [], label, onChange, placeholder = "Thêm tag...", 
     (tag) => {
       onChange?.(tags.filter((t) => t !== tag));
     },
-    [tags, onChange]
+    [tags, onChange],
   );
 
   const handleKeyDown = (e) => {
@@ -36,7 +43,7 @@ function TagInput({ values = [], label, onChange, placeholder = "Thêm tag...", 
   return (
     <>
       <label className="font-medium">{label}</label>
-      <div className="w-full rounded-lg border-2 border-slate-300 p-3 focus-within:border-[var(--color-primary)]">
+      <div className={cx(TWCSS.tagInput)}>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span
@@ -44,7 +51,11 @@ function TagInput({ values = [], label, onChange, placeholder = "Thêm tag...", 
               className="flex items-center gap-1 rounded-md bg-[var(--color-primary)] p-2 text-sm text-white"
             >
               {tag}
-              <button type="button" onClick={() => removeTag(tag)} className="text-white hover:text-red-500">
+              <button
+                type="button"
+                onClick={() => removeTag(tag)}
+                className="text-white hover:text-red-500"
+              >
                 <LuX />
               </button>
             </span>

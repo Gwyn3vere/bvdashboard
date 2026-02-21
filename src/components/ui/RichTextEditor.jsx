@@ -461,7 +461,7 @@ const MenuBar = ({ editor }) => {
                 }}
                 className={cx(
                   "w-5 h-5 rounded-full cursor-pointer",
-                  editor.isActive("color", { color }) &&
+                  editor.isActive("textStyle", { color }) &&
                     "outline outline-2 outline-offset-2",
                 )}
                 style={{ backgroundColor: color, outlineColor: color }}

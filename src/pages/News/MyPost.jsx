@@ -281,7 +281,11 @@ function ActionBar({ selectedStatus, setSelectedStatus }) {
         </div>
       </div>
 
-      <div className={cx("mt-5")}>
+      <div
+        className={cx(
+          "mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3",
+        )}
+      >
         <div className={cx("flex items-center gap-2")}>
           <Item
             children={"Trạng thái:"}

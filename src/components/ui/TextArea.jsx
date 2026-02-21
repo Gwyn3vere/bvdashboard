@@ -1,6 +1,4 @@
-// Libraries
 import classNames from "classnames/bind";
-// Styles - UI - Icons
 import style from "../../styles/ui.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import React from "react";
@@ -25,14 +23,14 @@ function TextArea({
 }) {
   return (
     <div className={className}>
-      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      {label && (
+        <label className={cx("font-medium", labelClassName)}>{label}</label>
+      )}
       <div
         className={cx(
-          "flex items-center p-3 rounded-[8px] mt-1",
-          "border-2 border-[var(--color-bg-light-primary-400)]",
-          "focus-within:border-2 focus-within:border-[var(--color-primary)]",
+          TWCSS.textarea,
           error && TWCSS.inputError,
-          inputClassName
+          inputClassName,
         )}
       >
         <span>{icon}</span>

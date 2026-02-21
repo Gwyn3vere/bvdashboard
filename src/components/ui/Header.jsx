@@ -46,7 +46,6 @@ function Header({ collapsed, toggle }) {
       className={cx(
         "px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between",
         TWCSS.container,
-        "shadow-xs mb-5",
       )}
     >
       <div className="flex gap-2">

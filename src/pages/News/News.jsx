@@ -10,6 +10,7 @@ import {
   Pagination,
   Image,
   Tooltip,
+  Modal,
 } from "../../components/ui";
 import {
   LuSlidersHorizontal,
@@ -27,11 +28,12 @@ import { NEWS_STATUS } from "../../constants/status";
 import { useNewsStore } from "../../store/newsStore";
 import { usePagination, useActive } from "../../components/hooks";
 import { formatDateVN } from "../../utils/format";
-import { Skeleton } from "./index";
+import { Skeleton, Category } from "./index";
 
 const cx = classNames.bind(styles);
 
 function News() {
+  const category = useActive();
   const { news, loading, fetchNews } = useNewsStore();
   useEffect(() => {
     fetchNews();
@@ -60,9 +62,17 @@ function News() {
 
       <div className="space-y-10">
         <Overview total={NEWS_TOTAL_STATUS} />
-        <ActionBar />
+        <ActionBar toggle={category.toggleActive} />
         <NewsList news={filterNews} loading={loading} />
       </div>
+
+      <Modal
+        open={category.isActive}
+        onClose={category.deactivate}
+        width="max-w-2xl"
+      >
+        <Category onClose={category.deactivate} />
+      </Modal>
     </div>
   );
 }
@@ -111,8 +121,7 @@ function Overview({ total }) {
   );
 }
 
-function ActionBar({}) {
-  const category = useActive();
+function ActionBar({ toggle }) {
   return (
     <div
       className={cx(
@@ -169,6 +178,7 @@ function ActionBar({}) {
                   "font-medium",
                   "hover:bg-[var(--color-primary-100)]",
                 )}
+                onClick={toggle}
               />
             </Tooltip>
           </div>

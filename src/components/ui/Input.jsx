@@ -26,12 +26,16 @@ function Input({
   const [showPassword, setShowPassword] = useState();
   return (
     <div className={className}>
-      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
-      <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
+      {label && (
+        <label className={cx("font-medium", labelClassName)}>{label}</label>
+      )}
+      <div
+        className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}
+      >
         <span>{icon}</span>
         <input
           type={isPassword ? (showPassword ? "text" : "password") : type}
-          className={cx("outline-none px-2")}
+          className={cx("outline-none px-2 ")}
           placeholder={placeholder}
           style={{ width, height, ...style }}
           {...props}
