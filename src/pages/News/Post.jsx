@@ -23,6 +23,7 @@ import { NEWS_STATUS_ROLE } from "../../constants/role";
 import { Preview } from "./index";
 import { useAuthStore } from "../../store/authStore";
 import { useNewsStore } from "../../store/newsStore";
+import { useCategoryStore } from "../../store/categoryStore";
 import { useParams } from "react-router-dom";
 
 const cx = classNames.bind(style);
@@ -295,6 +296,8 @@ function Card({ children, title }) {
 }
 
 function Settings({ value, setFieldValue, user }) {
+  const categories = useCategoryStore((c) => c.categories);
+  const filteredCate = categories.filter((fc) => fc.id !== "uncategorized");
   const allowedStatus = NEWS_STATUS_PUBLISH.filter((item) =>
     NEWS_STATUS_ROLE[user.role].includes(item.value),
   );
@@ -331,7 +334,7 @@ function Settings({ value, setFieldValue, user }) {
       {/* Category */}
       <Card title={"Danh mục"}>
         <div className={cx("p-6")}>
-          {NEWS_CATEGORIES.map((cate) => (
+          {filteredCate.map((cate) => (
             <div
               key={cate.id}
               className={cx(

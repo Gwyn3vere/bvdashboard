@@ -7,3 +7,4 @@ export { default as Waiting } from "./Waiting";
 export { default as MyPost } from "./MyPost";
 export { default as Category } from "./Category";
 export { default as CateForm } from "./CateForm";
+export { default as Delete } from "./Delete";

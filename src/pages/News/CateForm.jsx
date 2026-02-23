@@ -13,25 +13,61 @@ import { COLORS_CATE_OPTION } from "../../constants/option";
 import { INITAL_NEWS_CATEGORY } from "../../constants/field";
 import { ICONS_CATE_MAP } from "../../constants/icon";
 import { useForm } from "../../components/hooks";
+import { generateCategoryId } from "../../utils/helper";
+import { useCategoryStore } from "../../store/categoryStore";
 
 const cx = classNames.bind(style);
 
 function CateForm({ onClose }) {
-  const { values, setFieldValue, resetForm } = useForm({
+  const getCategoryById = useCategoryStore((c) => c.getCategoryById);
+  const editingCategoryId = useCategoryStore((c) => c.editingCategoryId);
+  const category = editingCategoryId
+    ? getCategoryById(editingCategoryId)
+    : null;
+
+  const { values, setFieldValue, setValues, resetForm } = useForm({
     initialValues: INITAL_NEWS_CATEGORY,
+    editValues: category,
   });
+
+  const handleSubmit = () => {
+    const existingIds = useCategoryStore.getState().categories.map((c) => c.id);
+
+    const newId = generateCategoryId(values.name, existingIds);
+
+    createCategory({
+      ...values,
+      id: newId,
+    });
+
+    resetForm();
+    onClose();
+  };
+
   return (
     <>
       <TitleForm
         title={"Thêm danh mục"}
         subTitle={"Bảng thêm danh mục tin tức, blog của bạn."}
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          resetForm();
+        }}
       />
-      <Form id={"cateForm"} className={cx("p-6 space-y-6")}>
+      <Form
+        id={"cateForm"}
+        className={cx("p-6 space-y-6")}
+        onSubmit={handleSubmit}
+      >
         <Input
           label="Tên danh mục"
           labelClassName="text-sm"
           placeholder="Nhập tên danh mục..."
+          type="text"
+          name="name"
+          value={values?.name}
+          onChange={(val) => setFieldValue("name", val.target.value)}
+          required
         />
 
         <div>
@@ -99,7 +135,10 @@ function CateForm({ onClose }) {
         <div className="flex gap-2">
           <Button
             children={"Huỷ"}
-            onClick={onClose}
+            onClick={() => {
+              onClose();
+              resetForm();
+            }}
             className={cx(
               "p-2 bg-[var(--color-unavailable-100)]",
               "text-sm font-semibold",

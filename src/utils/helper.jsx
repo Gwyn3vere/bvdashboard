@@ -19,3 +19,32 @@ export const generateTableOfContents = (htmlContent) => {
     return [];
   }
 };
+
+export const generateCategoryId = (name, existingIds = []) => {
+  if (!name) return "";
+
+  // 1. Remove Vietnamese accents
+  const normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  // 2. Remove special characters
+  const clean = normalized.replace(/[^a-zA-Z0-9\s]/g, "");
+
+  // 3. Create acronym
+  const baseId = clean
+    .trim()
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join("")
+    .toLowerCase();
+
+  // 4. Handle duplicate
+  let finalId = baseId;
+  let counter = 1;
+
+  while (existingIds.includes(finalId)) {
+    finalId = `${baseId}${counter}`;
+    counter++;
+  }
+
+  return finalId;
+};

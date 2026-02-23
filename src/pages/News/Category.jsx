@@ -1,16 +1,28 @@
-import React, { use } from "react";
+import React, { useState } from "react";
 import classNames from "classnames/bind";
 import style from "../../styles/components.module.css";
 import { Item, TitleForm, Search, Button, Modal } from "../../components/ui";
 import { MOCK_NEWS_CATEGORIES } from "../../mock/news";
 import { LuBook, LuSquarePen, LuTrash2, LuPlus } from "react-icons/lu";
 import { ICONS_CATE_MAP } from "../../constants/icon";
-import { useActive } from "../../components/hooks";
-import { CateForm } from "./index";
+import { useActive, useSearch } from "../../components/hooks";
+import { CateForm, Delete } from "./index";
+import { useCategoryStore } from "../../store/categoryStore";
 
 const cx = classNames.bind(style);
 
 function Category({ onClose }) {
+  const [cateKeyword, setCateKeyword] = useState("");
+  const categories = useCategoryStore((c) => c.categories);
+  const filteredCate = categories.filter((fc) => fc.id !== "uncategorized");
+
+  const editingCategoryId = useCategoryStore((c) => c.editingCategoryId);
+  const setEditingCategoryId = useCategoryStore((c) => c.setEditingCategoryId);
+
+  const searchCate = useSearch(filteredCate, cateKeyword, (cate) =>
+    [cate.name].filter(Boolean).join(" "),
+  );
+
   const modal = {
     cateForm: useActive(),
     delete: useActive(),
@@ -21,6 +33,7 @@ function Category({ onClose }) {
     } else if (modal.delete.isActive) {
       modal.delete.deactivate();
     }
+    setEditingCategoryId(null);
   };
   return (
     <>
@@ -31,6 +44,8 @@ function Category({ onClose }) {
       />
       <div className={cx("p-6 border-b border-[var(--color-unavailable-300)]")}>
         <Search
+          value={cateKeyword}
+          onChange={(e) => setCateKeyword(e.target.value)}
           placeholder="Tìm kiếm danh mục..."
           className={cx("w-full rounded-[8px]")}
         />
@@ -38,7 +53,7 @@ function Category({ onClose }) {
       {/* Main */}
       <div className={cx("p-6")}>
         <div className={cx("grid grid-cols-1 md:grid-cols-2 gap-4")}>
-          {MOCK_NEWS_CATEGORIES.map((category) => {
+          {searchCate.map((category) => {
             const IconComponent = ICONS_CATE_MAP[category.icon] || LuBook;
             return (
               <div
@@ -81,12 +96,20 @@ function Category({ onClose }) {
                       height={40}
                       iconClassName="text-sm font-bold text-[var(--color-secondary)]"
                       icon={<LuSquarePen />}
+                      onClick={() => {
+                        setEditingCategoryId(category.id);
+                        modal.cateForm.toggleActive();
+                      }}
                     />
                     <Button
                       width={40}
                       height={40}
                       iconClassName="text-sm font-bold text-[var(--color-error)]"
                       icon={<LuTrash2 />}
+                      onClick={() => {
+                        setEditingCategoryId(category.id);
+                        modal.delete.toggleActive();
+                      }}
                     />
                   </div>
                 </div>
@@ -135,6 +158,13 @@ function Category({ onClose }) {
         width="max-w-md"
       >
         <CateForm onClose={handleClose} />
+      </Modal>
+      <Modal
+        open={modal.delete.isActive}
+        onClose={handleClose}
+        width="max-w-md"
+      >
+        <Delete type="category" id={editingCategoryId} onClose={handleClose} />
       </Modal>
     </>
   );
