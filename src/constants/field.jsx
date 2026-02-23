@@ -98,3 +98,11 @@ export const INITAL_NEWS = {
   thumbnail: null,
   view: 0,
 };
+
+export const INITAL_NEWS_CATEGORY = {
+  id: "",
+  name: "",
+  icon: "",
+  color: "",
+  totalNews: 0,
+};

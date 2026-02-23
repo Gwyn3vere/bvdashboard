@@ -4,13 +4,24 @@ import style from "../../styles/ui.module.css";
 
 const cx = classNames.bind(style);
 
-function Radio({ text, className, radioClassName, style = {}, type = "radio", checked, onChange, disabled, ...props }) {
+function Radio({
+  text,
+  className,
+  radioClassName,
+  style = {},
+  type = "radio",
+  checked,
+  onChange,
+  disabled,
+  hidden = false,
+  ...props
+}) {
   const handleChange = useCallback(
     (e) => {
       if (disabled) return;
       onChange?.(e);
     },
-    [onChange, disabled]
+    [onChange, disabled],
   );
 
   return (
@@ -19,7 +30,7 @@ function Radio({ text, className, radioClassName, style = {}, type = "radio", ch
         "cursor-pointer select-none",
         text && "flex items-center gap-3",
         disabled && "opacity-50 pointer-events-none",
-        className
+        className,
       )}
       style={style}
     >
@@ -33,7 +44,7 @@ function Radio({ text, className, radioClassName, style = {}, type = "radio", ch
         {...props}
       />
 
-      <span className={cx("radio-indicator")} />
+      <span className={cx("radio-indicator")} hidden={hidden} />
 
       {text && <span>{text}</span>}
     </label>

@@ -9,6 +9,7 @@ import {
   LuFileText,
   LuTag,
   LuSparkle,
+  LuUser,
 } from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { useNewsStore } from "../../store/newsStore";
@@ -75,23 +76,16 @@ function Article({ newsId }) {
           )}
         >
           {/* Author */}
-          <div className={cx("flex items-center gap-3")}>
-            <div
-              className={cx(
-                "p-2 rounded-full bg-[var(--color-primary)]",
-                "text-white font-bold w-7 h-7 text-sm",
-                "flex items-center justify-center",
-              )}
-            >
-              NA
-            </div>
-            <Item
-              children={news?.author?.name || "Tên tác giả"}
-              itemClassName={cx(
-                "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
-              )}
-            />
-          </div>
+
+          <Item
+            icon={<LuUser />}
+            children={news?.author?.name || "Tên tác giả"}
+            itemClassName={cx(
+              "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
+            )}
+            className={cx("flex items-center gap-2")}
+          />
+
           {/* Daytime */}
           <Item
             icon={<LuCalendar />}

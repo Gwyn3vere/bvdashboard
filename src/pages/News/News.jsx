@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
@@ -10,6 +10,7 @@ import {
   Pagination,
   Image,
   Tooltip,
+  Modal,
 } from "../../components/ui";
 import {
   LuSlidersHorizontal,
@@ -25,18 +26,26 @@ import { TWCSS } from "../../styles/defineTailwindcss";
 import { NEWS_TOTAL_STATUS } from "../../mock/news";
 import { NEWS_STATUS } from "../../constants/status";
 import { useNewsStore } from "../../store/newsStore";
-import { usePagination, useActive } from "../../components/hooks";
+import { usePagination, useActive, useSearch } from "../../components/hooks";
 import { formatDateVN } from "../../utils/format";
-import { Skeleton } from "./index";
+import { Skeleton, Category } from "./index";
 
 const cx = classNames.bind(styles);
 
 function News() {
+  const [newsKeyword, setNewsKeyword] = useState("");
+  const category = useActive();
   const { news, loading, fetchNews } = useNewsStore();
   useEffect(() => {
     fetchNews();
   }, []);
   const filterNews = news.filter((n) => n.status !== "DRAFT");
+
+  const searchNews = useSearch(filterNews, newsKeyword, (news) =>
+    [news.title, news.category?.name, news.author?.name]
+      .filter(Boolean)
+      .join(" "),
+  );
 
   return (
     <div className={cx(TWCSS.container)}>
@@ -60,9 +69,21 @@ function News() {
 
       <div className="space-y-10">
         <Overview total={NEWS_TOTAL_STATUS} />
-        <ActionBar />
-        <NewsList news={filterNews} loading={loading} />
+        <ActionBar
+          toggle={category.toggleActive}
+          keyword={newsKeyword}
+          onChange={(e) => setNewsKeyword(e.target.value)}
+        />
+        <NewsList news={searchNews} loading={loading} />
       </div>
+
+      <Modal
+        open={category.isActive}
+        onClose={category.deactivate}
+        width="max-w-2xl"
+      >
+        <Category onClose={category.deactivate} />
+      </Modal>
     </div>
   );
 }
@@ -111,8 +132,7 @@ function Overview({ total }) {
   );
 }
 
-function ActionBar({}) {
-  const category = useActive();
+function ActionBar({ toggle, keyword, onChange }) {
   return (
     <div
       className={cx(
@@ -120,7 +140,13 @@ function ActionBar({}) {
       )}
     >
       <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-3")}>
-        <Search width={"auto"} height={45} className={cx("rounded-[8px]")} />
+        <Search
+          value={keyword}
+          onChange={onChange}
+          width={"auto"}
+          height={45}
+          className={cx("rounded-[8px]")}
+        />
         <div className={cx("flex flex-col md:flex-row justify-between gap-3")}>
           <div className="flex gap-1">
             <Tooltip content="Bộ lọc" position="top">
@@ -169,6 +195,7 @@ function ActionBar({}) {
                   "font-medium",
                   "hover:bg-[var(--color-primary-100)]",
                 )}
+                onClick={toggle}
               />
             </Tooltip>
           </div>

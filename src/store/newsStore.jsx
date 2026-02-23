@@ -8,21 +8,11 @@ const normalizeNews = (item) => ({
 });
 
 export const useNewsStore = create((set, get) => ({
-  /* =======================
-     STATE
-  ======================= */
   news: MOCK_NEWS_LIST.map(normalizeNews),
   editingNewsId: null,
   loading: false,
 
-  /* =======================
-     GETTERS
-  ======================= */
   getNewsById: (id) => get().news.find((s) => s.id === id),
-
-  /* =======================
-     ACTIONS
-  ======================= */
 
   setNews: (news) => set({ news: news.map(normalizeNews) }),
 
@@ -32,6 +22,13 @@ export const useNewsStore = create((set, get) => ({
     set((state) => ({
       news: state.news.map((s) =>
         s.id === updatedNews.id ? normalizeNews({ ...s, ...updatedNews }) : s,
+      ),
+    })),
+
+  updateCategoryForNews: (oldId, newId) =>
+    set((state) => ({
+      news: state.news.map((n) =>
+        n.categoryId === oldId ? { ...n, categoryId: newId } : n,
       ),
     })),
 

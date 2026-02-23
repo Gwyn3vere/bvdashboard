@@ -20,7 +20,7 @@ import {
   LuFlaskConical,
   LuShield,
   LuPill,
-  LuHeartPulse
+  LuHeartPulse,
 } from "react-icons/lu";
 
 export const ICON_MAP = {
@@ -54,5 +54,18 @@ export const ICON_MAP = {
   pharmacy: LuPill,
 
   // Default
-  stethoscope: LuStethoscope
+  stethoscope: LuStethoscope,
+};
+
+export const ICONS_CATE_MAP = {
+  Heart: LuHeart,
+  Stethoscope: LuStethoscope,
+  Scissors: LuScissors,
+  Baby: LuBaby,
+  ClipboardPlus: LuClipboardPlus,
+  Siren: LuSiren,
+  Syringe: LuSyringe,
+  ToyBrick: LuToyBrick,
+  Bug: LuBug,
+  Leaf: LuLeaf,
 };

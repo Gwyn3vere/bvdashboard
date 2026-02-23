@@ -24,12 +24,13 @@ import { TWCSS } from "../../styles/defineTailwindcss";
 import { useNewsStore } from "../../store/newsStore";
 import { formatDateVN } from "../../utils/format";
 import { NEWS_STATUS } from "../../constants/status";
-import { useActive } from "../../components/hooks";
+import { useActive, useSearch } from "../../components/hooks";
 import { Article, Preview } from "./index";
 
 const cx = classNames.bind(styles);
 
 function Waiting() {
+  const [newsKeyword, setNewsKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const { news, loading, fetchNews } = useNewsStore();
   const waitingNews = useMemo(() => {
@@ -54,6 +55,12 @@ function Waiting() {
 
     return result;
   }, [news]);
+
+  const searchNews = useSearch(waitingNews, newsKeyword, (news) =>
+    [news.title, news.category?.name, news.author?.name]
+      .filter(Boolean)
+      .join(" "),
+  );
 
   const totalWaiting = allWaitingNews.length;
 
@@ -85,10 +92,12 @@ function Waiting() {
         setSelectedCategory={setSelectedCategory}
         totalWaiting={totalWaiting}
         waitingCountByCategory={waitingCountByCategory}
+        keyword={newsKeyword}
+        onChange={(e) => setNewsKeyword(e.target.value)}
       />
 
-      {waitingNews.length > 0 ? (
-        waitingNews.map((news) => <NewsCard key={news?.id} news={news} />)
+      {searchNews.length > 0 ? (
+        searchNews.map((news) => <NewsCard key={news?.id} news={news} />)
       ) : (
         <Item
           children={"Không có bài viết nào chờ duyệt"}
@@ -106,6 +115,8 @@ function ActionBar({
   setSelectedCategory,
   totalWaiting,
   waitingCountByCategory,
+  keyword,
+  onChange,
 }) {
   const scrollRef = useRef(null);
   const [isDown, setIsDown] = useState(false);
@@ -142,7 +153,13 @@ function ActionBar({
           "grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-2 overflow-hidden",
         )}
       >
-        <Search width={"auto"} height={45} className={cx("rounded-[8px]")} />
+        <Search
+          value={keyword}
+          onChange={onChange}
+          width={"auto"}
+          height={45}
+          className={cx("rounded-[8px]")}
+        />
         <div className={cx("overflow-hidden min-w-0")}>
           <div
             ref={scrollRef}

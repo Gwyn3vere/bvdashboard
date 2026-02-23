@@ -19,6 +19,7 @@ function Select({
   className,
   placeholder = "Lựa chọn...",
   inputClassName = "",
+  itemClassName = "",
   error,
   style = {},
   ...props
@@ -37,21 +38,31 @@ function Select({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selected = value != null && value !== "" ? data.find((item) => String(item.value) === String(value)) : null;
+  const selected =
+    value != null && value !== ""
+      ? data.find((item) => String(item.value) === String(value))
+      : null;
 
   const displayText = selected?.name ?? placeholder;
 
   return (
     <div ref={dropdownRef} className={cx("relative", className)}>
-      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      {label && (
+        <label className={cx("font-medium", labelClassName)}>{label}</label>
+      )}
       <div
         onClick={() => setIsOpen(!isOpen)}
         style={{ width, height, ...style }}
         className={cx(TWCSS.select, inputClassName, error && TWCSS.inputError)}
       >
-        <span className={value ? "text-gray-900" : "text-gray-400"}>{displayText}</span>
+        <span className={value ? "text-gray-900" : "text-gray-400"}>
+          {displayText}
+        </span>
         <LuChevronDown
-          className={cx("w-5 h-5 text-gray-400", isOpen ? "rotate-180 transition-transform" : "transition-transform")}
+          className={cx(
+            "w-5 h-5 text-gray-400",
+            isOpen ? "rotate-180 transition-transform" : "transition-transform",
+          )}
         />
       </div>
 
@@ -67,10 +78,11 @@ function Select({
                     setIsOpen(!isOpen);
                   }}
                   className={cx(
+                    itemClassName,
                     "px-3 py-2 cursor-pointer w-full",
                     selected?.name === item.name
                       ? "bg-[var(--color-primary)] rounded-[8px] text-white hover:bg-[var(--color-primary-700)]"
-                      : "hover:bg-green-50"
+                      : "hover:bg-green-50",
                   )}
                 >
                   {item.name}

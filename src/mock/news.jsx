@@ -1190,9 +1190,46 @@ export const MOCK_NEWS_LIST = [
 ];
 
 export const MOCK_NEWS_CATEGORIES = [
-  { id: "ttsk", name: "Tin tức sức khoẻ", totalNews: 42 },
-  { id: "pcd", name: "Phòng chống dịch", totalNews: 28 },
-  { id: "cssk", name: "Chăm sóc sức khoẻ", totalNews: 35 },
-  { id: "ytcd", name: "Y tế cộng đồng", totalNews: 19 },
-  { id: "dd", name: "Dinh dưỡng", totalNews: 24 },
+  {
+    id: "ttsk",
+    name: "Tin tức sức khoẻ",
+    totalNews: 42,
+    icon: "Heart",
+    color: "#ff4d4d",
+  },
+  {
+    id: "pcd",
+    name: "Phòng chống dịch",
+    totalNews: 28,
+    icon: "Syringe",
+    color: "#19c953",
+  },
+  {
+    id: "cssk",
+    name: "Chăm sóc sức khoẻ",
+    totalNews: 35,
+    icon: "Stethoscope",
+    color: "#00bcd4",
+  },
+  {
+    id: "ytcd",
+    name: "Y tế cộng đồng",
+    totalNews: 19,
+    icon: "Leaf",
+    color: "#8100f2",
+  },
+  {
+    id: "dd",
+    name: "Dinh dưỡng",
+    totalNews: 24,
+    icon: "ToyBrick",
+    color: "#ffcc00",
+  },
+  {
+    id: "uncategorized",
+    name: "Không xác định",
+    totalNews: 0,
+    icon: "Bug",
+    color: "#999999",
+  },
 ];
