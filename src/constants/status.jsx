@@ -18,13 +18,21 @@ export const DOCTOR_STATUS = {
 };
 
 export const STAFF_STATUS = {
-  ACTIVE: {
-    label: "Hoạt động",
+  ALL: {
+    label: "Tất cả",
+    color: "bg-[var(--color-grd-primary)]",
+  },
+  TRUE: {
+    label: "Đang làm việc",
     color: "bg-[var(--color-secondary)]",
   },
-  INACTIVE: {
-    label: "Không hoạt động",
+  FALSE: {
+    label: "Tạm nghỉ",
     color: "bg-[var(--color-error)]",
+  },
+  ADMIN: {
+    label: "Quản trị viên",
+    color: "bg-[var(--color-primary)]",
   },
 };
 

@@ -21,16 +21,19 @@ function List({ className, columns = [], data = [], style = {} }) {
   } = usePagination(data, 10);
   return (
     <div className={cx(className, "overflow-hidden")} style={{ ...style }}>
-      <div className={cx("overflow-x-auto", TWCSS.scrollbarX)}>
+      <div className={cx("overflow-x-auto mt-5", TWCSS.scrollbarX)}>
         <div
           className={cx(
-            "w-[1600px] 2xl:w-full px-4 py-3 flex items-center bg-[var(--color-primary)]",
+            "w-[1600px] 2xl:w-full px-4 py-3 flex items-center bg-linear-[var(--color-ln-primary)]",
+            "rounded-2xl",
           )}
         >
           {columns.map((col) => (
             <label
               key={col.key}
-              className="text-left font-semibold text-white whitespace-nowrap backdrop-blur-sm"
+              className={cx(
+                "text-left font-semibold text-white whitespace-nowrap text-[11.5px]",
+              )}
               style={{ width: col.width }}
             >
               {col.label}
@@ -44,13 +47,13 @@ function List({ className, columns = [], data = [], style = {} }) {
               className={cx(
                 "group w-[1600px] 2xl:w-full",
                 "flex items-center border-b border-gray-100 transition cursor-pointer",
-                "hover:bg-[var(--color-primary)] hover:text-white px-4",
+                "hover:bg-[var(--color-primary-100)]/50 py-3 px-4",
               )}
             >
               {columns.map((col) => (
                 <div
                   key={col.key}
-                  className={cx("text-left py-3 whitespace-nowrap")}
+                  className={cx("text-left whitespace-nowrap")}
                   style={{ width: col.width }}
                 >
                   {col.render ? col.render(row, index) : row[col.key]}

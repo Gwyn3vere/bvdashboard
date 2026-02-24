@@ -8,21 +8,26 @@ import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
 import { CiBellOn, CiLight, CiCalendar } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import { LuAlignRight, LuAlignLeft, LuLogOut } from "react-icons/lu";
+import { LuAlignJustify, LuLogOut } from "react-icons/lu";
 import { ROLE_OPTIONS } from "../../constants/option";
 import { NAV_MENU } from "../../constants/menu";
 import { useAuthStore } from "../../store/authStore";
 import { TWCSS } from "../../styles/defineTailwindcss";
+import { useLocation } from "react-router-dom";
+import metaRoutes from "../../routes/metaRoutes";
+import { Breadcrumb } from "./index";
 
 const cx = classNames.bind(style);
 
 function Header({ collapsed, toggle }) {
-  const { user, initialized, logout } = useAuthStore();
+  const location = useLocation();
+  const breadcrumbItems = metaRoutes[location.pathname]?.breadcrumb || [];
+  const pageTitle = breadcrumbItems.at(-1)?.label || "";
 
+  const { user, initialized, logout } = useAuthStore();
   if (!initialized) return null;
 
   const roleConfig = ROLE_OPTIONS.find((item) => item.value === user?.role);
-
   const dateNow = new Date().toLocaleDateString("vi-VN", {
     weekday: "long",
     day: "2-digit",
@@ -48,9 +53,9 @@ function Header({ collapsed, toggle }) {
         TWCSS.container,
       )}
     >
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <Button
-          icon={collapsed ? <LuAlignLeft /> : <LuAlignRight />}
+          icon={<LuAlignJustify />}
           width={40}
           height={40}
           iconClassName={cx("text-2xl font-bold")}
@@ -58,59 +63,69 @@ function Header({ collapsed, toggle }) {
             "text-[14px] text-[var(--color-primary)]",
             "cursor-pointer",
             "inline-flex justify-start transition-all duration-300 ease-in-out",
-            collapsed ? "opacity-100 scale-100" : "opacity-80 scale-95",
           )}
           onClick={toggle}
         />
-        {/* <Search className="rounded-full" /> */}
+        <div className={cx("")}>
+          <Breadcrumb items={breadcrumbItems} />
+          <Item children={pageTitle} itemClassName={cx("text-lg font-black")} />
+        </div>
       </div>
-      <div className="flex gap-2">
-        {/* Theme mode */}
-        <Button
-          height={40}
-          width={40}
-          className="hidden sm:flex border-2 border-[var(--color-bg-light-primary-300)]"
-          icon={<CiLight />}
-        />
+      <div className="flex items-center gap-2">
+        <div
+          className={cx(
+            "w-auto h-[25px] px-4 bg-[var(--color-primary-100)] rounded-full ",
+            "flex items-center justify-center font-medium gap-2",
+            "border border-[var(--color-primary-300)]",
+            "hidden md:inline-flex",
+          )}
+        >
+          <div
+            className={cx("w-2 h-2 rounded-full bg-[var(--color-primary)]")}
+          />
+          <Item
+            children={dateNow}
+            itemClassName="text-[11px] text-[var(--color-primary-900)] font-bold"
+          />
+        </div>
         {/* Notifications */}
         <Button
           height={40}
           width={40}
-          className="hidden sm:flex border-2 border-[var(--color-bg-light-primary-300)]"
+          className="hidden sm:flex bg-[var(--color-unavailable-100)]"
           icon={<CiBellOn />}
         />
+        {/* Avatar with Dropdown */}
         <div
           className={cx(
-            "w-auto h-[40px] py-2 px-4 bg-[var(--color-primary-100)] rounded-[8px] ",
-            "text-[14px] flex items-center justify-center font-medium gap-1",
+            "relative bg-[var(--color-unavailable-100)] rounded-full p-0 md:py-2 md:px-3",
+            "border border-[var(--color-unavailable-300)]",
           )}
+          ref={avatarRef}
         >
-          <CiCalendar className="text-[18px]" />
-          {dateNow}
-        </div>
-        {/* Avatar with Dropdown */}
-        <div className="relative" ref={avatarRef}>
-          <Avatar className="rounded-full" onClick={avatar.toggleActive}>
-            <div className="hidden sm:block h-[40px]">
+          <Avatar
+            width={30}
+            height={30}
+            className="rounded-full"
+            onClick={avatar.toggleActive}
+          >
+            <div
+              className={cx(
+                "hidden sm:block h-[30px]",
+                "flex flex-col items-center justify-center",
+              )}
+            >
               <Username
                 children={user?.name || "Guest"}
-                className="font-bold text-[14px] uppercase"
+                className="font-bold text-xs"
               />
               <Role
                 children={
                   roleConfig ? roleConfig.name : user?.role || "Visitor"
                 }
-                className="text-small text-[14px]"
+                className="text-small text-[11px]"
               />
             </div>
-            <IoIosArrowDown
-              className={cx(
-                "hidden sm:block text-[14px]",
-                avatar.isActive
-                  ? "rotate-180 transition-transform"
-                  : "transition-transform",
-              )}
-            />
           </Avatar>
           <Dropdown
             open={avatar.isActive}
