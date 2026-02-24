@@ -567,3 +567,10 @@ export const COLORS_CATE_OPTION = [
   "#00bcd4",
   "#8100f2",
 ];
+
+export const STAFF_FEATURED_OPTION = [
+  { value: "ALL", name: "Tất cả" },
+  { value: true, name: "Đang làm việc" },
+  { value: false, name: "Tạm nghỉ" },
+  { value: "ADMIN", name: "Quản trị viên" },
+];

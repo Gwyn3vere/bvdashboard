@@ -9,10 +9,10 @@ const cx = classNames.bind(style);
 function Search({
   value,
   defaultValue,
-  width = "auto",
+  minWidth = "auto",
   height = 40,
   onChange,
-  placeholder = "Tìm kiếm",
+  placeholder = "Tìm kiếm...",
   icon: Icon = CiSearch,
   inputClass = "",
   wrapperClass = "",
@@ -23,16 +23,17 @@ function Search({
   return (
     <div
       className={cx(
-        "bg-[var(--color-unavailable-100)] px-4 flex items-center gap-2",
+        "px-4 flex items-center gap-2",
         "border border-[var(--color-unavailable-300)]",
-        "focus-within:border-[var(--color-primary)]",
+        "focus-within:shadow-[var(--shadow-focus)]",
+        "focus-within:border-[var(--color-primary-300)]",
         wrapperClass,
         className,
       )}
-      style={{ width, height, ...style }}
+      style={{ minWidth, height, ...style }}
       {...props}
     >
-      <Icon className="text-[20px] text-[var(--color-text-light-secondary)]" />
+      <Icon className="text-[16px] text-[var(--color-unavailable-700)]" />
 
       <input
         type="search"
@@ -41,8 +42,10 @@ function Search({
         onChange={onChange}
         placeholder={placeholder}
         className={cx(
-          "w-full outline-none bg-transparent text-[14px] h-full flex-1",
+          "w-full outline-none bg-transparent text-xs h-full flex-1",
           inputClass,
+          "placeholder:text-xs placeholder:text-[var(--color-unavailable)]",
+          "placeholder:font-semibold",
         )}
       />
     </div>

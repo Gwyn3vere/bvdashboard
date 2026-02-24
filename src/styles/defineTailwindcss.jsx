@@ -1,5 +1,5 @@
 export const TWCSS = {
-  container: "px-2 pb-2 sm:px-10 sm:pb-5",
+  container: "px-2 py-2 sm:px-10 sm:pb-5",
   overview: [
     "relative",
     "bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
@@ -13,7 +13,7 @@ export const TWCSS = {
     "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",
     " hover:bg-[var(--color-primary)] hover:text-[var(--color-bg-light-primary-100)]",
   ],
-  list: "rounded-[8px] w-full h-full bg-[var(--color-bg-light-primary-100)] outline outline-[var(--color-unavailable-300)]",
+  list: "w-full h-full px-3 md:px-6",
   tagButton: [
     "px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200",
     "gap-1 border-1 border-[var(--color-gray-400)]",

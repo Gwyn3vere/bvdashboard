@@ -4,32 +4,20 @@ import { useState } from "react";
 import { useActive, useSearch } from "../../components/hooks";
 import { useStaffStore } from "../../store/staffStore";
 
-import { POSITION_OPTIONS, ROLE_OPTIONS } from "../../constants/option";
+import {
+  POSITION_OPTIONS,
+  STAFF_FEATURED_OPTION,
+} from "../../constants/option";
+import { STAFF_ROLE } from "../../constants/role";
+import { STAFF_STATUS } from "../../constants/status";
 
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 
-import {
-  List,
-  Breadcrumb,
-  Item,
-  Search,
-  Tooltip,
-  Avatar,
-  Button,
-  Modal,
-  Filter,
-} from "../../components/ui";
-import {
-  LuSlidersHorizontal,
-  LuUserRoundPlus,
-  LuLayoutDashboard,
-  LuTrash2,
-  LuUserPen,
-  LuSquareUser,
-} from "react-icons/lu";
+import { List, Avatar, Button, Modal, Item } from "../../components/ui";
+import { LuShield, LuTrash2, LuUserPen, LuEye } from "react-icons/lu";
 
-import { StaffForm, Delete, Profile } from "../Staff";
+import { ActionBar, Delete, Profile } from "../Staff";
 
 const cx = classNames.bind(styles);
 
@@ -60,163 +48,205 @@ function Staff() {
 
   return (
     <div className={TWCSS.container}>
-      <Breadcrumb
-        className="mb-3"
-        items={[
-          {
-            label: "Bảng điều khiển",
-            href: "/bang-dieu-khien",
-            icon: <LuLayoutDashboard />,
-          },
-          { label: "Quản lý nhân sự" },
-        ]}
-      />
-      <Item as="strong" children="Quản lý nhân sự" itemClassName="text-3xl" />
-      <Item
-        as="span"
-        children="Quản lý thành viên nhóm của bạn và quyền tài khoản của họ ở đây."
-        itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
-      />
-      <ActionBar
-        modal={modal}
-        totalStaff={filteredStaff.length}
-        keyword={staffKeyword}
-        onChange={(e) => setStaffKeyword(e.target.value)}
-        onClose={handleClose}
-      />
+      <div
+        className={cx("bg-white rounded-2xl")}
+        style={{ boxShadow: "var(--shadow)" }}
+      >
+        <ActionBar
+          modal={modal}
+          totalStaff={filteredStaff.length}
+          keyword={staffKeyword}
+          onChange={(e) => setStaffKeyword(e.target.value)}
+          onClose={handleClose}
+          featured={STAFF_FEATURED_OPTION}
+        />
 
-      <List
-        className={TWCSS.list}
-        columns={[
-          { key: "Index", label: "#", width: "3%", render: (row) => row.id },
-          {
-            key: "Username",
-            label: "Tên thành viên",
-            width: "28%",
-            render: (row) => (
-              <div className="flex items-center gap-2">
-                <Avatar
-                  src={row.avatarUrl}
-                  className="rounded-full"
-                  width={50}
-                  height={50}
-                />
-                <div>
-                  <span className="font-bold">{row.name}</span>
-                  <p className="text-sm opacity-70">{row.email}</p>
-                </div>
-              </div>
-            ),
-          },
-          {
-            key: "Position",
-            label: "Chức vụ",
-            width: "27%",
-            render: (row) => {
-              const positionConfig = POSITION_OPTIONS.find(
-                (item) => item.value === row.position,
-              );
-              return (
-                <span>
-                  {positionConfig ? positionConfig.name : row.position}
-                </span>
-              );
-            },
-          },
-          {
-            key: "Phone",
-            label: "Liên hệ",
-            width: "17%",
-            render: (row) => <span>{row.phone}</span>,
-          },
-          {
-            key: "Access",
-            label: "Quyền",
-            width: "10%",
-            render: (row) => {
-              const roleConfig = ROLE_OPTIONS.find(
-                (item) => item.value === row.role,
-              );
-
-              if (!roleConfig) return row.role;
-              return (
-                <span
-                  className={cx(
-                    "px-2 py-1 text-xs rounded-full",
-                    "bg-[var(--color-unavailable-100)] text-black font-medium",
+        <List
+          className={TWCSS.list}
+          columns={[
+            {
+              key: "Index",
+              label: "#",
+              width: "3%",
+              render: (row) => (
+                <Item
+                  children={row.id}
+                  itemClassName={cx(
+                    "text-[12px] text-[var(--color-unavailable-700)]",
+                    "font-semibold",
                   )}
-                >
-                  {roleConfig.name}
-                </span>
-              );
+                />
+              ),
             },
-          },
-          {
-            key: "Profile",
-            label: "",
-            width: "5%",
-            render: (row) => (
-              <Button
-                onClick={() => {
-                  setEditingStaffId(row.id);
-                  modal.profile.toggleActive();
-                }}
-                width={40}
-                height={40}
-                iconClassName="text-[20px] font-bold"
-                className={cx(
-                  "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition",
-                )}
-                icon={<LuSquareUser />}
-              />
-            ),
-          },
-          {
-            key: "Edit",
-            label: "",
-            width: "5%",
-            render: (row) => (
-              <Button
-                onClick={() => {
-                  setEditingStaffId(row.id);
-                  modal.staffForm.toggleActive();
-                }}
-                width={40}
-                height={40}
-                iconClassName="text-[20px] font-bold"
-                className={cx(
-                  "hover:bg-[var(--color-secondary)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition",
-                )}
-                icon={<LuUserPen />}
-              />
-            ),
-          },
-          {
-            key: "Delete",
-            label: "",
-            width: "5%",
-            render: (row) => (
-              <Button
-                onClick={() => {
-                  setEditingStaffId(row.id);
-                  modal.delete.toggleActive();
-                }}
-                width={40}
-                height={40}
-                iconClassName="text-[20px] font-bold"
-                className={cx(
-                  "hover:bg-[var(--color-error)] hover:text-[var(--color-bg-light-primary-100)]",
-                  "rounded-full transition",
-                )}
-                icon={<LuTrash2 />}
-              />
-            ),
-          },
-        ]}
-        data={filteredStaff}
-      />
+            {
+              key: "Username",
+              label: "Tên thành viên",
+              width: "28%",
+              render: (row) => (
+                <div className="flex items-center gap-2">
+                  <Avatar
+                    src={row.avatarUrl}
+                    name={row.name}
+                    className="rounded-full"
+                    width={38}
+                    height={38}
+                  />
+                  <div>
+                    <span className="font-bold text-[13.5px]">{row.name}</span>
+                    <p className="text-[11px] text-[var(--color-unavailable-700)]">
+                      {row.email}
+                    </p>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              key: "Position",
+              label: "Chức vụ",
+              width: "27%",
+              render: (row) => {
+                const positionConfig = POSITION_OPTIONS.find(
+                  (item) => item.value === row.position,
+                );
+                return (
+                  <span className="text-[12.5px] font-semibold text-[var(--color-unavailable-900)]">
+                    {positionConfig ? positionConfig.name : row.position}
+                  </span>
+                );
+              },
+            },
+            {
+              key: "Phone",
+              label: "Liên hệ",
+              width: "17%",
+              render: (row) => (
+                <span className="text-[12.5px] font-medium text-[var(--color-unavailable-900)]">
+                  {row.phone}
+                </span>
+              ),
+            },
+            {
+              key: "Access",
+              label: "Quyền",
+              width: "16%",
+              render: (row) => {
+                const roleConfig = STAFF_ROLE[row.role];
+
+                if (!roleConfig) return row.role;
+                return (
+                  <div className="flex flex-col gap-1 inline-flex">
+                    <Item
+                      as="span"
+                      icon={row.role === "ADMIN" ? <LuShield /> : undefined}
+                      children={roleConfig.label}
+                      className={cx(
+                        "px-2 py-1 text-[11px] rounded-full",
+                        "bg-[var(--color-unavailable-100)] font-bold",
+                        "flex items-center gap-1",
+                      )}
+                      style={{
+                        background: roleConfig.background,
+                        color: roleConfig.color,
+                      }}
+                    />
+
+                    <Item
+                      as="span"
+                      icon={
+                        <div
+                          className={cx(
+                            "w-2 h-2 rounded-full",
+                            row.featured
+                              ? "bg-[var(--color-primary-500)]"
+                              : "bg-[var(--color-unavailable-500)]",
+                          )}
+                        />
+                      }
+                      children={row.featured ? "Đang làm việc" : "Tạm nghỉ"}
+                      className={cx(
+                        "px-2 py-1 text-[11px] rounded-full",
+                        "font-bold",
+                        row.featured
+                          ? "bg-[var(--color-primary-200)]/40 text-[var(--color-primary-900)]"
+                          : "bg-[var(--color-unavailable-100)] text-[var(--color-unavailable-900)]",
+                        "flex items-center gap-1",
+                      )}
+                    />
+                  </div>
+                );
+              },
+            },
+            {
+              key: "Profile",
+              label: "",
+              width: "3%",
+              render: (row) => (
+                <Button
+                  onClick={() => {
+                    setEditingStaffId(row.id);
+                    modal.profile.toggleActive();
+                  }}
+                  width={32}
+                  height={32}
+                  iconClassName="text-sm font-bold"
+                  className={cx(
+                    "bg-[var(--color-primary-100)] text-[var(--color-primary-700)]",
+                    "hover:bg-[var(--color-primary)] hover:text-white",
+                    "rounded-full transition",
+                  )}
+                  icon={<LuEye />}
+                />
+              ),
+            },
+            {
+              key: "Edit",
+              label: "",
+              width: "3%",
+              render: (row) => (
+                <Button
+                  onClick={() => {
+                    setEditingStaffId(row.id);
+                    modal.staffForm.toggleActive();
+                  }}
+                  width={32}
+                  height={32}
+                  iconClassName="text-sm font-bold"
+                  className={cx(
+                    "bg-[var(--color-secondary-100)] text-[var(--color-secondary-700)]",
+                    "hover:bg-[var(--color-secondary)] hover:text-white",
+                    "rounded-full transition",
+                  )}
+                  icon={<LuUserPen />}
+                />
+              ),
+            },
+            {
+              key: "Delete",
+              label: "",
+              width: "3%",
+              render: (row) => (
+                <Button
+                  onClick={() => {
+                    setEditingStaffId(row.id);
+                    modal.delete.toggleActive();
+                  }}
+                  width={32}
+                  height={32}
+                  iconClassName="text-sm font-bold"
+                  className={cx(
+                    "bg-[var(--color-error-100)] text-[var(--color-error-700)]",
+                    "hover:bg-[var(--color-error)] hover:text-white",
+                    "rounded-full transition",
+                  )}
+                  icon={<LuTrash2 />}
+                />
+              ),
+            },
+          ]}
+          data={filteredStaff}
+        />
+      </div>
+
       <Modal
         open={modal.profile.isActive}
         onClose={modal.profile.deactivate}
@@ -241,82 +271,3 @@ function Staff() {
 }
 
 export default Staff;
-
-function ActionBar({ modal, keyword, onChange, onClose }) {
-  return (
-    <div
-      className={cx(
-        "bg-white rounded-[8px] p-4 outline outline-[var(--color-unavailable-300)] mb-5",
-      )}
-    >
-      <div className="grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-3">
-        <Search
-          value={keyword}
-          onChange={onChange}
-          width={"auto"}
-          height={45}
-          className={cx("rounded-[8px]")}
-        />
-        <div className="flex flex-col md:flex-row justify-between gap-3">
-          <div className="flex gap-1">
-            <Tooltip content="Bộ lọc" position="top">
-              <Button
-                width={45}
-                height={45}
-                icon={<LuSlidersHorizontal />}
-                className={cx(
-                  "font-medium",
-                  "hover:bg-[var(--color-primary-100)]",
-                )}
-              />
-            </Tooltip>
-          </div>
-          <Modal
-            open={modal.filter.isActive}
-            onClose={() => modal.filter.toggleActive(false)}
-            backdrop={true}
-            style={{ boxShadow: "var(--shadow)" }}
-            className="bg-[var(--color-bg-light-primary-300)]"
-            footer={
-              <Button
-                form="staffForm"
-                type="submit"
-                children="Xác nhận"
-                width="100%"
-                height={40}
-                className="px-4 py-2 font-bold"
-                style={{
-                  background: "var(--color-text-light-primary)",
-                  color: "var(--color-bg-light-primary-100)",
-                }}
-              />
-            }
-          >
-            <Filter onClose={() => modal.filter.toggleActive(false)} />
-          </Modal>
-          {/* Create */}
-          <Button
-            icon={<LuUserRoundPlus />}
-            children="Thêm mới"
-            width="auto"
-            height={45}
-            onClick={modal.staffForm.toggleActive}
-            iconClassName="text-[20px]"
-            className={cx(
-              "gap-2 text-[14px] px-3 rounded-[8px] text-white font-medium",
-              "bg-[var(--color-primary)] cursor-pointer ",
-            )}
-          />
-          <Modal
-            open={modal.staffForm.isActive}
-            onClose={onClose}
-            backdrop={true}
-            width="max-w-xl"
-          >
-            <StaffForm onClose={onClose} />
-          </Modal>
-        </div>
-      </div>
-    </div>
-  );
-}

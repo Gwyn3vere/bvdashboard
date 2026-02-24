@@ -10,17 +10,17 @@ function Breadcrumb({
   items = [],
   separator = <HiMiniChevronRight className="text-gray-400 text-sm" />,
   className,
-  textStyle
+  textStyle,
 }) {
   return (
     <nav className={cx(className)}>
-      <ol className="flex items-center flex-wrap gap-2 text-sm text-gray-600">
+      <ol className="flex items-center flex-wrap gap-1 text-[9px] md:text-xs text-gray-600">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           const Tag = item.href ? "a" : "button";
 
           return (
-            <li key={index} className="flex items-center gap-2">
+            <li key={index} className="flex items-center gap-1">
               <Tag
                 href={item.href}
                 onClick={item.onClick}
@@ -30,8 +30,8 @@ function Breadcrumb({
                   item.disabled
                     ? "text-gray-400 cursor-not-allowed"
                     : item.href || item.onClick
-                    ? "hover:text-black"
-                    : "text-black font-medium"
+                      ? "hover:text-black"
+                      : "text-[var(--color-primary-900)]/80 font-bold",
                 )}
               >
                 {item.icon && <span className={textStyle}>{item.icon}</span>}
