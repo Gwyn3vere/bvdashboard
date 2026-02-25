@@ -38,37 +38,32 @@ function Select({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selected =
-    value != null && value !== ""
-      ? data.find((item) => String(item.value) === String(value))
-      : null;
+  const selected = value != null && value !== "" ? data.find((item) => String(item.value) === String(value)) : null;
 
   const displayText = selected?.name ?? placeholder;
 
   return (
     <div ref={dropdownRef} className={cx("relative", className)}>
-      {label && (
-        <label className={cx("font-medium", labelClassName)}>{label}</label>
-      )}
+      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
       <div
         onClick={() => setIsOpen(!isOpen)}
         style={{ width, height, ...style }}
-        className={cx(TWCSS.select, inputClassName, error && TWCSS.inputError)}
+        className={cx(
+          TWCSS.input,
+          inputClassName,
+          error && TWCSS.inputError,
+          isOpen && TWCSS.select,
+          "px-3.5 py-2.5 text-[13px] justify-between",
+        )}
       >
-        <span className={value ? "text-gray-900" : "text-gray-400"}>
-          {displayText}
-        </span>
-        <LuChevronDown
-          className={cx(
-            "w-5 h-5 text-gray-400",
-            isOpen ? "rotate-180 transition-transform" : "transition-transform",
-          )}
-        />
+        <span className={value ? "text-gray-900" : "text-gray-400"}>{displayText}</span>
+        <LuChevronDown className={cx("w-5 h-5 text-gray-400", isOpen ? "rotate-180 transition-transform" : "transition-transform")} />
       </div>
+      {error && <label className={cx("font-medium text-[11px] text-[var(--color-error)]")}>{error}</label>}
 
       {isOpen && (
-        <div className="absolute z-50 mt-2 bg-white border-2 border-gray-200 rounded-lg p-4 w-full">
-          <div className={cx("py-2 space-y-2", "max-h-60 overflow-y-auto")}>
+        <div className="absolute z-50 mt-2 bg-white border-2 border-gray-200 rounded-xl w-full">
+          <div className={cx("p-4", "max-h-60 overflow-y-auto", TWCSS.scrollbarY)}>
             {data.map((item) => {
               return (
                 <div
@@ -81,7 +76,7 @@ function Select({
                     itemClassName,
                     "px-3 py-2 cursor-pointer w-full",
                     selected?.name === item.name
-                      ? "bg-[var(--color-primary)] rounded-[8px] text-white hover:bg-[var(--color-primary-700)]"
+                      ? "bg-linear-[var(--color-ln-primary)] rounded-xl text-white hover:bg-[var(--color-primary-700)]"
                       : "hover:bg-green-50",
                   )}
                 >

@@ -21,17 +21,31 @@ export const validateDoctor = (doctor) => {
   return errors;
 };
 
-export const validateStaff = (staff) => {
+export function validateStaff(values, step) {
   const errors = {};
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!staff.name?.trim()) errors.name = "Tên nhân viên không được để trống";
-  if (!staff.email) errors.email = "Email không được để trống";
-  if (!staff.password) errors.password = "Mật khẩu không được để trống";
-  if (!staff.position) errors.position = "Chức vụ không được để trống";
-  if (!staff.role) errors.role = "Vai trò không được để trống";
+  if (step === 1) {
+    if (!values.name?.trim()) errors.name = "Vui lòng nhập họ tên";
+  }
+
+  if (step === 2) {
+    if (!values.email?.trim()) {
+      errors.email = "Vui lòng nhập email";
+    } else if (!emailRegex.test(values.email)) {
+      errors.email = "Email không đúng định dạng";
+    }
+    if (!values.password?.trim()) errors.password = "Vui lòng nhập mật khẩu";
+  }
+
+  if (step === 3) {
+    if (!values.position) errors.position = "Vui lòng chọn chức vụ";
+    if (!values.role?.trim()) errors.role = "Vui lòng chọn vai trò";
+    if (!values.department?.trim()) errors.department = "Vui lòng chọn phòng ban";
+  }
 
   return errors;
-};
+}
 
 export const validateExpertise = (expertise) => {
   const errors = {};

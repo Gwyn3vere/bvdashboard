@@ -2,7 +2,7 @@ export const STAFF_ROLE = {
   ADMIN: {
     label: "Quản trị viên",
     color: "var(--color-bg-light-primary-100)",
-    background: "var(--color-grd-primary)",
+    background: "var(--color-grd-purple)",
   },
   MEMBER: {
     label: "Thành viên",

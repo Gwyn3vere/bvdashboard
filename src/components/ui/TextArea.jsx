@@ -23,20 +23,12 @@ function TextArea({
 }) {
   return (
     <div className={className}>
-      {label && (
-        <label className={cx("font-medium", labelClassName)}>{label}</label>
-      )}
-      <div
-        className={cx(
-          TWCSS.textarea,
-          error && TWCSS.inputError,
-          inputClassName,
-        )}
-      >
+      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
         <span>{icon}</span>
         <textarea
           type={type}
-          className={cx("outline-none p-2")}
+          className={cx("outline-none px-3.5 py-2.5 text-[13px]")}
           placeholder={placeholder}
           style={{ width, minHeight, maxHeight, ...style }}
           {...props}

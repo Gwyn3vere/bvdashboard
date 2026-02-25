@@ -569,8 +569,16 @@ export const COLORS_CATE_OPTION = [
 ];
 
 export const STAFF_FEATURED_OPTION = [
-  { value: "ALL", name: "Tất cả" },
-  { value: true, name: "Đang làm việc" },
-  { value: false, name: "Tạm nghỉ" },
-  { value: "ADMIN", name: "Quản trị viên" },
+  { value: "ALL", name: "Tất cả", activeGrd: "var(--color-grd-primary)" },
+  {
+    value: true,
+    name: "Đang làm việc",
+    activeGrd: "var(--color-grd-secondary)",
+  },
+  { value: false, name: "Tạm nghỉ", activeGrd: "var(--color-grd-error)" },
+  {
+    value: "ADMIN",
+    name: "Quản trị viên",
+    activeGrd: "var(--color-grd-purple)",
+  },
 ];

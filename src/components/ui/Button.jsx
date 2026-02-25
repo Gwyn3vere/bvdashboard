@@ -21,7 +21,7 @@ function Button({
   return (
     <button
       className={cx(
-        "rounded-xl outline-none cursor-pointer flex items-center justify-center",
+        "outline-none cursor-pointer flex items-center justify-center",
         iconPosition === "right" && "flex-row-reverse",
         className,
       )}
