@@ -19,9 +19,7 @@ export const TWCSS = {
     "gap-1 border-1 border-[var(--color-gray-400)]",
     "hover:bg-[var(--color-primary)]/5 hover:text-[var(--color-primary-700)] hover:border-[var(--color-primary-700)]",
   ],
-  tagButtonActive: [
-    "bg-[var(--color-primary)] text-white border-[var(--color-primary)]",
-  ],
+  tagButtonActive: ["bg-[var(--color-primary)] text-white border-[var(--color-primary)]"],
   button: [
     "py-2 px-3 border border-[var(--color-unavailable-300)]",
     "gap-2 bg-[var(--color-bg-light-primary-100)] text-sm",
@@ -29,25 +27,19 @@ export const TWCSS = {
     "transition-all",
   ],
   input: [
-    "flex items-center px-3 rounded-[8px] mt-1",
-    "border-2 border-transparent",
-    "box-border h-[50px]",
-    "focus-within:border-2 focus-within:border-[var(--color-primary)]",
-    "hover:border-gray-300 transition-colors",
+    "flex items-center mt-1 transition-all",
+    "border border-[var(--color-unavailable-300)]",
+    "focus-within:shadow-[var(--shadow-focus)]",
+    "focus-within:border-[var(--color-primary-300)]",
+    "focus-within:bg-white",
     "bg-[var(--color-unavailable-100)]",
   ],
   tagInput: [
     "w-full rounded-lg border-2 border-transparent p-3 ",
     "focus-within:border-[var(--color-primary)] bg-[var(--color-unavailable-100)]",
   ],
-  select: [
-    "w-full px-4 py-3 border-2 rounded-[8px] mt-1",
-    "border-transparent hover:border-[var(--color-bg-light-primary-500)]",
-    "focus:border-[var(--color-primary-500)] focus:outline-none cursor-pointer",
-    "flex items-center justify-between hover:border-gray-300 transition-colors",
-    "bg-[var(--color-unavailable-100)]",
-  ],
-  inputError: ["border-2 border-[var(--color-error)]"],
+  select: ["shadow-[var(--shadow-focus)]", "border-[var(--color-primary-300)]", "bg-white", "bg-[var(--color-unavailable-100)]"],
+  inputError: ["outline outline-[var(--color-error-300)]"],
   textarea: [
     "flex items-center p-3 rounded-[8px] mt-1",
     "border-2 border-transparent",
@@ -61,7 +53,7 @@ export const TWCSS = {
     "dark:[&::-webkit-scrollbar-track]:bg-[var(--color-primary-100)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--color-primary-300)]",
   ],
   scrollbarY: [
-    "[&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full",
+    "[&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:rounded-full",
     "[&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full",
     "[&::-webkit-scrollbar-thumb]:bg-gray-300",
     "dark:[&::-webkit-scrollbar-track]:bg-[var(--color-primary-100)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--color-primary-300)]",

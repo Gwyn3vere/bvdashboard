@@ -7,9 +7,10 @@ export const INITIAL_STAFF = {
   name: "",
   phone: "",
   position: "",
+  department: "",
   role: "",
   facility: "",
-  isActive: true,
+  isActive: false,
   isVerifyEmail: false,
   featured: false,
 };

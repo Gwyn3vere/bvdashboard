@@ -8,35 +8,19 @@ const cx = classNames.bind(style);
 
 function TitleForm({ onClose, title, subTitle }) {
   return (
-    <div
-      className={cx(
-        "sticky top-0 bg-white border-b border-gray-200",
-        "p-6 flex justify-between z-50 rounded-t-[8px]",
-      )}
-    >
-      <div className="relative">
-        <Item
-          as="h3"
-          children={title}
-          className="text-xl font-bold text-gray-900"
-        />
-        <Item
-          as="div"
-          children={subTitle}
-          className="text-sm text-gray-600 mt-1"
-        />
+    <div className={cx("sticky top-0 bg-linear-[var(--color-ln-primary)]", "px-7 py-5 flex items-center justify-between z-50")}>
+      <div className="text-white">
+        <Item as="span" children={title} className="text-[17px] font-bold" />
+        <Item as="div" children={subTitle} className="text-[11.5px] text-white/70" />
       </div>
       <Button
         type="button"
-        width={50}
-        height={50}
+        width={32}
+        height={32}
         icon={<LuX />}
-        iconClassName="text-2xl"
+        iconClassName="text-[15px] text-white"
         onClick={onClose}
-        className={cx(
-          "absolute top-2 right-2",
-          "text-gray-400 hover:text-gray-600",
-        )}
+        className={cx("bg-white/20 rounded-full")}
       />
     </div>
   );

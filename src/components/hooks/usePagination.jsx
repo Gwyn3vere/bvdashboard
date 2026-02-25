@@ -35,7 +35,7 @@ function usePagination(data, itemsPerPage) {
     pages,
     setCurrentPage,
     nextPage,
-    prevPage
+    prevPage,
   };
 }
 

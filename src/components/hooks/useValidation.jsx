@@ -5,29 +5,29 @@ export default function useValidation(validateFn) {
   const [touched, setTouched] = useState({});
 
   const validate = useCallback(
-    (values) => {
-      const validationErrors = validateFn(values);
+    (values, ...args) => {
+      const validationErrors = validateFn(values, ...args);
       setErrors(validationErrors);
       return Object.keys(validationErrors).length === 0;
     },
-    [validateFn]
+    [validateFn],
   );
 
   const validateField = useCallback(
-    (name, values) => {
-      const validationErrors = validateFn(values);
+    (name, values, ...args) => {
+      const validationErrors = validateFn(values, ...args);
       setErrors((prev) => ({
         ...prev,
-        [name]: validationErrors[name]
+        [name]: validationErrors[name],
       }));
     },
-    [validateFn]
+    [validateFn],
   );
 
   const setFieldTouched = useCallback((name, isTouched = true) => {
     setTouched((prev) => ({
       ...prev,
-      [name]: isTouched
+      [name]: isTouched,
     }));
   }, []);
 
@@ -48,7 +48,7 @@ export default function useValidation(validateFn) {
     (name) => {
       return touched[name] && errors[name] ? errors[name] : null;
     },
-    [errors, touched]
+    [errors, touched],
   );
 
   return {
@@ -60,6 +60,6 @@ export default function useValidation(validateFn) {
     setAllTouched,
     resetValidation,
     getFieldError,
-    hasErrors: Object.keys(errors).length > 0
+    hasErrors: Object.keys(errors).length > 0,
   };
 }

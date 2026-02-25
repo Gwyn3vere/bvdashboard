@@ -46,16 +46,16 @@ function Modal({
   return (
     <div
       className={cx(
-        "fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50",
-        closing ? "backdrop-fadeOut" : "backdrop-fadeIn"
+        "fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50",
+        closing ? "backdrop-fadeOut" : "backdrop-fadeIn",
       )}
       onClick={onClose}
     >
       <div
         className={cx(
-          "bg-white rounded-[8px] shadow-xl w-full max-h-[90vh] overflow-y-auto hidden-scrollbar",
+          "rounded-4xl shadow-xl w-full max-h-[90vh] overflow-y-auto hidden-scrollbar",
           className,
-          width
+          width,
         )}
         onClick={(e) => e.stopPropagation()}
         style={style}

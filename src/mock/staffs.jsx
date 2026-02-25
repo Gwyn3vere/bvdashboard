@@ -36,7 +36,7 @@ export const MOCK_STAFF_LIST = [
     position: "PLANNING_STAFF",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false,
+    featured: true,
   },
   {
     id: "4",
@@ -49,7 +49,7 @@ export const MOCK_STAFF_LIST = [
     position: "HR_MANAGER",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false,
+    featured: true,
   },
   {
     id: "5",
@@ -62,7 +62,7 @@ export const MOCK_STAFF_LIST = [
     position: "HR_STAFF",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false,
+    featured: true,
   },
   {
     id: "6",
@@ -88,7 +88,7 @@ export const MOCK_STAFF_LIST = [
     position: "ACCOUNTANT",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false,
+    featured: true,
   },
   {
     id: "8",
@@ -114,7 +114,7 @@ export const MOCK_STAFF_LIST = [
     position: "NURSE",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false,
+    featured: true,
   },
   {
     id: "10",
@@ -127,7 +127,7 @@ export const MOCK_STAFF_LIST = [
     position: "NURSE",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false,
+    featured: true,
   },
   {
     id: "11",
@@ -140,7 +140,7 @@ export const MOCK_STAFF_LIST = [
     position: "PLANNING_STAFF",
     role: "MEMBER",
     facility: "Trung tâm Y tế Khu vực Liên Chiểu",
-    featured: false,
+    featured: true,
   },
   {
     id: "12",
