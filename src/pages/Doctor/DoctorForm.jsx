@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import React, { useState, useEffect, useMemo } from "react";
 import { POSITION_OPTIONS, DOCTOR_TITLES_OPTIONS } from "../../constants/option";
 import { MOCK_DEPARTMENTS, MOCK_SPECIALTIES } from "../../mock/expertise";
-import { useForm, usePagination, useValidation } from "../../components/hooks";
+import { useMultiStep } from "../../components/hooks";
 import { INITIAL_DETAIL_DOCTOR } from "../../constants/field";
 import styles from "../../styles/pages.module.css";
 import {
@@ -15,12 +15,14 @@ import {
   ArrayInput,
   TitleForm,
   Toast,
-  TagInput
+  TagInput,
+  StepBar,
 } from "../../components/ui";
 import { LuCamera, LuUser } from "react-icons/lu";
 import { slugify } from "../../utils/format";
 import { validateDoctor } from "../../utils/validation";
 import { useDoctorStore } from "../../store/doctorStore";
+import { Information, Expertise, InDeptProfile, Experience } from "./index";
 
 const cx = classNames.bind(styles);
 
@@ -29,109 +31,124 @@ function DoctorForm({ onClose }) {
   const editingDoctorId = useDoctorStore((s) => s.editingDoctorId);
   const doctor = editingDoctorId ? getDoctorById(editingDoctorId) : null;
 
-  const { values, setFieldValue, resetForm } = useForm({
+  const {
+    values,
+    setFieldValue,
+    reset,
+    validateField,
+    getFieldError,
+    currentPage,
+    totalSteps,
+    isFirst,
+    isLast,
+    handleNext,
+    prevPage,
+    handleSubmit,
+    toast,
+    setToast,
+  } = useMultiStep({
     initialValues: INITIAL_DETAIL_DOCTOR,
-    editValues: doctor
+    editValues: doctor,
+    validate: validateDoctor,
+    totalSteps: 4,
   });
 
-  const [toast, setToast] = useState(null);
-  const { validate, validateField, setAllTouched, getFieldError } = useValidation(validateDoctor);
-  const component = [
-    {
-      id: 1,
-      component: (
-        <MainForm value={values} setValue={setFieldValue} getFieldError={getFieldError} validateField={validateField} />
-      )
-    },
-    {
-      id: 2,
-      component: (
-        <InfoForm value={values} setValue={setFieldValue} getFieldError={getFieldError} validateField={validateField} />
-      )
-    }
-  ];
-
-  const { currentPage, totalPages, pagedData, nextPage, prevPage } = usePagination(component, 1);
-
-  const handleNext = () => {
-    const isValid = validate(values);
-    if (isValid) {
-      nextPage();
-    } else {
-      setAllTouched(values);
-      setToast({
-        type: "INFO",
-        message: "Vui lòng điền đầy đủ thông tin bắt buộc"
-      });
-    }
+  const renderStep = () => {
+    if (currentPage === 1)
+      return (
+        <Information
+          value={values}
+          setValue={setFieldValue}
+          getFieldError={getFieldError}
+          validateField={validateField}
+        />
+      );
+    if (currentPage === 2)
+      return (
+        <Expertise
+          value={values}
+          getFieldError={getFieldError}
+          setValue={setFieldValue}
+          validateField={validateField}
+        />
+      );
+    if (currentPage === 3)
+      return (
+        <InDeptProfile
+          value={values}
+          getFieldError={getFieldError}
+          setValue={setFieldValue}
+          validateField={validateField}
+        />
+      );
+    if (currentPage === 4)
+      return (
+        <Experience
+          value={values}
+          getFieldError={getFieldError}
+          setValue={setFieldValue}
+          validateField={validateField}
+        />
+      );
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    const isValid = validate(values);
-    if (!isValid) {
-      setAllTouched(values);
-      setToast({
-        type: "INFO",
-        message: "Vui lòng điền đầy đủ thông tin bắt buộc"
-      });
-      return;
-    }
-
-    // Gửi data lên server
-    console.log("Submit data:", values);
-    // submitDoctor(values);
-  };
+  const STEP_LABELS = ["Thông tin cơ bản", "Khoa & Chuyên môn", "Hồ sơ chuyên sâu", "Kinh nghiệm & Nghiên cứu"];
 
   return (
     <>
       <TitleForm
         onClose={() => {
           onClose();
-          resetForm();
+          reset();
         }}
-        title={"Thêm bác sĩ"}
-        subTitle={"Điền đầy đủ thông tin bác sĩ vào danh sách của bạn."}
+        title={doctor ? "Chỉnh sửa bác sĩ" : "Thêm bác sĩ"}
+        subTitle={`Bước ${currentPage} / ${totalSteps} · ${STEP_LABELS[currentPage - 1]}`}
       />
+
+      <StepBar currentPage={currentPage} totalSteps={totalSteps} steps={STEP_LABELS} />
 
       {/* Content */}
       <Form
         id="doctorForm"
-        onSubmit={handleSubmit}
-        className="space-y-4 p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]"
+        noValidate
+        onSubmit={(e) =>
+          handleSubmit(e, (data) => {
+            console.log("Submit:", data);
+            onClose();
+            reset();
+          })
+        }
+        className="space-y-4 p-3 md:p-6 bg-white overflow-y-auto hidden-scrollbar max-h-[90vh]"
       >
-        {pagedData !== 0 ? (
-          pagedData.map((item) => <div key={item.id}>{item.component}</div>)
-        ) : (
-          <div>Không có dữ liệu</div>
-        )}
+        {renderStep()}
       </Form>
 
       {/* Footer */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 px-3 py-6 md:p-6 flex gap-3">
         <Button
           type="button"
-          children={"Quay lại"}
-          onClick={prevPage}
-          disabled={currentPage === 1}
+          children={isFirst ? "Huỷ" : "← Quay lại"}
+          onClick={isFirst ? onClose : prevPage}
           width="100%"
+          height={38}
           className={cx(
-            "text-gray-700 font-semibold transition-all duration-200",
-            "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]"
+            "bg-[var(--color-unavailable-100)]",
+            "text-[var(--color-unavailable-700)] font-bold text-[13px] rounded-xl",
           )}
         />
         <Button
-          type={currentPage < totalPages ? "button" : "submit"}
-          form={currentPage < totalPages ? "" : "doctorForm"}
-          children={currentPage < totalPages ? "Tiếp theo" : "Xác nhận"}
+          type={isLast ? "submit" : "button"}
+          form={isLast ? "staffForm" : ""}
+          children={isLast ? (staff ? "Chỉnh sửa nhân sự" : "Thêm nhân sự") : "Tiếp theo →"}
           onClick={(e) => {
-            if (currentPage < totalPages) {
+            if (!isLast) {
               e.preventDefault();
               handleNext();
             }
           }}
           width="100%"
-          className="bg-[var(--color-primary)] text-white font-semibold"
+          height={38}
+          className={cx("bg-linear-[var(--color-ln-primary)]", "text-white font-bold text-[13px] rounded-xl")}
         />
       </div>
 
@@ -164,6 +181,7 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
       setValue("slug", "");
     }
   }, [value?.name, value?.title, setValue]);
+
   useEffect(() => {
     if (!value.avatar) {
       setPreviewAvatar(null);
@@ -217,7 +235,7 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
               <div
                 className={cx(
                   "flex items-center justify-center cursor-pointer",
-                  "h-[120px] w-[120px] rounded-full bg-[var(--color-primary-300)]"
+                  "h-[120px] w-[120px] rounded-full bg-[var(--color-primary-300)]",
                 )}
               >
                 <LuUser className="text-white text-4xl" />
@@ -226,7 +244,7 @@ function MainForm({ value, setValue, getFieldError, validateField }) {
                 className={cx(
                   "flex items-center justify-center",
                   "w-8 h-8 rounded-full bg-white",
-                  "absolute bottom-0 right-0 border border-gray-300"
+                  "absolute bottom-0 right-0 border border-gray-300",
                 )}
               >
                 <LuCamera className="text-green-500 text-xl" />

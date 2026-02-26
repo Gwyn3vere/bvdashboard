@@ -21,23 +21,11 @@ function List({
   isEmptyData,
   isEmptySearch,
 }) {
-  const {
-    currentPage,
-    totalPages,
-    pagedData,
-    pages,
-    setCurrentPage,
-    nextPage,
-    prevPage,
-  } = usePagination(data, 10);
+  const { currentPage, totalPages, pagedData, pages, setCurrentPage, nextPage, prevPage } = usePagination(data, 10);
+
   return (
     <div className={cx(className, "overflow-hidden")} style={{ ...style }}>
-      <div
-        className={cx(
-          "overflow-x-auto overflow-y-hidden mt-5",
-          TWCSS.scrollbarX,
-        )}
-      >
+      <div className={cx("overflow-x-auto overflow-y-hidden mt-5", TWCSS.scrollbarX)}>
         <div
           className={cx(
             "w-[1600px] 2xl:w-full px-4 py-3 flex items-center bg-linear-[var(--color-ln-primary)]",
@@ -47,9 +35,7 @@ function List({
           {columns.map((col) => (
             <label
               key={col.key}
-              className={cx(
-                "text-left font-semibold text-white whitespace-nowrap text-[11.5px]",
-              )}
+              className={cx("text-left font-semibold text-white whitespace-nowrap text-[11.5px]")}
               style={{ width: col.width }}
             >
               {col.label}
@@ -89,11 +75,7 @@ function List({
                 }
               >
                 {columns.map((col) => (
-                  <div
-                    key={col.key}
-                    className={cx("text-left whitespace-nowrap")}
-                    style={{ width: col.width }}
-                  >
+                  <div key={col.key} className={cx("text-left whitespace-nowrap")} style={{ width: col.width }}>
                     {col.render ? col.render(row, index) : row[col.key]}
                   </div>
                 ))}

@@ -5,18 +5,21 @@ export const validateLogin = ({ email, password }) => {
   return errors;
 };
 
-export const validateDoctor = (doctor) => {
+export const validateDoctor = (values, step) => {
   const errors = {};
 
-  // Trang 1 - MainForm
-  if (!doctor.name?.trim()) errors.name = "Tên bác sĩ không được để trống";
-  if (!doctor.title) errors.title = "Chức danh không được để trống";
-  if (!doctor.department) errors.department = "Khoa không được để trống";
-  // if (!doctor.specialty) errors.specialty = "Chuyên khoa không được để trống";
-  if (!doctor.tags || doctor.tags.length === 0) errors.tags = "Vui lòng chọn ít nhất 1 tag";
-  if (!doctor.experienceYears || doctor.experienceYears < 0) errors.experienceYears = "Kinh nghiệm không hợp lệ";
-  if (!doctor.facility?.trim()) errors.facility = "Cơ sở công tác không được để trống";
-  if (!doctor.languages || doctor.languages.length === 0) errors.languages = "Vui lòng chọn ít nhất 1 ngôn ngữ";
+  if (step === 1) {
+    if (!values.name?.trim()) errors.name = "Vui lòng nhập họ tên";
+    if (!values.title?.trim()) errors.title = "Vui lòng chọn Nghề nghiệp / Học hàm / Học vị";
+  }
+
+  if (step === 2) {
+    if (!values.department?.trim()) errors.department = "Vui lòng chọn khoa";
+    if (!values.position?.trim()) errors.position = "Vui lòng chọn chức vụ";
+    if (!values.tags || values.tags.length === 0) errors.tags = "Vui lòng nhập tags chuyên môn";
+    if (!values.languages || values.languages.length === 0)
+      errors.languages = "Vui lòng nhập tít nhất 1 ngôn ngữ làm việc";
+  }
 
   return errors;
 };

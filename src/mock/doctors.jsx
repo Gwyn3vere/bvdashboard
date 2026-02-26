@@ -13,7 +13,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Anh"],
     tags: ["Tim mạch", "Lão khoa", "Nội tổng quát"],
     featured: true,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 2 },
+      { date: "2026-02-24", sessionsBooked: 1 },
+      { date: "2026-02-25", sessionsBooked: 0 },
+      { date: "2026-02-26", sessionsBooked: 2 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
   },
   {
     id: "2",
@@ -29,7 +40,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Pháp"],
     tags: ["Theo dõi thai kỳ", "Phụ khoa", "Hiếm muộn"],
     featured: true,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 2 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 2 },
+      { date: "2026-02-28", sessionsBooked: 1 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 7,
   },
   {
     id: "3",
@@ -44,7 +66,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt"],
     tags: ["Phẫu thuật nội soi", "Chấn thương chỉnh hình"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 0 },
+      { date: "2026-02-25", sessionsBooked: 2 },
+      { date: "2026-02-26", sessionsBooked: 1 },
+      { date: "2026-02-27", sessionsBooked: 0 },
+      { date: "2026-02-28", sessionsBooked: 1 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 5,
   },
   {
     id: "4",
@@ -58,7 +91,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Anh"],
     tags: ["Hô hấp nhi", "Tiêu hóa nhi", "Dinh dưỡng"],
     featured: true,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 0 },
+      { date: "2026-02-24", sessionsBooked: 2 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 2 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
   },
   {
     id: "5",
@@ -72,7 +116,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt"],
     tags: ["Nội soi TMH", "Phẫu thuật vùng cổ"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 0 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 0 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 2,
   },
   {
     id: "6",
@@ -86,7 +141,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Anh"],
     tags: ["Nha khoa thẩm mỹ", "Cấy ghép Implant"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 1 },
+      { date: "2026-02-25", sessionsBooked: 2 },
+      { date: "2026-02-26", sessionsBooked: 1 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
   },
   {
     id: "7",
@@ -100,7 +166,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Trung"],
     tags: ["Châm cứu", "Vật lý trị liệu"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 2 },
+      { date: "2026-02-24", sessionsBooked: 1 },
+      { date: "2026-02-25", sessionsBooked: 0 },
+      { date: "2026-02-26", sessionsBooked: 2 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
   },
   {
     id: "8",
@@ -114,7 +191,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Anh"],
     tags: ["Tim mạch can thiệp", "Siêu âm tim"],
     featured: true,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 2 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 2 },
+      { date: "2026-02-28", sessionsBooked: 1 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 7,
   },
   {
     id: "9",
@@ -128,7 +216,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt"],
     tags: ["CT", "MRI", "Siêu âm"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 0 },
+      { date: "2026-02-25", sessionsBooked: 2 },
+      { date: "2026-02-26", sessionsBooked: 1 },
+      { date: "2026-02-27", sessionsBooked: 0 },
+      { date: "2026-02-28", sessionsBooked: 1 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 5,
   },
   {
     id: "10",
@@ -142,7 +241,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt"],
     tags: ["Da liễu thẩm mỹ", "Laser CO2"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 0 },
+      { date: "2026-02-24", sessionsBooked: 2 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 2 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
   },
   {
     id: "11",
@@ -156,7 +266,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Anh"],
     tags: ["Cấp cứu", "Hồi sức tích cực"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 0 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 0 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 2,
   },
   {
     id: "12",
@@ -170,7 +291,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt"],
     tags: ["Phẫu thuật Phaco", "Tật khúc xạ"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 1 },
+      { date: "2026-02-25", sessionsBooked: 2 },
+      { date: "2026-02-26", sessionsBooked: 1 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
   },
   {
     id: "13",
@@ -184,7 +316,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Anh"],
     tags: ["Nội soi tiêu hóa", "Gan mật"],
     featured: true,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 2 },
+      { date: "2026-02-24", sessionsBooked: 1 },
+      { date: "2026-02-25", sessionsBooked: 0 },
+      { date: "2026-02-26", sessionsBooked: 2 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
   },
   {
     id: "14",
@@ -198,7 +341,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Pháp"],
     tags: ["Thần kinh", "Đột quỵ"],
     featured: true,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 2 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 2 },
+      { date: "2026-02-28", sessionsBooked: 1 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 7,
   },
   {
     id: "15",
@@ -212,7 +366,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt"],
     tags: ["Huyết học", "Hóa sinh"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 0 },
+      { date: "2026-02-25", sessionsBooked: 2 },
+      { date: "2026-02-26", sessionsBooked: 1 },
+      { date: "2026-02-27", sessionsBooked: 0 },
+      { date: "2026-02-28", sessionsBooked: 1 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 5,
   },
   {
     id: "16",
@@ -226,7 +391,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt"],
     tags: ["Chăm sóc trẻ em"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 0 },
+      { date: "2026-02-24", sessionsBooked: 2 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 2 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
   },
   {
     id: "17",
@@ -240,7 +416,18 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt", "Tiếng Anh"],
     tags: ["Gây mê", "Giảm đau sau mổ"],
     featured: false,
-    avatar: null
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 0 },
+      { date: "2026-02-25", sessionsBooked: 1 },
+      { date: "2026-02-26", sessionsBooked: 0 },
+      { date: "2026-02-27", sessionsBooked: 0 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 2,
   },
   {
     id: "18",
@@ -254,8 +441,19 @@ export const MOCK_DOCTOR_LIST = [
     languages: ["Tiếng Việt"],
     tags: ["Cơ xương khớp", "Tiêm khớp"],
     featured: true,
-    avatar: null
-  }
+    avatar: null,
+    weekSummary: [
+      { date: "2026-02-23", sessionsBooked: 1 },
+      { date: "2026-02-24", sessionsBooked: 1 },
+      { date: "2026-02-25", sessionsBooked: 2 },
+      { date: "2026-02-26", sessionsBooked: 1 },
+      { date: "2026-02-27", sessionsBooked: 1 },
+      { date: "2026-02-28", sessionsBooked: 0 },
+      { date: "2026-03-01", sessionsBooked: 0 },
+    ],
+    weeklyTotalSessions: 14,
+    weeklyTotalAppointments: 6,
+  },
 ];
 
 export const MOCK_DOCTOR_DETAILS = {
@@ -266,15 +464,15 @@ export const MOCK_DOCTOR_DETAILS = {
       "Khám và điều trị các bệnh lý Tim mạch: Tăng huyết áp, Suy tim, Bệnh mạch vành",
       "Điều trị bệnh lý lão khoa",
       "Kiểm soát yếu tố nguy cơ tim mạch",
-      "Siêu âm tim và mạch máu"
+      "Siêu âm tim và mạch máu",
     ],
     experience: [
       "2003 - 2010: Bác sĩ điều trị tại BV Đa khoa Đà Nẵng",
       "2010 - 2018: Phó Trưởng khoa Nội, TTYT Liên Chiểu",
-      "2018 - Nay: Trưởng khoa Nội, TTYT KV Liên Chiểu"
+      "2018 - Nay: Trưởng khoa Nội, TTYT KV Liên Chiểu",
     ],
     education: ["Bác sĩ Đa khoa - ĐH Y Dược Huế", "Bác sĩ CKI Nội khoa", "Bác sĩ CKII Nội Tim mạch"],
-    publications: ["Nghiên cứu bệnh nhân suy tim cao tuổi (2018)", "Đánh giá kiểm soát huyết áp (2020)"]
+    publications: ["Nghiên cứu bệnh nhân suy tim cao tuổi (2018)", "Đánh giá kiểm soát huyết áp (2020)"],
   },
 
   "ths-bs-tran-thi-b": {
@@ -283,10 +481,10 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Theo dõi thai kỳ nguy cơ cao", "Điều trị vô sinh hiếm muộn", "Phẫu thuật nội soi phụ khoa"],
     experience: [
       "2008 - 2015: Bác sĩ khoa Sản, BV Phụ sản - Nhi Đà Nẵng",
-      "2015 - Nay: Phó Trưởng khoa Sản, TTYT KV Liên Chiểu"
+      "2015 - Nay: Phó Trưởng khoa Sản, TTYT KV Liên Chiểu",
     ],
     education: ["Bác sĩ Đa khoa - ĐH Y Dược TP.HCM", "Thạc sĩ Y học Sản phụ khoa"],
-    publications: []
+    publications: [],
   },
 
   "bs-cki-le-van-c": {
@@ -295,7 +493,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Phẫu thuật nội soi tiêu hóa", "Phẫu thuật thoát vị bẹn", "Chấn thương chỉnh hình"],
     experience: ["2011 - Nay: Bác sĩ khoa Ngoại, TTYT KV Liên Chiểu"],
     education: ["Bác sĩ Đa khoa - ĐH Y Dược Huế", "Bác sĩ CKI Ngoại khoa"],
-    publications: []
+    publications: [],
   },
 
   "bs-ckii-pham-thi-d": {
@@ -304,7 +502,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Bệnh hô hấp nhi", "Bệnh tiêu hóa nhi", "Dinh dưỡng trẻ em"],
     experience: ["2005 - 2015: Bác sĩ khoa Nhi, BV Trung ương Huế", "2015 - Nay: Trưởng khoa Nhi, TTYT KV Liên Chiểu"],
     education: ["Bác sĩ Nhi khoa - ĐH Y Hà Nội", "Bác sĩ CKI Nhi khoa"],
-    publications: []
+    publications: [],
   },
 
   "ths-bs-hoang-van-e": {
@@ -313,7 +511,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Nội soi Tai Mũi Họng", "Phẫu thuật Amidan - VA"],
     experience: [],
     education: ["Thạc sĩ Tai Mũi Họng - ĐH Y Dược Huế"],
-    publications: []
+    publications: [],
   },
 
   "bs-cki-vo-thi-f": {
@@ -322,7 +520,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Nha khoa thẩm mỹ", "Cấy ghép Implant", "Nhổ răng khôn"],
     experience: [],
     education: ["Bác sĩ CKI Răng Hàm Mặt"],
-    publications: []
+    publications: [],
   },
 
   "bs-dang-van-g": {
@@ -331,7 +529,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Châm cứu", "Vật lý trị liệu"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "bs-ckii-nguyen-thi-h": {
@@ -340,7 +538,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Tim mạch can thiệp", "Siêu âm tim"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "ths-bs-le-quoc-i": {
@@ -349,7 +547,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["CT Scanner", "MRI", "Siêu âm chẩn đoán"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "bs-cki-tran-van-k": {
@@ -358,7 +556,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Da liễu thẩm mỹ", "Laser CO2"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "bs-nguyen-van-l": {
@@ -367,7 +565,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Cấp cứu đa khoa", "Hồi sức tích cực"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "bs-cki-pham-thi-m": {
@@ -376,7 +574,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Phẫu thuật Phaco", "Điều trị tật khúc xạ"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "ths-bs-vo-van-n": {
@@ -385,7 +583,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Nội soi tiêu hóa", "Gan mật"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "bs-ngo-thi-tuyet-nhung": {
@@ -394,7 +592,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Thần kinh", "Đột quỵ"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "bs-le-van-p": {
@@ -403,7 +601,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Huyết học", "Hóa sinh"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "bs-cki-dao-thi-tuy-duyen": {
@@ -412,7 +610,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Nhi khoa", "Chăm sóc trẻ em"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "bs-tran-van-r": {
@@ -421,7 +619,7 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Gây mê", "Giảm đau sau mổ"],
     experience: [],
     education: [],
-    publications: []
+    publications: [],
   },
 
   "ths-bs-pham-van-s": {
@@ -430,6 +628,6 @@ export const MOCK_DOCTOR_DETAILS = {
     expertise: ["Cơ xương khớp", "Tiêm khớp"],
     experience: [],
     education: [],
-    publications: []
-  }
+    publications: [],
+  },
 };

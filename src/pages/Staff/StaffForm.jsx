@@ -89,7 +89,7 @@ function StaffForm({ onClose }) {
       </Form>
 
       {/* Footer */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 px-3 py-6 md:p-6 flex gap-3">
         <Button
           type="button"
           children={isFirst ? "Huỷ" : "← Quay lại"}

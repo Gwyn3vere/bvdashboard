@@ -7,3 +7,8 @@ export { default as Card } from "./Card";
 export { default as Shift } from "./Shift";
 export { default as DatePicker } from "./DatePicker";
 export { default as DragPreview } from "./DragPreview";
+
+export { default as Information } from "./Information";
+export { default as Expertise } from "./Expertise";
+export { default as InDeptProfile } from "./InDeptProfile";
+export { default as Experience } from "./Experience";

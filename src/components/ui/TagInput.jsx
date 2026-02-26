@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import classNames from "classnames/bind";
 import style from "../../styles/ui.module.css";
+import { Button } from "./index";
 import { LuX } from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 
@@ -8,8 +9,15 @@ const cx = classNames.bind(style);
 
 function TagInput({
   values = [],
+  width = "100%",
+  height = 50,
+  style = {},
+  error,
   label,
   onChange,
+  className,
+  inputClassName,
+  labelClassName,
   placeholder = "Thêm tag...",
   ...props
 }) {
@@ -41,23 +49,26 @@ function TagInput({
   };
 
   return (
-    <>
-      <label className="font-medium">{label}</label>
-      <div className={cx(TWCSS.tagInput)}>
-        <div className="flex flex-wrap gap-2">
+    <div className={className}>
+      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
+        <div className="flex flex-wrap">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="flex items-center gap-1 rounded-md bg-[var(--color-primary)] p-2 text-sm text-white"
+              className={cx(
+                "h-auto m-1",
+                "flex items-center gap-1 rounded-md bg-linear-[var(--color-ln-primary)] p-1 text-[13px] text-white",
+              )}
             >
               {tag}
-              <button
-                type="button"
+              <Button
+                width={10}
+                height={10}
+                icon={<LuX />}
                 onClick={() => removeTag(tag)}
                 className="text-white hover:text-red-500"
-              >
-                <LuX />
-              </button>
+              />
             </span>
           ))}
 
@@ -66,12 +77,15 @@ function TagInput({
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
-            className="min-w-[120px] flex-1 bg-transparent outline-none text-sm"
+            // className="min-w-[120px] flex-1 bg-transparent outline-none text-sm"
+            className={cx("flex-1 outline-none px-3.5 py-2.5 text-[13px]")}
+            style={{ width, height, ...style }}
             {...props}
           />
         </div>
       </div>
-    </>
+      {error && <label className={cx("font-medium text-[11px] text-[var(--color-error)]")}>{error}</label>}
+    </div>
   );
 }
 

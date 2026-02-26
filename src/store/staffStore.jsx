@@ -8,7 +8,7 @@ export const useStaffStore = create((set, get) => ({
   /* =======================
      STATE
   ======================= */
-  staffs: MOCK_STAFF_LIST,
+  staffs: [],
   editingStaffId: null,
   loading: false,
 
@@ -32,13 +32,13 @@ export const useStaffStore = create((set, get) => ({
   // update staff (MOCK)
   updateStaff: (updatedStaff) =>
     set((state) => ({
-      staffs: state.staffs.map((s) => (s.id === updatedStaff.id ? { ...s, ...updatedStaff } : s))
+      staffs: state.staffs.map((s) => (s.id === updatedStaff.id ? { ...s, ...updatedStaff } : s)),
     })),
 
   // delete staff (MOCK)
   deleteStaff: (id) =>
     set((state) => ({
-      staffs: state.staffs.filter((s) => s.id !== id)
+      staffs: state.staffs.filter((s) => s.id !== id),
     })),
 
   /* =======================
@@ -49,12 +49,11 @@ export const useStaffStore = create((set, get) => ({
   fetchStaffs: async () => {
     set({ loading: true });
 
-    // TODO: thay bằng API thật
-    // const res = await api.get("/staff");
+    const res = MOCK_STAFF_LIST;
 
     set({
-      staffs: MOCK_STAFF_LIST,
-      loading: false
+      staffs: res,
+      loading: false,
     });
-  }
+  },
 }));

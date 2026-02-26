@@ -67,6 +67,27 @@ export const POSITION_OPTIONS = [
     department: "Phòng Điều dưỡng",
     level: "MANAGER",
   },
+  {
+    id: "truong-khoa",
+    value: "HEAD_DEPARTMENT",
+    name: "Trưởng khoa",
+    department: "khoa",
+    level: "MANAGER",
+  },
+  {
+    id: "pho-truong-khoa",
+    value: "DEPUTY_DEPARTMENT",
+    name: "Phó trưởng khoa",
+    department: "khoa",
+    level: "MANAGER",
+  },
+  {
+    id: "khong-co-chuc-vu",
+    value: "NONE",
+    name: "Không có chức vụ",
+    department: "khoa",
+    level: "MANAGER",
+  },
 ];
 
 export const ROLE_OPTIONS = [
@@ -559,26 +580,32 @@ export const COLOR_PALETTE = [
   },
 ];
 
-export const COLORS_CATE_OPTION = [
-  "#19c953",
-  "#1c74f8",
-  "#ff4d4d",
-  "#ffcc00",
-  "#00bcd4",
-  "#8100f2",
-];
+export const COLORS_CATE_OPTION = ["#19c953", "#1c74f8", "#ff4d4d", "#ffcc00", "#00bcd4", "#8100f2"];
 
 export const STAFF_FEATURED_OPTION = [
-  { value: "ALL", name: "Tất cả", activeGrd: "var(--color-grd-primary)" },
+  { value: "ALL", name: "Tất cả", dot: "--color-primary", activeGrd: "var(--color-grd-primary)" },
   {
     value: true,
     name: "Đang làm việc",
+    dot: "--color-secondary",
     activeGrd: "var(--color-grd-secondary)",
   },
-  { value: false, name: "Tạm nghỉ", activeGrd: "var(--color-grd-error)" },
+  { value: false, name: "Tạm nghỉ", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
   {
     value: "ADMIN",
     name: "Quản trị viên",
+    dot: "--color-purple",
     activeGrd: "var(--color-grd-purple)",
   },
+];
+
+export const DOCTOR_FEATURED_OPTION = [
+  { value: "ALL", name: "Tất cả", dot: "--color-primary", activeGrd: "var(--color-grd-primary)" },
+  {
+    value: true,
+    name: "Đang làm việc",
+    dot: "--color-secondary",
+    activeGrd: "var(--color-grd-secondary)",
+  },
+  { value: false, name: "Tạm nghỉ", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
 ];
