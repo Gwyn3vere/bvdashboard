@@ -2,15 +2,13 @@ import { useMemo } from "react";
 import classNames from "classnames/bind";
 import style from "../../styles/components.module.css";
 import { Input, Item, Select, TagInput } from "../../components/ui";
-import { LuActivity, LuPlus } from "react-icons/lu";
-import { slugify } from "../../utils/format";
 import { MOCK_DEPARTMENTS, MOCK_SPECIALTIES } from "../../mock/expertise";
 import { POSITION_OPTIONS } from "../../constants/option";
 
 const cx = classNames.bind(style);
 
 function Expertise({ value, setValue, getFieldError, validateField }) {
-  const FILTERED_POSITION = POSITION_OPTIONS.filter((p) => p.department === "khoa");
+  const FILTERED_POSITION = POSITION_OPTIONS.filter((p) => p.department === "khoa" || p.department === "khoa nội");
   const handleChangeDepartment = (val) => {
     setValue("department", val);
     setValue("specialty", null);
@@ -29,7 +27,7 @@ function Expertise({ value, setValue, getFieldError, validateField }) {
   return (
     <div className={cx("flex flex-col items-center justify-center gap-4")}>
       {/* Expertise */}
-      <div className="flex flex-col gap-2 w-full">
+      <div className="flex flex-col gap-3 w-full">
         <Select
           label={
             <span>

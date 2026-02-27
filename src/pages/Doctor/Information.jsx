@@ -161,6 +161,19 @@ function Information({ value, setValue, getFieldError, validateField }) {
           labelClassName={cx("text-[11.5px] font-bold")}
           inputClassName={cx("rounded-xl")}
         />
+        <Input
+          label={"Lịch làm việc dự kiến"}
+          name="scheduleNote"
+          type="text"
+          value={value?.scheduleNote}
+          onChange={(val) => setValue("scheduleNote", val.target.value)}
+          placeholder="VD: Thứ 2 - Thứ 6"
+          required
+          width={"100%"}
+          height={"auto"}
+          labelClassName={cx("text-[11.5px] font-bold")}
+          inputClassName={cx("rounded-xl")}
+        />
       </div>
     </div>
   );

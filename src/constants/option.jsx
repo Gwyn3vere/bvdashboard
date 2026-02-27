@@ -69,16 +69,16 @@ export const POSITION_OPTIONS = [
   },
   {
     id: "truong-khoa",
-    value: "HEAD_DEPARTMENT",
-    name: "Trưởng khoa",
-    department: "khoa",
+    value: "HEAD_INTERNAL_MEDICINE",
+    name: "Trưởng khoa nội",
+    department: "khoa nội",
     level: "MANAGER",
   },
   {
     id: "pho-truong-khoa",
-    value: "DEPUTY_DEPARTMENT",
-    name: "Phó trưởng khoa",
-    department: "khoa",
+    value: "DEPUTY_INTERNAL_MEDICINE",
+    name: "Phó trưởng khoa nội",
+    department: "khoa nội",
     level: "MANAGER",
   },
   {
@@ -86,7 +86,7 @@ export const POSITION_OPTIONS = [
     value: "NONE",
     name: "Không có chức vụ",
     department: "khoa",
-    level: "MANAGER",
+    level: "STAFF",
   },
 ];
 

@@ -172,17 +172,17 @@ function CardInfo({ icon: Icon, title, children, id, change }) {
     <div
       id={id}
       className={cx(
-        "flex items-center justify-between py-3 px-4 rounded-xl",
+        "grid grid-cols-[36px_auto] gap-3 items-center py-3 px-4 rounded-xl",
         "bg-[var(--color-unavailable-100)]/30 border border-[var(--color-unavailable-300)]/50",
       )}
     >
-      <div className="flex items-center gap-4">
-        <Item
-          as="div"
-          icon={<Icon />}
-          iconClassName={cx("text-[15px] text-[var(--color-primary)]")}
-          className={cx("w-[36px] h-[36px] flex items-center justify-center")}
-        />
+      <Item
+        as="div"
+        icon={<Icon />}
+        iconClassName={cx("text-[15px] text-[var(--color-primary)]")}
+        className={cx("w-[36px] h-[36px] flex items-center justify-center")}
+      />
+      <div className="flex items-center justify-between gap-4">
         <div>
           <Item
             as="span"
@@ -191,20 +191,19 @@ function CardInfo({ icon: Icon, title, children, id, change }) {
           />
           {children}
         </div>
+        {change ? (
+          <Button
+            width={"auto"}
+            height={"auto"}
+            children={"Đổi"}
+            className={cx(
+              "text-[10.5px] py-1 px-3 text-[var(--color-primary-900)] rounded-lg",
+              "bg-[var(--color-primary)]/10 border border-[var(--color-primary-300)]",
+              "font-bold inline",
+            )}
+          />
+        ) : null}
       </div>
-
-      {change ? (
-        <Button
-          width={"auto"}
-          height={"auto"}
-          children={"Đổi"}
-          className={cx(
-            "text-[10.5px] py-1 px-3 text-[var(--color-primary-900)] rounded-lg",
-            "bg-[var(--color-primary)]/10 border border-[var(--color-primary-300)]",
-            "font-bold inline",
-          )}
-        />
-      ) : null}
     </div>
   );
 }

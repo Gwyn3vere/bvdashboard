@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import style from "../../styles/ui.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { Button } from "../ui";
-import { LuDelete } from "react-icons/lu";
+import { LuPlus, LuX } from "react-icons/lu";
 
 const cx = classNames.bind(style);
 
@@ -14,14 +14,14 @@ function ArrayInput({
   height = "50px",
   onChange,
   placeholder = "Nhập nội dung...",
-  buttonText = "",
+  buttonText = "+",
   className = "",
   labelClassName = "",
   inputClassName = "",
   multiline = false,
   maxItems = 20,
   style = {},
-  icon
+  icon,
 }) {
   const [inputValue, setInputValue] = useState("");
 
@@ -92,7 +92,7 @@ function ArrayInput({
               onKeyPress={handleKeyPress}
               placeholder={placeholder}
               style={{ width, height, ...style }}
-              className={cx("outline-none px-2")}
+              className={cx("outline-none px-3.5 py-2.5 text-[13px]")}
             />
           </div>
         )}
@@ -100,17 +100,21 @@ function ArrayInput({
         <Button
           type="button"
           onClick={handleAdd}
-          width={50}
-          height={50}
+          width={40}
+          height={40}
           children={buttonText}
-          className={cx("rounded-[8px] bg-[var(--color-primary)]", "text-white text-2xl font-medium px-3 mt-1")}
+          iconClassName={cx("text-[11.5px]")}
+          className={cx(
+            "rounded-[8px] bg-linear-[var(--color-ln-primary)]",
+            "text-white text-2xl font-medium px-3 mt-1",
+          )}
         />
       </div>
 
       {/* Danh sách các items */}
       {value.length > 0 && (
         <div className="space-y-2">
-          <div className="text-sm text-gray-600 mb-2">{value.length} mục</div>
+          <div className="text-xs text-gray-600 mb-2">{value.length} mục</div>
 
           {value.map((item, index) => (
             <div key={index} className="flex items-center justify-between gap-2 mb-3">
@@ -153,7 +157,7 @@ function ArrayInput({
                         value={item}
                         onChange={(e) => handleEdit(index, e.target.value)}
                         style={{ width, height, ...style }}
-                        className={cx("outline-none px-2")}
+                        className={cx("outline-none px-3.5 py-2.5 text-[13px]")}
                       />
                     </div>
                   )}
@@ -161,13 +165,11 @@ function ArrayInput({
                   <Button
                     type="button"
                     onClick={() => handleRemove(index)}
-                    width={50}
-                    height={50}
-                    children={<LuDelete />}
-                    className={cx(
-                      "rounded-[8px] bg-[var(--color-primary)]",
-                      "text-white text-2xl font-medium px-3 mt-1"
-                    )}
+                    width={40}
+                    height={40}
+                    children={<LuX />}
+                    iconClassName={cx("text-[11.5px]")}
+                    className={cx("rounded-[8px] bg-linear-[var(--color-ln-primary)]", "text-white px-3 mt-1")}
                   />
                 </div>
               </div>
@@ -178,7 +180,12 @@ function ArrayInput({
 
       {/* Empty state */}
       {value.length === 0 && (
-        <div className="text-center py-8 text-gray-400 border-2 border-dashed border-[var(--color-primary-300)] rounded-lg">
+        <div
+          className={cx(
+            "border-2 border-dashed border-[var(--color-primary-300)] rounded-xl",
+            "text-center py-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-[13px]",
+          )}
+        >
           Chưa có mục nào. Nhập và nhấn "{buttonText}" để thêm.
         </div>
       )}

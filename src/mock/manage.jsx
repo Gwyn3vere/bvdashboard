@@ -1,5 +1,3 @@
-import { DOCTOR_COLORS } from "../utils/color";
-
 export const mockAccounts = [
   {
     id: 1,

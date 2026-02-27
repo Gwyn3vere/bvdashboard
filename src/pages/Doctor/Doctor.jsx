@@ -319,14 +319,19 @@ function Doctor() {
         />
       </div>
 
-      <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-4xl">
-        <Profile doctorId={editingDoctorId} onClose={modal.profile.deactivate} />
+      <Modal open={modal.profile.isActive} onClose={modal.profile.deactivate} backdrop={true} width="max-w-lg">
+        <Profile
+          doctorId={editingDoctorId}
+          onClose={modal.profile.deactivate}
+          color={TITLE_COLOR_MAP}
+          onEdit={modal.doctorFom.toggleActive}
+        />
       </Modal>
       <Modal
         open={modal.delete.isActive}
         onClose={() => modal.delete.toggleActive(false)}
         backdrop={true}
-        width="max-w-xl"
+        width="max-w-sm"
       >
         <Delete doctorId={editingDoctorId} onClose={() => modal.delete.toggleActive(false)} />
       </Modal>
