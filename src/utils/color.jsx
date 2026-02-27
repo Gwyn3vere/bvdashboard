@@ -1,45 +1,18 @@
-export const assignColors = (items, palette) => {
-  let lastIndex = -1;
+export function stringToHue(str = "") {
+  let hash = 0;
 
-  return items.map((item, index) => {
-    let colorIndex = index % palette.length;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
 
-    if (colorIndex === lastIndex) {
-      colorIndex = (colorIndex + 1) % palette.length;
-    }
-
-    lastIndex = colorIndex;
-
-    return {
-      ...item,
-      __uiColor: palette[colorIndex]
-    };
-  });
-};
-
-export function buildDoctorColorMap(doctors, palette) {
-  const coloredDoctors = assignColors(doctors, palette);
-
-  return coloredDoctors.reduce((map, doctor) => {
-    map[doctor.id] = doctor.__uiColor;
-    return map;
-  }, {});
+  return Math.abs(hash) % 360;
 }
 
-export const DOCTOR_COLORS = [
-  { name: "primary", label: "Xanh lá", hex: "#19c953", tailwind: "bg-[#19c953]" },
-  { name: "secondary", label: "Xanh dương", hex: "#1c74f8", tailwind: "bg-[#1c74f8]" },
-  { name: "purple", label: "Tím", hex: "#8100f2", tailwind: "bg-[#8100f2]" },
-  { name: "cyan", label: "Cyan", hex: "#00bcd4", tailwind: "bg-[#00bcd4]" },
-  { name: "warning", label: "Vàng", hex: "#ffcc00", tailwind: "bg-[#ffcc00]" },
-  { name: "error", label: "Đỏ", hex: "#ff4d4d", tailwind: "bg-[#ff4d4d]" }
-];
+export function getDoctorGradient(name = "") {
+  const hue = stringToHue(name);
 
-export const getColorByIndex = (index) => {
-  return DOCTOR_COLORS[index % DOCTOR_COLORS.length];
-};
+  const color1 = `hsl(${hue}, 70%, 60%)`;
+  const color2 = `hsl(${hue}, 70%, 40%)`;
 
-export const getColorHexByName = (colorName) => {
-  const color = DOCTOR_COLORS.find((c) => c.name === colorName);
-  return color ? color.hex : "#8100f2";
-};
+  return `linear-gradient(135deg, ${color1}, ${color2})`;
+}

@@ -22,7 +22,7 @@ function TextArea({
   ...props
 }) {
   return (
-    <div className={className}>
+    <div className={cx(className)}>
       {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
       <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
         <span>{icon}</span>

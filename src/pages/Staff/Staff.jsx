@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 import { useActive, useSearch } from "../../components/hooks";
 import { useStaffStore } from "../../store/staffStore";
@@ -10,17 +10,22 @@ import { STAFF_ROLE } from "../../constants/role";
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 
-import { List, Avatar, Button, Modal, Item } from "../../components/ui";
-import { LuShield, LuTrash2, LuUserPen, LuEye, LuHandshake } from "react-icons/lu";
+import { List, Avatar, Button, Modal, Item, ActionBar, Tooltip } from "../../components/ui";
+import { LuShield, LuTrash2, LuUserPen, LuEye, LuHandshake, LuSlidersHorizontal } from "react-icons/lu";
 
-import { ActionBar, Delete, Profile } from "../Staff";
+import { Delete, Profile, StaffForm } from "../Staff";
 
 const cx = classNames.bind(styles);
 
 function Staff() {
   const staffs = useStaffStore((s) => s.staffs);
+  const fetchStaffs = useStaffStore((s) => s.fetchStaffs);
   const setEditingStaffId = useStaffStore((s) => s.setEditingStaffId);
   const editingStaffId = useStaffStore((s) => s.editingStaffId);
+
+  useEffect(() => {
+    fetchStaffs();
+  }, [fetchStaffs]);
 
   const [staffKeyword, setStaffKeyword] = useState("");
   const [activeTab, setActiveTab] = useState("ALL");
@@ -44,10 +49,9 @@ function Staff() {
 
   const modal = {
     filter: useActive(),
-    profile: useActive(),
     staffForm: useActive(),
-    edit: useActive(),
     delete: useActive(),
+    profile: useActive(),
   };
 
   const handleClose = () => {
@@ -61,7 +65,10 @@ function Staff() {
     <div className={TWCSS.container}>
       <div className={cx("bg-white rounded-2xl")} style={{ boxShadow: "var(--shadow)" }}>
         <ActionBar
-          modal={modal}
+          name="nhân sự"
+          onFilter={modal.filter}
+          onForm={modal.staffForm}
+          formModal={<StaffForm onClose={handleClose} />}
           totalStaff={searchedStaff.length}
           keyword={staffKeyword}
           onChange={(e) => setStaffKeyword(e.target.value)}
@@ -69,7 +76,20 @@ function Staff() {
           featured={STAFF_FEATURED_OPTION}
           activeTab={activeTab}
           onTabChange={setActiveTab}
-        />
+        >
+          <Tooltip content="Bộ lọc" position="top" className="order-1 md:order-2">
+            <Button
+              width={36}
+              height={36}
+              icon={<LuSlidersHorizontal />}
+              className={cx(
+                "font-medium rounded-xl",
+                "bg-[var(--color-unavailable-100)] transition-all",
+                "hover:bg-linear-[var(--color-ln-primary)] hover:text-white",
+              )}
+            />
+          </Tooltip>
+        </ActionBar>
 
         <List
           name="nhân sự"
@@ -107,7 +127,7 @@ function Staff() {
               render: (row) => {
                 const positionConfig = POSITION_OPTIONS.find((item) => item.value === row.position);
                 return (
-                  <span className="text-[12.5px] font-semibold text-[var(--color-unavailable-900)]">
+                  <span className="text-[12.5px] font-bold text-black/80">
                     {positionConfig ? positionConfig.name : row.position}
                   </span>
                 );
@@ -116,15 +136,13 @@ function Staff() {
             {
               key: "Phone",
               label: "Liên hệ",
-              width: "17%",
-              render: (row) => (
-                <span className="text-[12.5px] font-medium text-[var(--color-unavailable-900)]">{row.phone}</span>
-              ),
+              width: "15%",
+              render: (row) => <span className="text-[12.5px] font-bold text-black/80">{row.phone}</span>,
             },
             {
               key: "Access",
               label: "Quyền",
-              width: "16%",
+              width: "18%",
               render: (row) => {
                 const roleConfig = STAFF_ROLE[row.role];
 

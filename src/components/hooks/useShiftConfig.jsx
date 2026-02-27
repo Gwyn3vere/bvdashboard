@@ -6,17 +6,17 @@ import { SESSION_PRESETS } from "../../constants/option";
 export default function useShiftConfig(schedule, date) {
   const { updateScheduleConfig, copyScheduleToOtherDays } = scheduleStore();
   const [toast, setToast] = useState(null);
-  const [sessionType, setSessionType] = useState(schedule.sessionType || "morning");
-  const [slotDuration, setSlotDuration] = useState(schedule.slotDuration || 30);
-  const [startTime, setStartTimeState] = useState(schedule.startTime || "08:00");
-  const [endTime, setEndTimeState] = useState(schedule.endTime || "11:00");
-  const [generatedSlots, setGeneratedSlots] = useState(schedule.generatedSlots || []);
-  const [selectedSlotIndices, setSelectedSlotIndices] = useState(schedule.selectedSlotIndices || []);
+  const [sessionType, setSessionType] = useState(schedule?.sessionType || "morning");
+  const [slotDuration, setSlotDuration] = useState(schedule?.slotDuration || 30);
+  const [startTime, setStartTimeState] = useState(schedule?.startTime || "08:00");
+  const [endTime, setEndTimeState] = useState(schedule?.endTime || "11:00");
+  const [generatedSlots, setGeneratedSlots] = useState(schedule?.generatedSlots || []);
+  const [selectedSlotIndices, setSelectedSlotIndices] = useState(schedule?.selectedSlotIndices || []);
   const [isDirtyConfig, setIsDirtyConfig] = useState(false);
 
   useEffect(() => {
     setIsDirtyConfig(false);
-  }, [schedule.scheduleId]);
+  }, [schedule?.scheduleId]);
 
   const handleSessionChange = (newSession) => {
     setSessionType(newSession);
@@ -57,7 +57,7 @@ export default function useShiftConfig(schedule, date) {
       endTime,
       slots: selectedSlots,
       generatedSlots,
-      selectedSlotIndices
+      selectedSlotIndices,
     };
     updateScheduleConfig(date, schedule.scheduleId, config);
   };
@@ -72,7 +72,7 @@ export default function useShiftConfig(schedule, date) {
       slots: selectedSlots,
       generatedSlots,
       selectedSlotIndices,
-      configured: true
+      configured: true,
     };
 
     updateScheduleConfig(date, schedule.scheduleId, config);
@@ -84,7 +84,7 @@ export default function useShiftConfig(schedule, date) {
       morning: { min: "08:00", max: "11:00" },
       afternoon: { min: "13:00", max: "17:00" },
       custom: { min: "08:00", max: "17:00" },
-      allday: { min: null, max: null }
+      allday: { min: null, max: null },
     };
     return constraints[sessionType] || constraints.custom;
   };
@@ -114,7 +114,7 @@ export default function useShiftConfig(schedule, date) {
     if (!Number.isInteger(slotDuration) || slotDuration < 10) {
       setToast({
         type: "INFO",
-        message: "Thời lượng mỗi ca khám phải lớn hơn hoặc bằng 10 phút."
+        message: "Thời lượng mỗi ca khám phải lớn hơn hoặc bằng 10 phút.",
       });
       return;
     }
@@ -122,7 +122,7 @@ export default function useShiftConfig(schedule, date) {
     if (slotDuration > 240) {
       setToast({
         type: "INFO",
-        message: "Thời lượng mỗi ca khám không hợp lệ."
+        message: "Thời lượng mỗi ca khám không hợp lệ.",
       });
       return;
     }
@@ -135,7 +135,7 @@ export default function useShiftConfig(schedule, date) {
       if (startMinutes < minMinutes) {
         setToast({
           type: "INFO",
-          message: `Giờ bắt đầu phải từ ${constraints.min} trở đi`
+          message: `Giờ bắt đầu phải từ ${constraints.min} trở đi`,
         });
         return;
       }
@@ -147,7 +147,7 @@ export default function useShiftConfig(schedule, date) {
       if (endMinutes > maxMinutes) {
         setToast({
           type: "INFO",
-          message: `Giờ kết thúc không được vượt quá ${constraints.max}`
+          message: `Giờ kết thúc không được vượt quá ${constraints.max}`,
         });
         return;
       }
@@ -156,7 +156,7 @@ export default function useShiftConfig(schedule, date) {
     if (startMinutes >= endMinutes) {
       setToast({
         type: "INFO",
-        message: "Giờ bắt đầu phải thấp hơn giờ kết thúc!."
+        message: "Giờ bắt đầu phải thấp hơn giờ kết thúc!.",
       });
       return;
     }
@@ -198,6 +198,6 @@ export default function useShiftConfig(schedule, date) {
     getSelectedSlots,
     saveConfig,
     copyToOtherDays,
-    getTimeConstraints
+    getTimeConstraints,
   };
 }

@@ -2,10 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { LuClock } from "react-icons/lu";
 import classNames from "classnames/bind";
 import style from "../../styles/ui.module.css";
+import { TWCSS } from "../../styles/defineTailwindcss";
 
 const cx = classNames.bind(style);
 
-function Time({ value, onChange, min, max, placeholder = "Chọn giờ" }) {
+function Time({ value, onChange, min, max, placeholder = "Chọn giờ", inputClassName }) {
   const [isOpen, setIsOpen] = useState(false);
   const [hours, setHours] = useState("09");
   const [minutes, setMinutes] = useState("00");
@@ -46,30 +47,25 @@ function Time({ value, onChange, min, max, placeholder = "Chọn giờ" }) {
     <div className="relative" ref={dropdownRef}>
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className={cx(
-          "w-full px-4 py-3 border-2 rounded-[8px]",
-          "border-[var(--color-bg-light-primary-400)] hover:border-[var(--color-bg-light-primary-500)]",
-          "focus:border-[var(--color-primary-500)] focus:outline-none cursor-pointer",
-          "flex items-center justify-between bg-white hover:border-gray-300 transition-colors"
-        )}
+        className={cx(TWCSS.input, inputClassName, isOpen && TWCSS.select, "px-3.5 py-2.5 text-[13px] justify-between")}
       >
-        <span className={value ? "text-gray-900" : "text-gray-400"}>{value || placeholder}</span>
+        <span className={cx(value ? "text-gray-900" : "text-gray-400")}>{value || placeholder}</span>
         <LuClock className="w-5 h-5 text-gray-400" />
       </div>
 
       {isOpen && (
-        <div className="absolute z-50 mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-lg p-4 w-full">
+        <div className="absolute z-50 mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-lg p-4 w-full">
           <div className="flex gap-2 items-center justify-center">
             <div className="flex-1">
-              <label className="block text-xs text-gray-600 mb-2 text-center">Giờ</label>
-              <div className="max-h-48 overflow-y-auto border border-gray-200 rounded">
+              <label className="block text-[12px] text-gray-600 mb-2 text-center">Giờ</label>
+              <div className={cx("max-h-48 overflow-y-auto border border-gray-200 rounded-xl", TWCSS.scrollbarY)}>
                 {hourOptions.map((h) => (
                   <div
                     key={h}
                     onClick={() => handleHourChange(h)}
-                    className={`px-3 py-2 cursor-pointer text-center ${
+                    className={`p-2 cursor-pointer text-center text-[12px] ${
                       hours === h
-                        ? "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-700)]"
+                        ? "bg-linear-[var(--color-ln-primary)] rounded-xl text-white hover:bg-[var(--color-primary-700)]"
                         : "hover:bg-green-50"
                     }`}
                   >
@@ -82,15 +78,15 @@ function Time({ value, onChange, min, max, placeholder = "Chọn giờ" }) {
             <span className="text-2xl font-bold text-gray-400 mt-6">:</span>
 
             <div className="flex-1">
-              <label className="block text-xs text-gray-600 mb-2 text-center">Phút</label>
-              <div className="max-h-48 overflow-y-auto border border-gray-200 rounded">
+              <label className="block text-[12px] text-gray-600 mb-2 text-center">Phút</label>
+              <div className={cx("max-h-48 overflow-y-auto border border-gray-200 rounded-xl", TWCSS.scrollbarY)}>
                 {minuteOptions.map((m) => (
                   <div
                     key={m}
                     onClick={() => handleMinuteChange(m)}
-                    className={`px-3 py-2 cursor-pointer text-center ${
+                    className={`p-2 cursor-pointer text-center text-[12px] ${
                       minutes === m
-                        ? "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-700)]"
+                        ? "bg-linear-[var(--color-ln-primary)] rounded-xl text-white hover:bg-[var(--color-primary-700)]"
                         : "hover:bg-green-50"
                     }`}
                   >
@@ -103,7 +99,7 @@ function Time({ value, onChange, min, max, placeholder = "Chọn giờ" }) {
 
           <button
             onClick={() => setIsOpen(false)}
-            className="w-full mt-3 px-4 py-2 bg-[var(--color-primary-500)] text-white rounded-lg hover:bg-[var(--color-primary-700)] transition-colors font-medium"
+            className="w-full mt-3 text-[13px] py-2 bg-linear-[var(--color-ln-primary)] text-white rounded-xl font-bold"
           >
             Xác nhận
           </button>

@@ -32,19 +32,24 @@ export const TWCSS = {
     "focus-within:shadow-[var(--shadow-focus)]",
     "focus-within:border-[var(--color-primary-300)]",
     "focus-within:bg-white",
-    "bg-[var(--color-unavailable-100)]",
+    "bg-[var(--color-unavailable-100)]/40",
   ],
   tagInput: [
     "w-full rounded-lg border-2 border-transparent p-3 ",
     "focus-within:border-[var(--color-primary)] bg-[var(--color-unavailable-100)]",
   ],
-  select: ["shadow-[var(--shadow-focus)]", "border-[var(--color-primary-300)]", "bg-white", "bg-[var(--color-unavailable-100)]"],
+  select: [
+    "shadow-[var(--shadow-focus)]",
+    "border-[var(--color-primary-300)]",
+    "bg-white",
+    "bg-[var(--color-unavailable-100)]",
+  ],
   inputError: ["outline outline-[var(--color-error-300)]"],
   textarea: [
     "flex items-center p-3 rounded-[8px] mt-1",
     "border-2 border-transparent",
     "focus-within:border-2 focus-within:border-[var(--color-primary)]",
-    "bg-[var(--color-unavailable-100)]",
+    "bg-[var(--color-unavailable-100)]/40",
   ],
   scrollbarX: [
     "[&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:rounded-full",

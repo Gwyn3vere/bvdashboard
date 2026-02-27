@@ -1,14 +1,14 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useRef } from "react";
 import classNames from "classnames/bind";
 import { scheduleStore } from "../../store/scheduleStore";
-import { useDoctorCalendar, useScheduleResize, useActive, useSearch } from "../../components/hooks";
+import { useDoctorCalendar, useScheduleResize, useSearch } from "../../components/hooks";
 import { SESSION_PRESETS, WEEK_DAYS } from "../../constants/option";
 import { TWCSS } from "../../styles/defineTailwindcss";
-import { LuChevronLeft, LuChevronRight, LuLayoutDashboard, LuX, LuGripVertical, LuUserPlus } from "react-icons/lu";
+import { LuChevronLeft, LuChevronRight, LuX, LuGripVertical, LuRefreshCcw } from "react-icons/lu";
 import { getDaysInMonth, formatDate } from "../../utils/format";
-import { getColorHexByName, getColorByIndex } from "../../utils/color";
-import { Card, DoctorForm, Shift, DragPreview } from "./index";
-import { Breadcrumb, Item, Button, Search, Toast, Modal } from "../../components/ui";
+import { getDoctorGradient } from "../../utils/color";
+import { Card, Shift, DragPreview } from "./index";
+import { Item, Button, Search, Toast, Modal } from "../../components/ui";
 import styles from "../../styles/pages.module.css";
 
 const cx = classNames.bind(styles);
@@ -19,7 +19,6 @@ function Calendar() {
   const [dragPreview, setDragPreview] = useState(null);
 
   const { doctors, getSchedulesByDate, getDoctorById, removeSchedule, getDirtySchedules } = scheduleStore();
-  const create = useActive();
   const {
     toast,
     setToast,
@@ -30,11 +29,14 @@ function Calendar() {
     goToToday,
     handleDragStart,
     handleDrop,
-    isToday
+    isToday,
   } = useDoctorCalendar();
   const { isResizing, resizingSchedule, handleResizeStart, handleResizeMove, handleResizeEnd, isDateInResizeRange } =
     useScheduleResize();
-  const filteredDoctor = useSearch(doctors, doctorKeyword, (doctor) => doctor.name);
+  const filteredDoctor = doctors.filter((d) => d.featured);
+  const searchedDoctor = useSearch(filteredDoctor, doctorKeyword, (doctor) =>
+    [doctor.name, doctor.specialty, doctor.tags].filter(Boolean).join(" "),
+  );
 
   const dragPreviewRef = useRef(null);
   const rafId = useRef(null);
@@ -50,15 +52,10 @@ function Calendar() {
     emptyImage.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
     e.dataTransfer.setDragImage(emptyImage, 0, 0);
 
-    // Lấy màu của doctor
-    const doctorIndex = doctors.findIndex((d) => d.id === doctor.id);
-    const colorObj = getColorByIndex(doctorIndex);
-
     // Set custom drag preview
     setDragPreview({
       doctor,
-      colorObj,
-      position: { x: e.clientX, y: e.clientY }
+      position: { x: e.clientX, y: e.clientY },
     });
   };
   const handleDrag = (e) => {
@@ -101,160 +98,134 @@ function Calendar() {
 
   return (
     <div className={TWCSS.container}>
-      <Breadcrumb
-        className="mb-3"
-        items={[
-          { label: "Bảng điều khiển", href: "/bang-dieu-khien", icon: <LuLayoutDashboard /> },
-          { label: "Quản lý bác sĩ", href: "/quan-ly-bac-si" },
-          { label: "Lịch làm việc" }
-        ]}
-      />
-      <Item as="strong" children="Tạo lịch làm việc" itemClassName="text-3xl" />
-      <Item
-        as="span"
-        children="Tạo ca làm việc cho bác sĩ tại đây."
-        itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
-      />
-
-      <div className="rounded-[8px] flex-col flex md:flex-row gap-5 ">
+      <div className="space-y-5">
         {/* Sidebar - Danh sách bác sĩ */}
         <div
-          className={cx("bg-white p-6 flex flex-col justify-between md:w-80 rounded-[8px]")}
+          className={cx("bg-white rounded-2xl")}
           style={{
-            boxShadow: "var(--shadow)"
+            boxShadow: "var(--shadow)",
           }}
         >
-          <div className="mb-5">
-            <div className={cx("mb-2 flex-shrink-0 h-[100px]")}>
-              <Item as="h4" children="Danh sách bác sĩ" className="text-[18px] font-bold text-gray-900 mb-2" />
-              <Item
-                as="span"
-                children="Kéo và thả bác sĩ vào lịch để tạo ca làm việc"
-                className="text-[16px] text-gray-600 mb-4 leading-[1.8]"
-              />
-            </div>
-
-            <Search
-              value={doctorKeyword}
-              onChange={(e) => setDoctorKeyword(e.target.value)}
-              className="rounded-[8px] mb-5 box-border"
-              width="100%"
-              height={50}
-            />
-
-            <div className={cx("flex-1 w-full overflow-auto", "h-[200px] md:h-[500px]", TWCSS.scrollbarY)}>
-              {filteredDoctor.map((doctor) => (
-                <Card
-                  key={doctor.id}
-                  doctor={doctor}
-                  onDragStart={(e) => handleDragStartEvent(e, doctor)}
-                  onDrag={handleDrag}
-                  onDragEnd={handleDragEnd}
+          <div
+            className={cx("flex items-center justify-between p-3 md:p-6", "border-b border-[var(--color-primary-100)]")}
+          >
+            <div className="flex items-center gap-3">
+              <div className={cx("")}>
+                <Item as="h4" children="Danh sách bác sĩ" className="text-[13px] font-bold" />
+                <Item
+                  as="span"
+                  children="Kéo vào lịch • Click để tạo"
+                  className="text-[11px] text-[var(--color-unavailable)] leading-[1.8]"
                 />
-              ))}
-            </div>
-            {dragPreview && (
-              <DragPreview
-                doctor={dragPreview.doctor}
-                colorObj={dragPreview.colorObj}
-                position={dragPreview.position}
-                onRefReady={(element) => {
-                  dragPreviewRef.current = element;
-                }}
+              </div>
+
+              <Search
+                value={doctorKeyword}
+                onChange={(e) => setDoctorKeyword(e.target.value)}
+                className="rounded-xl w-full md:w-[260px]"
+                width="100%"
+                height={36}
+                placeholder="Tìm tên, chuyên môn, chức vụ,..."
               />
-            )}
+            </div>
+
+            <Button
+              height={36}
+              width="auto"
+              icon={<LuRefreshCcw />}
+              className={cx(
+                "px-4 py-2 rounded-xl transition-colors font-bold",
+                "bg-linear-[var(--color-ln-primary)] text-white text-[12.5px]",
+                "gap-2",
+              )}
+              children={`Đồng bộ: ${dirtyCount.length}`}
+            />
           </div>
 
-          <div>
-            <Button
-              icon={<LuUserPlus />}
-              children="Thêm mới"
-              width="100%"
-              height={50}
-              onClick={create.toggleActive}
-              className={cx(
-                "bg-[var(--color-primary)] hover:bg-[var(--color-primary-700)]",
-                "transition-all duration-300 text-white font-medium gap-2"
-              )}
-            />
-            <Modal open={create.isActive} onClose={create.deactivate} backdrop={true} width="max-w-2xl">
-              <DoctorForm onClose={create.deactivate} />
-            </Modal>
+          <div className={cx("flex gap-3 p-3 md:p-6 w-full overflow-auto", TWCSS.scrollbarX)}>
+            {searchedDoctor.map((doctor) => (
+              <Card
+                key={doctor.id}
+                doctor={doctor}
+                onDragStart={(e) => handleDragStartEvent(e, doctor)}
+                onDrag={handleDrag}
+                onDragEnd={handleDragEnd}
+              />
+            ))}
           </div>
+          {dragPreview && (
+            <DragPreview
+              doctor={dragPreview.doctor}
+              position={dragPreview.position}
+              onRefReady={(element) => {
+                dragPreviewRef.current = element;
+              }}
+            />
+          )}
         </div>
 
         {/* Calendar */}
-        <div
-          className="p-2 sm:p-6 bg-white w-full flex-1 rounded-[8px]"
-          style={{
-            boxShadow: "var(--shadow)"
-          }}
-        >
+        <div className="bg-white rounded-2xl overflow-hidden" style={{ boxShadow: "var(--shadow)" }}>
           {/* Header */}
-          <div className="flex items-center justify-between h-[100px] mb-2">
-            <div className="flex items-center gap-2">
-              <Button
-                width={40}
-                height={40}
-                icon={<LuChevronLeft />}
-                onClick={goToPreviousMonth}
-                className={cx(
-                  "p-2 rounded-lg transition-colors",
-                  "bg-[var(--color-bg-light-primary-300)]",
-                  "hover:bg-[var(--color-primary)] hover:text-white"
-                )}
+          <div className={cx("px-3 md:px-6 md:py-4")}>
+            <div className="flex flex-col xl:flex-row gap-3 items-center justify-between overflow-hidden">
+              <div className="flex items-center gap-2">
+                <Button
+                  width={36}
+                  height={36}
+                  icon={<LuChevronLeft />}
+                  onClick={goToPreviousMonth}
+                  className={cx(
+                    "p-2 rounded-xl transition-colors",
+                    "border border-[var(--color-unavailable-300)]",
+                    "hover:bg-linear-[var(--color-ln-primary)] hover:text-white",
+                  )}
+                />
+                <Button
+                  width={36}
+                  height={36}
+                  icon={<LuChevronRight />}
+                  onClick={goToNextMonth}
+                  className={cx(
+                    "p-2 rounded-xl transition-colors",
+                    "border border-[var(--color-unavailable-300)]",
+                    "hover:bg-linear-[var(--color-ln-primary)] hover:text-white",
+                  )}
+                />
+                <Button
+                  height={36}
+                  onClick={goToToday}
+                  className={cx(
+                    "px-4 py-2 rounded-xl transition-colors font-bold",
+                    "bg-linear-[var(--color-ln-primary)] text-white text-[12.5px]",
+                  )}
+                  children="Hôm nay"
+                />
+              </div>
+
+              <Item
+                as="h2"
+                children={`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
+                className={cx("text-[17px] font-bold px-2 text-center w-[200px]")}
               />
-              <Button
-                width={40}
-                height={40}
-                icon={<LuChevronRight />}
-                onClick={goToNextMonth}
-                className={cx(
-                  "p-2 rounded-lg transition-colors",
-                  "bg-[var(--color-bg-light-primary-300)]",
-                  "hover:bg-[var(--color-primary)] hover:text-white"
-                )}
-              />
-              <Button
-                height={40}
-                onClick={goToToday}
-                className={cx(
-                  "px-4 py-2 rounded-[8px] transition-colors font-bold",
-                  "bg-[var(--color-primary)] text-white text-[14px]"
-                )}
-                children="Hôm nay"
+
+              <Item
+                as="span"
+                children={`${dirtyCount.length} ca đã xếp lịch`}
+                className={cx("text-[12px] font-bold px-2 text-center text-[var(--color-unavailable)]")}
               />
             </div>
-
-            <Item
-              as="h2"
-              children={`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
-              className={cx("text-xl font-bold px-2 text-center w-[200px]")}
-            />
-
-            <Button
-              height={40}
-              width="auto"
-              className={cx(
-                "px-4 py-2 rounded-[8px] transition-colors font-bold",
-                "bg-[var(--color-primary)] text-white text-[14px]"
-              )}
-              children={`Đồng bộ lịch làm việc: ${dirtyCount.length}`}
-            />
           </div>
 
           {/* Week days */}
-          <div className="rounded-[8px] overflow-hidden">
-            <div className="grid grid-cols-7">
+          <div className="overflow-hidden">
+            <div className={cx("grid grid-cols-7 bg-linear-[var(--color-ln-primary)]")}>
               {WEEK_DAYS.map((day, idx) => (
                 <Item
                   as="div"
                   children={day}
                   key={idx}
-                  className={cx(
-                    "p-3 text-center font-semibold text-white",
-                    "bg-[var(--color-primary)] border-r last:border-r-0"
-                  )}
+                  className={cx("py-3 text-center font-semibold text-white text-[12.5px]")}
                 />
               ))}
             </div>
@@ -273,8 +244,8 @@ function Calendar() {
                       onDragOver={handleDragOver}
                       onDrop={(e) => handleDropEvent(e, dateStr, day.isCurrentMonth)}
                       onMouseEnter={() => handleResizeMove(dateStr)}
-                      className={`min-h-32 border border-gray-200 p-2 relative ${
-                        !day.isCurrentMonth ? "bg-[var(--color-bg-light-primary-200)]" : "bg-white"
+                      className={`min-h-[100px] border border-gray-100 p-2 relative ${
+                        !day.isCurrentMonth ? "bg-[var(--color-primary-100)]/30" : "bg-white"
                       } ${draggedDoctorId && day.isCurrentMonth ? "hover:bg-green-50" : ""} ${
                         isDateInResizeRange(dateStr) ? "bg-green-100 ring-2 ring-[var(--color-primary)] ring-inset" : ""
                       }`}
@@ -295,7 +266,7 @@ function Calendar() {
                       <div className="mt-1 space-y-1">
                         {schedules.map((schedule) => {
                           const doctor = getDoctorById(schedule.doctorId);
-                          const colorHex = getColorHexByName(schedule.colorName || doctor?.colorName);
+                          const colorHex = getDoctorGradient(doctor?.name || "");
                           const isResizeActive =
                             isResizing &&
                             resizingSchedule?.scheduleId === schedule.scheduleId &&
@@ -305,14 +276,16 @@ function Calendar() {
                             <div
                               key={schedule.scheduleId}
                               onClick={() => handleScheduleClick(schedule, dateStr)}
-                              style={{ backgroundColor: colorHex }}
-                              className={` text-white px-2 py-1 rounded text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
+                              style={{ background: colorHex }}
+                              className={` text-white px-2 py-1 rounded-lg text-xs cursor-pointer hover:opacity-90 transition-opacity relative group`}
                             >
-                              <div className="font-medium truncate">Bs. {doctor?.name}</div>
-                              {schedule.configured && schedule.sessionType && (
-                                <div className="text-[10px] opacity-90">
+                              <div className="font-bold truncate text-[10.5px]">Bs. {doctor?.name}</div>
+                              {schedule.configured && schedule.sessionType ? (
+                                <div className="text-[9px] opacity-90">
                                   {SESSION_PRESETS[schedule.sessionType]?.label} • {schedule.slots?.length || 0} slots
                                 </div>
+                              ) : (
+                                <div className="text-[9px] opacity-90">Chưa cấu hình bác sĩ</div>
                               )}
 
                               {/* Resize handle */}
@@ -347,9 +320,11 @@ function Calendar() {
         </div>
       </div>
       {/* Modal */}
-      {selectedSchedule && (
-        <Shift schedule={selectedSchedule} date={selectedSchedule.date} onClose={() => setSelectedSchedule(null)} />
-      )}
+
+      <Modal open={selectedSchedule} width="max-w-[540px]">
+        <Shift schedule={selectedSchedule} date={selectedSchedule?.date} onClose={() => setSelectedSchedule(null)} />
+      </Modal>
+
       <Toast
         visible={!!toast}
         duration={3000}

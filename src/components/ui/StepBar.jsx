@@ -7,7 +7,7 @@ const cx = classNames.bind(style);
 
 function StepBar({ currentPage, totalSteps, steps }) {
   return (
-    <div className="bg-white flex items-center px-6 pt-5 pb-2">
+    <div className={`bg-white grid grid-cols-${totalSteps + totalSteps - 1} nowrap items-center px-6 pt-5 pb-2`}>
       {steps.map((label, i) => {
         const stepNum = i + 1;
         const isDone = stepNum < currentPage;
@@ -29,7 +29,7 @@ function StepBar({ currentPage, totalSteps, steps }) {
               </div>
               <span
                 className={cx(
-                  "text-[11px] font-bold whitespace-nowrap",
+                  "text-[10.5px] font-bold text-center leading-3",
                   isActive && "text-[var(--color-primary)]",
                   isDone && "text-[var(--color-primary)]",
                   !isDone && !isActive && "text-[var(--color-unavailable-500)]",

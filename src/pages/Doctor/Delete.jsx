@@ -1,9 +1,9 @@
 import classNames from "classnames/bind";
 import React from "react";
 import styles from "../../styles/pages.module.css";
-import { TitleForm, Button } from "../../components/ui";
+import { Item, Button } from "../../components/ui";
 import { useDoctorStore } from "../../store/doctorStore";
-
+import { LuTrash } from "react-icons/lu";
 const cx = classNames.bind(styles);
 
 function Delete({ onClose, doctorId }) {
@@ -22,28 +22,39 @@ function Delete({ onClose, doctorId }) {
     onClose();
   };
   return (
-    <>
-      <TitleForm
-        onClose={onClose}
-        title={"Cảnh báo"}
-        subTitle={
-          <span>
-            Hành động này sẽ xoá vĩnh viễn thông tin bác sĩ{" "}
-            <span className="font-semibold text-[var(--color-error)]">{doctor.name}</span> khỏi hệ thống! Bạn có muốn
-            tiếp tục?
-          </span>
-        }
+    <div className={cx("bg-white px-8 py-7 flex flex-col items-center")}>
+      <Button
+        width={56}
+        height={56}
+        icon={<LuTrash />}
+        iconClassName={cx("text-[24px] text-[var(--color-error)]")}
+        className={cx("bg-[var(--color-error)]/20 rounded-2xl mx-auto mb-[16px]")}
       />
 
-      <div className="sticky bottom-0 p-6 flex gap-3">
+      <Item children={"Xoá bác sĩ?"} itemClassName={cx("text-[17px] font-bold")} />
+      <Item
+        children={
+          <span>
+            Bạn có chắc muốn xoá <strong className="text-black">{doctor?.name}</strong>
+            <br />
+            <span>Hành động này không thể hoàn tác.</span>
+          </span>
+        }
+        itemClassName={cx("text-[13px] text-[var(--color-unavailable-700)]")}
+        className={cx("text-center mt-2 mb-7")}
+      />
+
+      <div className="flex gap-3 w-full">
         <Button
           type="button"
           children={"Huỷ"}
           onClick={onClose}
           width="100%"
           className={cx(
-            "text-gray-700 font-semibold transition-all duration-200",
-            "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]"
+            "text-[var(--color-unavailable-900)] font-semibold transition-all duration-200",
+            "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]",
+            "rounded-xl",
+            "font-semibold text-[13px]",
           )}
         />
         <Button
@@ -51,10 +62,10 @@ function Delete({ onClose, doctorId }) {
           children={"Xác nhận"}
           onClick={handleConfirmDelete}
           width="100%"
-          className="bg-[var(--color-error)] text-white font-semibold"
+          className={cx("bg-linear-[var(--color-ln-error)] rounded-xl", "text-white font-semibold text-[13px]")}
         />
       </div>
-    </>
+    </div>
   );
 }
 

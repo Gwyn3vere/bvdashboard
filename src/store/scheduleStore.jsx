@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { MOCK_DOCTOR_LIST } from "../mock/doctors";
-import { getColorByIndex } from "../utils/color";
 import { SYNC_ENUM } from "../constants/status";
 
 export const scheduleStore = create(
@@ -11,9 +10,6 @@ export const scheduleStore = create(
       workSchedules: {},
 
       addDoctorToDate: (date, doctorId) => {
-        const doctorIndex = get().doctors.findIndex((d) => d.id === doctorId);
-        const color = getColorByIndex(doctorIndex);
-
         const scheduleId = `schedule_${Date.now()}_${Math.random()}`;
         set((state) => ({
           workSchedules: {
@@ -23,13 +19,12 @@ export const scheduleStore = create(
               {
                 scheduleId,
                 doctorId,
-                colorName: color.name,
                 date,
                 configured: false,
-                syncStatus: SYNC_ENUM.DIRTY
-              }
-            ]
-          }
+                syncStatus: SYNC_ENUM.DIRTY,
+              },
+            ],
+          },
         }));
         return scheduleId;
       },
@@ -44,15 +39,15 @@ export const scheduleStore = create(
             return {
               workSchedules: {
                 ...state.workSchedules,
-                [date]: nextSchedules
-              }
+                [date]: nextSchedules,
+              },
             };
           }
 
           // Nếu KHÔNG còn schedule → xoá luôn ngày
           const { [date]: _, ...rest } = state.workSchedules;
           return {
-            workSchedules: rest
+            workSchedules: rest,
           };
         });
       },
@@ -64,9 +59,9 @@ export const scheduleStore = create(
             [date]: (state.workSchedules[date] || []).map((schedule) =>
               schedule.scheduleId === scheduleId
                 ? { ...schedule, ...config, configured: true, syncStatus: SYNC_ENUM.DIRTY }
-                : schedule
-            )
-          }
+                : schedule,
+            ),
+          },
         }));
       },
 
@@ -78,8 +73,8 @@ export const scheduleStore = create(
           return {
             workSchedules: {
               ...state.workSchedules,
-              [date]: schedules.map((s) => (s.scheduleId === scheduleId ? { ...s, syncStatus: SYNC_ENUM.SYNCING } : s))
-            }
+              [date]: schedules.map((s) => (s.scheduleId === scheduleId ? { ...s, syncStatus: SYNC_ENUM.SYNCING } : s)),
+            },
           };
         });
       },
@@ -93,9 +88,9 @@ export const scheduleStore = create(
             workSchedules: {
               ...state.workSchedules,
               [date]: state.workSchedules[date].map((schedule) =>
-                schedule.scheduleId === scheduleId ? { ...schedule, syncStatus: SYNC_ENUM.SYNCED } : schedule
-              )
-            }
+                schedule.scheduleId === scheduleId ? { ...schedule, syncStatus: SYNC_ENUM.SYNCED } : schedule,
+              ),
+            },
           };
         });
       },
@@ -112,11 +107,11 @@ export const scheduleStore = create(
                   ? {
                       ...schedule,
                       syncStatus: SYNC_ENUM.ERROR,
-                      syncError: errorMessage
+                      syncError: errorMessage,
                     }
-                  : schedule
-              )
-            }
+                  : schedule,
+              ),
+            },
           };
         });
       },
@@ -140,7 +135,7 @@ export const scheduleStore = create(
           slots: sourceSchedule.slots,
           generatedSlots: sourceSchedule.generatedSlots,
           selectedSlotIndices: sourceSchedule.selectedSlotIndices,
-          configured: true
+          configured: true,
         };
 
         targetDates.forEach((targetDate) => {
@@ -168,13 +163,13 @@ export const scheduleStore = create(
       },
       clearAllSchedules: () => {
         set({ workSchedules: {} });
-      }
+      },
     }),
     {
       name: "doctor-schedule-store",
       partialize: (state) => ({
-        workSchedules: state.workSchedules
-      })
-    }
-  )
+        workSchedules: state.workSchedules,
+      }),
+    },
+  ),
 );

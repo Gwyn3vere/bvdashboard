@@ -1,14 +1,24 @@
 import React from "react";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
-import { Search, Tooltip, Button, Modal, Filter } from "../../components/ui";
-import { LuSlidersHorizontal, LuUserRoundPlus } from "react-icons/lu";
-
-import { StaffForm } from "../Staff";
+import { Search, Button, Modal, Filter } from ".";
+import { LuUserRoundPlus } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
-function ActionBar({ modal, keyword, onChange, onClose, featured, activeTab, onTabChange }) {
+function ActionBar({
+  name,
+  onForm,
+  formModal,
+  onFilter,
+  keyword,
+  onChange,
+  onClose,
+  featured,
+  activeTab,
+  onTabChange,
+  children,
+}) {
   return (
     <>
       <div className={cx("p-3 md:p-6 border-b border-[var(--color-primary-100)]")}>
@@ -25,17 +35,7 @@ function ActionBar({ modal, keyword, onChange, onClose, featured, activeTab, onT
                 height={"auto"}
                 key={idx}
                 onClick={() => onTabChange(item.value)}
-                icon={
-                  <div
-                    className={cx(
-                      "w-2 h-2 rounded-full",
-                      item.value === "ALL" && "bg-linear-[var(--color-primary)]",
-                      item.value === true && "bg-[var(--color-secondary)]",
-                      item.value === false && "bg-[var(--color-error)]",
-                      item.value === "ADMIN" && "bg-[var(--color-purple)]",
-                    )}
-                  />
-                }
+                icon={<div className={cx("w-2 h-2 rounded-full", item.name && `bg-[var(${item.dot})]`)} />}
                 children={item.name}
                 className={cx(
                   "flex items-center gap-1 rounded-xl px-3 py-2 text-[12.5px]",
@@ -51,14 +51,7 @@ function ActionBar({ modal, keyword, onChange, onClose, featured, activeTab, onT
 
           <div className="flex flex-col md:flex-row justify-between gap-3">
             <div className="flex gap-1">
-              <Tooltip content="Bộ lọc" position="top" className="order-1 md:order-2">
-                <Button
-                  width={36}
-                  height={36}
-                  icon={<LuSlidersHorizontal />}
-                  className={cx("font-medium", "hover:bg-[var(--color-primary-100)]")}
-                />
-              </Tooltip>
+              {children}
 
               <Search
                 value={keyword}
@@ -73,14 +66,14 @@ function ActionBar({ modal, keyword, onChange, onClose, featured, activeTab, onT
             {/* Create */}
             <Button
               icon={<LuUserRoundPlus />}
-              children="Thêm nhân sự"
+              children={`Thêm ${name}`}
               width="auto"
               height={36}
-              onClick={modal.staffForm.toggleActive}
+              onClick={onForm.toggleActive}
               iconClassName="text-[20px]"
               className={cx(
                 "gap-2 text-[13px] px-3 rounded-xl text-white font-bold",
-                "bg-linear-[var(--color-ln-primary)] cursor-pointer ",
+                "bg-linear-[var(--color-ln-primary)] cursor-pointer",
               )}
             />
           </div>
@@ -88,8 +81,8 @@ function ActionBar({ modal, keyword, onChange, onClose, featured, activeTab, onT
       </div>
 
       <Modal
-        open={modal.filter.isActive}
-        onClose={() => modal.filter.toggleActive(false)}
+        open={onFilter.isActive}
+        onClose={() => onFilter.toggleActive(false)}
         backdrop={true}
         style={{ boxShadow: "var(--shadow)" }}
         className="bg-[var(--color-bg-light-primary-300)]"
@@ -108,10 +101,10 @@ function ActionBar({ modal, keyword, onChange, onClose, featured, activeTab, onT
           />
         }
       >
-        <Filter onClose={() => modal.filter.toggleActive(false)} />
+        <Filter onClose={() => onFilter.toggleActive(false)} />
       </Modal>
-      <Modal open={modal.staffForm.isActive} onClose={onClose} backdrop={true} width="max-w-[550px]">
-        <StaffForm onClose={onClose} />
+      <Modal open={onForm.isActive} onClose={onClose} backdrop={true} width="max-w-[550px]">
+        {formModal}
       </Modal>
     </>
   );
