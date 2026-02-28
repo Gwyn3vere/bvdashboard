@@ -321,7 +321,7 @@ function Calendar() {
       </div>
       {/* Modal */}
 
-      <Modal open={selectedSchedule} width="max-w-[540px]">
+      <Modal open={selectedSchedule} onClose={() => setSelectedSchedule(null)} width="max-w-[540px]">
         <Shift schedule={selectedSchedule} date={selectedSchedule?.date} onClose={() => setSelectedSchedule(null)} />
       </Modal>
 

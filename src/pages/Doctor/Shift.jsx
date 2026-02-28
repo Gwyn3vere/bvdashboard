@@ -5,7 +5,7 @@ import { scheduleStore } from "../../store/scheduleStore";
 import { useShiftConfig } from "../../components/hooks";
 import { SESSION_PRESETS } from "../../constants/option";
 import { DatePicker } from "./index";
-import { Toast, Time, Item, Button, Input, TitleForm } from "../../components/ui";
+import { Toast, Time, Item, Button, Input, TitleForm, Modal } from "../../components/ui";
 import styles from "../../styles/pages.module.css";
 
 const cx = classNames.bind(styles);
@@ -279,9 +279,9 @@ export default function Shift({ schedule, date, onClose }) {
         />
       </div>
 
-      {showDatePicker && (
+      <Modal open={showDatePicker} onClose={() => setShowDatePicker(false)} width="max-w-xl">
         <DatePicker sourceDate={date} onClose={() => setShowDatePicker(false)} onConfirm={handleCopyToOtherDays} />
-      )}
+      </Modal>
       <Toast
         visible={!!toast}
         duration={3000}

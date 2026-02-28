@@ -1,7 +1,12 @@
 import { useState } from "react";
-import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
 import { formatDate, getDaysInMonth } from "../../utils/format";
 import { WEEK_DAYS } from "../../constants/option";
+import { Button, TitleForm } from "../../components/ui";
+import classNames from "classnames/bind";
+import styles from "../../styles/pages.module.css";
+
+const cx = classNames.bind(styles);
 
 export default function DatePicker({ sourceDate, onClose, onConfirm }) {
   const [selectedDates, setSelectedDates] = useState([]);
@@ -19,35 +24,39 @@ export default function DatePicker({ sourceDate, onClose, onConfirm }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={onClose}>
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
-        <div className="p-6 border-b">
-          <h3 className="text-xl font-bold text-gray-900">Chọn ngày cần copy cấu hình</h3>
-          <p className="text-sm text-gray-600 mt-1">Đã chọn: {selectedDates.length} ngày</p>
-        </div>
+    <>
+      <TitleForm
+        onClose={onClose}
+        title={"Chọn ngày cần copy cấu hình"}
+        subTitle={`Đã chọn: ${selectedDates.length} ngày`}
+      />
 
+      <div className="bg-white">
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <button
+            <Button
+              width={36}
+              height={36}
+              icon={<LuChevronLeft className="w-5 h-5" />}
               onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-              className="p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <LuChevronLeft className="w-5 h-5" />
-            </button>
-            <h3 className="text-lg font-semibold">
+              className="p-2 hover:bg-gray-100 rounded-xl"
+            />
+
+            <h3 className="text-[13px] font-semibold">
               Tháng {currentMonth.getMonth() + 1}, {currentMonth.getFullYear()}
             </h3>
-            <button
+            <Button
+              width={36}
+              height={36}
+              icon={<LuChevronRight className="w-5 h-5" />}
               onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-              className="p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <LuChevronRight className="w-5 h-5" />
-            </button>
+              className="p-2 hover:bg-gray-100 rounded-xl"
+            />
           </div>
 
           <div className="grid grid-cols-7 gap-1">
             {WEEK_DAYS.map((day, idx) => (
-              <div key={idx} className="text-center font-semibold text-gray-700 p-2 text-sm">
+              <div key={idx} className="text-center font-bold text-gray-700 p-2 text-[12px]">
                 {day}
               </div>
             ))}
@@ -61,14 +70,14 @@ export default function DatePicker({ sourceDate, onClose, onConfirm }) {
                   key={idx}
                   onClick={() => toggleDate(dateStr)}
                   disabled={!day.isCurrentMonth || isSource}
-                  className={`p-2 text-sm rounded-lg transition-colors ${
+                  className={`p-2 text-[12px] rounded-xl transition-colors ${
                     !day.isCurrentMonth
                       ? "text-gray-300 cursor-not-allowed"
                       : isSource
-                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                      : isSelected
-                      ? "bg-blue-600 text-white"
-                      : "hover:bg-blue-50 text-gray-700"
+                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                        : isSelected
+                          ? "bg-linear-[var(--color-ln-primary)] text-white"
+                          : "hover:bg-[var(--color-primary)]/10 text-gray-700"
                   }`}
                 >
                   {day.date.getDate()}
@@ -78,19 +87,29 @@ export default function DatePicker({ sourceDate, onClose, onConfirm }) {
           </div>
         </div>
 
-        <div className="p-6 border-t flex gap-3">
-          <button onClick={onClose} className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
-            Hủy
-          </button>
-          <button
+        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
+          <Button
+            type="button"
+            icon={<LuX />}
+            children={"Hủy"}
+            onClick={onClose}
+            width="100%"
+            height={38}
+            className={cx(
+              "bg-[var(--color-unavailable-100)] gap-2",
+              "text-[var(--color-unavailable-700)] font-bold text-[13px] rounded-xl",
+            )}
+          />
+          <Button
+            children={`Copy sang ${selectedDates.length} ngày`}
             onClick={() => onConfirm(selectedDates)}
+            width="100%"
+            height={38}
             disabled={selectedDates.length === 0}
-            className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-          >
-            Copy sang {selectedDates.length} ngày
-          </button>
+            className={cx("bg-linear-[var(--color-ln-primary)]", "text-white font-bold text-[13px] rounded-xl")}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 }
