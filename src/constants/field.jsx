@@ -107,3 +107,15 @@ export const INITAL_NEWS_CATEGORY = {
   color: "",
   totalNews: 0,
 };
+
+export const INITAL_BANNER = {
+  id: "",
+  name: "",
+  viewOrder: 1,
+  isActive: true,
+  url: "",
+  color: "rgb(219, 234, 254)",
+  archive: 0,
+  imageUrl: null,
+  imageFile: null,
+};

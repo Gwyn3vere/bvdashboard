@@ -70,7 +70,7 @@ function ArrayInput({
 
   return (
     <div className={className}>
-      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      {label && <label className={cx(labelClassName)}>{label}</label>}
 
       {/* Input để thêm item mới */}
       <div className="flex justify-between gap-2 mb-3">

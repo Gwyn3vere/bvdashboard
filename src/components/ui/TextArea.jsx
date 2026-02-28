@@ -23,7 +23,7 @@ function TextArea({
 }) {
   return (
     <div className={cx(className)}>
-      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      {label && <label className={cx(labelClassName)}>{label}</label>}
       <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
         <span>{icon}</span>
         <textarea

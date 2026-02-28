@@ -609,3 +609,29 @@ export const DOCTOR_FEATURED_OPTION = [
   },
   { value: false, name: "Tạm nghỉ", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
 ];
+
+export const BANNER_FEATURED_OPTION = [
+  { value: "ALL", name: "Tất cả", dot: "--color-primary", activeGrd: "var(--color-grd-primary)" },
+  {
+    value: true,
+    name: "Đang hiển thị",
+    dot: "--color-secondary",
+    activeGrd: "var(--color-grd-secondary)",
+  },
+  { value: false, name: "Đang ẩn", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
+  { value: 1, name: "Lưu trữ", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
+];
+
+export const BANNER_COLOR_OPTION = [
+  "rgb(219, 234, 254)",
+  "rgb(252, 231, 243)",
+  "rgb(209, 250, 229)",
+  "rgb(254, 249, 195)",
+  "rgb(237, 233, 254)",
+  "rgb(252, 231, 207)",
+];
+
+export const BANNER_ACTIVE_OPTION = [
+  { value: true, name: "Hiển thị" },
+  { value: true, name: "Ẩn" },
+];

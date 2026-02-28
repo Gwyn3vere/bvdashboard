@@ -1,14 +1,7 @@
 import React from "react";
 import classNames from "classnames/bind";
 import style from "../../styles/components.module.css";
-import {
-  Item,
-  TitleForm,
-  Input,
-  Button,
-  Form,
-  Radio,
-} from "../../components/ui";
+import { Item, TitleForm, Input, Button, Form, Radio } from "../../components/ui";
 import { COLORS_CATE_OPTION } from "../../constants/option";
 import { INITAL_NEWS_CATEGORY } from "../../constants/field";
 import { ICONS_CATE_MAP } from "../../constants/icon";
@@ -21,9 +14,7 @@ const cx = classNames.bind(style);
 function CateForm({ onClose }) {
   const getCategoryById = useCategoryStore((c) => c.getCategoryById);
   const editingCategoryId = useCategoryStore((c) => c.editingCategoryId);
-  const category = editingCategoryId
-    ? getCategoryById(editingCategoryId)
-    : null;
+  const category = editingCategoryId ? getCategoryById(editingCategoryId) : null;
 
   const { values, setFieldValue, setValues, resetForm } = useForm({
     initialValues: INITAL_NEWS_CATEGORY,
@@ -54,11 +45,7 @@ function CateForm({ onClose }) {
           resetForm();
         }}
       />
-      <Form
-        id={"cateForm"}
-        className={cx("p-6 space-y-6")}
-        onSubmit={handleSubmit}
-      >
+      <Form id={"cateForm"} className={cx("p-6 space-y-6 bg-white")} onSubmit={handleSubmit}>
         <Input
           label="Tên danh mục"
           labelClassName="text-sm"
@@ -72,11 +59,7 @@ function CateForm({ onClose }) {
 
         <div>
           <div className={cx("mb-2 text-sm font-medium")}>Màu sắc</div>
-          <div
-            className={cx(
-              "grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4",
-            )}
-          >
+          <div className={cx("grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4")}>
             {COLORS_CATE_OPTION.map((item) => (
               <Radio
                 key={item}
@@ -99,11 +82,7 @@ function CateForm({ onClose }) {
 
         <div>
           <div className={cx("mb-2 text-sm font-medium")}>Icon</div>
-          <div
-            className={cx(
-              "grid grid-cols-[repeat(auto-fit,minmax(60px,1fr))] gap-4",
-            )}
-          >
+          <div className={cx("grid grid-cols-[repeat(auto-fit,minmax(60px,1fr))] gap-4")}>
             {Object.entries(ICONS_CATE_MAP).map(([key, IconComponent]) => (
               <Radio
                 key={key}
@@ -114,9 +93,7 @@ function CateForm({ onClose }) {
                 className={cx(
                   "p-4 transition-all rounded-[8px]",
                   "h-12 flex items-center justify-center",
-                  values?.icon === key
-                    ? "bg-[var(--color-primary)] text-white"
-                    : "bg-[var(--color-unavailable-100)]",
+                  values?.icon === key ? "bg-[var(--color-primary)] text-white" : "bg-[var(--color-unavailable-100)]",
                 )}
                 hidden={true}
               />
@@ -126,12 +103,7 @@ function CateForm({ onClose }) {
       </Form>
 
       {/* Footer */}
-      <div
-        className={cx(
-          "sticky bottom-0 bg-white border-t border-gray-200 p-6",
-          "flex justify-end gap-3",
-        )}
-      >
+      <div className={cx("sticky bottom-0 bg-white border-t border-gray-200 p-6", "flex justify-end gap-3")}>
         <div className="flex gap-2">
           <Button
             children={"Huỷ"}
@@ -149,10 +121,7 @@ function CateForm({ onClose }) {
             form={"cateForm"}
             width={"auto"}
             children={"Xác nhận"}
-            className={cx(
-              "p-2 bg-[var(--color-primary)] gap-2",
-              "text-sm font-semibold text-white",
-            )}
+            className={cx("p-2 bg-[var(--color-primary)] gap-2", "text-sm font-semibold text-white")}
           />
         </div>
       </div>

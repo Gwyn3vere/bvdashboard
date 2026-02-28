@@ -50,7 +50,7 @@ function TagInput({
 
   return (
     <div className={className}>
-      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      {label && <label className={cx(labelClassName)}>{label}</label>}
       <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
         <div className="flex flex-wrap">
           {tags.map((tag) => (

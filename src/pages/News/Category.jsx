@@ -19,9 +19,7 @@ function Category({ onClose }) {
   const editingCategoryId = useCategoryStore((c) => c.editingCategoryId);
   const setEditingCategoryId = useCategoryStore((c) => c.setEditingCategoryId);
 
-  const searchCate = useSearch(filteredCate, cateKeyword, (cate) =>
-    [cate.name].filter(Boolean).join(" "),
-  );
+  const searchCate = useSearch(filteredCate, cateKeyword, (cate) => [cate.name].filter(Boolean).join(" "));
 
   const modal = {
     cateForm: useActive(),
@@ -42,7 +40,7 @@ function Category({ onClose }) {
         subTitle={"Bảng thông tin quản lý danh mục tin tức, blog của bạn."}
         onClose={onClose}
       />
-      <div className={cx("p-6 border-b border-[var(--color-unavailable-300)]")}>
+      <div className={cx("p-6 bg-white border-b border-[var(--color-unavailable-300)]")}>
         <Search
           value={cateKeyword}
           onChange={(e) => setCateKeyword(e.target.value)}
@@ -51,7 +49,7 @@ function Category({ onClose }) {
         />
       </div>
       {/* Main */}
-      <div className={cx("p-6")}>
+      <div className={cx("p-6 bg-white")}>
         <div className={cx("grid grid-cols-1 md:grid-cols-2 gap-4")}>
           {searchCate.map((category) => {
             const IconComponent = ICONS_CATE_MAP[category.icon] || LuBook;
@@ -67,16 +65,10 @@ function Category({ onClose }) {
                 <div className={cx("flex items-center gap-4")}>
                   <Item
                     icon={<IconComponent />}
-                    className={cx(
-                      "w-10 h-10 rounded-[8px] text-white",
-                      "inline-flex items-center justify-center",
-                    )}
+                    className={cx("w-10 h-10 rounded-[8px] text-white", "inline-flex items-center justify-center")}
                     style={{ backgroundColor: category.color }}
                   />
-                  <Item
-                    children={category.name}
-                    itemClassName={cx("text-sm font-semibold")}
-                  />
+                  <Item children={category.name} itemClassName={cx("text-sm font-semibold")} />
                 </div>
                 <div
                   className={cx(
@@ -86,9 +78,7 @@ function Category({ onClose }) {
                 >
                   <Item
                     children={`${category.totalNews} Bài viết`}
-                    itemClassName={cx(
-                      "text-xs text-[var(--color-unavailable-900)]",
-                    )}
+                    itemClassName={cx("text-xs text-[var(--color-unavailable-900)]")}
                   />
                   <div className="flex items-center">
                     <Button
@@ -126,10 +116,7 @@ function Category({ onClose }) {
           "flex gap-3 items-center justify-between",
         )}
       >
-        <Item
-          children={`Tổng cộng ${MOCK_NEWS_CATEGORIES.length} danh mục`}
-          itemClassName={cx("text-sm")}
-        />
+        <Item children={`Tổng cộng ${MOCK_NEWS_CATEGORIES.length} danh mục`} itemClassName={cx("text-sm")} />
         <div className="flex gap-2">
           <Button
             children={"Huỷ"}
@@ -145,25 +132,14 @@ function Category({ onClose }) {
             icon={<LuPlus />}
             children={"Thêm danh mục mới"}
             onClick={modal.cateForm.toggleActive}
-            className={cx(
-              "p-2 bg-[var(--color-primary)] gap-2",
-              "text-sm font-semibold text-white",
-            )}
+            className={cx("p-2 bg-[var(--color-primary)] gap-2", "text-sm font-semibold text-white")}
           />
         </div>
       </div>
-      <Modal
-        open={modal.cateForm.isActive}
-        onClose={handleClose}
-        width="max-w-md"
-      >
+      <Modal open={modal.cateForm.isActive} onClose={handleClose} width="max-w-md">
         <CateForm onClose={handleClose} />
       </Modal>
-      <Modal
-        open={modal.delete.isActive}
-        onClose={handleClose}
-        width="max-w-md"
-      >
+      <Modal open={modal.delete.isActive} onClose={handleClose} width="max-w-md">
         <Delete type="category" id={editingCategoryId} onClose={handleClose} />
       </Modal>
     </>
