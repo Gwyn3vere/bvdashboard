@@ -5,7 +5,7 @@ import style from "../../styles/ui.module.css";
 
 const cx = classNames.bind(style);
 
-function TagsSelector({ data, value = [], onChange, label }) {
+function TagsSelector({ data, value = [], onChange, label, labelClassName }) {
   const handleToggle = (tagLabel) => {
     const newTags = value.includes(tagLabel) ? value.filter((tag) => tag !== tagLabel) : [...value, tagLabel];
 
@@ -16,7 +16,7 @@ function TagsSelector({ data, value = [], onChange, label }) {
 
   return (
     <div className="space-y-3">
-      <label className="font-medium">{label}</label>
+      <label className={cx(labelClassName)}>{label}</label>
       <div className="flex flex-wrap gap-2 mt-1">
         {TAGS_OPTIONS.map((tag) => {
           const isChecked = value.includes(tag.name);
@@ -30,7 +30,7 @@ function TagsSelector({ data, value = [], onChange, label }) {
                 "px-3 py-1.5 rounded-full font-medium text-sm transition-all duration-200 border-1 border-[var(--color-gray-400)]",
                 isChecked
                   ? "bg-[var(--color-primary)] text-white border-1 border-transparent"
-                  : "hover:bg-[var(--color-primary)]/5 hover:text-[var(--color-primary-700)] hover:border-[var(--color-primary-700)]"
+                  : "hover:bg-[var(--color-primary)]/5 hover:text-[var(--color-primary-700)] hover:border-[var(--color-primary-700)]",
               )}
               onClick={() => handleToggle(tag.name)}
             />

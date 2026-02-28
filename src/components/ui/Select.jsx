@@ -44,7 +44,7 @@ function Select({
 
   return (
     <div ref={dropdownRef} className={cx("relative", className)}>
-      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      {label && <label className={cx(labelClassName)}>{label}</label>}
       <div
         onClick={() => setIsOpen(!isOpen)}
         style={{ width, height, ...style }}
@@ -57,7 +57,9 @@ function Select({
         )}
       >
         <span className={value ? "text-gray-900" : "text-gray-400"}>{displayText}</span>
-        <LuChevronDown className={cx("w-5 h-5 text-gray-400", isOpen ? "rotate-180 transition-transform" : "transition-transform")} />
+        <LuChevronDown
+          className={cx("w-5 h-5 text-gray-400", isOpen ? "rotate-180 transition-transform" : "transition-transform")}
+        />
       </div>
       {error && <label className={cx("font-medium text-[11px] text-[var(--color-error)]")}>{error}</label>}
 

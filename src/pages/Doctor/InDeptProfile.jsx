@@ -48,7 +48,7 @@ function InDeptProfile({ value, setValue, getFieldError, validateField }) {
         height={"auto"}
         labelClassName={cx("text-[11.5px] font-bold")}
         inputClassName={cx("rounded-xl w-full")}
-        className="w-full"
+        className="w-full "
       />
     </div>
   );

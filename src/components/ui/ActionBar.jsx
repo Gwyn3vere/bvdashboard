@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
 import { Search, Button, Modal, Filter } from ".";
-import { LuUserRoundPlus } from "react-icons/lu";
+import { LuPlus, LuUserRoundPlus } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +18,7 @@ function ActionBar({
   activeTab,
   onTabChange,
   children,
+  placeholder = "Tìm tên, email, chức vụ,...",
 }) {
   return (
     <>
@@ -59,13 +60,13 @@ function ActionBar({
                 width={"100%"}
                 height={36}
                 className={cx("rounded-xl w-full md:w-[230px]", "order-2 md:order-1")}
-                placeholder="Tìm tên, email, chức vụ,..."
+                placeholder={placeholder}
               />
             </div>
 
             {/* Create */}
             <Button
-              icon={<LuUserRoundPlus />}
+              icon={name === "banner" ? <LuPlus /> : <LuUserRoundPlus />}
               children={`Thêm ${name}`}
               width="auto"
               height={36}

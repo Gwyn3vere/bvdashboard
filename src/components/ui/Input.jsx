@@ -26,7 +26,7 @@ function Input({
   const [showPassword, setShowPassword] = useState();
   return (
     <div className={className}>
-      {label && <label className={cx("font-medium", labelClassName)}>{label}</label>}
+      {label && <label className={cx(labelClassName)}>{label}</label>}
       <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
         <span>{icon}</span>
         <input
@@ -38,7 +38,11 @@ function Input({
         />
 
         {isPassword && (
-          <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="px-2 text-gray-500 hover:text-gray-700">
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="px-2 text-gray-500 hover:text-gray-700"
+          >
             {showPassword ? <LuEye /> : <LuEyeClosed />}
           </button>
         )}

@@ -35,7 +35,7 @@ function List({
           {columns.map((col) => (
             <label
               key={col.key}
-              className={cx("text-left font-semibold text-white whitespace-nowrap text-[11.5px]")}
+              className={cx("text-left font-bold text-white whitespace-nowrap text-[11.5px]")}
               style={{ width: col.width }}
             >
               {col.label}
