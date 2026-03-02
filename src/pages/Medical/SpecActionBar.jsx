@@ -9,6 +9,7 @@ const cx = classNames.bind(style);
 function SpecActionBar({
   children,
   className,
+  style = {},
   groupId,
   deptId,
   specId,
@@ -22,7 +23,7 @@ function SpecActionBar({
   onSpecDel,
 }) {
   return (
-    <div className={className}>
+    <div className={className} style={{ ...style }}>
       {children}
       <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
         <Button

@@ -24,7 +24,7 @@ function GroupForm({ onClose }) {
   const { validate, validateField, setAllTouched, getFieldError } = useValidation(validateExpertise);
   const { values, setFieldValue, resetForm } = useForm({
     initialValues: INITAL_GROUP,
-    editValues: group
+    editValues: group,
   });
 
   const handleSubmit = (e) => {
@@ -35,7 +35,7 @@ function GroupForm({ onClose }) {
       setAllTouched(values);
       setToast({
         type: "INFO",
-        message: "Vui lòng điền đầy đủ thông tin bắt buộc"
+        message: "Vui lòng điền đầy đủ thông tin bắt buộc",
       });
       return;
     }
@@ -44,12 +44,12 @@ function GroupForm({ onClose }) {
       updateGroup(values);
       setToast({
         type: "SUCCESS",
-        message: "Cập nhật khối chuyên môn thành công"
+        message: "Cập nhật khối chuyên môn thành công",
       });
     } else {
       setToast({
         type: "SUCCESS",
-        message: "Tạo mới khối chuyên môn thành công"
+        message: "Tạo mới khối chuyên môn thành công",
       });
     }
 
@@ -65,14 +65,14 @@ function GroupForm({ onClose }) {
           onClose();
           resetForm();
         }}
-        title={group ? "Cập nhật khối" : "Thêm khối"}
-        subTitle={"Điền đầy đủ thông tin khối chuyên môn vào danh sách."}
+        title={group ? "Chỉnh sửa khối" : "Thêm khối"}
+        subTitle={group ? "Cập nhật thông tin" : "Nhập thông tin để tạo mới."}
       />
 
       <Form
         id="groupForm"
         onSubmit={handleSubmit}
-        className="space-y-4 p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]"
+        className="p-6 overflow-y-auto hidden-scrollbar max-h-[90vh] bg-white"
       >
         <GroupInput
           icons={ICONS_OPTIONS}
@@ -84,7 +84,7 @@ function GroupForm({ onClose }) {
       </Form>
 
       {/* Footer */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 px-3 py-6 md:p-6 flex gap-3">
         <Button
           type="button"
           children={"Huỷ"}
@@ -93,17 +93,19 @@ function GroupForm({ onClose }) {
             resetForm();
           }}
           width="100%"
+          height={38}
           className={cx(
-            "text-gray-700 font-semibold transition-all duration-200",
-            "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]"
+            "bg-[var(--color-unavailable-100)]",
+            "text-[var(--color-unavailable-700)] font-bold text-[13px] rounded-xl",
           )}
         />
         <Button
           type={"submit"}
           form={"groupForm"}
-          children={"Xác nhận"}
+          children={group ? "Lưu thay đổi" : "Tạo mới"}
           width="100%"
-          className="bg-[var(--color-primary)] text-white font-semibold"
+          height={38}
+          className={cx("bg-linear-[var(--color-ln-primary)]", "text-white font-bold text-[13px] rounded-xl")}
         />
       </div>
       <Toast
@@ -145,7 +147,7 @@ function GroupInput({ icons, value, setValue, getFieldError, validateField }) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <Input
         label={
           <span>
@@ -159,9 +161,12 @@ function GroupInput({ icons, value, setValue, getFieldError, validateField }) {
         onBlur={() => handleBlur("id")}
         error={getFieldError("id")}
         placeholder="Tự động tạo từ tên"
-        inputClassName={cx("bg-gray-100")}
         disabled
         required
+        width={"100%"}
+        height={"auto"}
+        labelClassName={cx("text-[11.5px] font-bold")}
+        inputClassName={cx("rounded-xl")}
       />
       <Input
         label={
@@ -177,9 +182,12 @@ function GroupInput({ icons, value, setValue, getFieldError, validateField }) {
         onBlur={() => handleBlur("value")}
         error={getFieldError("value")}
         placeholder="Tự động tạo từ tên"
-        inputClassName={cx("bg-gray-100")}
         disabled
         required
+        width={"100%"}
+        height={"auto"}
+        labelClassName={cx("text-[11.5px] font-bold")}
+        inputClassName={cx("rounded-xl")}
       />
       <Input
         label={
@@ -195,6 +203,10 @@ function GroupInput({ icons, value, setValue, getFieldError, validateField }) {
         error={getFieldError("name")}
         placeholder="VD: Lâm sàng"
         required
+        width={"100%"}
+        height={"auto"}
+        labelClassName={cx("text-[11.5px] font-bold")}
+        inputClassName={cx("rounded-xl")}
       />
       <Select
         label={"Icon"}
@@ -203,6 +215,11 @@ function GroupInput({ icons, value, setValue, getFieldError, validateField }) {
         value={value?.icon}
         onChange={(val) => setValue("icon", val)}
         placeholder="Chọn biểu tượng"
+        width={"100%"}
+        height={"auto"}
+        labelClassName={cx("text-[11.5px] font-bold")}
+        inputClassName={cx("rounded-xl")}
+        itemClassName={cx("text-[13px]")}
       />
     </div>
   );

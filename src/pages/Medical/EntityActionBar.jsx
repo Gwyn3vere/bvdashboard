@@ -15,45 +15,50 @@ function EntityActionBar({
   setDeptEdit,
   groupId,
   className,
+  actionClassName,
+  style = {},
   ...props
 }) {
   return (
-    <div className={className} {...props}>
+    <div className={className} {...props} style={{ ...style }}>
       {children}
       <div className="flex items-center gap-1">
         <Button
           width={26}
           height={26}
           icon={<LuSquarePen />}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setEdit(groupId);
             onGrEdit();
           }}
           iconClassName="text-[10px] font-bold"
-          className={cx("bg-white/20 rounded-lg border border-white/40")}
+          className={cx(actionClassName)}
         />
         <Button
           width={26}
           height={26}
           icon={<LuTrash2 />}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setEdit(groupId);
             onGrDel();
           }}
           iconClassName="text-[10px] font-bold"
-          className={cx("bg-white/20 rounded-lg border border-white/40")}
+          className={cx(actionClassName)}
         />
         <Button
           width={26}
           height={26}
           icon={<LuPlus />}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setEdit(groupId);
             setDeptEdit(null);
             onDeptCreate();
           }}
           iconClassName="text-[10px] font-bold"
-          className={cx("bg-white/20 rounded-lg border border-white/40")}
+          className={cx(actionClassName)}
         />
       </div>
     </div>

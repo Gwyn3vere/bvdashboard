@@ -26,9 +26,9 @@ function SpecForm({ onClose }) {
   const { values, setFieldValue, resetForm } = useForm({
     initialValues: {
       ...INITAL_SPECIALTY,
-      departmentId: editingDepartmentId
+      departmentId: editingDepartmentId,
     },
-    editValues: specialty
+    editValues: specialty,
   });
 
   const handleSubmit = (e) => {
@@ -47,24 +47,19 @@ function SpecForm({ onClose }) {
           resetForm();
         }}
         title={specialty ? "Cập nhật chuyên khoa" : "Thêm chuyên khoa"}
-        subTitle={
-          <span>
-            Điền đầy đủ thông tin vào danh sách chuyên khoa thuộc{" "}
-            <span className="text-[var(--color-primary)]">{department?.name}</span>
-          </span>
-        }
+        subTitle={specialty ? "Cập nhật thông tin" : "Nhập thông tin để tạo mới."}
       />
 
       <Form
         id="specForm"
         onSubmit={handleSubmit}
-        className="space-y-4 p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]"
+        className="bg-white p-6 overflow-y-auto hidden-scrollbar max-h-[90vh]"
       >
         <GroupInput value={values} setValue={setFieldValue} />
       </Form>
 
       {/* Footer */}
-      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex gap-3">
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 px-3 py-6 md:p-6 flex gap-3">
         <Button
           type="button"
           children={"Huỷ"}
@@ -73,17 +68,19 @@ function SpecForm({ onClose }) {
             resetForm();
           }}
           width="100%"
+          height={38}
           className={cx(
-            "text-gray-700 font-semibold transition-all duration-200",
-            "bg-[var(--color-unavailable-100)] hover:bg-[var(--color-unavailable-300)]"
+            "bg-[var(--color-unavailable-100)]",
+            "text-[var(--color-unavailable-700)] font-bold text-[13px] rounded-xl",
           )}
         />
         <Button
           type={"submit"}
           form={"specForm"}
-          children={"Xác nhận"}
+          children={specialty ? "Lưu thay đổi" : "Tạo mới"}
           width="100%"
-          className="bg-[var(--color-primary)] text-white font-semibold"
+          height={38}
+          className={cx("bg-linear-[var(--color-ln-primary)]", "text-white font-bold text-[13px] rounded-xl")}
         />
       </div>
     </>
@@ -106,7 +103,7 @@ function GroupInput({ icons, value, setValue }) {
   }, [value?.name, setValue]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <Input
         label={
           <span>
@@ -119,6 +116,10 @@ function GroupInput({ icons, value, setValue }) {
         onChange={(val) => setValue("id", val.target.value)}
         placeholder="VD: noi-tong-quat"
         required
+        width={"100%"}
+        height={"auto"}
+        labelClassName={cx("text-[11.5px] font-bold")}
+        inputClassName={cx("rounded-xl")}
       />
       <Input
         label={
@@ -131,9 +132,12 @@ function GroupInput({ icons, value, setValue }) {
         value={value?.value}
         onChange={(val) => setValue("value", val.target.value)}
         placeholder="Tự động tạo từ tên"
-        inputClassName={cx("bg-gray-100")}
         disabled
         required
+        width={"100%"}
+        height={"auto"}
+        labelClassName={cx("text-[11.5px] font-bold")}
+        inputClassName={cx("rounded-xl")}
       />
       <Input
         label={
@@ -147,6 +151,10 @@ function GroupInput({ icons, value, setValue }) {
         onChange={(val) => setValue("name", val.target.value)}
         placeholder="VD: Khoa nội"
         required
+        width={"100%"}
+        height={"auto"}
+        labelClassName={cx("text-[11.5px] font-bold")}
+        inputClassName={cx("rounded-xl")}
       />
     </div>
   );

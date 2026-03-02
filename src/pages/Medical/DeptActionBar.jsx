@@ -7,7 +7,6 @@ import style from "../../styles/ui.module.css";
 const cx = classNames.bind(style);
 
 function DeptActionBar({
-  isMatched = null,
   deptName = "",
   keyword = "",
   children,
@@ -32,13 +31,11 @@ function DeptActionBar({
         <Button
           width={26}
           height={26}
-          iconClassName={cx(
-            "text-[10px] font-bold ",
-            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-secondary)]",
-          )}
+          iconClassName={cx("text-[10px] font-bold text-[var(--color-secondary)]")}
           className={cx("bg-[var(--color-secondary)]/10 rounded-lg")}
           icon={<LuSquarePen />}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setGrEdit(groupId);
             setDeptEdit(deptId);
             onDeptEdit();
@@ -47,13 +44,11 @@ function DeptActionBar({
         <Button
           width={26}
           height={26}
-          iconClassName={cx(
-            "text-[10px] font-bold",
-            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-error)]",
-          )}
+          iconClassName={cx("text-[10px] font-bold text-[var(--color-error)]")}
           className={cx("bg-[var(--color-error)]/10 rounded-lg")}
           icon={<LuTrash2 />}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setGrEdit(groupId);
             setDeptEdit(deptId);
             onDeptDel();
@@ -62,13 +57,11 @@ function DeptActionBar({
         <Button
           width={26}
           height={26}
-          iconClassName={cx(
-            "text-[10px] font-bold",
-            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-primary)]",
-          )}
+          iconClassName={cx("text-[10px] font-bold text-[var(--color-primary)]")}
           className={cx("bg-[var(--color-primary)]/10 rounded-lg")}
           icon={<LuPlus />}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setGrEdit(groupId);
             setDeptEdit(deptId);
             onSpecCreate();
