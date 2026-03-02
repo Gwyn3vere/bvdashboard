@@ -3,13 +3,7 @@ import { useDebouncedCallback } from "../../components/hooks";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
 import { Item, Button } from "../../components/ui";
-import {
-  LuChevronRight,
-  LuPlus,
-  LuCircle,
-  LuSquarePen,
-  LuTrash2,
-} from "react-icons/lu";
+import { LuChevronRight, LuPlus, LuCircle, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { ICON_MAP } from "../../constants/icon";
 import { slugify } from "../../utils/format";
 import { EntityActionBar, DeptActionBar, SpecActionBar } from "./index";
@@ -57,9 +51,7 @@ function Hierarchy({
     group.departments?.forEach((dept) => {
       const deptMatches = slugify(dept.name).includes(searchStr);
 
-      const hasSpecMatch = dept.specialties?.some((spec) =>
-        slugify(spec.name).includes(searchStr),
-      );
+      const hasSpecMatch = dept.specialties?.some((spec) => slugify(spec.name).includes(searchStr));
 
       if (deptMatches || hasSpecMatch) {
         newExpandedDepts[dept.id] = true;
@@ -93,8 +85,8 @@ function Hierarchy({
   };
 
   return (
-    <div className="mb-6 overflow-hidden rounded-[8px] outline outline-[var(--color-unavailable-300)]">
-      <div className={cx("bg-white")}>
+    <div className="mb-6">
+      <div className={cx("")}>
         {/* Groups */}
         <EntityActionBar
           onDeptCreate={onDeptCreate}
@@ -103,67 +95,48 @@ function Hierarchy({
           onGrDel={onGrDel}
           setEdit={setEdit}
           groupId={group.id}
+          onClick={() => toggleGroup(group.id)}
           className={cx(
-            "flex items-center justify-between",
-            "bg-[var(--color-primary)] p-6 text-white",
+            "flex items-center justify-between rounded-2xl",
+            "bg-linear-[var(--color-ln-primary)] py-3.5 px-5 text-white",
           )}
         >
-          <div className={cx("flex items-center gap-2 sm:gap-5")}>
+          <div className={cx("flex items-center gap-3")}>
             <Button
-              onClick={() => toggleGroup(group.id)}
               icon={<LuChevronRight />}
-              className={
-                expandedGroups[group.id]
-                  ? "rotate-90 transition-transform"
-                  : "transition-transform"
-              }
-              width={40}
+              className={cx(
+                expandedGroups[group.id] ? "rotate-90 transition-transform" : "transition-transform",
+                "text-[14px]",
+              )}
+              width={"auto"}
               height={40}
             />
             <Item
               as="div"
               icon={groupIcon}
               className={cx(
-                "p-3 bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
-                "text-[var(--color-primary)] text-2xl",
+                "w-[40px] h-[40px] bg-white/20 rounded-xl",
+                "flex items-center justify-center text-white text-[18px]",
               )}
             />
             <div className={cx("")}>
-              <Item
-                as="strong"
-                children={`Khối ${group.name}`}
-                itemClassName={cx("text-md sm:text-lg")}
-              />
+              <Item as="strong" children={`Khối ${group.name}`} itemClassName={cx("text-[15px]")} />
               <Item
                 as="div"
                 children={`${departments?.length} Khoa • ${specialties.length} Chuyên khoa`}
-                itemClassName={cx("text-[12px] sm:text-sm")}
+                itemClassName={cx("text-[11.5px]")}
               />
             </div>
           </div>
         </EntityActionBar>
         {/* Departments */}
         {expandedGroups[group.id] && (
-          <div className="p-6 space-y-4">
+          <div className="ml-[20px] mt-[6px] space-y-[6px]">
             {departments.map((dept) => {
               const DeptIcon = ICON_MAP[dept.icon] ?? LuCircle;
               return (
-                <div
-                  key={dept.id}
-                  className={cx(
-                    "overflow-hidden rounded-[8px] border-2",
-                    isMatched(dept.name, keyword)
-                      ? "border-[var(--color-secondary)]"
-                      : "border-[var(--color-primary)]",
-                  )}
-                >
-                  <div
-                    className={cx(
-                      isMatched(dept.name, keyword)
-                        ? "bg-[var(--color-secondary-200)]"
-                        : "bg-[var(--color-primary-200)]",
-                    )}
-                  >
+                <div key={dept.id} className={cx("overflow-hidden rounded-xl")} style={{ boxShadow: "var(--shadow)" }}>
+                  <div className={cx(isMatched(dept.name, keyword) ? "bg-[var(--color-secondary-200)]" : "bg-white")}>
                     <DeptActionBar
                       groupId={group.id}
                       deptId={dept.id}
@@ -180,44 +153,40 @@ function Hierarchy({
                       deptName={dept.name}
                       className={cx(
                         "flex items-center justify-between",
-                        "p-4",
-                        isMatched(dept.name, keyword)
-                          ? "bg-[var(--color-secondary-100)]"
-                          : "bg-[var(--color-primary-100)]",
+                        "py-3 px-4",
+
+                        expandedDepartments[dept.id] && "border-b border-[var(--color-unavailable-100)]",
+                        isMatched(dept.name, keyword) ? "bg-[var(--color-secondary-100)]" : "bg-white",
                       )}
+                      onClick={() => toggleDepartment(dept.id)}
                     >
                       <div className={cx("flex items-center gap-2")}>
                         <Button
-                          onClick={() => toggleDepartment(dept.id)}
                           icon={<LuChevronRight />}
-                          className={
-                            expandedDepartments[dept.id]
-                              ? "rotate-90 transition-transform"
-                              : "transition-transform"
-                          }
-                          width={40}
-                          height={40}
+                          className={cx(
+                            expandedDepartments[dept.id] ? "rotate-90 transition-transform" : "transition-transform",
+                            "text-[8px]",
+                          )}
+                          width={"auto"}
+                          height={30}
                         />
                         <Item
                           as="div"
                           icon={<DeptIcon />}
                           className={cx(
-                            "p-3 text-2xl",
+                            "flex items-center justify-center",
+                            "text-[13px] w-[30px] h-[30px] rounded-lg",
                             isMatched(dept.name, keyword)
                               ? "text-[var(--color-secondary)]"
-                              : "text-[var(--color-primary)]",
+                              : "text-[var(--color-primary)] bg-[var(--color-primary)]/10",
                           )}
                         />
                         <div className={cx("")}>
-                          <Item
-                            as="span"
-                            children={dept.name}
-                            itemClassName={cx("text-md sm:text-md font-medium")}
-                          />
+                          <Item as="span" children={dept.name} itemClassName={cx("text-[13px] font-bold")} />
                           <Item
                             as="div"
                             children={`${dept.specialties.length} Chuyên khoa`}
-                            itemClassName={cx("text-[12px]")}
+                            itemClassName={cx("text-[10.5px] text-[var(--color-unavailable-700)]")}
                           />
                         </div>
                       </div>
@@ -225,7 +194,7 @@ function Hierarchy({
 
                     {/* Specialties */}
                     {expandedDepartments[dept.id] && (
-                      <div className="p-4 space-y-3">
+                      <div className="px-4 py-2 space-y-[4px]">
                         {dept.specialties.length > 0 ? (
                           dept.specialties.map((spec) => (
                             <SpecActionBar
@@ -242,43 +211,36 @@ function Hierarchy({
                               setDeptEdit={setDeptEdit}
                               key={spec.id}
                               className={cx(
-                                " rounded-[8px] py-2 px-4",
+                                " rounded-lg py-2 px-2.5 border border-[var(--color-primary)]/10",
                                 "flex items-center justify-between",
-                                "group",
+                                "group hover:bg-[var(--color-primary)]/10",
                                 isMatched(spec?.name, keyword)
                                   ? "bg-[var(--color-secondary-100)]"
-                                  : "bg-white",
+                                  : "bg-[var(--color-primary)]/3 ",
                               )}
                             >
                               <div className="flex items-center gap-2">
                                 <div
                                   className={cx(
-                                    "w-2 h-2 rounded-full",
-                                    isMatched(dept.name, keyword) ||
-                                      isMatched(spec?.name, keyword)
+                                    "w-1 h-1 rounded-full",
+                                    isMatched(dept.name, keyword) || isMatched(spec?.name, keyword)
                                       ? "bg-[var(--color-secondary)]"
-                                      : "bg-[var(--color-primary)]",
+                                      : "bg-[var(--color-primary-700)]",
                                   )}
                                 />
                                 <Item
                                   as="span"
                                   children={spec.name}
                                   itemClassName={cx(
-                                    "text-sm font-medium",
-                                    isMatched(spec?.name, keyword)
-                                      ? "text-[var(--color-secondary)]"
-                                      : "text-[var(--color-text-bg-light-primary)]",
+                                    "text-[12.5px] font-bold",
+                                    isMatched(spec?.name, keyword) ? "text-[var(--color-secondary)]" : "text-black/70",
                                   )}
                                 />
                               </div>
                             </SpecActionBar>
                           ))
                         ) : (
-                          <Item
-                            as="div"
-                            children={"Không có chuyên khoa"}
-                            itemClassName={cx("text-sm font-medium")}
-                          />
+                          <Item as="div" children={"Không có chuyên khoa"} itemClassName={cx("text-sm font-medium")} />
                         )}
                       </div>
                     )}

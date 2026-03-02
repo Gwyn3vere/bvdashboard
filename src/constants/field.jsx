@@ -111,7 +111,7 @@ export const INITAL_NEWS_CATEGORY = {
 export const INITAL_BANNER = {
   id: "",
   name: "",
-  viewOrder: 1,
+  viewOrder: null,
   isActive: true,
   url: "",
   color: "rgb(219, 234, 254)",

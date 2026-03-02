@@ -19,16 +19,17 @@ function SpecActionBar({
   // Handle Specialty
   onSpecEdit,
   setSpecEdit,
-  onSpecDel
+  onSpecDel,
 }) {
   return (
     <div className={className}>
       {children}
       <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
         <Button
-          width={40}
-          height={40}
-          iconClassName="text-sm font-bold text-[var(--color-secondary)]"
+          width={26}
+          height={26}
+          iconClassName={cx("text-[10px] font-bold ", "text-[var(--color-secondary)]")}
+          className={cx("bg-[var(--color-secondary)]/10 rounded-lg")}
           icon={<LuSquarePen />}
           onClick={() => {
             setGrEdit(groupId);
@@ -38,9 +39,10 @@ function SpecActionBar({
           }}
         />
         <Button
-          width={40}
-          height={40}
-          iconClassName="text-sm font-bold text-[var(--color-error)]"
+          width={26}
+          height={26}
+          iconClassName={cx("text-[10px] font-bold ", "text-[var(--color-error)]")}
+          className={cx("bg-[var(--color-error)]/10 rounded-lg")}
           icon={<LuTrash2 />}
           onClick={() => {
             setGrEdit(groupId);

@@ -12,6 +12,7 @@ function DeptActionBar({
   keyword = "",
   children,
   className,
+  style = {},
   groupId,
   deptId,
   // Handle Group
@@ -21,19 +22,21 @@ function DeptActionBar({
   setDeptEdit,
   onDeptDel,
   // Handle Specialty
-  onSpecCreate
+  onSpecCreate,
+  ...props
 }) {
   return (
-    <div className={className}>
+    <div className={className} style={{ ...style }} {...props}>
       {children}
-      <div className="flex items-center">
+      <div className="flex items-center gap-1">
         <Button
-          width={40}
-          height={40}
+          width={26}
+          height={26}
           iconClassName={cx(
-            "text-sm font-bold ",
-            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-primary-500)]"
+            "text-[10px] font-bold ",
+            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-secondary)]",
           )}
+          className={cx("bg-[var(--color-secondary)]/10 rounded-lg")}
           icon={<LuSquarePen />}
           onClick={() => {
             setGrEdit(groupId);
@@ -42,12 +45,13 @@ function DeptActionBar({
           }}
         />
         <Button
-          width={40}
-          height={40}
+          width={26}
+          height={26}
           iconClassName={cx(
-            "text-sm font-bold",
-            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-primary-500)]"
+            "text-[10px] font-bold",
+            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-error)]",
           )}
+          className={cx("bg-[var(--color-error)]/10 rounded-lg")}
           icon={<LuTrash2 />}
           onClick={() => {
             setGrEdit(groupId);
@@ -56,12 +60,13 @@ function DeptActionBar({
           }}
         />
         <Button
-          width={40}
-          height={40}
+          width={26}
+          height={26}
           iconClassName={cx(
-            "text-sm font-bold",
-            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-primary-500)]"
+            "text-[10px] font-bold",
+            isMatched(deptName, keyword) ? "text-[var(--color-secondary-500)]" : "text-[var(--color-primary)]",
           )}
+          className={cx("bg-[var(--color-primary)]/10 rounded-lg")}
           icon={<LuPlus />}
           onClick={() => {
             setGrEdit(groupId);

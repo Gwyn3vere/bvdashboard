@@ -66,10 +66,10 @@ function Select({
       {isOpen && (
         <div className="absolute z-50 mt-2 bg-white border-2 border-gray-200 rounded-xl w-full">
           <div className={cx("p-4", "max-h-60 overflow-y-auto", TWCSS.scrollbarY)}>
-            {data.map((item) => {
+            {data.map((item, idx) => {
               return (
                 <div
-                  key={item.id}
+                  key={idx}
                   onClick={() => {
                     onChange?.(item.value);
                     setIsOpen(!isOpen);

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { MOCK_BANNER_LIST } from "../mock/banners";
+import { fetchBannersService, createBannerService } from "../services/banner";
 
 export const useBannerStore = create((set, get) => ({
   banners: [],
@@ -7,12 +8,31 @@ export const useBannerStore = create((set, get) => ({
   loading: false,
 
   getBannerById: (id) => {
-    return get().banners.find((b) => b.id === id);
+    return get().banners.find((b) => b?.id === id);
   },
 
   setBanners: (banners) => set({ banners }),
 
   setEditingBannerId: (id) => set({ editingBannerId: id }),
+
+  createBanner: async (payload) => {
+    try {
+      set({ loading: true });
+
+      const res = await createBannerService(payload);
+
+      if (!res.success) throw new Error(res.errors?.banner);
+
+      await get().fetchBanners(); // sync lại từ BE
+
+      set({ loading: false });
+
+      return { success: true };
+    } catch (error) {
+      set({ loading: false });
+      return { success: false, message: error.message };
+    }
+  },
 
   updateBanner: (updateBanner) =>
     set((state) => ({
@@ -34,31 +54,46 @@ export const useBannerStore = create((set, get) => ({
     })),
 
   restoreBanner: (id) =>
-    set((state) => ({
-      banners: state.banners.map((b) =>
-        b.id === id
-          ? {
-              ...b,
-              archive: 0,
-              isActive: true,
-              viewOrder: state.banners.filter((banner) => banner.archive === 0).length + 1,
-            }
-          : b,
-      ),
-    })),
+    set((state) => {
+      const activeCount = state.banners.filter((b) => b.archive === 0).length;
+
+      return {
+        banners: state.banners.map((b) =>
+          b.id === id
+            ? {
+                ...b,
+                archive: 0,
+                isActive: true,
+                viewOrder: activeCount + 1,
+              }
+            : b,
+        ),
+      };
+    }),
 
   deleteBanner: (id) =>
     set((state) => ({
       banners: state.banners.filter((b) => b.id !== id),
     })),
 
-  fetchBanners: async () => {
+  fetchBanners: () => {
     set({ loading: true });
 
-    const res = MOCK_BANNER_LIST;
+    // const res = await fetchBannersService();
+    const mockRes = MOCK_BANNER_LIST;
+
+    // if (res.success) {
+    //   set({
+    //     banners: res.banners.data,
+    //     loading: false,
+    //   });
+    // } else {
+    //   console.error(res.errors);
+    //   set({ loading: false });
+    // }
 
     set({
-      banners: res,
+      banners: mockRes,
       loading: false,
     });
   },
