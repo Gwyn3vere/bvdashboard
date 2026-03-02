@@ -1,12 +1,4 @@
-import {
-  LuUser,
-  LuSettings,
-  LuLogOut,
-  LuHeading1,
-  LuHeading2,
-  LuHeading3,
-  LuHeading4,
-} from "react-icons/lu";
+import { LuUser, LuSettings, LuLogOut, LuHeading1, LuHeading2, LuHeading3, LuHeading4 } from "react-icons/lu";
 
 export const NAV_MENU = [
   { id: "account", icon: <LuUser />, value: "ACCOUNT", name: "Tài khoản" },
@@ -54,13 +46,7 @@ export const NEWS_CATEGORIES = [
   { id: "dd", name: "Dinh dưỡng", totalNews: 24 },
 ];
 
-export const RICH_TEXT_HIGHLIGHT_COLORS = [
-  "#fde68a",
-  "#fecaca",
-  "#bfdbfe",
-  "#bbf7d0",
-  "#e9d5ff",
-];
+export const RICH_TEXT_HIGHLIGHT_COLORS = ["#fde68a", "#fecaca", "#bfdbfe", "#bbf7d0", "#e9d5ff"];
 
 export const RICH_TEXT_HEADINGS = [
   { level: 1, icon: <LuHeading1 />, title: "Heading 1" },
@@ -89,4 +75,25 @@ export const RICH_TEXT_COLORS = [
   "#D946EF",
   "#EC4899",
   "#F43F5E",
+];
+
+export const EXPERTISE_COLOR_SYSTEM = [
+  {
+    gradient: "var(--color-grd-primary)",
+    solid: "var(--color-primary)",
+    light: "var(--color-primary-100)",
+    text: "var(--color-primary-700)",
+  },
+  {
+    gradient: "var(--color-grd-secondary)",
+    solid: "var(--color-secondary)",
+    light: "var(--color-secondary-100)",
+    text: "var(--color-secondary-700)",
+  },
+  {
+    gradient: "var(--color-grd-purple)",
+    solid: "var(--color-purple)",
+    light: "var(--color-purple-100)",
+    text: "var(--color-purple-700)",
+  },
 ];

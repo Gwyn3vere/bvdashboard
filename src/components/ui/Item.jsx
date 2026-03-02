@@ -16,6 +16,7 @@ function Item({
   iconClassName,
   whitespace = "whitespace-normal",
   style = {},
+  istyle = {},
   editable = false,
   value,
   onEdit,
@@ -38,15 +39,9 @@ function Item({
     }
   }, [value, editable]);
   return (
-    <Component
-      to={to}
-      href={href}
-      onClick={onClick}
-      className={cx(className)}
-      style={{ ...style }}
-    >
+    <Component to={to} href={href} onClick={onClick} className={cx(className)} style={{ ...style }}>
       {icon && (
-        <span className={cx("flex items-center justify-center", iconClassName)}>
+        <span className={cx("flex items-center justify-center", iconClassName)} style={{ ...istyle }}>
           {icon}
         </span>
       )}

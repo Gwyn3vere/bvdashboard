@@ -13,5 +13,4 @@ export { default as EntityActionBar } from "./EntityActionBar";
 export { default as DeptActionBar } from "./DeptActionBar";
 export { default as SpecActionBar } from "./SpecActionBar";
 
-export { default as HeaderMedical } from "./HeaderMedical";
 export { default as Delete } from "./Delete";

@@ -1,12 +1,12 @@
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useActive, useSearch, useGroupTree } from "../../components/hooks";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
-import { Tooltip, Item, Search, Button, Modal, ActionBar } from "../../components/ui";
-import { LuSlidersHorizontal, LuListFilter, LuGrid3X3, LuList, LuPlus, LuCircle } from "react-icons/lu";
+import { Tooltip, Item, Button, Modal, ActionBar } from "../../components/ui";
+import { LuSlidersHorizontal, LuGrid3X3, LuList, LuCircle } from "react-icons/lu";
 import { ICON_MAP } from "../../constants/icon";
-import { Delete, Hierarchy, Grid, HeaderMedical, GroupForm, DeptForm, SpecForm } from "./index";
+import { Delete, Hierarchy, Grid, GroupForm, DeptForm, SpecForm } from "./index";
 import { useGroupStore } from "../../store/groupStore";
 import { useDepartmentStore } from "../../store/departmentStore";
 import { useSpecialtyStore } from "../../store/specialtyStore";
@@ -103,8 +103,8 @@ function Medical() {
   }));
 
   return (
-    <div className={cx(TWCSS.container, "space-y-5")}>
-      <div className={cx("bg-white rounded-2xl")} style={{ boxShadow: "var(--shadow)" }}>
+    <div className={cx(TWCSS.container)}>
+      <div className={cx("bg-white rounded-2xl mb-5")} style={{ boxShadow: "var(--shadow)" }}>
         <ActionBar
           name="Khối"
           // onFilter={modal.filter}
@@ -150,14 +150,15 @@ function Medical() {
 
       {/* Groups */}
       {filtered ? (
-        filtered.map((group) => {
+        filtered.map((group, idx) => {
           const departments = group.departments ?? [];
           const specialties = departments.flatMap((d) => d.specialties ?? []);
           const GroupIcon = ICON_MAP[group.icon] ?? LuCircle;
           return (
-            <div key={group.id}>
+            <div key={group.id} className={cx("fadeUp")} style={{ animationDelay: `${Math.min(idx * 80, 400)}ms` }}>
               {viewMode === "hierarchy" && (
                 <Hierarchy
+                  groupIdx={idx}
                   // Modal Specialty
                   onSpecCreate={modal.specForm.toggleActive}
                   onSpecEdit={modal.specForm.toggleActive}
@@ -182,6 +183,7 @@ function Medical() {
               )}
               {viewMode === "grid" && (
                 <Grid
+                  groupIdx={idx}
                   // Modal Specialty
                   onSpecCreate={modal.specForm.toggleActive}
                   onSpecEdit={modal.specForm.toggleActive}
@@ -214,12 +216,14 @@ function Medical() {
 
       <Modal open={modal.grDel.isActive} onClose={modal.grDel.deactivate} backdrop={true} width="max-w-lg">
         <Delete
+          name={"khối"}
           onClose={modal.grDel.deactivate}
           title={
             <span>
-              Hành động này sẽ xoá <span className="text-[var(--color-error)]">Khối {selectedGroup?.name}</span> và toàn
-              bộ <span className="text-[var(--color-secondary)]">Khoa</span>,
-              <span className="text-[var(--color-secondary)]"> Chuyên khoa</span> thuộc khối này! Bạn có muốn tiếp tục?
+              Điều này sẽ xoá <strong className="capitalize">{selectedGroup?.name}</strong> và toàn bộ{" "}
+              <strong>Khoa và Chuyên khoa</strong> thuộc khoa này!
+              <br />
+              <span>Hành động này không thể hoàn tác.</span>
             </span>
           }
         />
@@ -230,12 +234,14 @@ function Medical() {
       </Modal>
       <Modal open={modal.deptDel.isActive} onClose={modal.deptDel.deactivate} backdrop={true} width="max-w-lg">
         <Delete
+          name={"khoa"}
           onClose={modal.deptDel.deactivate}
           title={
             <span>
-              Hành động này sẽ xoá <span className="text-[var(--color-error)]">{selectedDepartment?.name}</span> và toàn
-              bộ <span className="text-[var(--color-secondary)]">Chuyên khoa</span> thuộc khoa này! Bạn có muốn tiếp
-              tục?
+              Điều này sẽ xoá <strong>{selectedDepartment?.name}</strong> và toàn bộ <strong>Chuyên khoa</strong> thuộc
+              khoa này!
+              <br />
+              <span>Hành động này không thể hoàn tác.</span>
             </span>
           }
         />
@@ -246,12 +252,14 @@ function Medical() {
       </Modal>
       <Modal open={modal.specDel.isActive} onClose={modal.specDel.deactivate} backdrop={true} width="max-w-lg">
         <Delete
+          name={"Chuyên khoa"}
           onClose={modal.specDel.deactivate}
           title={
             <span>
-              Hành động này sẽ xoá chuyên khoa{" "}
-              <span className="text-[var(--color-error)]">{selectedSpecialty?.name}</span> ra khỏi danh sách thuộc{" "}
-              <span className="text-[var(--color-secondary)]">{selectedDepartment?.name}</span>! Bạn có muốn tiếp tục?
+              Điều này sẽ xoá <strong>{selectedSpecialty?.name}</strong> ra khỏi danh sách thuộc{" "}
+              <strong>{selectedDepartment?.name}</strong>!
+              <br />
+              <span>Hành động này không thể hoàn tác.</span>
             </span>
           }
         />
