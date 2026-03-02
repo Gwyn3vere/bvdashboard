@@ -15,6 +15,8 @@ function ActionBar({
   onChange,
   onClose,
   featured,
+  overview,
+  totals,
   activeTab,
   onTabChange,
   children,
@@ -30,24 +32,47 @@ function ActionBar({
               "flex items-center gap-2 p-1.5 overflow-auto",
             )}
           >
-            {featured.map((item, idx) => (
-              <Button
-                width={"auto"}
-                height={"auto"}
-                key={idx}
-                onClick={() => onTabChange(item.value)}
-                icon={<div className={cx("w-2 h-2 rounded-full", item.name && `bg-[var(${item.dot})]`)} />}
-                children={item.name}
-                className={cx(
-                  "flex items-center gap-1 rounded-xl px-3 py-2 text-[12.5px]",
-                  "font-bold text-[var(--color-unavailable-700)] text-nowrap",
-                )}
-                style={{
-                  background: activeTab === item.value ? item.activeGrd : "transparent",
-                  color: activeTab === item.value ? "#ffffff" : "",
-                }}
-              />
-            ))}
+            {featured
+              ? featured.map((item, idx) => (
+                  <Button
+                    width={"auto"}
+                    height={"auto"}
+                    key={idx}
+                    onClick={() => onTabChange(item.value)}
+                    icon={
+                      <div className={cx("w-2 h-2 rounded-full")} style={{ backgroundColor: `var(${item.dot})` }} />
+                    }
+                    children={item.name}
+                    className={cx(
+                      "flex items-center gap-1 rounded-xl px-3 py-2 text-[12.5px]",
+                      "font-bold text-[var(--color-unavailable-700)] text-nowrap",
+                    )}
+                    style={{
+                      background: activeTab === item.value ? item.activeGrd : "transparent",
+                      color: activeTab === item.value ? "#ffffff" : "",
+                    }}
+                  />
+                ))
+              : overview.map((item, idx) => (
+                  <Button
+                    width={"auto"}
+                    height={"auto"}
+                    key={idx}
+                    onClick={() => onTabChange(item.value)}
+                    icon={
+                      <div className={cx("w-2 h-2 rounded-full")} style={{ backgroundColor: `var(${item.dot})` }} />
+                    }
+                    children={`${item.name} (${item.totals})`}
+                    className={cx(
+                      "flex items-center gap-1 rounded-xl px-3 py-2 text-[12.5px]",
+                      "font-bold text-[var(--color-unavailable-700)] text-nowrap",
+                    )}
+                    style={{
+                      background: item.activeGrd,
+                      color: "#ffffff",
+                    }}
+                  />
+                ))}
           </div>
 
           <div className="flex flex-col md:flex-row justify-between gap-3">
@@ -70,7 +95,7 @@ function ActionBar({
               children={`Thêm ${name}`}
               width="auto"
               height={36}
-              onClick={onForm.toggleActive}
+              onClick={onForm?.toggleActive}
               iconClassName="text-[20px]"
               className={cx(
                 "gap-2 text-[13px] px-3 rounded-xl text-white font-bold",
@@ -82,8 +107,8 @@ function ActionBar({
       </div>
 
       <Modal
-        open={onFilter.isActive}
-        onClose={() => onFilter.toggleActive(false)}
+        open={onFilter?.isActive}
+        onClose={() => onFilter?.toggleActive(false)}
         backdrop={true}
         style={{ boxShadow: "var(--shadow)" }}
         className="bg-[var(--color-bg-light-primary-300)]"
@@ -104,7 +129,7 @@ function ActionBar({
       >
         <Filter onClose={() => onFilter.toggleActive(false)} />
       </Modal>
-      <Modal open={onForm.isActive} onClose={onClose} backdrop={true} width="max-w-[550px]">
+      <Modal open={onForm?.isActive} onClose={onClose} backdrop={true} width="max-w-[550px]">
         {formModal}
       </Modal>
     </>

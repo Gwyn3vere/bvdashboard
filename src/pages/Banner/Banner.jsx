@@ -17,6 +17,7 @@ function Banner() {
   const getBannerById = useBannerStore((b) => b.getBannerById);
   const editingBannerId = useBannerStore((b) => b.editingBannerId);
   const setEditingBannerId = useBannerStore((b) => b.setEditingBannerId);
+
   const deleteBanner = useBannerStore((b) => b.deleteBanner);
   const archiveBanner = useBannerStore((b) => b.archiveBanner);
   const restoreBanner = useBannerStore((b) => b.restoreBanner);
@@ -113,9 +114,9 @@ function Banner() {
               key: "Index",
               label: "#",
               width: "3%",
-              render: (row) => (
+              render: (row, idx) => (
                 <Item
-                  children={row.id}
+                  children={idx + 1}
                   itemClassName={cx("text-[12px] text-[var(--color-unavailable-700)]", "font-semibold")}
                 />
               ),

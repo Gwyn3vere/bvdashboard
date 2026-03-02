@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import classNames from "classnames/bind";
 import style from "../../styles/components.module.css";
 import { Form, TitleForm, Button, Toast, Input, Item, Select } from "../../components/ui";
@@ -13,14 +13,124 @@ const cx = classNames.bind(style);
 function BannerForm({ onClose }) {
   const [toast, setToast] = useState();
 
+  const banners = useBannerStore((b) => b.banners);
+  const fetchBanners = useBannerStore((b) => b.fetchBanners);
   const getBannerById = useBannerStore((b) => b.getBannerById);
   const editingBannerId = useBannerStore((b) => b.editingBannerId);
+  const createBanner = useBannerStore((b) => b.createBanner);
   const banner = editingBannerId ? getBannerById(editingBannerId) : null;
 
   const { values, setFieldValue, resetForm } = useForm({
     initialValues: INITAL_BANNER,
     editValues: banner,
   });
+
+  useEffect(() => {
+    fetchBanners();
+  }, [fetchBanners]);
+
+  const generateOrderOptions = (banners, currentId = null) => {
+    const active = banners
+      .filter((b) => b.archive === 0 && b.id !== currentId)
+      .sort((a, b) => a.viewOrder - b.viewOrder);
+
+    if (active.length === 0) {
+      return [
+        {
+          value: { prevId: null, nextId: null },
+          name: "Đứng đầu",
+        },
+      ];
+    }
+
+    const options = [];
+
+    // đứng đầu
+    options.push({
+      value: { prevId: null, nextId: active[0].id },
+      name: "Đứng đầu",
+    });
+
+    // giữa
+    for (let i = 0; i < active.length - 1; i++) {
+      options.push({
+        value: {
+          prevId: active[i].id,
+          nextId: active[i + 1].id,
+        },
+        name: `Sau ${active[i].name}`,
+      });
+    }
+
+    // đứng cuối
+    options.push({
+      value: {
+        prevId: active[active.length - 1].id,
+        nextId: null,
+      },
+      name: "Đứng cuối",
+    });
+
+    return options;
+  };
+
+  const orderOptions = useMemo(() => {
+    return generateOrderOptions(banners, editingBannerId);
+  }, [banners, editingBannerId]);
+
+  useEffect(() => {
+    if (!editingBannerId && orderOptions.length > 0) {
+      setFieldValue("viewOrder", orderOptions[0].value);
+    }
+  }, [orderOptions, editingBannerId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const position = values.viewOrder || {};
+      let imageUrl = values.imageUrl ?? null;
+
+      // Upload nếu có file mới
+      if (values.imageFile) {
+        const formData = new FormData();
+        formData.append("file", values.imageFile);
+
+        const uploadRes = await uploadImageService(formData);
+
+        if (!uploadRes.success) {
+          setToast({ type: "error", message: "Upload ảnh thất bại" });
+          return;
+        }
+
+        imageUrl = uploadRes.data.url;
+      }
+
+      const payload = {
+        name: values.name.trim(),
+        isActive: values.isActive,
+        url: values.url.trim(),
+        color: values.color,
+        imageUrl,
+        prevId: position?.prevId ?? null,
+        nextId: position?.nextId ?? null,
+      };
+
+      const result = await createBanner(payload);
+
+      if (!result.success) {
+        setToast({ type: "error", message: result.message });
+        return;
+      }
+
+      setToast({ type: "success", message: "Tạo banner thành công" });
+
+      resetForm();
+      onClose();
+    } catch (error) {
+      setToast({ type: "error", message: "Lỗi hệ thống" });
+    }
+  };
 
   return (
     <>
@@ -35,16 +145,10 @@ function BannerForm({ onClose }) {
       {/* Content */}
       <Form
         id="bannerForm"
-        onSubmit={(e) =>
-          handleSubmit(e, (data) => {
-            console.log("Submit:", data);
-            onClose();
-            resetForm();
-          })
-        }
+        onSubmit={handleSubmit}
         className="space-y-4 p-3 md:p-6 bg-white overflow-y-auto hidden-scrollbar max-h-[90vh]"
       >
-        <Thumbnail value={values} setValue={setFieldValue} />
+        <Thumbnail value={values} setValue={setFieldValue} orderOptions={orderOptions} />
       </Form>
 
       {/* Footer */}
@@ -91,7 +195,7 @@ function BannerForm({ onClose }) {
   );
 }
 
-function Thumbnail({ value, setValue }) {
+function Thumbnail({ value, setValue, orderOptions }) {
   const [previewImage, setPreviewImage] = useState(null);
   const displayImage = previewImage ?? value?.imageUrl ?? null;
 
@@ -202,8 +306,6 @@ function Thumbnail({ value, setValue }) {
           type="text"
           value={value?.name}
           onChange={(val) => setValue("name", val.target.value)}
-          //   onBlur={() => handleBlur("name")}
-          //   error={getFieldError("name")}
           placeholder="Nhập tiêu đề banner..."
           required
           width={"100%"}
@@ -213,17 +315,25 @@ function Thumbnail({ value, setValue }) {
         />
       </div>
       <div className="flex justify-between gap-3 w-full">
-        <Input
+        <Select
           label={"Thứ tự hiển thị"}
           name="viewOrder"
-          type="number"
+          data={orderOptions}
           value={value?.viewOrder}
-          onChange={(val) => setValue("viewOrder", val.target.value)}
+          onChange={(val) => {
+            setValue("viewOrder", val);
+            console.log("=== USER SELECT POSITION ===");
+            console.log("Selected:", val);
+
+            console.log("prevId:", val?.prevId);
+            console.log("nextId:", val?.nextId);
+          }}
+          required
           width={"100%"}
           height={"auto"}
-          min={1}
-          labelClassName={cx("text-[11.5px] font-bold mb-2")}
+          labelClassName={cx("text-[11.5px] font-bold")}
           inputClassName={cx("rounded-xl")}
+          itemClassName={cx("text-[13px]")}
           className={cx("w-full")}
         />
         <Select

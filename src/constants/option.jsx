@@ -633,5 +633,29 @@ export const BANNER_COLOR_OPTION = [
 
 export const BANNER_ACTIVE_OPTION = [
   { value: true, name: "Hiển thị" },
-  { value: true, name: "Ẩn" },
+  { value: false, name: "Ẩn" },
+];
+
+export const MEDIAL_OVERVIEW_OPTION = [
+  {
+    value: "group",
+    name: "Khối",
+    totalKey: "totalGroups",
+    dot: "--color-primary",
+    activeGrd: "var(--color-grd-primary)",
+  },
+  {
+    value: "department",
+    name: "Khoa/Phòng",
+    totalKey: "totalDepartments",
+    dot: "--color-secondary",
+    activeGrd: "var(--color-grd-secondary)",
+  },
+  {
+    value: "specialty",
+    name: "Chuyên khoa",
+    totalKey: "totalSpecialties",
+    dot: "--color-purple",
+    activeGrd: "var(--color-grd-purple)",
+  },
 ];
