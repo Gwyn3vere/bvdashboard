@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
-import { Search, Button, Modal, Filter } from ".";
-import { LuPlus, LuUserRoundPlus } from "react-icons/lu";
+import { Search, Button, Modal, Filter, Item } from ".";
+import { LuPlus } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +21,7 @@ function ActionBar({
   activeTab,
   onTabChange,
   children,
+  rightBtn,
   placeholder = "Tìm tên, email, chức vụ,...",
 }) {
   return (
@@ -53,7 +55,7 @@ function ActionBar({
                     }}
                   />
                 ))
-              : overview.map((item, idx) => (
+              : overview?.map((item, idx) => (
                   <Button
                     width={"auto"}
                     height={"auto"}
@@ -76,7 +78,7 @@ function ActionBar({
           </div>
 
           <div className="flex flex-col md:flex-row justify-between gap-3">
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-2.5">
               {children}
 
               <Search
@@ -90,18 +92,22 @@ function ActionBar({
             </div>
 
             {/* Create */}
-            <Button
-              icon={name === "banner" ? <LuPlus /> : <LuUserRoundPlus />}
-              children={`Thêm ${name}`}
-              width="auto"
-              height={36}
-              onClick={onForm?.toggleActive}
-              iconClassName="text-[20px]"
-              className={cx(
-                "gap-2 text-[13px] px-3 rounded-xl text-white font-bold",
-                "bg-linear-[var(--color-ln-primary)] cursor-pointer",
-              )}
-            />
+            {formModal ? (
+              <Button
+                icon={<LuPlus />}
+                children={`Thêm ${name}`}
+                width="auto"
+                height={36}
+                onClick={onForm?.toggleActive}
+                iconClassName="text-[16px]"
+                className={cx(
+                  "gap-2 text-[13px] px-3 rounded-xl text-white font-bold",
+                  "bg-linear-[var(--color-ln-primary)] cursor-pointer",
+                )}
+              />
+            ) : (
+              rightBtn
+            )}
           </div>
         </div>
       </div>

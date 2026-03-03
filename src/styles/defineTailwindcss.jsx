@@ -2,12 +2,11 @@ export const TWCSS = {
   container: "px-2 py-2 sm:px-10 sm:pb-5",
   overview: [
     "relative",
-    "bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
-    "p-6 flex flex-col gap-2 border-b-4 border-transparent",
+    "bg-[var(--color-bg-light-primary-100)] rounded-2xl",
+    "py-4 px-6 flex flex-col gap-2 border-b-4 border-transparent",
     "transition-all duration-300 ease-out",
     "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
-    "hover:border-b-[var(--color-primary)]",
-    "outline outline-[var(--color-unavailable-300)]",
+    // "hover:border-b-[var(--color-primary)]",
   ],
   paginationButton: [
     "rounded-[8px] transition bg-[var(--color-bg-light-primary-300)]",

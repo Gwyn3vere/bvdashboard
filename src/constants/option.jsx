@@ -622,6 +622,18 @@ export const BANNER_FEATURED_OPTION = [
   { value: 1, name: "Lưu trữ", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
 ];
 
+export const NEWS_STATUS_OPTION = [
+  { value: "ALL", name: "Tất cả", dot: "--color-primary", activeGrd: "var(--color-grd-primary)" },
+  {
+    value: "PUBLISHED",
+    name: "Đã xuất bản",
+    dot: "--color-secondary",
+    activeGrd: "var(--color-grd-secondary)",
+  },
+  { value: "WAITING", name: "Chờ duyệt", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
+  { value: "ARCHIVED", name: "Lưu trữ", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
+];
+
 export const BANNER_COLOR_OPTION = [
   "rgb(219, 234, 254)",
   "rgb(252, 231, 243)",

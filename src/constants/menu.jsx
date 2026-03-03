@@ -96,4 +96,16 @@ export const EXPERTISE_COLOR_SYSTEM = [
     light: "var(--color-purple-100)",
     text: "var(--color-purple-700)",
   },
+  {
+    gradient: "var(--color-grd-error)",
+    solid: "var(--color-error)",
+    light: "var(--color-error-100)",
+    text: "var(--color-error-700)",
+  },
+  {
+    gradient: "var(--color-grd-cyan)",
+    solid: "var(--color-cyan)",
+    light: "var(--color-cyan-100)",
+    text: "var(--color-cyan-700)",
+  },
 ];

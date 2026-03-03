@@ -1,17 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
-import {
-  Breadcrumb,
-  Item,
-  Button,
-  Search,
-  Pagination,
-  Image,
-  Tooltip,
-  Modal,
-} from "../../components/ui";
+import { ActionBar, Item, Button, Pagination, Image, Tooltip, Modal, EmptyState } from "../../components/ui";
 import {
   LuSlidersHorizontal,
   LuLayoutDashboard,
@@ -21,10 +12,15 @@ import {
   LuSparkle,
   LuPen,
   LuFolder,
+  LuEye,
+  LuFileQuestion,
+  LuSearch,
 } from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { NEWS_TOTAL_STATUS } from "../../mock/news";
 import { NEWS_STATUS } from "../../constants/status";
+import { EXPERTISE_COLOR_SYSTEM } from "../../constants/menu";
+import { NEWS_STATUS_OPTION } from "../../constants/option";
 import { useNewsStore } from "../../store/newsStore";
 import { usePagination, useActive, useSearch } from "../../components/hooks";
 import { formatDateVN } from "../../utils/format";
@@ -33,56 +29,133 @@ import { Skeleton, Category } from "./index";
 const cx = classNames.bind(styles);
 
 function News() {
-  const [newsKeyword, setNewsKeyword] = useState("");
-  const category = useActive();
   const { news, loading, fetchNews } = useNewsStore();
   useEffect(() => {
     fetchNews();
   }, []);
-  const filterNews = news.filter((n) => n.status !== "DRAFT");
+  const filteredNews = news.filter((n) => n.status !== "DRAFT");
 
-  const searchNews = useSearch(filterNews, newsKeyword, (news) =>
-    [news.title, news.category?.name, news.author?.name]
-      .filter(Boolean)
-      .join(" "),
+  const [activeTab, setActiveTab] = useState("ALL");
+  const [newsKeyword, setNewsKeyword] = useState("");
+
+  // Lọc tầng 1
+  const searchedNews = useSearch(filteredNews, newsKeyword, (news) =>
+    [news.title, news.category?.name, news.author?.name].filter(Boolean).join(" "),
   );
+
+  // Lọc tầng 2
+  const tabbedNews = useMemo(() => {
+    if (activeTab === "ALL") return searchedNews;
+    if (activeTab === "PUBLISHED") return searchedNews.filter((n) => n.status === "PUBLISHED");
+    if (activeTab === "WAITING") return searchedNews.filter((n) => n.status === "WAITING");
+    if (activeTab === "ARCHIVED") return searchedNews.filter((n) => n.status === "ARCHIVED");
+    return searchedNews;
+  }, [searchedNews, activeTab]);
+
+  const isEmptyData = tabbedNews.length === 0;
+  const isEmptySearch = news.length > 0 && searchedNews.length === 0;
+
+  const modal = {
+    filter: useActive(),
+    category: useActive(),
+  };
+
+  const handleClose = () => {
+    if (modal.category.isActive) {
+      modal.category.deactivate();
+    } else {
+      modal.filter.deactivate();
+    }
+  };
 
   return (
     <div className={cx(TWCSS.container)}>
-      <Breadcrumb
-        className="mb-3"
-        items={[
-          {
-            label: "Bảng điều khiển",
-            href: "/bang-dieu-khien",
-            icon: <LuLayoutDashboard />,
-          },
-          { label: "Quản lý tin tức" },
-        ]}
-      />
-      <Item as="strong" children="Quản lý tin tức" itemClassName="text-3xl" />
-      <Item
-        as="span"
-        children="Trang quản lý thống kê, danh sách tin tức tại đây."
-        itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
-      />
-
       <div className="space-y-10">
         <Overview total={NEWS_TOTAL_STATUS} />
-        <ActionBar
-          toggle={category.toggleActive}
-          keyword={newsKeyword}
-          onChange={(e) => setNewsKeyword(e.target.value)}
-        />
-        <NewsList news={searchNews} loading={loading} />
+        <div className={cx("bg-white rounded-2xl")} style={{ boxShadow: "var(--shadow)" }}>
+          <ActionBar
+            name="tin tức"
+            onFilter={modal.filter}
+            rightBtn={
+              <Item
+                as={Link}
+                to={"/quan-ly-tin-tuc/dang-bai"}
+                icon={<LuPlus />}
+                children={"Đăng tin tức mới"}
+                iconClassName={cx("text-[16px] text-white font-bold")}
+                itemClassName={cx("text-[13px] text-white font-bold")}
+                className={cx(
+                  "flex items-center gap-2",
+                  "bg-linear-[var(--color-ln-primary)] cursor-pointer",
+                  "h-[36px] px-3 rounded-xl",
+                )}
+              />
+            }
+            keyword={newsKeyword}
+            onChange={(e) => setNewsKeyword(e.target.value)}
+            featured={NEWS_STATUS_OPTION}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            placeholder="Tìm kiếm..."
+          >
+            <Tooltip content="Bộ lọc" position="top" className="order-2">
+              <Button
+                width={36}
+                height={36}
+                icon={<LuSlidersHorizontal />}
+                className={cx(
+                  " rounded-xl text-[var(--color-unavailable-700)]",
+                  "bg-[var(--color-unavailable-100)] transition-all",
+                  "hover:bg-linear-[var(--color-ln-primary)] hover:text-white",
+                )}
+              />
+            </Tooltip>
+            <Tooltip content="Duyệt bài viết" position="top" className="order-2">
+              <Item
+                as={Link}
+                to={"/quan-ly-tin-tuc/duyet-bai"}
+                icon={<LuList />}
+                className={cx(
+                  "flex items-center justify-center rounded-xl",
+                  "bg-[var(--color-unavailable-100)] transition-all",
+                  "hover:bg-linear-[var(--color-ln-primary)] hover:text-white",
+                  "w-[36px] h-[36px] text-[var(--color-unavailable-700)]",
+                )}
+              />
+            </Tooltip>
+            <Tooltip content="Bài viết của bạn" position="top" className="order-2">
+              <Item
+                as={Link}
+                to={"/quan-ly-tin-tuc/bai-viet-cua-toi"}
+                icon={<LuPen />}
+                className={cx(
+                  "flex items-center justify-center rounded-xl",
+                  "bg-[var(--color-unavailable-100)] transition-all",
+                  "hover:bg-linear-[var(--color-ln-primary)] hover:text-white",
+                  "w-[36px] h-[36px] text-[var(--color-unavailable-700)]",
+                )}
+              />
+            </Tooltip>
+            <Tooltip content="Danh mục bài viết" position="top" className="order-2">
+              <Button
+                width={36}
+                height={36}
+                icon={<LuFolder />}
+                className={cx(
+                  " rounded-xl text-[var(--color-unavailable-700)]",
+                  "bg-[var(--color-unavailable-100)] transition-all",
+                  "hover:bg-linear-[var(--color-ln-primary)] hover:text-white",
+                )}
+                onClick={modal?.category?.toggleActive}
+              />
+            </Tooltip>
+          </ActionBar>
+          <NewsList news={tabbedNews} loading={loading} isEmptyData={isEmptyData} isEmptySearch={isEmptySearch} />
+        </div>
       </div>
 
-      <Modal
-        open={category.isActive}
-        onClose={category.deactivate}
-        width="max-w-2xl"
-      >
-        <Category onClose={category.deactivate} />
+      <Modal open={modal?.category?.isActive} onClose={handleClose} width="max-w-2xl">
+        <Category onClose={handleClose} />
       </Modal>
     </div>
   );
@@ -92,244 +165,153 @@ export default News;
 
 function Overview({ total }) {
   return (
-    <div
-      className={cx(
-        "grid gap-5 w-full",
-        "grid-cols-[repeat(auto-fit,minmax(280px,1fr))]",
-      )}
-    >
-      {total.map((item, idx) => (
-        <div key={idx} className={cx(TWCSS.overview)}>
-          <Item
-            as="span"
-            children={item.title}
-            itemClassName={cx("text-[12px]")}
-          />
-          <Item
-            as="span"
-            children={item.total}
-            itemClassName={cx("text-3xl font-bold")}
-          />
-          <Item
-            as="span"
-            children={item.desc}
-            itemClassName={cx(
-              "text-[12px] text-[var(--color-unavailable-700)]",
-            )}
-          />
-          <Item
-            icon={item.icon}
-            iconClassName={cx("text-xl text-[var(--color-primary)]")}
-            className={cx(
-              "absolute top-6 right-6",
-              "bg-[var(--color-primary-100)] rounded-[8px]",
-              "w-10 h-10 flex items-center justify-center",
-            )}
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
+    <div className={cx("grid gap-5 w-full", "grid-cols-[repeat(auto-fit,minmax(280px,1fr))]")}>
+      {total.map((item, idx) => {
+        const iconColor = EXPERTISE_COLOR_SYSTEM[idx % EXPERTISE_COLOR_SYSTEM.length];
 
-function ActionBar({ toggle, keyword, onChange }) {
-  return (
-    <div
-      className={cx(
-        "bg-white rounded-[8px] p-4 outline outline-[var(--color-unavailable-300)]",
-      )}
-    >
-      <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-3")}>
-        <Search
-          value={keyword}
-          onChange={onChange}
-          width={"auto"}
-          height={45}
-          className={cx("rounded-[8px]")}
-        />
-        <div className={cx("flex flex-col md:flex-row justify-between gap-3")}>
-          <div className="flex gap-1">
-            <Tooltip content="Bộ lọc" position="top">
-              <Button
-                width={45}
-                height={45}
-                icon={<LuSlidersHorizontal />}
-                className={cx(
-                  "font-medium",
-                  "hover:bg-[var(--color-primary-100)]",
-                )}
-              />
-            </Tooltip>
-            <Tooltip content="Duyệt bài viết" position="top">
-              <Item
-                as={Link}
-                to={"/quan-ly-tin-tuc/duyet-bai"}
-                icon={<LuList />}
-                className={cx(
-                  "flex items-center justify-center rounded-[8px]",
-                  "hover:bg-[var(--color-primary-100)]",
-                  "w-[45px] h-[45px]",
-                )}
-              />
-            </Tooltip>
-            <Tooltip content="Bài viết của bạn" position="top">
-              <Item
-                as={Link}
-                to={"/quan-ly-tin-tuc/bai-viet-cua-toi"}
-                width={"auto"}
-                height={45}
-                icon={<LuPen />}
-                className={cx(
-                  "flex items-center justify-center rounded-[8px]",
-                  "hover:bg-[var(--color-primary-100)]",
-                  "w-[45px] h-[45px]",
-                )}
-              />
-            </Tooltip>
-            <Tooltip content="Danh mục bài viết" position="top">
-              <Button
-                width={45}
-                height={45}
-                icon={<LuFolder />}
-                className={cx(
-                  "font-medium",
-                  "hover:bg-[var(--color-primary-100)]",
-                )}
-                onClick={toggle}
-              />
-            </Tooltip>
+        return (
+          <div key={idx} className={cx(TWCSS.overview)} style={{ boxShadow: "var(--shadow" }}>
+            <Item
+              as="span"
+              children={item.title}
+              itemClassName={cx("text-[11.5px] font-bold text-[var(--color-unavailable-700)]")}
+            />
+            <Item as="span" children={item.total} itemClassName={cx("text-[28px] font-black")} />
+            <Item
+              as="span"
+              children={item.desc}
+              itemClassName={cx("text-[11px] font-bold text-[var(--color-unavailable)]")}
+            />
+            <Item
+              icon={item.icon}
+              iconClassName={cx("text-[17px]")}
+              className={cx(
+                "absolute top-4 right-6",
+                "rounded-xl",
+                "w-[38px] h-[38px] flex items-center justify-center",
+              )}
+              style={{ color: iconColor.solid, backgroundColor: iconColor.light }}
+            />
           </div>
-          <Item
-            as={Link}
-            to={"/quan-ly-tin-tuc/dang-bai"}
-            icon={<LuPlus />}
-            children={"Đăng tin tức mới"}
-            iconClassName={cx("text-xl text-white font-semibold")}
-            itemClassName={cx("text-sm text-white font-semibold")}
-            className={cx(
-              "bg-[var(--color-primary)] flex items-center gap-2 h-[45px] px-4 rounded-[8px]",
-            )}
-          />
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
 }
 
-function NewsList({ news, loading }) {
+function NewsList({ news, loading, isEmptyData, isEmptySearch }) {
   const ITEMS_PER_PAGE = 6;
-  const {
-    currentPage,
-    totalPages,
-    pagedData,
-    pages,
-    setCurrentPage,
-    nextPage,
-    prevPage,
-  } = usePagination(news, ITEMS_PER_PAGE);
+  const { currentPage, totalPages, pagedData, pages, setCurrentPage, nextPage, prevPage } = usePagination(
+    news,
+    ITEMS_PER_PAGE,
+  );
 
   return (
-    <div className={cx("")}>
-      <div
-        className={cx(
-          "grid sm:grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-5 w-full",
-        )}
-      >
-        {loading
-          ? Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+    <div className={cx("px-6 pt-4")}>
+      <div>
+        {isEmptyData ? (
+          <EmptyState
+            icon={LuFileQuestion}
+            text={`Danh sách tin tức rỗng`}
+            subText={`Hãy ấn vào nút "Thêm tin tức" để thêm vào danh sách`}
+          />
+        ) : isEmptySearch ? (
+          <EmptyState
+            icon={LuSearch}
+            text={`Không tìm thấy tin tức nào`}
+            subText={`Thử thay đổi bộ lọc hoặc từ khoá tìm kiếm`}
+          />
+        ) : loading ? (
+          <div className={cx("grid grid-cols-1 md:grid-cols-3 gap-5 w-full")}>
+            {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
               <Skeleton key={index} />
-            ))
-          : pagedData.length > 0
-            ? pagedData.map((news) => {
-                const statusMeta = NEWS_STATUS[news?.status] || {};
+            ))}
+          </div>
+        ) : (
+          <div className={cx("grid grid-cols-1 md:grid-cols-3 gap-5 w-full")}>
+            {pagedData.map((news, idx) => {
+              const statusMeta = NEWS_STATUS[news?.status] || {};
 
-                return (
-                  <Item
-                    as="a"
-                    href={`/quan-ly-tin-tuc/${news.id}`}
-                    key={news.id}
-                    className={cx(
-                      "bg-white p-4 rounded-[8px]",
-                      "transition-all duration-300 ease-out",
-                      "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
-                      "outline outline-[var(--color-unavailable-300)]",
-                    )}
-                  >
-                    <div className={cx("space-y-5")}>
-                      {/* Thumbnail */}
-                      <div
-                        className={cx(
-                          "relative rounded-[8px] overflow-hidden max-h-50",
-                        )}
-                      >
-                        <Image src={news.thumbnail} alt="Ảnh đại diện" />
-                        <Item
-                          icon={<LuCircleCheckBig />}
-                          children={news?.category?.name || "Tên danh mục"}
-                          className={cx(
-                            "absolute z-10 bottom-2 left-2",
-                            "flex items-center gap-2 rounded-[8px]",
-                            "text-sm font-semibold text-[var(--color-primary-900)]",
-                            "bg-[var(--color-primary-100)] p-2",
-                            "border border-[var(--color-primary-200)]",
-                          )}
-                        />
-                      </div>
-                      {/* Status */}
-                      <Item
-                        icon={<LuSparkle />}
-                        children={`${statusMeta?.label || "Trạng thái không xác định"}`}
-                        itemClassName={cx("font-semibold text-sm")}
-                        className={cx("flex items-center gap-2")}
-                        style={{
-                          color:
-                            statusMeta?.color || "var(--color-unavailable-700)",
-                        }}
-                      />
-                      {/* Title */}
-                      <Item
-                        children={news?.title || "Tiêu đề bài viết"}
-                        itemClassName={cx(
-                          "text-md font-bold leading-[1.6] tracking-[-0.03em]",
-                        )}
-                      />
-                      {/* Short Description */}
-                      <Item
-                        children={
-                          news?.shortDesc ||
-                          "Chưa có mô tả ngắn gọn nào cho bài viết"
-                        }
-                        itemClassName={cx(
-                          "font-medium text-sm text-[var(--color-unavailable-900)] leading-[1.7]",
-                          "line-clamp-2",
-                        )}
-                      />
-                      {/* Author and Date */}
-                      <div
-                        className={cx("flex flex-col justify-between gap-2")}
-                      >
+              return (
+                <Item
+                  as="a"
+                  href={`/quan-ly-tin-tuc/${news.id}`}
+                  key={news.id}
+                  className={cx(
+                    "fadeUp",
+                    "bg-white rounded-2xl overflow-hidden",
+                    "transition-all duration-300 ease-out",
+                    "hover:-translate-y-1.5 hover:shadow-md hover:scale-[1.02]",
+                    "outline outline-[var(--color-unavailable-300)]",
+                  )}
+                  style={{ animationDelay: `${Math.min(idx * 40, 400)}ms` }}
+                >
+                  {/* Thumbnail */}
+                  <div className={cx("relative overflow-hidden max-h-50")}>
+                    <Image src={news.thumbnail} alt="Ảnh đại diện" />
+                    <Item
+                      icon={<LuCircleCheckBig />}
+                      children={news?.category?.name || "Tên danh mục"}
+                      className={cx(
+                        "absolute z-10 bottom-2 left-2",
+                        "flex items-center gap-2 rounded-full",
+                        "text-[11px] font-bold text-[var(--color-primary-900)]",
+                        "bg-white py-1 px-[10px]",
+                      )}
+                    />
+                  </div>
+                  <div className={cx("p-4 flex flex-col gap-[7px]")}>
+                    {/* Status */}
+                    <Item
+                      icon={<LuSparkle />}
+                      children={`${statusMeta?.label || "Trạng thái không xác định"}`}
+                      iconClassName={cx("text-[11px]")}
+                      itemClassName={cx("font-bold text-[11px]")}
+                      className={cx("flex items-center gap-2")}
+                      style={{
+                        color: statusMeta?.color || "var(--color-unavailable-700)",
+                      }}
+                    />
+                    {/* Title */}
+                    <Item
+                      children={news?.title || "Tiêu đề bài viết"}
+                      itemClassName={cx("text-[14.5px] font-bold leading-[1.6] tracking-[-0.03em]")}
+                    />
+                    {/* Short Description */}
+                    <Item
+                      children={news?.shortDesc || "Chưa có mô tả ngắn gọn nào cho bài viết"}
+                      itemClassName={cx(
+                        "font-medium text-[12.5px] text-[var(--color-unavailable-900)] leading-[1.7]",
+                        "line-clamp-2 pb-6 border-b border-[var(--color-unavailable-100)]",
+                      )}
+                    />
+                    {/* Author and Date */}
+                    <div className={cx("flex items-center justify-between")}>
+                      <div className={cx("")}>
                         <Item
                           children={news?.author?.name}
-                          itemClassName={cx(
-                            "text-sm font-bold text-[var(--color-unavailable-900)]",
-                          )}
+                          itemClassName={cx("text-[12px] font-bold text-[var(--color-unavailable-900)]")}
                         />
                         <Item
-                          children={
-                            news?.createdAt
-                              ? formatDateVN(news.createdAt)
-                              : "Ngày không xác định"
-                          }
-                          itemClassName={cx(
-                            "text-xs text-[var(--color-unavailable-700)]",
-                          )}
+                          children={news?.createdAt ? formatDateVN(news.createdAt) : "Ngày không xác định"}
+                          itemClassName={cx("text-[11px] text-[var(--color-unavailable-700)]")}
                         />
                       </div>
+                      {news?.status === "PUBLISHED" && (
+                        <Item
+                          icon={<LuEye />}
+                          children={news?.view}
+                          itemClassName={cx("font-bold text-[11.5px]")}
+                          className={cx("flex items-center gap-1 text-[var(--color-unavailable-700)]")}
+                        />
+                      )}
                     </div>
-                  </Item>
-                );
-              })
-            : 'Chưa có tin tức nào được đăng tải, hãy ấn nút "Đăng tin tức mới" để đăng bài'}
+                  </div>
+                </Item>
+              );
+            })}
+          </div>
+        )}
       </div>
       {!loading && pagedData.length > 0 && (
         <Pagination
