@@ -46,67 +46,26 @@ function Post() {
   });
 
   return (
-    <div className={cx(TWCSS.container)}>
-      <Breadcrumb
-        className="mb-3"
-        items={[
-          {
-            label: "Bảng điều khiển",
-            href: "/bang-dieu-khien",
-            icon: <LuLayoutDashboard />,
-          },
-          { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-          { label: id ? "Cập nhật bài viêt" : "Đăng bài" },
-        ]}
-      />
-      <Item
-        as="strong"
-        children={id ? "Cập nhật bài viết" : "Đăng tin tức mới"}
-        itemClassName="text-3xl"
-      />
-      <Item
-        as="span"
-        children={
-          id
-            ? "Cập nhật tin tức. bài viết tại dây."
-            : "Đăng tin tức, blog tại đây."
-        }
-        itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
-      />
-      <Form
-        className={cx(TWCSS.container, "max-w-[1400px] mx-auto")}
-        spellCheck={false}
-      >
-        <div
-          className={cx("grid grid-cols-1fr xl:grid-cols-[1fr_380px] gap-8")}
-        >
-          <Content
-            value={values}
-            setValue={setValues}
-            setFieldValue={setFieldValue}
-            togglePreview={previewModal.toggleActive}
-            preview={preview}
-            setPreview={setPreview}
-          />
-          <Settings
-            value={values}
-            setValue={setValues}
-            setFieldValue={setFieldValue}
-            user={user}
-          />
+    <div className={cx("h-screen overflow-hidden")}>
+      <Form spellCheck={false}>
+        <div className={cx("grid grid-cols-1fr w-full xl:grid-cols-[1fr_300px]  h-full")}>
+          <div className={cx("flex justify-center py-2 overflow-y-auto")}>
+            <Content
+              value={values}
+              setValue={setValues}
+              setFieldValue={setFieldValue}
+              togglePreview={previewModal.toggleActive}
+              preview={preview}
+              setPreview={setPreview}
+            />
+          </div>
+          <div className={cx("bg-white")}>
+            <Settings value={values} setValue={setValues} setFieldValue={setFieldValue} user={user} />
+          </div>
         </div>
       </Form>
-      <Modal
-        open={previewModal.isActive}
-        onClose={previewModal.deactivate}
-        width={"max-w-5xl"}
-      >
-        <Preview
-          onClose={previewModal.deactivate}
-          previewData={values}
-          previewThumbnail={preview}
-          user={user}
-        />
+      <Modal open={previewModal.isActive} onClose={previewModal.deactivate} width={"max-w-5xl"}>
+        <Preview onClose={previewModal.deactivate} previewData={values} previewThumbnail={preview} user={user} />
       </Modal>
     </div>
   );
@@ -152,6 +111,7 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
       className={cx(
         "bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
         "outline outline-[var(--color-unavailable-300)]",
+        "max-w-[1020px]",
       )}
     >
       <div className={cx("p-8 border-b border-gray-200")}>
@@ -166,10 +126,7 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
         />
       </div>
       <div className={cx("p-8 border-b border-gray-200")}>
-        <Item
-          children="Ảnh đại diện"
-          itemClassName={cx("text-sm mb-[16px] uppercase font-medium")}
-        />
+        <Item children="Ảnh đại diện" itemClassName={cx("text-sm mb-[16px] uppercase font-medium")} />
         {!displayImage && (
           <div
             onClick={handleSelectImage}
@@ -179,49 +136,29 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
               "hover:border-[var(--color-primary)]",
             )}
           >
-            <Item
-              children="🖼️"
-              itemClassName={cx("text-[48px] mb-[16px] opacity-[0.3]")}
-            />
+            <Item children="🖼️" itemClassName={cx("text-[48px] mb-[16px] opacity-[0.3]")} />
             <Item
               children="Kéo thả ảnh vào đây hoặc click để chọn"
-              itemClassName={cx(
-                "text-[14px] mb-[8px] text-[var(--color-unavailable-900)]",
-              )}
+              itemClassName={cx("text-[14px] mb-[8px] text-[var(--color-unavailable-900)]")}
             />
             <Item
               children="PNG, JPG, GIF tối đa 5MB"
-              itemClassName={cx(
-                "text-[12px] text-[var(--color-unavailable-700)]",
-              )}
+              itemClassName={cx("text-[12px] text-[var(--color-unavailable-700)]")}
             />
           </div>
         )}
 
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          hidden
-          onChange={handleChangeImage}
-        />
+        <input ref={inputRef} type="file" accept="image/*" hidden onChange={handleChangeImage} />
 
         {displayImage && (
           <div className="relative mt-4 rounded-[12px] overflow-hidden">
-            <img
-              src={displayImage}
-              alt="Preview"
-              className="w-full h-auto block"
-            />
+            <img src={displayImage} alt="Preview" className="w-full h-auto block" />
             <Button
               width="40px"
               height="40px"
               icon={<LuX />}
               iconClassName={cx("text-white")}
-              className={cx(
-                "absolute top-[10px] right-[10px]",
-                "p-4 bg-[var(--color-error)]",
-              )}
+              className={cx("absolute top-[10px] right-[10px]", "p-4 bg-[var(--color-error)]")}
               onClick={handleRemoveImage}
             />
           </div>
@@ -239,15 +176,8 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
         />
       </div>
       <div className={cx("")}>
-        <Item
-          children="Nội dung bài viết"
-          itemClassName={cx("text-sm uppercase font-medium")}
-          className={cx("p-8")}
-        />
-        <RichTextEditor
-          content={value?.content}
-          onChange={(html) => setFieldValue("content", html)}
-        />
+        <Item children="Nội dung bài viết" itemClassName={cx("text-sm uppercase font-medium")} className={cx("p-8")} />
+        <RichTextEditor content={value?.content} onChange={(html) => setFieldValue("content", html)} />
       </div>
       <div className={cx("p-8 grid grid-cols-2 gap-5")}>
         <Button
@@ -298,9 +228,7 @@ function Card({ children, title }) {
 function Settings({ value, setFieldValue, user }) {
   const categories = useCategoryStore((c) => c.categories);
   const filteredCate = categories.filter((fc) => fc.id !== "uncategorized");
-  const allowedStatus = NEWS_STATUS_PUBLISH.filter((item) =>
-    NEWS_STATUS_ROLE[user.role].includes(item.value),
-  );
+  const allowedStatus = NEWS_STATUS_PUBLISH.filter((item) => NEWS_STATUS_ROLE[user.role].includes(item.value));
 
   return (
     <div className={cx("-order-1 xl:order-0 flex flex-col gap-5")}>
@@ -314,9 +242,7 @@ function Settings({ value, setFieldValue, user }) {
               text={
                 <div>
                   <h3 className="text-sm font-semibold">{item.name}</h3>
-                  <span className="text-[12px] text-gray-500">
-                    {item.title}
-                  </span>
+                  <span className="text-[12px] text-gray-500">{item.title}</span>
                 </div>
               }
               checked={value?.status === item.value}
@@ -337,30 +263,21 @@ function Settings({ value, setFieldValue, user }) {
           {filteredCate.map((cate) => (
             <div
               key={cate.id}
-              className={cx(
-                "flex items-center justify-between py-2 border-b-1 last:border-b-0 border-gray-200",
-              )}
+              className={cx("flex items-center justify-between py-2 border-b-1 last:border-b-0 border-gray-200")}
             >
               <Checkbox
                 text={cate.name}
                 className={cx("text-sm")}
                 style={{ "--size": "20px" }}
-                checked={
-                  value.categoryId === cate.id ||
-                  value.categoryId === value?.category
-                }
+                checked={value.categoryId === cate.id || value.categoryId === value?.category}
                 onChange={(e) => {
                   setFieldValue("categoryId", e.target.checked ? cate.id : "");
                 }}
               />
               <Item
                 children={cate.totalNews}
-                itemClassName={cx(
-                  "text-[11px] text-[var(--color-primary-500)]",
-                )}
-                className={cx(
-                  "p-2 bg-[var(--color-primary-100)] rounded-[8px]",
-                )}
+                itemClassName={cx("text-[11px] text-[var(--color-primary-500)]")}
+                className={cx("p-2 bg-[var(--color-primary-100)] rounded-[8px]")}
               />
             </div>
           ))}
@@ -369,11 +286,7 @@ function Settings({ value, setFieldValue, user }) {
       {/* Tags */}
       <Card title={"Thẻ tags"}>
         <div className={cx("p-6")}>
-          <TagInput
-            name="tags"
-            values={value?.tags}
-            onChange={(tags) => setFieldValue("tags", tags)}
-          />
+          <TagInput name="tags" values={value?.tags} onChange={(tags) => setFieldValue("tags", tags)} />
         </div>
       </Card>
       <Card title={"SEO & Meta"}>

@@ -129,11 +129,11 @@ function Banner() {
                 return (
                   <div className={cx("flex items-center gap-3")}>
                     {row?.imageUrl ? (
-                      <div className={cx("w-[80px] h-[48px] overflow-hidden rounded-xl")}>
+                      <div className={cx("w-[80px] h-auto overflow-hidden rounded-xl")}>
                         <Image src={row?.imageUrl} alt={row?.name} className="w-full h-full object-cover" />
                       </div>
                     ) : (
-                      <div className={cx("w-[80px] h-[48px] overflow-hidden rounded-xl")}></div>
+                      <div className={cx("w-[80px] h-auto overflow-hidden rounded-xl")}></div>
                     )}
 
                     <div>

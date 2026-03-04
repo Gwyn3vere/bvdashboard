@@ -239,16 +239,22 @@ function NewsList({ news, loading, isEmptyData, isEmptySearch }) {
                   key={news.id}
                   className={cx(
                     "fadeUp",
+                    "group",
                     "bg-white rounded-2xl overflow-hidden",
                     "transition-all duration-300 ease-out",
-                    "hover:-translate-y-1.5 hover:shadow-md hover:scale-[1.02]",
+                    "hover:shadow-2xl",
                     "outline outline-[var(--color-unavailable-300)]",
                   )}
                   style={{ animationDelay: `${Math.min(idx * 40, 400)}ms` }}
                 >
                   {/* Thumbnail */}
-                  <div className={cx("relative overflow-hidden max-h-50")}>
-                    <Image src={news.thumbnail} alt="Ảnh đại diện" />
+                  <div className={cx("relative overflow-hidden max-h-70")}>
+                    <Image
+                      src={news.thumbnail}
+                      alt="Ảnh đại diện"
+                      className={cx("transition-transform duration-500 ease-out", "group-hover:scale-110")}
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
                     <Item
                       icon={<LuCircleCheckBig />}
                       children={news?.category?.name || "Tên danh mục"}

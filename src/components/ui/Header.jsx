@@ -48,10 +48,7 @@ function Header({ collapsed, toggle }) {
 
   return (
     <header
-      className={cx(
-        "px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between",
-        TWCSS.container,
-      )}
+      className={cx("px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between", TWCSS.container, "bg-white")}
     >
       <div className="flex items-center gap-2">
         <Button
@@ -80,13 +77,8 @@ function Header({ collapsed, toggle }) {
             "hidden md:inline-flex",
           )}
         >
-          <div
-            className={cx("w-2 h-2 rounded-full bg-[var(--color-primary)]")}
-          />
-          <Item
-            children={dateNow}
-            itemClassName="text-[11px] text-[var(--color-primary-900)] font-bold"
-          />
+          <div className={cx("w-2 h-2 rounded-full bg-[var(--color-primary)]")} />
+          <Item children={dateNow} itemClassName="text-[11px] text-[var(--color-primary-900)] font-bold" />
         </div>
         {/* Notifications */}
         <Button
@@ -103,26 +95,11 @@ function Header({ collapsed, toggle }) {
           )}
           ref={avatarRef}
         >
-          <Avatar
-            width={30}
-            height={30}
-            className="rounded-full"
-            onClick={avatar.toggleActive}
-          >
-            <div
-              className={cx(
-                "hidden sm:block h-[30px]",
-                "flex flex-col items-center justify-center",
-              )}
-            >
-              <Username
-                children={user?.name || "Guest"}
-                className="font-bold text-xs"
-              />
+          <Avatar width={30} height={30} className="rounded-full" onClick={avatar.toggleActive}>
+            <div className={cx("hidden sm:block h-[30px]", "flex flex-col items-center justify-center")}>
+              <Username children={user?.name || "Guest"} className="font-bold text-xs" />
               <Role
-                children={
-                  roleConfig ? roleConfig.name : user?.role || "Visitor"
-                }
+                children={roleConfig ? roleConfig.name : user?.role || "Visitor"}
                 className="text-small text-[11px]"
               />
             </div>
@@ -147,10 +124,7 @@ function Header({ collapsed, toggle }) {
                 icon={item.icon}
                 iconClassName={cx("text-lg")}
                 itemClassName={cx("font-medium")}
-                className={cx(
-                  "flex gap-2 p-3 cursor-pointer rounded-[8px] ",
-                  "hover:bg-[var(--color-primary-100)]",
-                )}
+                className={cx("flex gap-2 p-3 cursor-pointer rounded-[8px] ", "hover:bg-[var(--color-primary-100)]")}
               />
             ))}
             <hr className="border-1 border-gray-100 my-1" />
