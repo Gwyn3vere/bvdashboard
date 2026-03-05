@@ -58,7 +58,7 @@ function TagInput({
               key={tag}
               className={cx(
                 "h-auto m-1",
-                "flex items-center gap-1 rounded-md bg-linear-[var(--color-ln-primary)] p-1 text-[13px] text-white",
+                "flex items-center gap-1 rounded-lg px-2 bg-linear-[var(--color-ln-primary)] text-[13px] text-white",
               )}
             >
               {tag}

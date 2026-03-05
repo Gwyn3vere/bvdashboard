@@ -4,7 +4,7 @@ import { useForm, useActive } from "../../components/hooks";
 import style from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import {
-  Checkbox,
+  Select,
   Item,
   Radio,
   Breadcrumb,
@@ -16,7 +16,7 @@ import {
   Modal,
   Form,
 } from "../../components/ui";
-import { LuLayoutDashboard, LuX } from "react-icons/lu";
+import { LuEye, LuFile, LuLayoutDashboard, LuSend, LuX } from "react-icons/lu";
 import { NEWS_STATUS_PUBLISH, NEWS_CATEGORIES } from "../../constants/menu";
 import { INITAL_NEWS } from "../../constants/field";
 import { NEWS_STATUS_ROLE } from "../../constants/role";
@@ -46,34 +46,41 @@ function Post() {
   });
 
   return (
-    <div className={cx("h-screen overflow-hidden")}>
-      <Form spellCheck={false}>
-        <div className={cx("grid grid-cols-1fr w-full xl:grid-cols-[1fr_300px]  h-full")}>
-          <div className={cx("flex justify-center py-2 overflow-y-auto")}>
-            <Content
-              value={values}
-              setValue={setValues}
-              setFieldValue={setFieldValue}
-              togglePreview={previewModal.toggleActive}
-              preview={preview}
-              setPreview={setPreview}
-            />
+    <>
+      <div className={cx(TWCSS.container, "flex justify-between overflow-hidden w-full h-full")}>
+        <Form spellCheck={false} className={cx("w-full")}>
+          <div className={cx("grid h-full grid-cols-1fr w-full xl:grid-cols-[1fr_300px]")}>
+            <div className={cx("flex justify-center overflow-y-auto h-full rounded-xl", "hidden-scrollbar")}>
+              <Content
+                value={values}
+                setValue={setValues}
+                setFieldValue={setFieldValue}
+                preview={preview}
+                setPreview={setPreview}
+              />
+            </div>
+            <div className={cx("bg-white rounded-xl h-full")} style={{ boxShadow: "var(--shadow)" }}>
+              <Settings
+                value={values}
+                setValue={setValues}
+                setFieldValue={setFieldValue}
+                user={user}
+                togglePreview={previewModal.toggleActive}
+              />
+            </div>
           </div>
-          <div className={cx("bg-white")}>
-            <Settings value={values} setValue={setValues} setFieldValue={setFieldValue} user={user} />
-          </div>
-        </div>
-      </Form>
+        </Form>
+      </div>
       <Modal open={previewModal.isActive} onClose={previewModal.deactivate} width={"max-w-5xl"}>
         <Preview onClose={previewModal.deactivate} previewData={values} previewThumbnail={preview} user={user} />
       </Modal>
-    </div>
+    </>
   );
 }
 
 export default Post;
 
-function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
+function Content({ value, setFieldValue, preview, setPreview }) {
   const inputRef = useRef(null);
   const displayImage = preview || value?.thumbnail;
 
@@ -107,13 +114,7 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
     }
   };
   return (
-    <div
-      className={cx(
-        "bg-[var(--color-bg-light-primary-100)] rounded-[8px]",
-        "outline outline-[var(--color-unavailable-300)]",
-        "max-w-[1020px]",
-      )}
-    >
+    <div className={cx("bg-white rounded-xl", "max-w-[1020px]")} style={{ boxShadow: "var(--shadow)" }}>
       <div className={cx("p-8 border-b border-gray-200")}>
         <Item
           editable={true}
@@ -179,139 +180,182 @@ function Content({ value, setFieldValue, togglePreview, preview, setPreview }) {
         <Item children="Nội dung bài viết" itemClassName={cx("text-sm uppercase font-medium")} className={cx("p-8")} />
         <RichTextEditor content={value?.content} onChange={(html) => setFieldValue("content", html)} />
       </div>
-      <div className={cx("p-8 grid grid-cols-2 gap-5")}>
-        <Button
-          width={"auto"}
-          type="button"
-          children={"Xem trước"}
-          className={cx(
-            "bg-[var(--color-bg-light-primary-100)] p-6",
-            "border-2 border-[var(--color-unavailable)] rounded-[8px]",
-            "text-[var(--color-unavailable-900)] font-semibold text-md",
-            "hover:bg-[var(--color-unavailable-100)] transition-all",
-          )}
-          onClick={togglePreview}
-        />
-        <Button
-          width={"auto"}
-          type="submit"
-          children={"Xác nhận"}
-          className={cx(
-            "bg-[var(--color-primary)] p-6",
-            "border-2 border-[var(--color-primary)] rounded-[8px]",
-            "text-white font-semibold text-md",
-          )}
-        />
-      </div>
     </div>
   );
 }
 
-function Card({ children, title }) {
-  return (
-    <div
-      className={cx(
-        "bg-[var(--color-bg-light-primary-100)] rounded-[8px] overflow-hidden",
-        "outline outline-[var(--color-unavailable-300)]",
-      )}
-    >
-      <Item
-        children={title}
-        itemClassName={cx("font-semibold text-white text-md")}
-        className={cx("px-6 py-4 bg-[var(--color-primary)]")}
-      />
-      {children}
-    </div>
-  );
-}
-
-function Settings({ value, setFieldValue, user }) {
+function Settings({ value, setFieldValue, user, togglePreview }) {
   const categories = useCategoryStore((c) => c.categories);
   const filteredCate = categories.filter((fc) => fc.id !== "uncategorized");
   const allowedStatus = NEWS_STATUS_PUBLISH.filter((item) => NEWS_STATUS_ROLE[user.role].includes(item.value));
 
   return (
-    <div className={cx("-order-1 xl:order-0 flex flex-col gap-5")}>
+    <div className={cx("-order-1 xl:order-0 flex flex-col")}>
       {/* Status */}
-      <Card title={"Trạng thái xuất bản"}>
-        <div className={cx("p-6 flex flex-col gap-3")}>
-          {allowedStatus.map((item) => (
-            <Radio
-              key={item.id}
-              name={"status"}
-              text={
-                <div>
-                  <h3 className="text-sm font-semibold">{item.name}</h3>
-                  <span className="text-[12px] text-gray-500">{item.title}</span>
-                </div>
-              }
-              checked={value?.status === item.value}
-              onChange={() => setFieldValue("status", item.value)}
-              className={cx(
-                "p-4 border-1 transition-all rounded-[8px]",
-                value?.status === item.value
-                  ? "bg-[var(--color-primary-100)] border-1 border-[var(--color-primary)]"
-                  : " border-[var(--color-unavailable-300)]",
-              )}
-            />
-          ))}
-        </div>
-      </Card>
+      <div className={cx("p-4 grid grid-cols-2 gap-2")}>
+        {allowedStatus.map((item, idx) => (
+          <Button
+            key={item.id}
+            width={"auto"}
+            height={"auto"}
+            icon={item.value === "PUBLISHED" || item.value === "WAITING" ? <LuSend /> : <LuFile />}
+            children={item.name}
+            className={cx(
+              "text-[13.5px] font-bold gap-2  rounded-xl p-[11px]",
+              idx === 0 && "col-span-2",
+              item.value === "PUBLISHED" || item.value === "WAITING"
+                ? "bg-linear-[var(--color-ln-primary)] text-white"
+                : "bg-[var(--color-unavailable-100)] text-[var(--color-unavailable-900)]",
+            )}
+          />
+        ))}
+        <Button
+          type="button"
+          width={"auto"}
+          height={"auto"}
+          icon={<LuEye />}
+          children={"Xem trước"}
+          className={cx(
+            "text-[13.5px] font-bold gap-2  rounded-xl p-[11px]",
+            "bg-[var(--color-unavailable-100)] text-[var(--color-unavailable-900)]",
+          )}
+          onClick={togglePreview}
+        />
+      </div>
       {/* Category */}
-      <Card title={"Danh mục"}>
-        <div className={cx("p-6")}>
-          {filteredCate.map((cate) => (
-            <div
-              key={cate.id}
-              className={cx("flex items-center justify-between py-2 border-b-1 last:border-b-0 border-gray-200")}
-            >
-              <Checkbox
-                text={cate.name}
-                className={cx("text-sm")}
-                style={{ "--size": "20px" }}
-                checked={value.categoryId === cate.id || value.categoryId === value?.category}
-                onChange={(e) => {
-                  setFieldValue("categoryId", e.target.checked ? cate.id : "");
-                }}
-              />
-              <Item
-                children={cate.totalNews}
-                itemClassName={cx("text-[11px] text-[var(--color-primary-500)]")}
-                className={cx("p-2 bg-[var(--color-primary-100)] rounded-[8px]")}
-              />
-            </div>
-          ))}
-        </div>
-      </Card>
+      <div className={cx("p-4 border-t border-[var(--color-unavailable-100)]")}>
+        <Select
+          label={"Danh mục"}
+          name="department"
+          data={filteredCate}
+          // value={value?.department}
+          // onChange={handleChangeDepartment}
+          // onBlur={() => handleBlur("department")}
+          // error={getFieldError("department")}
+          // placeholder="Chọn khoa"
+          required
+          width={"100%"}
+          height={"auto"}
+          labelClassName={cx("font-bold text-[13px]")}
+          inputClassName={cx("rounded-xl")}
+          itemClassName={cx("text-[13px]")}
+        />
+      </div>
       {/* Tags */}
-      <Card title={"Thẻ tags"}>
-        <div className={cx("p-6")}>
-          <TagInput name="tags" values={value?.tags} onChange={(tags) => setFieldValue("tags", tags)} />
+      <div className={cx("p-4 border-t border-[var(--color-unavailable-100)]")}>
+        <TagInput
+          label={"Tags"}
+          name="tags"
+          values={value?.tags}
+          onChange={(tags) => setFieldValue("tags", tags)}
+          width={"100%"}
+          height={"auto"}
+          labelClassName={cx("text-[11.5px] font-bold")}
+          inputClassName={cx("rounded-xl mb-2")}
+        />
+        <Item
+          as="span"
+          children={"Nhấn Enter để thêm thẻ"}
+          itemClassName={cx("text-[10.5px] text-[var(--color-unavailable)]")}
+        />
+      </div>
+      {/* SEO */}
+      <div className="p-4 border-t border-[var(--color-unavailable-100)]">
+        <Input
+          type="text"
+          label="Tiêu đề meta"
+          placeholder="Tiêu đề SEO..."
+          name="metaTitle"
+          value={value?.metaTitle}
+          onChange={(val) => setFieldValue("metaTitle", val.target.value)}
+          required
+          width={"100%"}
+          height={"auto"}
+          labelClassName={cx("text-[11.5px] font-bold")}
+          inputClassName={cx("rounded-xl mb-[12px]")}
+        />
+        <TextArea
+          label="Mô tả meta"
+          placeholder="Mô tả SEO..."
+          name="metaDesc"
+          minHeight={80}
+          value={value?.metaDesc}
+          onChange={(val) => setFieldValue("metaDesc", val.target.value)}
+          className={cx("w-full rounded-xl mb-[12px]")}
+          labelClassName={cx("text-[11.5px] font-bold")}
+          inputClassName={cx("rounded-xl")}
+        />
+
+        <div
+          className={cx(
+            "bg-[var(--color-unavailable-100)]/40 rounded-xl",
+            "border border-[var(--color-unavailable-300)]",
+          )}
+        >
+          <div className={cx("p-3 flex flex-col gap-[7px]")}>
+            <Item
+              icon={<div className="w-2 h-2 rounded-full bg-[var(--color-unavailable)]" />}
+              children={`Tiêu đề quá ngắn (0 ký tự)`}
+              itemClassName={cx("text-[var(--color-unavailable-700)] text-[11.5px]")}
+              className={cx("flex items-center gap-2")}
+            />
+            <Item
+              icon={<div className="w-2 h-2 rounded-full bg-[var(--color-unavailable)]" />}
+              children={`Lead chưa đủ (0 ký tự)`}
+              itemClassName={cx("text-[var(--color-unavailable-700)] text-[11.5px]")}
+              className={cx("flex items-center gap-2")}
+            />
+            <Item
+              icon={<div className="w-2 h-2 rounded-full bg-[var(--color-unavailable)]" />}
+              children={`Cần ít nhất 2 thẻ tag`}
+              itemClassName={cx("text-[var(--color-unavailable-700)] text-[11.5px]")}
+              className={cx("flex items-center gap-2")}
+            />
+          </div>
         </div>
-      </Card>
-      <Card title={"SEO & Meta"}>
-        <div className="p-6 flex flex-col gap-3">
-          <Input
-            type="text"
-            label="Tiêu đề meta"
-            labelClassName={cx("text-sm")}
-            className={cx("text-sm")}
-            placeholder="Tiêu đề SEO..."
-            name="metaTitle"
-            value={value?.metaTitle}
-            onChange={(val) => setFieldValue("metaTitle", val.target.value)}
+      </div>
+      {/* statistic */}
+      <div className="p-4 border-t border-[var(--color-unavailable-100)]">
+        <div className={cx("text-[11.5px] font-bold mb-[12px]")}>Thống kê</div>
+        <div>
+          <Item
+            children={
+              <div className="flex items-center justify-between">
+                <span>Số từ</span>
+                <span>
+                  <strong>0</strong> từ
+                </span>
+              </div>
+            }
+            itemClassName={cx(" text-[12px] text-[var(--color-unavailable-900)]")}
+            className={cx("py-[7px]")}
           />
-          <TextArea
-            label="Mô tả meta"
-            labelClassName={cx("text-sm")}
-            placeholder="Mô tả SEO..."
-            className={cx("text-sm")}
-            name="metaDesc"
-            value={value?.metaDesc}
-            onChange={(val) => setFieldValue("metaDesc", val.target.value)}
+          <Item
+            children={
+              <div className="flex items-center justify-between">
+                <span>Ký tự tiêu đề</span>
+                <span>
+                  <strong>0</strong> ký tự
+                </span>
+              </div>
+            }
+            itemClassName={cx(" text-[12px] text-[var(--color-unavailable-900)]")}
+            className={cx("py-[7px]")}
+          />
+          <Item
+            children={
+              <div className="flex items-center justify-between">
+                <span>Thẻ tag</span>
+                <span>
+                  <strong>0</strong> thẻ
+                </span>
+              </div>
+            }
+            itemClassName={cx(" text-[12px] text-[var(--color-unavailable-900)]")}
+            className={cx("py-[7px]")}
           />
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -7,12 +7,6 @@ export const NAV_MENU = [
 
 export const NEWS_STATUS_PUBLISH = [
   {
-    id: "draft",
-    value: "DRAFT",
-    name: "Lưu nháp",
-    title: "Chỉ bạn có thể xem",
-  },
-  {
     id: "publish",
     value: "PUBLISHED",
     name: "Xuất bản",
@@ -23,6 +17,12 @@ export const NEWS_STATUS_PUBLISH = [
     value: "WAITING",
     name: "Chờ duyệt",
     title: "Gửi yêu cầu kiểm tra và xét duyệt",
+  },
+  {
+    id: "draft",
+    value: "DRAFT",
+    name: "Lưu nháp",
+    title: "Chỉ bạn có thể xem",
   },
   {
     id: "archived",

@@ -47,9 +47,7 @@ function Header({ collapsed, toggle }) {
   }, [avatar.isActive]);
 
   return (
-    <header
-      className={cx("px-2 xl:px-10 pt-5 sticky top-0 z-10 w-full flex justify-between", TWCSS.container, "bg-white")}
-    >
+    <header className={cx("px-2 xl:px-10 py-4 sticky top-0 z-10 w-full flex justify-between")}>
       <div className="flex items-center gap-2">
         <Button
           icon={<LuAlignJustify />}
