@@ -1,25 +1,13 @@
 import { useState, useRef } from "react";
 import classNames from "classnames/bind";
-import { useForm, useActive } from "../../components/hooks";
+import { useForm, useActive, useScrollIndicator } from "../../components/hooks";
 import style from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
-import {
-  Select,
-  Item,
-  Radio,
-  Breadcrumb,
-  TagInput,
-  Input,
-  TextArea,
-  Button,
-  RichTextEditor,
-  Modal,
-  Form,
-} from "../../components/ui";
-import { LuEye, LuFile, LuLayoutDashboard, LuSend, LuX } from "react-icons/lu";
-import { NEWS_STATUS_PUBLISH, NEWS_CATEGORIES } from "../../constants/menu";
+import { Select, Item, TagInput, Input, TextArea, Button, RichTextEditor, Modal, Form } from "../../components/ui";
+import { LuArrowDown, LuEye, LuFile, LuSend, LuX } from "react-icons/lu";
+import { NEWS_STATUS_PUBLISH } from "../../constants/menu";
 import { INITAL_NEWS } from "../../constants/field";
-import { NEWS_STATUS_ROLE } from "../../constants/role";
+import { NEWS_STATUS_ROLE, STAFF_ROLE } from "../../constants/role";
 import { Preview } from "./index";
 import { useAuthStore } from "../../store/authStore";
 import { useNewsStore } from "../../store/newsStore";
@@ -30,6 +18,9 @@ const cx = classNames.bind(style);
 
 function Post() {
   const [preview, setPreview] = useState(null);
+  const scrollA = useScrollIndicator();
+  const scrollB = useScrollIndicator();
+
   const { id } = useParams();
   const { user } = useAuthStore();
   const { getNewsById } = useNewsStore();
@@ -48,9 +39,18 @@ function Post() {
   return (
     <>
       <div className={cx(TWCSS.container, "flex justify-between overflow-hidden w-full h-full")}>
-        <Form spellCheck={false} className={cx("w-full")}>
+        <Form spellCheck={false} className={cx(" w-full pb-2")}>
           <div className={cx("grid h-full grid-cols-1fr w-full xl:grid-cols-[1fr_300px]")}>
-            <div className={cx("flex justify-center overflow-y-auto h-full rounded-xl", "hidden-scrollbar")}>
+            <div
+              ref={scrollA.ref}
+              onScroll={scrollA.handleScroll}
+              className={cx(
+                "bg-white rounded-2xl  max-w-[720px]",
+                "mx-auto overflow-y-auto h-full rounded-xl",
+                "hidden-scrollbar",
+              )}
+              style={{ boxShadow: "var(--shadow)" }}
+            >
               <Content
                 value={values}
                 setValue={setValues}
@@ -58,14 +58,43 @@ function Post() {
                 preview={preview}
                 setPreview={setPreview}
               />
+
+              <Button
+                type="button"
+                width={26}
+                height={26}
+                onClick={scrollA.scrollTo}
+                icon={<LuArrowDown />}
+                hidden={scrollA.isBottom}
+                className={cx(
+                  "rounded-full bg-[var(--color-primary)] shadow-lg",
+                  "absolute bottom-12 right-2 text-white",
+                )}
+              />
             </div>
-            <div className={cx("bg-white rounded-xl h-full")} style={{ boxShadow: "var(--shadow)" }}>
+            <div
+              ref={scrollB.ref}
+              onScroll={scrollB.handleScroll}
+              className={cx("relative bg-white rounded-2xl h-full overflow-y-auto", "hidden-scrollbar")}
+              style={{ boxShadow: "var(--shadow)" }}
+            >
               <Settings
                 value={values}
                 setValue={setValues}
                 setFieldValue={setFieldValue}
                 user={user}
                 togglePreview={previewModal.toggleActive}
+                leadCount={values?.shortDesc.length}
+              />
+
+              <Button
+                type="button"
+                width={26}
+                height={26}
+                onClick={scrollB.scrollTo}
+                icon={<LuArrowDown />}
+                hidden={scrollB.isBottom}
+                className={cx("rounded-full bg-[var(--color-primary)] shadow-lg", "fixed bottom-3 right-2 text-white")}
               />
             </div>
           </div>
@@ -114,7 +143,7 @@ function Content({ value, setFieldValue, preview, setPreview }) {
     }
   };
   return (
-    <div className={cx("bg-white rounded-xl", "max-w-[1020px]")} style={{ boxShadow: "var(--shadow)" }}>
+    <div className={cx("relative")}>
       <div className={cx("p-8 border-b border-gray-200")}>
         <Item
           editable={true}
@@ -184,13 +213,76 @@ function Content({ value, setFieldValue, preview, setPreview }) {
   );
 }
 
-function Settings({ value, setFieldValue, user, togglePreview }) {
+function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
   const categories = useCategoryStore((c) => c.categories);
   const filteredCate = categories.filter((fc) => fc.id !== "uncategorized");
   const allowedStatus = NEWS_STATUS_PUBLISH.filter((item) => NEWS_STATUS_ROLE[user.role].includes(item.value));
 
+  const metaTitleCount = value?.metaTitle?.length || 0;
+  const tagsCount = value?.tags?.length || 0;
+  const metaDescCount = value?.metaDesc?.length || 0;
+
+  const seoRules = [
+    {
+      valid: metaTitleCount >= 20 && metaTitleCount <= 80,
+      message: () => {
+        if (metaTitleCount < 20) return `Tiêu đề quá ngắn (${metaTitleCount} ký tự)`;
+        if (metaTitleCount > 80) return `Tiêu đề quá dài (${metaTitleCount} ký tự)`;
+        return "Tiêu đề đủ độ dài (20–80 ký tự)";
+      },
+    },
+    {
+      valid: leadCount >= 80 && leadCount <= 200,
+      message: () => {
+        if (leadCount < 80) return `Lead chưa đủ (${leadCount} ký tự)`;
+        if (leadCount > 200) return `Lead quá dài (${leadCount} ký tự)`;
+        return "Mô tả lead hợp lệ (80–200 ký tự)";
+      },
+    },
+    {
+      valid: tagsCount >= 2,
+      message: () => {
+        return tagsCount >= 2 ? "Có từ khoá / thẻ tag" : "Cần ít nhất 2 thẻ tag";
+      },
+    },
+    {
+      valid: metaDescCount >= 120 && metaDescCount <= 160,
+      message: () => {
+        if (metaDescCount < 120) return `Meta description quá ngắn (${metaDescCount} ký tự)`;
+        if (metaDescCount > 160) return `Meta description quá dài (${metaDescCount} ký tự)`;
+        return "Meta description hợp lệ (120–160 ký tự)";
+      },
+    },
+  ];
+
+  const score = seoRules.filter((r) => r.valid).length;
+  const metaRate = score === 4 ? "good" : score === 3 ? "fair" : "improvement";
+
+  const roleConfig = STAFF_ROLE[user?.role];
+  if (!roleConfig) return user?.role;
+
   return (
     <div className={cx("-order-1 xl:order-0 flex flex-col")}>
+      <div className={cx("px-4 pt-4")}>
+        <div
+          className={cx("p-2 rounded-lg", "flex items-center justify-between")}
+          style={{ background: roleConfig?.background }}
+        >
+          <Item
+            icon={<div className={cx("w-2 h-2 rounded-full")} style={{ background: roleConfig?.color }} />}
+            children={`Quyền hạn: ${roleConfig.label}`}
+            itemClassName={cx("text-[11.5px] font-bold")}
+            className={cx("flex items-center gap-2")}
+            style={{ color: roleConfig?.color }}
+          />
+          <Item
+            as="span"
+            children={user?.role === "ADMIN" ? "Xuất bản" : "Gửi duyệt"}
+            itemClassName={cx("text-[10.5px]")}
+            style={{ color: roleConfig?.color }}
+          />
+        </div>
+      </div>
       {/* Status */}
       <div className={cx("p-4 grid grid-cols-2 gap-2")}>
         {allowedStatus.map((item, idx) => (
@@ -250,7 +342,7 @@ function Settings({ value, setFieldValue, user, togglePreview }) {
           onChange={(tags) => setFieldValue("tags", tags)}
           width={"100%"}
           height={"auto"}
-          labelClassName={cx("text-[11.5px] font-bold")}
+          labelClassName={cx("text-[13px] font-bold")}
           inputClassName={cx("rounded-xl mb-2")}
         />
         <Item
@@ -261,30 +353,89 @@ function Settings({ value, setFieldValue, user, togglePreview }) {
       </div>
       {/* SEO */}
       <div className="p-4 border-t border-[var(--color-unavailable-100)]">
-        <Input
-          type="text"
-          label="Tiêu đề meta"
-          placeholder="Tiêu đề SEO..."
-          name="metaTitle"
-          value={value?.metaTitle}
-          onChange={(val) => setFieldValue("metaTitle", val.target.value)}
-          required
-          width={"100%"}
-          height={"auto"}
-          labelClassName={cx("text-[11.5px] font-bold")}
-          inputClassName={cx("rounded-xl mb-[12px]")}
-        />
-        <TextArea
-          label="Mô tả meta"
-          placeholder="Mô tả SEO..."
-          name="metaDesc"
-          minHeight={80}
-          value={value?.metaDesc}
-          onChange={(val) => setFieldValue("metaDesc", val.target.value)}
-          className={cx("w-full rounded-xl mb-[12px]")}
-          labelClassName={cx("text-[11.5px] font-bold")}
-          inputClassName={cx("rounded-xl")}
-        />
+        <div className={cx("flex items-center justify-between")}>
+          <Item as="strong" children={"SEO & Meta"} itemClassName={cx("text-[13px]")} />
+          <Item
+            as="div"
+            icon={
+              <div
+                className={cx(
+                  "w-2 h-2 rounded-full",
+                  metaRate === "good"
+                    ? "bg-[var(--color-primary)]"
+                    : metaRate === "fair"
+                      ? "bg-[var(--color-warning)]"
+                      : "bg-[var(--color-error)]",
+                )}
+              />
+            }
+            children={metaRate === "good" ? "Tốt" : metaRate === "fair" ? "Khá" : "Cần cải thiện"}
+            className={cx(
+              "px-2 py-1 text-[11px] rounded-full",
+              "font-bold",
+              metaRate === "good"
+                ? "bg-[var(--color-primary-100)] text-[var(--color-primary-900)]"
+                : metaRate === "fair"
+                  ? "bg-[var(--color-warning-100)] text-[var(--color-warning-900)]"
+                  : "bg-[var(--color-error-100)] text-[var(--color-error-900)]",
+              "flex items-center gap-1 inline-flex",
+            )}
+          />
+        </div>
+        <div className={cx("")}>
+          <Input
+            type="text"
+            label="Tiêu đề meta"
+            placeholder="Tiêu đề SEO..."
+            name="metaTitle"
+            value={value?.metaTitle}
+            onChange={(val) => setFieldValue("metaTitle", val.target.value)}
+            required
+            width={"100%"}
+            height={"auto"}
+            labelClassName={cx("text-[11.5px] font-bold")}
+            inputClassName={cx("rounded-xl")}
+          />
+          <Item
+            children={
+              <span
+                className={cx(
+                  metaTitleCount < 60 ? "text-[var(--color-unavailable-700)]" : "text-[var(--color-primary)]",
+                )}
+              >
+                {metaTitleCount}/60
+              </span>
+            }
+            itemClassName={cx("text-[10.5px]")}
+            className={cx("flex justify-end mt-1")}
+          />
+        </div>
+        <div className={cx("")}>
+          <TextArea
+            label="Mô tả meta"
+            placeholder="Mô tả SEO..."
+            name="metaDesc"
+            minHeight={80}
+            value={value?.metaDesc}
+            onChange={(val) => setFieldValue("metaDesc", val.target.value)}
+            className={cx("w-full rounded-xl")}
+            labelClassName={cx("text-[11.5px] font-bold")}
+            inputClassName={cx("rounded-xl")}
+          />
+          <Item
+            children={
+              <span
+                className={cx(
+                  metaDescCount < 160 ? "text-[var(--color-unavailable-700)]" : "text-[var(--color-primary)]",
+                )}
+              >
+                {metaDescCount}/160
+              </span>
+            }
+            itemClassName={cx("text-[10.5px]")}
+            className={cx("flex justify-end mt-1 my-2")}
+          />
+        </div>
 
         <div
           className={cx(
@@ -293,24 +444,24 @@ function Settings({ value, setFieldValue, user, togglePreview }) {
           )}
         >
           <div className={cx("p-3 flex flex-col gap-[7px]")}>
-            <Item
-              icon={<div className="w-2 h-2 rounded-full bg-[var(--color-unavailable)]" />}
-              children={`Tiêu đề quá ngắn (0 ký tự)`}
-              itemClassName={cx("text-[var(--color-unavailable-700)] text-[11.5px]")}
-              className={cx("flex items-center gap-2")}
-            />
-            <Item
-              icon={<div className="w-2 h-2 rounded-full bg-[var(--color-unavailable)]" />}
-              children={`Lead chưa đủ (0 ký tự)`}
-              itemClassName={cx("text-[var(--color-unavailable-700)] text-[11.5px]")}
-              className={cx("flex items-center gap-2")}
-            />
-            <Item
-              icon={<div className="w-2 h-2 rounded-full bg-[var(--color-unavailable)]" />}
-              children={`Cần ít nhất 2 thẻ tag`}
-              itemClassName={cx("text-[var(--color-unavailable-700)] text-[11.5px]")}
-              className={cx("flex items-center gap-2")}
-            />
+            {seoRules.map((rule, i) => (
+              <Item
+                key={i}
+                icon={
+                  <div
+                    className={cx(
+                      "w-2 h-2 rounded-full",
+                      rule.valid ? "bg-[var(--color-primary)]" : "bg-[var(--color-unavailable)]",
+                    )}
+                  />
+                }
+                children={
+                  <span className={cx(rule.valid ? "text-[var(--color-unavailable-900)]" : "")}>{rule.message()}</span>
+                }
+                itemClassName="text-[var(--color-unavailable-700)] text-[11.5px]"
+                className="flex items-center gap-2"
+              />
+            ))}
           </div>
         </div>
       </div>
