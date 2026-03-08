@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
 import classNames from "classnames/bind";
-import { useForm, useActive, useScrollIndicator } from "../../components/hooks";
+import { useForm, useActive } from "../../components/hooks";
 import style from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { Select, Item, TagInput, Input, TextArea, Button, RichTextEditor, Modal, Form } from "../../components/ui";
-import { LuArrowDown, LuEye, LuFile, LuSend, LuX } from "react-icons/lu";
+import { LuEye, LuFile, LuSend, LuX } from "react-icons/lu";
 import { NEWS_STATUS_PUBLISH } from "../../constants/menu";
 import { INITAL_NEWS } from "../../constants/field";
 import { NEWS_STATUS_ROLE, STAFF_ROLE } from "../../constants/role";
@@ -18,8 +18,6 @@ const cx = classNames.bind(style);
 
 function Post() {
   const [preview, setPreview] = useState(null);
-  const scrollA = useScrollIndicator();
-  const scrollB = useScrollIndicator();
 
   const { id } = useParams();
   const { user } = useAuthStore();
@@ -38,66 +36,24 @@ function Post() {
 
   return (
     <>
-      <div className={cx(TWCSS.container, "flex justify-between overflow-hidden w-full h-full")}>
-        <Form spellCheck={false} className={cx(" w-full pb-2")}>
-          <div className={cx("grid h-full grid-cols-1fr w-full xl:grid-cols-[1fr_300px]")}>
-            <div
-              ref={scrollA.ref}
-              onScroll={scrollA.handleScroll}
-              className={cx(
-                "bg-white rounded-2xl  max-w-[720px]",
-                "mx-auto overflow-y-auto h-full rounded-xl",
-                "hidden-scrollbar",
-              )}
-              style={{ boxShadow: "var(--shadow)" }}
-            >
-              <Content
-                value={values}
-                setValue={setValues}
-                setFieldValue={setFieldValue}
-                preview={preview}
-                setPreview={setPreview}
-              />
+      <div className={cx(TWCSS.container)}>
+        <Form spellCheck={false} className={cx("flex justify-between")}>
+          <Content
+            value={values}
+            setValue={setValues}
+            setFieldValue={setFieldValue}
+            preview={preview}
+            setPreview={setPreview}
+          />
 
-              <Button
-                type="button"
-                width={26}
-                height={26}
-                onClick={scrollA.scrollTo}
-                icon={<LuArrowDown />}
-                hidden={scrollA.isBottom}
-                className={cx(
-                  "rounded-full bg-[var(--color-primary)] shadow-lg",
-                  "absolute bottom-12 right-2 text-white",
-                )}
-              />
-            </div>
-            <div
-              ref={scrollB.ref}
-              onScroll={scrollB.handleScroll}
-              className={cx("relative bg-white rounded-2xl h-full overflow-y-auto", "hidden-scrollbar")}
-              style={{ boxShadow: "var(--shadow)" }}
-            >
-              <Settings
-                value={values}
-                setValue={setValues}
-                setFieldValue={setFieldValue}
-                user={user}
-                togglePreview={previewModal.toggleActive}
-                leadCount={values?.shortDesc.length}
-              />
-
-              <Button
-                type="button"
-                width={26}
-                height={26}
-                onClick={scrollB.scrollTo}
-                icon={<LuArrowDown />}
-                hidden={scrollB.isBottom}
-                className={cx("rounded-full bg-[var(--color-primary)] shadow-lg", "fixed bottom-3 right-2 text-white")}
-              />
-            </div>
-          </div>
+          <Settings
+            value={values}
+            setValue={setValues}
+            setFieldValue={setFieldValue}
+            user={user}
+            togglePreview={previewModal.toggleActive}
+            leadCount={values?.shortDesc.length}
+          />
         </Form>
       </div>
       <Modal open={previewModal.isActive} onClose={previewModal.deactivate} width={"max-w-5xl"}>
@@ -112,6 +68,12 @@ export default Post;
 function Content({ value, setFieldValue, preview, setPreview }) {
   const inputRef = useRef(null);
   const displayImage = preview || value?.thumbnail;
+
+  const titleCount = value?.title.length;
+  const titleWidth = Math.min(100, ((titleCount || 0) / 80) * 100);
+  const trimmed = value?.content?.trim() ?? "";
+  const wordCount = trimmed ? trimmed.split(/\s+/).length : 0;
+  const wordWidth = Math.min(100, (wordCount / 800) * 100);
 
   const handleSelectImage = () => {
     inputRef.current?.click();
@@ -143,25 +105,17 @@ function Content({ value, setFieldValue, preview, setPreview }) {
     }
   };
   return (
-    <div className={cx("relative")}>
-      <div className={cx("p-8 border-b border-gray-200")}>
+    <div className={cx("bg-white rounded-2xl max-w-[760px] mx-auto")} style={{ boxShadow: "var(--shadow)" }}>
+      <div className={cx("p-6 border-b border-gray-200")}>
         <Item
-          editable={true}
-          itemClassName={cx("text-2xl font-bold")}
-          className={cx("py-4")}
-          placeholder={"Tiêu đề bài viết..."}
-          name="title"
-          value={value?.title}
-          onEdit={(title) => setFieldValue("title", title)}
+          children="Ảnh đại diện"
+          itemClassName={cx("text-[11px] mb-[10px] uppercase font-bold", "text-[var(--color-unavailable-700)]")}
         />
-      </div>
-      <div className={cx("p-8 border-b border-gray-200")}>
-        <Item children="Ảnh đại diện" itemClassName={cx("text-sm mb-[16px] uppercase font-medium")} />
         {!displayImage && (
           <div
             onClick={handleSelectImage}
             className={cx(
-              "rounded-[12px] border-2 border-dashed border-[var(--color-primary-200)]",
+              "rounded-2xl border-2 border-dashed border-[var(--color-primary-200)]",
               "p-15 text-center cursor-pointer transition-all bg-[var(--color-unavailable-100)]",
               "hover:border-[var(--color-primary)]",
             )}
@@ -194,12 +148,53 @@ function Content({ value, setFieldValue, preview, setPreview }) {
           </div>
         )}
       </div>
-      <div className={cx("p-8 border-b border-gray-200")}>
+      <div className={cx("px-6 pt-6")}>
+        <Item
+          editable={true}
+          itemClassName={cx("text-2xl font-bold")}
+          className={cx("py-4")}
+          placeholder={"Tiêu đề bài viết..."}
+          name="title"
+          value={value?.title}
+          onEdit={(title) => setFieldValue("title", title)}
+        />
+
+        {titleCount > 0 && (
+          <div className={cx("flex items-center justify-between gap-1")}>
+            <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
+              <div
+                className={cx(
+                  "h-[2px]",
+                  titleCount < 20
+                    ? "bg-[var(--color-error)]"
+                    : titleCount > 80
+                      ? "bg-[var(--color-warning)]"
+                      : "bg-[var(--color-primary)]",
+                )}
+                style={{ width: `${titleWidth}%` }}
+              />
+            </div>
+            <Item
+              as="span"
+              children={`${titleCount}/80`}
+              itemClassName={cx(
+                "text-[10.5px] text-nowrap font-bold",
+                titleCount < 20
+                  ? "text-[var(--color-error)]"
+                  : titleCount > 80
+                    ? "text-[var(--color-warning)]"
+                    : "text-[var(--color-primary)]",
+              )}
+            />
+          </div>
+        )}
+      </div>
+      <div className={cx("p-6 border-b border-gray-200")}>
         <TextArea
           label="Mô tả ngắn"
-          labelClassName={cx("text-sm")}
+          labelClassName={cx("text-[11px] uppercase font-bold", "text-[var(--color-unavailable-700)]")}
           placeholder="Nhập mô tả ngắn gọn về bài viết (hiển thị trong danh sách tin tức)..."
-          className={cx("text-sm")}
+          inputClassName={cx("rounded-xl")}
           name="shortDesc"
           value={value?.shortDesc}
           onChange={(val) => setFieldValue("shortDesc", val.target.value)}
@@ -208,6 +203,33 @@ function Content({ value, setFieldValue, preview, setPreview }) {
       <div className={cx("")}>
         <Item children="Nội dung bài viết" itemClassName={cx("text-sm uppercase font-medium")} className={cx("p-8")} />
         <RichTextEditor content={value?.content} onChange={(html) => setFieldValue("content", html)} />
+        <div className={cx("flex items-center justify-between gap-1 px-6 pb-2")}>
+          <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
+            <div
+              className={cx(
+                "h-[2px]",
+                wordCount < 200
+                  ? "bg-[var(--color-error)]"
+                  : wordCount > 800
+                    ? "bg-[var(--color-warning)]"
+                    : "bg-[var(--color-primary)]",
+              )}
+              style={{ width: `${wordWidth}%` }}
+            />
+          </div>
+          <Item
+            as="span"
+            children={`${wordCount}/800`}
+            itemClassName={cx(
+              "text-[10.5px] text-nowrap font-bold",
+              wordCount < 200
+                ? "text-[var(--color-error)]"
+                : wordCount > 800
+                  ? "text-[var(--color-warning)]"
+                  : "text-[var(--color-primary)]",
+            )}
+          />
+        </div>
       </div>
     </div>
   );
@@ -262,7 +284,7 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
   if (!roleConfig) return user?.role;
 
   return (
-    <div className={cx("-order-1 xl:order-0 flex flex-col")}>
+    <div className={cx("bg-white rounded-2xl flex flex-col w-[300px]")} style={{ boxShadow: "var(--shadow)" }}>
       <div className={cx("px-4 pt-4")}>
         <div
           className={cx("p-2 rounded-lg", "flex items-center justify-between")}

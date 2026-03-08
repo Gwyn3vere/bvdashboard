@@ -44,7 +44,7 @@ function Article({ newsId }) {
         />
       )}
 
-      <div className={cx("py-15 px-5 md:px-10 mx-auto max-w-[720px]")}>
+      <div className={cx("py-15 px-5 md:px-10 mx-auto max-w-[760px]")}>
         {/* Category */}
         <div className="inline-block">
           <Item
@@ -61,9 +61,7 @@ function Article({ newsId }) {
         {/* Title */}
         <Item
           children={news?.title || "Tiêu đề bài viết"}
-          itemClassName={cx(
-            "text-[40px] font-black leading-[1.2] tracking-[-0.03em]",
-          )}
+          itemClassName={cx("text-[40px] font-black leading-[1.2] tracking-[-0.03em]")}
           className={cx("mb-[24px]")}
         />
         {/* Author - Daytime - view */}
@@ -80,32 +78,22 @@ function Article({ newsId }) {
           <Item
             icon={<LuUser />}
             children={news?.author?.name || "Tên tác giả"}
-            itemClassName={cx(
-              "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
-            )}
+            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
             className={cx("flex items-center gap-2")}
           />
 
           {/* Daytime */}
           <Item
             icon={<LuCalendar />}
-            children={
-              news?.createdAt
-                ? formatDateVN(news?.createdAt)
-                : "Ngày không xác định"
-            }
-            itemClassName={cx(
-              "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
-            )}
+            children={news?.createdAt ? formatDateVN(news?.createdAt) : "Ngày không xác định"}
+            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
             className={cx("flex items-center gap-2")}
           />
           {/* View */}
           <Item
             icon={<LuEye />}
             children={`${news?.view} lượt xem`}
-            itemClassName={cx(
-              "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
-            )}
+            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
             className={cx("flex items-center gap-2")}
           />
         </div>
@@ -135,12 +123,8 @@ function Article({ newsId }) {
             )}
           >
             <Item
-              children={
-                news?.shortDesc || "Chưa có mô tả ngắn gọn nào cho bài viết"
-              }
-              itemClassName={cx(
-                "font-semibold text-[17px] text-[var(--color-unavailable-900)] leading-[1.7]",
-              )}
+              children={news?.shortDesc || "Chưa có mô tả ngắn gọn nào cho bài viết"}
+              itemClassName={cx("font-semibold text-[17px] text-[var(--color-unavailable-900)] leading-[1.7]")}
             />
           </div>
           {/* Summary list */}
@@ -167,9 +151,7 @@ function Article({ newsId }) {
             </ul>
           </div>
           {/* Content */}
-          <ArticleContent
-            html={news?.content || "Chưa có nội dung nào được viết"}
-          />
+          <ArticleContent html={news?.content || "Chưa có nội dung nào được viết"} />
         </div>
         {/* Tags */}
         <div className={cx("flex flex-wrap items-center gap-2 py-10")}>

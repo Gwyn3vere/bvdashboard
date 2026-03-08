@@ -19,10 +19,7 @@ function Sidebar({ collapsed, setCollapsed }) {
   return (
     <>
       {!collapsed && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30 xl:hidden top-[70px]"
-          onClick={() => setCollapsed(true)}
-        />
+        <div className="fixed inset-0 bg-black/50 z-30 xl:hidden top-[70px]" onClick={() => setCollapsed(true)} />
       )}
       <aside
         className={cx(
@@ -38,14 +35,7 @@ function Sidebar({ collapsed, setCollapsed }) {
         )}
       >
         <div className={cx("flex flex-col h-full rounded-[8px]")}>
-          <div
-            className={cx(
-              "p-2 mb-5",
-              collapsed
-                ? "flex justify-center items-center"
-                : "flex items-center gap-2",
-            )}
-          >
+          <div className={cx("p-2 mb-5", collapsed ? "flex justify-center items-center" : "flex items-center gap-2")}>
             <Logo src="" className="rounded-[8px]" width={50} height={50} />
             <div
               className={cx(
@@ -53,22 +43,15 @@ function Sidebar({ collapsed, setCollapsed }) {
                 collapsed ? "w-0" : "w-[190px]",
               )}
             >
-              <span className="text-sm font-bold uppercase text-[var(--color-primary-900)]">
-                Trung tâm y tế
-              </span>
-              <div className="text-[11px] font-medium text-[var(--color-primary)]">
-                Khu vực Liên Chiểu
-              </div>
+              <span className="text-sm font-bold uppercase text-[var(--color-primary-900)]">Trung tâm y tế</span>
+              <div className="text-[11px] font-medium text-[var(--color-primary)]">Khu vực Liên Chiểu</div>
             </div>
           </div>
 
           <div className="relative flex-1">
             <div className="hidden-scrollbar overflow-auto p-2">
               {SIDEBAR_MENU.map((group) => (
-                <div
-                  key={group.group}
-                  className={cx(collapsed ? "mb-0" : "mb-5")}
-                >
+                <div key={group.group} className={cx(collapsed ? "mb-0" : "mb-5")}>
                   <div
                     className={cx(
                       "text-[var(--color-unavailable-700)] text-[11px] font-bold uppercase",
@@ -79,9 +62,7 @@ function Sidebar({ collapsed, setCollapsed }) {
                     <span>{group.group}</span>
                   </div>
                   {group.items.map((item) => {
-                    const isActive =
-                      pathname === item.to ||
-                      pathname.startsWith(item.to + "/");
+                    const isActive = pathname === item.to || pathname.startsWith(item.to + "/");
                     return (
                       <Item
                         key={item.title}
@@ -93,16 +74,10 @@ function Sidebar({ collapsed, setCollapsed }) {
                           "h-[35px] transition-all",
                           "px-3 py-2 cursor-pointer rounded-2xl mb-2 text-[var(--color-unavailable-700)]",
                           isActive ? "" : "hover:text-[var(--color-primary)]",
-                          isActive &&
-                            "bg-linear-[var(--color-ln-primary)] text-white rounded-ee-4xl",
-                          collapsed
-                            ? "flex justify-center items-center"
-                            : "flex items-center gap-4",
+                          isActive && "bg-linear-[var(--color-ln-primary)] text-white rounded-ee-4xl",
+                          collapsed ? "flex justify-center items-center" : "flex items-center gap-4",
                         )}
-                        itemClassName={cx(
-                          "text-sm font-semibold",
-                          collapsed ? "w-0" : "w-[150px]",
-                        )}
+                        itemClassName={cx("text-sm font-semibold", collapsed ? "w-0" : "w-[150px]")}
                         iconClassName={cx("text-md")}
                       />
                     );
