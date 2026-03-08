@@ -102,6 +102,7 @@ export const INITAL_NEWS = {
 
 export const INITAL_NEWS_CATEGORY = {
   id: "",
+  value: "",
   name: "",
   icon: "",
   color: "",

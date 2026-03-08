@@ -1182,6 +1182,7 @@ export const MOCK_NEWS_LIST = [
 export const MOCK_NEWS_CATEGORIES = [
   {
     id: "ttsk",
+    value: "ttsk",
     name: "Tin tức sức khoẻ",
     totalNews: 42,
     icon: "Heart",
@@ -1189,6 +1190,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "pcd",
+    value: "pcd",
     name: "Phòng chống dịch",
     totalNews: 28,
     icon: "Syringe",
@@ -1196,6 +1198,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "cssk",
+    value: "cssk",
     name: "Chăm sóc sức khoẻ",
     totalNews: 35,
     icon: "Stethoscope",
@@ -1203,6 +1206,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "ytcd",
+    value: "ytcd",
     name: "Y tế cộng đồng",
     totalNews: 19,
     icon: "Leaf",
@@ -1210,6 +1214,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "dd",
+    value: "dd",
     name: "Dinh dưỡng",
     totalNews: 24,
     icon: "ToyBrick",
@@ -1217,6 +1222,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "uncategorized",
+    value: "uncategorized",
     name: "Không xác định",
     totalNews: 0,
     icon: "Bug",

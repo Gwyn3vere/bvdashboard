@@ -26,20 +26,14 @@ const privateRoutes = [
     component: Staff,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý nhân sự" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý nhân sự" }],
   },
   {
     path: "/quan-ly-bac-si",
     component: Doctor,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý bác sĩ" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý bác sĩ" }],
   },
   {
     path: "/quan-ly-bac-si/lich-lam-viec",
@@ -57,10 +51,7 @@ const privateRoutes = [
     component: News,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý tin tức" }],
   },
   {
     path: "/quan-ly-tin-tuc/duyet-bai",
@@ -122,20 +113,14 @@ const privateRoutes = [
     component: Banner,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý banner" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý banner" }],
   },
   {
     path: "/quan-ly-chuyen-mon",
     component: Medical,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý chuyên môn" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý chuyên môn" }],
   },
 ];
 

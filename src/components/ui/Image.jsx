@@ -4,11 +4,11 @@ import styles from "../../styles/ui.module.css";
 
 const cx = classNames.bind(styles);
 
-function Image({ src, alt, className }) {
+function Image({ src, alt, className, width, height, styles = {} }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className={cx("relative w-full overflow-hidden", className)}>
+    <div className={cx("relative w-full overflow-hidden", className)} style={{ width, height, ...styles }}>
       {!loaded && <div className="absolute inset-0 animate-pulse bg-gray-200" />}
 
       <img

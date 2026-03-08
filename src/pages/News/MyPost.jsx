@@ -4,15 +4,7 @@ import style from "../../styles/pages.module.css";
 import { Link } from "react-router-dom";
 import { NEWS_STATUS_PUBLISH } from "../../constants/menu";
 import { NEWS_STATUS } from "../../constants/status";
-import {
-  Breadcrumb,
-  Item,
-  Button,
-  Search,
-  List,
-  Tooltip,
-  Modal,
-} from "../../components/ui";
+import { Breadcrumb, Item, Button, Search, List, Tooltip, Modal } from "../../components/ui";
 import {
   LuSlidersHorizontal,
   LuLayoutDashboard,
@@ -38,22 +30,18 @@ function MyPost() {
   };
   const [newsKeyword, setNewsKeyword] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
-  const { news, loading, fetchNews, setEditingNewsId, editingNewsId } =
-    useNewsStore();
+  const { news, loading, fetchNews, setEditingNewsId, editingNewsId } = useNewsStore();
   const { user, initialized } = useAuthStore();
   const statusNews = useMemo(() => {
     return news.filter((item) => {
       if (item?.author?.id !== user?.id) return false;
-      if (selectedStatus !== "ALL" && item?.status !== selectedStatus)
-        return false;
+      if (selectedStatus !== "ALL" && item?.status !== selectedStatus) return false;
       return true;
     });
   }, [news, selectedStatus]);
 
   const searchNews = useSearch(statusNews, newsKeyword, (news) =>
-    [news.title, news.category?.name, news.author?.name]
-      .filter(Boolean)
-      .join(" "),
+    [news.title, news.category?.name, news.author?.name].filter(Boolean).join(" "),
   );
 
   useEffect(() => {
@@ -63,29 +51,6 @@ function MyPost() {
   return (
     <>
       <div className={cx(TWCSS.container)}>
-        <Breadcrumb
-          className="mb-3"
-          items={[
-            {
-              label: "Bảng điều khiển",
-              href: "/bang-dieu-khien",
-              icon: <LuLayoutDashboard />,
-            },
-            { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-            { label: "Bài viết của bạn" },
-          ]}
-        />
-        <Item
-          as="strong"
-          children="Bài viết của bạn"
-          itemClassName="text-3xl"
-        />
-        <Item
-          as="span"
-          children="Quản lý và xuất bản bài viết của bạn."
-          itemClassName="text-[14px] text-gray-500 mb-5 mt-1"
-        />
-
         <ActionBar
           selectedStatus={selectedStatus}
           setSelectedStatus={setSelectedStatus}
@@ -103,16 +68,8 @@ function MyPost() {
               width: "40%",
               render: (row) => (
                 <div className="">
-                  <Item
-                    as="strong"
-                    children={row?.title}
-                    itemClassName={cx("line-clamp-1")}
-                  />
-                  <Item
-                    as="span"
-                    children={`Tác giả: ${row?.author?.name}`}
-                    itemClassName={cx("text-sm")}
-                  />
+                  <Item as="strong" children={row?.title} itemClassName={cx("line-clamp-1")} />
+                  <Item as="span" children={`Tác giả: ${row?.author?.name}`} itemClassName={cx("text-sm")} />
                 </div>
               ),
             },
@@ -238,22 +195,10 @@ function MyPost() {
           data={searchNews}
         />
       </div>
-      <Modal
-        open={modal.delete.isActive}
-        onClose={modal.delete.deactivate}
-        width={"max-w-md"}
-      >
-        <Delete
-          onClose={modal.delete.deactivate}
-          type="news"
-          id={editingNewsId}
-        />
+      <Modal open={modal.delete.isActive} onClose={modal.delete.deactivate} width={"max-w-md"}>
+        <Delete onClose={modal.delete.deactivate} type="news" id={editingNewsId} />
       </Modal>
-      <Modal
-        open={modal.preview.isActive}
-        onClose={modal.preview.deactivate}
-        width={"max-w-5xl"}
-      >
+      <Modal open={modal.preview.isActive} onClose={modal.preview.deactivate} width={"max-w-5xl"}>
         <Article onClose={modal.preview.deactivate} newsId={editingNewsId} />
       </Modal>
     </>
@@ -287,19 +232,9 @@ function ActionBar({ selectedStatus, setSelectedStatus, keyword, onChange }) {
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
   return (
-    <div
-      className={cx(
-        "bg-white rounded-[8px] p-4 outline outline-[var(--color-unavailable-300)]",
-      )}
-    >
+    <div className={cx("bg-white rounded-[8px] p-4 outline outline-[var(--color-unavailable-300)]")}>
       <div className={cx("grid grid-cols-1fr xl:grid-cols-[380px_1fr] gap-3")}>
-        <Search
-          value={keyword}
-          onChange={onChange}
-          width={"auto"}
-          height={45}
-          className={cx("rounded-[8px]")}
-        />
+        <Search value={keyword} onChange={onChange} width={"auto"} height={45} className={cx("rounded-[8px]")} />
         <div className={cx("flex flex-col md:flex-row justify-between gap-3")}>
           <div className="flex gap-1">
             <Tooltip content="Bộ lọc" position="top">
@@ -307,10 +242,7 @@ function ActionBar({ selectedStatus, setSelectedStatus, keyword, onChange }) {
                 width={45}
                 height={45}
                 icon={<LuSlidersHorizontal />}
-                className={cx(
-                  "font-medium",
-                  "hover:bg-[var(--color-primary-100)]",
-                )}
+                className={cx("font-medium", "hover:bg-[var(--color-primary-100)]")}
               />
             </Tooltip>
           </div>
@@ -321,24 +253,16 @@ function ActionBar({ selectedStatus, setSelectedStatus, keyword, onChange }) {
             children={"Đăng tin tức mới"}
             iconClassName={cx("text-xl text-white font-semibold")}
             itemClassName={cx("text-sm text-white font-semibold")}
-            className={cx(
-              "bg-[var(--color-primary)] flex items-center gap-2 h-[45px] px-4 rounded-[8px]",
-            )}
+            className={cx("bg-[var(--color-primary)] flex items-center gap-2 h-[45px] px-4 rounded-[8px]")}
           />
         </div>
       </div>
 
-      <div
-        className={cx(
-          "mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3",
-        )}
-      >
+      <div className={cx("mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3")}>
         <div className={cx("flex items-center gap-2")}>
           <Item
             children={"Trạng thái:"}
-            itemClassName={cx(
-              "text-sm text-[var(--color-unavailable-900)] font-semibold",
-            )}
+            itemClassName={cx("text-sm text-[var(--color-unavailable-900)] font-semibold")}
             className={cx("hidden md:block")}
           />
           <div className={cx("overflow-hidden min-w-0")}>
@@ -348,10 +272,7 @@ function ActionBar({ selectedStatus, setSelectedStatus, keyword, onChange }) {
               onMouseLeave={handleMouseLeave}
               onMouseUp={handleMouseUp}
               onMouseMove={handleMouseMove}
-              className={cx(
-                "flex flex-nowrap gap-2 overflow-x-auto w-full",
-                "hidden-scrollbar",
-              )}
+              className={cx("flex flex-nowrap gap-2 overflow-x-auto w-full", "hidden-scrollbar")}
             >
               <Button
                 width={"auto"}
@@ -362,9 +283,7 @@ function ActionBar({ selectedStatus, setSelectedStatus, keyword, onChange }) {
                 className={cx(
                   TWCSS.button,
                   "rounded-full",
-                  selectedStatus === "ALL"
-                    ? "bg-[var(--color-primary)] text-white border-transparent"
-                    : "",
+                  selectedStatus === "ALL" ? "bg-[var(--color-primary)] text-white border-transparent" : "",
                 )}
               />
               {NEWS_STATUS_PUBLISH.map((status) => (
@@ -378,9 +297,7 @@ function ActionBar({ selectedStatus, setSelectedStatus, keyword, onChange }) {
                   className={cx(
                     TWCSS.button,
                     "rounded-full",
-                    selectedStatus === status.value
-                      ? "bg-[var(--color-primary)] text-white border-transparent"
-                      : "",
+                    selectedStatus === status.value ? "bg-[var(--color-primary)] text-white border-transparent" : "",
                   )}
                 />
               ))}

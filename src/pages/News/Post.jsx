@@ -4,24 +4,28 @@ import { useForm, useActive } from "../../components/hooks";
 import style from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { Select, Item, TagInput, Input, TextArea, Button, RichTextEditor, Modal, Form } from "../../components/ui";
-import { LuEye, LuFile, LuSend, LuX } from "react-icons/lu";
+import { LuEye, LuFile, LuPlus, LuSend, LuX } from "react-icons/lu";
 import { NEWS_STATUS_PUBLISH } from "../../constants/menu";
 import { INITAL_NEWS } from "../../constants/field";
 import { NEWS_STATUS_ROLE, STAFF_ROLE } from "../../constants/role";
-import { Preview } from "./index";
+import { Preview, SubmitOverlay } from "./index";
 import { useAuthStore } from "../../store/authStore";
 import { useNewsStore } from "../../store/newsStore";
 import { useCategoryStore } from "../../store/categoryStore";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(style);
 
 function Post() {
   const [preview, setPreview] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitPromise, setSubmitPromise] = useState(null);
 
+  const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuthStore();
-  const { getNewsById } = useNewsStore();
+  const { getNewsById, createNews, updateNews } = useNewsStore();
 
   const news = id ? getNewsById(id) : null;
 
@@ -34,16 +38,67 @@ function Post() {
     editValues: news,
   });
 
+  const titleCount = values?.title?.replace(/[\u00A0\u200B]/g, "").trim().length ?? 0;
+  const titleWidth = Math.min(100, ((titleCount || 0) / 80) * 100);
+  const trimmed =
+    values?.content
+      ?.replace(/<[^>]*>/g, "")
+      .replace(/[\u00A0\u200B]/g, "")
+      .trim() ?? "";
+  const wordCount = trimmed ? trimmed.split(/\s+/).length : 0;
+  const wordWidth = Math.min(100, (wordCount / 800) * 100);
+
+  const count = {
+    titleCount: titleCount,
+    titleWidth: titleWidth,
+    wordCount: wordCount,
+    wordWidth: wordWidth,
+  };
+
+  const handleSubmit = (statusOverride) => {
+    const payload = {
+      ...values,
+      id: id ?? undefined,
+      status: statusOverride ?? values.status,
+    };
+
+    setSubmitStatus(payload.status);
+
+    const promise = new Promise((resolve) => {
+      if (id) {
+        updateNews(payload);
+      } else {
+        createNews(payload);
+      }
+      setTimeout(resolve, 3000); // thay bằng api call thật sau này
+    });
+
+    setSubmitPromise(promise);
+    setSubmitting(true);
+  };
+
+  const handleOverlayDone = () => {
+    navigate(`/quan-ly-tin-tuc/${id}`);
+    setSubmitting(false);
+  };
+
   return (
     <>
+      <SubmitOverlay
+        visible={submitting}
+        status={submitStatus}
+        submitPromise={submitPromise}
+        onDone={handleOverlayDone}
+      />
       <div className={cx(TWCSS.container)}>
-        <Form spellCheck={false} className={cx("flex justify-between")}>
+        <Form spellCheck={false} className="flex" onSubmit={(e) => e.preventDefault()}>
           <Content
             value={values}
             setValue={setValues}
             setFieldValue={setFieldValue}
             preview={preview}
             setPreview={setPreview}
+            count={count}
           />
 
           <Settings
@@ -53,6 +108,8 @@ function Post() {
             user={user}
             togglePreview={previewModal.toggleActive}
             leadCount={values?.shortDesc.length}
+            count={count}
+            onSubmit={handleSubmit}
           />
         </Form>
       </div>
@@ -65,15 +122,9 @@ function Post() {
 
 export default Post;
 
-function Content({ value, setFieldValue, preview, setPreview }) {
+function Content({ value, setFieldValue, preview, setPreview, count }) {
   const inputRef = useRef(null);
   const displayImage = preview || value?.thumbnail;
-
-  const titleCount = value?.title.length;
-  const titleWidth = Math.min(100, ((titleCount || 0) / 80) * 100);
-  const trimmed = value?.content?.trim() ?? "";
-  const wordCount = trimmed ? trimmed.split(/\s+/).length : 0;
-  const wordWidth = Math.min(100, (wordCount / 800) * 100);
 
   const handleSelectImage = () => {
     inputRef.current?.click();
@@ -105,7 +156,7 @@ function Content({ value, setFieldValue, preview, setPreview }) {
     }
   };
   return (
-    <div className={cx("bg-white rounded-2xl max-w-[760px] mx-auto")} style={{ boxShadow: "var(--shadow)" }}>
+    <div className={cx("bg-white rounded-2xl max-w-[760px] mx-auto mb-20")} style={{ boxShadow: "var(--shadow)" }}>
       <div className={cx("p-6 border-b border-gray-200")}>
         <Item
           children="Ảnh đại diện"
@@ -116,7 +167,7 @@ function Content({ value, setFieldValue, preview, setPreview }) {
             onClick={handleSelectImage}
             className={cx(
               "rounded-2xl border-2 border-dashed border-[var(--color-primary-200)]",
-              "p-15 text-center cursor-pointer transition-all bg-[var(--color-unavailable-100)]",
+              "p-15 text-center cursor-pointer transition-all bg-[var(--color-unavailable-100)]/40",
               "hover:border-[var(--color-primary)]",
             )}
           >
@@ -142,7 +193,7 @@ function Content({ value, setFieldValue, preview, setPreview }) {
               height="40px"
               icon={<LuX />}
               iconClassName={cx("text-white")}
-              className={cx("absolute top-[10px] right-[10px]", "p-4 bg-[var(--color-error)]")}
+              className={cx("absolute top-[10px] right-[10px]", "p-4 bg-[var(--color-error)] rounded-xl")}
               onClick={handleRemoveImage}
             />
           </div>
@@ -159,29 +210,29 @@ function Content({ value, setFieldValue, preview, setPreview }) {
           onEdit={(title) => setFieldValue("title", title)}
         />
 
-        {titleCount > 0 && (
+        {count.titleCount > 0 && (
           <div className={cx("flex items-center justify-between gap-1")}>
             <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
               <div
                 className={cx(
                   "h-[2px]",
-                  titleCount < 20
+                  count.titleCount < 20
                     ? "bg-[var(--color-error)]"
-                    : titleCount > 80
+                    : count.titleCount > 80
                       ? "bg-[var(--color-warning)]"
                       : "bg-[var(--color-primary)]",
                 )}
-                style={{ width: `${titleWidth}%` }}
+                style={{ width: `${count.titleWidth}%` }}
               />
             </div>
             <Item
               as="span"
-              children={`${titleCount}/80`}
+              children={`${count.titleCount}/80`}
               itemClassName={cx(
                 "text-[10.5px] text-nowrap font-bold",
-                titleCount < 20
+                count.titleCount < 20
                   ? "text-[var(--color-error)]"
-                  : titleCount > 80
+                  : count.titleCount > 80
                     ? "text-[var(--color-warning)]"
                     : "text-[var(--color-primary)]",
               )}
@@ -194,40 +245,45 @@ function Content({ value, setFieldValue, preview, setPreview }) {
           label="Mô tả ngắn"
           labelClassName={cx("text-[11px] uppercase font-bold", "text-[var(--color-unavailable-700)]")}
           placeholder="Nhập mô tả ngắn gọn về bài viết (hiển thị trong danh sách tin tức)..."
-          inputClassName={cx("rounded-xl")}
+          inputClassName={cx("rounded-xl mt-[10px]")}
           name="shortDesc"
           value={value?.shortDesc}
           onChange={(val) => setFieldValue("shortDesc", val.target.value)}
         />
       </div>
-      <div className={cx("")}>
-        <Item children="Nội dung bài viết" itemClassName={cx("text-sm uppercase font-medium")} className={cx("p-8")} />
+      <div className={cx("border-b border-gray-200")}>
         <RichTextEditor content={value?.content} onChange={(html) => setFieldValue("content", html)} />
-        <div className={cx("flex items-center justify-between gap-1 px-6 pb-2")}>
-          <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
-            <div
-              className={cx(
-                "h-[2px]",
-                wordCount < 200
-                  ? "bg-[var(--color-error)]"
-                  : wordCount > 800
-                    ? "bg-[var(--color-warning)]"
-                    : "bg-[var(--color-primary)]",
-              )}
-              style={{ width: `${wordWidth}%` }}
-            />
-          </div>
+      </div>
+      <div className={cx("px-6 py-4 ")}>
+        <div className={cx("flex items-center justify-between mb-1")}>
+          <Item
+            children={"Độ dài bài viết"}
+            itemClassName={cx("text-[11px] font-bold text-[var(--color-unavailable-700)]")}
+          />
           <Item
             as="span"
-            children={`${wordCount}/800`}
+            children={`${count.wordCount}/800 từ`}
             itemClassName={cx(
               "text-[10.5px] text-nowrap font-bold",
-              wordCount < 200
-                ? "text-[var(--color-error)]"
-                : wordCount > 800
+              count.wordCount < 400
+                ? "text-[var(--color-unavailable-700)]"
+                : count.wordCount > 400 && count.wordCount < 800
                   ? "text-[var(--color-warning)]"
                   : "text-[var(--color-primary)]",
             )}
+          />
+        </div>
+        <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
+          <div
+            className={cx(
+              "h-[2px]",
+              count.wordCount < 400
+                ? "bg-[var(--color-unavailable-900)]"
+                : count.wordCount > 400 && count.wordCount < 800
+                  ? "bg-[var(--color-warning)]"
+                  : "bg-[var(--color-primary)]",
+            )}
+            style={{ width: `${count.wordWidth}%` }}
           />
         </div>
       </div>
@@ -235,9 +291,10 @@ function Content({ value, setFieldValue, preview, setPreview }) {
   );
 }
 
-function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
+function Settings({ value, setFieldValue, user, togglePreview, leadCount, count, onSubmit }) {
   const categories = useCategoryStore((c) => c.categories);
   const filteredCate = categories.filter((fc) => fc.id !== "uncategorized");
+
   const allowedStatus = NEWS_STATUS_PUBLISH.filter((item) => NEWS_STATUS_ROLE[user.role].includes(item.value));
 
   const metaTitleCount = value?.metaTitle?.length || 0;
@@ -284,7 +341,7 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
   if (!roleConfig) return user?.role;
 
   return (
-    <div className={cx("bg-white rounded-2xl flex flex-col w-[300px]")} style={{ boxShadow: "var(--shadow)" }}>
+    <div className={cx("bg-white rounded-2xl flex flex-col h-full w-[300px]")} style={{ boxShadow: "var(--shadow)" }}>
       <div className={cx("px-4 pt-4")}>
         <div
           className={cx("p-2 rounded-lg", "flex items-center justify-between")}
@@ -312,6 +369,7 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
             key={item.id}
             width={"auto"}
             height={"auto"}
+            name={"status"}
             icon={item.value === "PUBLISHED" || item.value === "WAITING" ? <LuSend /> : <LuFile />}
             children={item.name}
             className={cx(
@@ -321,6 +379,7 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
                 ? "bg-linear-[var(--color-ln-primary)] text-white"
                 : "bg-[var(--color-unavailable-100)] text-[var(--color-unavailable-900)]",
             )}
+            onClick={() => onSubmit(item.value)}
           />
         ))}
         <Button
@@ -338,19 +397,21 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
       </div>
       {/* Category */}
       <div className={cx("p-4 border-t border-[var(--color-unavailable-100)]")}>
+        <div className={cx("flex items-center justify-between")}>
+          <label className="font-bold text-[13px]">Danh mục</label>
+          <Button width={"auto"} height={"auto"} icon={<LuPlus />} iconClassName={cx("text-[13px]")} />
+        </div>
         <Select
-          label={"Danh mục"}
-          name="department"
+          name="categoryId"
           data={filteredCate}
-          // value={value?.department}
-          // onChange={handleChangeDepartment}
+          value={value?.categoryId}
+          onChange={(val) => setFieldValue("categoryId", val)}
           // onBlur={() => handleBlur("department")}
           // error={getFieldError("department")}
-          // placeholder="Chọn khoa"
+          placeholder="Chọn danh mục"
           required
           width={"100%"}
           height={"auto"}
-          labelClassName={cx("font-bold text-[13px]")}
           inputClassName={cx("rounded-xl")}
           itemClassName={cx("text-[13px]")}
         />
@@ -496,7 +557,7 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
               <div className="flex items-center justify-between">
                 <span>Số từ</span>
                 <span>
-                  <strong>0</strong> từ
+                  <strong>{count.wordCount}</strong> từ
                 </span>
               </div>
             }
@@ -508,7 +569,7 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
               <div className="flex items-center justify-between">
                 <span>Ký tự tiêu đề</span>
                 <span>
-                  <strong>0</strong> ký tự
+                  <strong>{count.titleCount}</strong> ký tự
                 </span>
               </div>
             }
@@ -520,7 +581,7 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount }) {
               <div className="flex items-center justify-between">
                 <span>Thẻ tag</span>
                 <span>
-                  <strong>0</strong> thẻ
+                  <strong>{tagsCount}</strong> thẻ
                 </span>
               </div>
             }

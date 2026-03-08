@@ -29,21 +29,6 @@ function Article({ newsId }) {
 
   return (
     <div className={cx(TWCSS.container)}>
-      {!newsId && (
-        <Breadcrumb
-          className="mb-3"
-          items={[
-            {
-              label: "Bảng điều khiển",
-              href: "/bang-dieu-khien",
-              icon: <LuLayoutDashboard />,
-            },
-            { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-            { label: "Chi tiết bài viết" },
-          ]}
-        />
-      )}
-
       <div className={cx("py-15 px-5 md:px-10 mx-auto max-w-[760px]")}>
         {/* Category */}
         <div className="inline-block">
