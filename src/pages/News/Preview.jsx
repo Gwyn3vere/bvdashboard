@@ -1,14 +1,7 @@
 import classNames from "classnames/bind";
 import style from "../../styles/pages.module.css";
 import { TitleForm, Item, ArticleContent } from "../../components/ui";
-import {
-  LuCalendar,
-  LuCircleCheckBig,
-  LuEye,
-  LuFileText,
-  LuTag,
-  LuUser,
-} from "react-icons/lu";
+import { LuCalendar, LuCircleCheckBig, LuEye, LuFileText, LuTag, LuUser } from "react-icons/lu";
 import { generateTableOfContents } from "../../utils/helper";
 
 const cx = classNames.bind(style);
@@ -28,7 +21,7 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
         subTitle={"Bảng thông tin xem trước bài viết tin tức, blog của bạn."}
         onClose={onClose}
       />
-      <div className={cx("py-15 px-5 md:px-10 mx-auto max-w-[720px]")}>
+      <div className={cx("py-15 px-5 md:px-10 mx-auto max-w-[760px]")}>
         <div className="inline-block">
           {/* Category */}
           <Item
@@ -45,9 +38,7 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
         {/* Title */}
         <Item
           children={previewData?.title || "Tiêu đề bài viết"}
-          itemClassName={cx(
-            "text-[40px] font-black leading-[1.2] tracking-[-0.03em]",
-          )}
+          itemClassName={cx("text-[40px] font-black leading-[1.2] tracking-[-0.03em]")}
           className={cx("mb-[24px]")}
         />
         {/* Author - Daytime - view */}
@@ -62,14 +53,8 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
           {/* Author */}
           <Item
             icon={<LuUser />}
-            children={
-              previewData?.author?.name
-                ? previewData?.author?.name
-                : user?.name || "Tên tác giả"
-            }
-            itemClassName={cx(
-              "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
-            )}
+            children={previewData?.author?.name ? previewData?.author?.name : user?.name || "Tên tác giả"}
+            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
             className={cx("flex items-center gap-2")}
           />
 
@@ -77,18 +62,14 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
           <Item
             icon={<LuCalendar />}
             children={dateNow}
-            itemClassName={cx(
-              "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
-            )}
+            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
             className={cx("flex items-center gap-2")}
           />
           {/* View */}
           <Item
             icon={<LuEye />}
             children={`${previewData?.view} lượt xem`}
-            itemClassName={cx(
-              "font-semibold text-sm hover:text-[var(--color-text-light-primary)]",
-            )}
+            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
             className={cx("flex items-center gap-2")}
           />
         </div>
@@ -118,13 +99,8 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
             )}
           >
             <Item
-              children={
-                previewData?.shortDesc ||
-                "Chưa có mô tả ngắn gọn nào cho bài viết"
-              }
-              itemClassName={cx(
-                "font-semibold text-[17px] text-[var(--color-unavailable-900)] leading-[1.7]",
-              )}
+              children={previewData?.shortDesc || "Chưa có mô tả ngắn gọn nào cho bài viết"}
+              itemClassName={cx("font-semibold text-[17px] text-[var(--color-unavailable-900)] leading-[1.7]")}
             />
           </div>
           {/* Summary list */}
@@ -151,9 +127,7 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
             </ul>
           </div>
           {/* Content */}
-          <ArticleContent
-            html={previewData?.content || "Chưa có nội dung nào được viết"}
-          />
+          <ArticleContent html={previewData?.content || "Chưa có nội dung nào được viết"} />
         </div>
         {/* Tags */}
         <div className={cx("flex flex-wrap items-center gap-2 py-10")}>
@@ -193,20 +167,12 @@ function Preview({ onClose, previewData, previewThumbnail, user }) {
           <Item children={"SEO PREVIEW"} itemClassName={cx("font-bold")} />
           <div className="mt-2 max-w-xl">
             <Item
-              children={
-                previewData?.metaTitle ||
-                previewData?.title ||
-                "Chưa có tiêu đề SEO"
-              }
+              children={previewData?.metaTitle || previewData?.title || "Chưa có tiêu đề SEO"}
               className="text-blue-700 text-lg leading-snug"
             />
 
             <Item
-              children={
-                previewData?.metaDesc ||
-                previewData?.shortDesc ||
-                "Chưa có mô tả SEO"
-              }
+              children={previewData?.metaDesc || previewData?.shortDesc || "Chưa có mô tả SEO"}
               className="text-gray-600 text-sm"
             />
           </div>

@@ -16,11 +16,7 @@ import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
-import {
-  RICH_TEXT_HIGHLIGHT_COLORS,
-  RICH_TEXT_HEADINGS,
-  RICH_TEXT_COLORS,
-} from "../../constants/menu";
+import { RICH_TEXT_HIGHLIGHT_COLORS, RICH_TEXT_HEADINGS, RICH_TEXT_COLORS } from "../../constants/menu";
 import {
   LuBold,
   LuItalic,
@@ -57,9 +53,7 @@ const ImageUploadComponent = ({ node, editor, getPos }) => {
   const [fileName, setFileName] = useState("");
   const [fileSize, setFileSize] = useState("");
 
-  const uniqueId = useRef(
-    `image-upload-${Date.now()}-${Math.random()}`,
-  ).current;
+  const uniqueId = useRef(`image-upload-${Date.now()}-${Math.random()}`).current;
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -142,18 +136,12 @@ const ImageUploadComponent = ({ node, editor, getPos }) => {
               <LuFile size={20} className="text-white" />
             </div>
             <div>
-              <p className="text-sm font-medium text-[var(--color-unavailable-900)]">
-                {fileName}
-              </p>
-              <p className="text-xs text-[var(--color-unavailable-600)]">
-                {fileSize}
-              </p>
+              <p className="text-sm font-medium text-[var(--color-unavailable-900)]">{fileName}</p>
+              <p className="text-xs text-[var(--color-unavailable-600)]">{fileSize}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[var(--color-primary-600)] text-sm font-medium">
-              {progress}%
-            </span>
+            <span className="text-[var(--color-primary-600)] text-sm font-medium">{progress}%</span>
             <button
               onClick={handleCancel}
               className="text-[var(--color-unavailable-600)] hover:text-[var(--color-unavailable-900)] transition-colors"
@@ -180,26 +168,16 @@ const ImageUploadComponent = ({ node, editor, getPos }) => {
         onDragOver={handleDrag}
         onDrop={handleDrop}
       >
-        <input
-          type="file"
-          id={uniqueId}
-          className="hidden"
-          accept="image/*"
-          onChange={handleChange}
-        />
+        <input type="file" id={uniqueId} className="hidden" accept="image/*" onChange={handleChange} />
         <label htmlFor={uniqueId} className="cursor-pointer">
           <div className="w-12 h-12 bg-[var(--color-primary-500)] rounded-[12px] mx-auto mb-3 flex items-center justify-center">
             <LuUpload size={24} className="text-white" />
           </div>
           <p className="text-[var(--color-unavailable-900)] mb-1">
-            <span className="text-[var(--color-primary-600)] underline">
-              Click vào để upload ảnh
-            </span>{" "}
-            hoặc kéo và thả ảnh vào đây
+            <span className="text-[var(--color-primary-600)] underline">Click vào để upload ảnh</span> hoặc kéo và thả
+            ảnh vào đây
           </p>
-          <p className="text-[var(--color-unavailable-600)] text-sm">
-            Tối đa 3 files, và từ 5MB trở xuống.
-          </p>
+          <p className="text-[var(--color-unavailable-600)] text-sm">Tối đa 3 files, và từ 5MB trở xuống.</p>
         </label>
       </div>
     </NodeViewWrapper>
@@ -222,10 +200,7 @@ const ImageUploadExtension = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "div",
-      mergeAttributes(HTMLAttributes, { "data-type": "image-upload" }),
-    ];
+    return ["div", mergeAttributes(HTMLAttributes, { "data-type": "image-upload" })];
   },
 
   addNodeView() {
@@ -263,11 +238,7 @@ const MenuBar = ({ editor }) => {
     } else {
       clickOutside.unregister(colorRef);
     }
-  }, [
-    modal.highlighter.isActive,
-    modal.heading.isActive,
-    modal.color.isActive,
-  ]);
+  }, [modal.highlighter.isActive, modal.heading.isActive, modal.color.isActive]);
 
   if (!editor) return null;
 
@@ -285,8 +256,7 @@ const MenuBar = ({ editor }) => {
   const buttonClass = (isActive) =>
     cx(
       "p-2 rounded-[8px] hover:bg-gray-200 transition-colors",
-      isActive &&
-        "bg-[var(--color-primary-200)] text-[var(--color-primary-700)] ",
+      isActive && "bg-[var(--color-primary-200)] text-[var(--color-primary-700)] ",
     );
 
   return (
@@ -301,9 +271,7 @@ const MenuBar = ({ editor }) => {
         type="button"
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editor.can().undo()}
-        className={cx(
-          "p-2 rounded hover:bg-gray-200 transition-colors disabled:opacity-30",
-        )}
+        className={cx("p-2 rounded hover:bg-gray-200 transition-colors disabled:opacity-30")}
         title="Undo (Ctrl+Z)"
       >
         <LuUndo size={18} />
@@ -313,9 +281,7 @@ const MenuBar = ({ editor }) => {
         type="button"
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editor.can().redo()}
-        className={cx(
-          "p-2 rounded hover:bg-gray-200 transition-colors disabled:opacity-30",
-        )}
+        className={cx("p-2 rounded hover:bg-gray-200 transition-colors disabled:opacity-30")}
         title="Redo (Ctrl+Y)"
       >
         <LuRedo size={18} />
@@ -379,9 +345,7 @@ const MenuBar = ({ editor }) => {
           <LuChevronDown
             className={cx(
               "absolute bottom-1/2 translate-y-1/2 right-0 text-[8px]",
-              modal.highlighter.isActive
-                ? "rotate-180 transition-transform"
-                : "transition-transform",
+              modal.highlighter.isActive ? "rotate-180 transition-transform" : "transition-transform",
             )}
           />
         </button>
@@ -403,8 +367,7 @@ const MenuBar = ({ editor }) => {
                 }}
                 className={cx(
                   "w-5 h-5 rounded-full cursor-pointer",
-                  editor.isActive("highlight", { color }) &&
-                    "outline outline-2 outline-offset-2",
+                  editor.isActive("highlight", { color }) && "outline outline-2 outline-offset-2",
                 )}
                 style={{ backgroundColor: color, outlineColor: color }}
                 title={color}
@@ -436,9 +399,7 @@ const MenuBar = ({ editor }) => {
           <LuChevronDown
             className={cx(
               "absolute bottom-1/2 translate-y-1/2 right-0 text-[8px]",
-              modal.color.isActive
-                ? "rotate-180 transition-transform"
-                : "transition-transform",
+              modal.color.isActive ? "rotate-180 transition-transform" : "transition-transform",
             )}
           />
         </button>
@@ -461,8 +422,7 @@ const MenuBar = ({ editor }) => {
                 }}
                 className={cx(
                   "w-5 h-5 rounded-full cursor-pointer",
-                  editor.isActive("textStyle", { color }) &&
-                    "outline outline-2 outline-offset-2",
+                  editor.isActive("textStyle", { color }) && "outline outline-2 outline-offset-2",
                 )}
                 style={{ backgroundColor: color, outlineColor: color }}
                 title={color}
@@ -496,9 +456,7 @@ const MenuBar = ({ editor }) => {
           <LuChevronDown
             className={cx(
               "absolute bottom-1/2 translate-y-1/2 right-0 text-[8px]",
-              modal.heading.isActive
-                ? "rotate-180 transition-transform"
-                : "transition-transform",
+              modal.heading.isActive ? "rotate-180 transition-transform" : "transition-transform",
             )}
           />
         </button>
@@ -517,19 +475,14 @@ const MenuBar = ({ editor }) => {
                 width={"100%"}
                 key={item.level}
                 onClick={() => {
-                  editor
-                    .chain()
-                    .focus()
-                    .toggleHeading({ level: item.level })
-                    .run();
+                  editor.chain().focus().toggleHeading({ level: item.level }).run();
                   modal.heading.deactivate();
                 }}
                 className={cx(
                   "text-sm rounded-[12px] cursor-pointer gap-2 text-[var(--color-unavailable-900)]",
                   "hover:bg-[var(--color-primary-100)] px-4 transition-all",
                   "hover:text-black",
-                  editor.isActive("heading", { level: item.level }) &&
-                    "bg-[var(--color-primary-100)] text-black",
+                  editor.isActive("heading", { level: item.level }) && "bg-[var(--color-primary-100)] text-black",
                 )}
                 btnClassName={cx("whitespace-nowrap")}
                 icon={item.icon}
@@ -610,32 +563,18 @@ const MenuBar = ({ editor }) => {
       <div className="w-px h-6 bg-gray-300 mx-1" />
 
       {/* Media */}
-      <button
-        type="button"
-        onClick={addImageUpload}
-        className={buttonClass(false)}
-        title="Insert Image"
-      >
+      <button type="button" onClick={addImageUpload} className={buttonClass(false)} title="Insert Image">
         <LuImage size={18} />
       </button>
 
-      <button
-        type="button"
-        onClick={addLink}
-        className={buttonClass(editor.isActive("link"))}
-        title="Insert Link"
-      >
+      <button type="button" onClick={addLink} className={buttonClass(editor.isActive("link"))} title="Insert Link">
         <LuLink size={18} />
       </button>
     </div>
   );
 };
 
-function RichTextEditor({
-  content,
-  onChange,
-  placeholder = "Viết nội dung bài viết của bạn tại đây...",
-}) {
+function RichTextEditor({ content, onChange, placeholder = "Viết nội dung bài viết của bạn tại đây..." }) {
   const editor = useEditor({
     extensions: [
       StarterKit,

@@ -14,3 +14,4 @@ export { default as useValidation } from "./useValidation";
 export { default as useGroupTree } from "./useGroupTree";
 export { default as useClickOutsideManager } from "./useClickOutsideManager";
 export { default as useMultiStep } from "./useMultiStep";
+export { default as useScrollIndicator } from "./useScrollIndicator";

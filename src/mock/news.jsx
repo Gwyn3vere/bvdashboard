@@ -1,10 +1,4 @@
-import {
-  LuBook,
-  LuBookCheck,
-  LuEye,
-  LuBookKey,
-  LuBookText,
-} from "react-icons/lu";
+import { LuBook, LuBookCheck, LuEye, LuBookKey, LuBookText } from "react-icons/lu";
 
 export const NEWS_TOTAL_STATUS = [
   {
@@ -86,8 +80,7 @@ export const MOCK_NEWS_LIST = [
       name: "Tin tức sức khỏe",
     },
     tags: ["tim mạch", "sức khỏe", "phòng ngừa bệnh", "lối sống lành mạnh"],
-    metaTitle:
-      "7 Thói Quen Vàng Phòng Ngừa Bệnh Tim Mạch | Trung Tâm Y Tế Liên Chiểu",
+    metaTitle: "7 Thói Quen Vàng Phòng Ngừa Bệnh Tim Mạch | Trung Tâm Y Tế Liên Chiểu",
     metaDesc:
       "Khám phá 7 thói quen đơn giản nhưng hiệu quả giúp bạn phòng ngừa bệnh tim mạch, bảo vệ sức khỏe tim mạch toàn diện.",
     status: "PUBLISHED",
@@ -525,10 +518,8 @@ export const MOCK_NEWS_LIST = [
       name: "Tin tức sức khỏe",
     },
     tags: ["đái tháo đường", "bệnh mạn tính", "phòng ngừa", "sức khỏe"],
-    metaTitle:
-      "Đái Tháo Đường Type 2: Triệu Chứng, Nguyên Nhân Và Cách Phòng Ngừa",
-    metaDesc:
-      "Hướng dẫn nhận biết triệu chứng, nguyên nhân và cách phòng ngừa bệnh đái tháo đường type 2 hiệu quả.",
+    metaTitle: "Đái Tháo Đường Type 2: Triệu Chứng, Nguyên Nhân Và Cách Phòng Ngừa",
+    metaDesc: "Hướng dẫn nhận biết triệu chứng, nguyên nhân và cách phòng ngừa bệnh đái tháo đường type 2 hiệu quả.",
     status: "DRAFT",
     thumbnail: "https://picsum.photos/seed/news006/800/450",
     view: 0,
@@ -542,8 +533,7 @@ export const MOCK_NEWS_LIST = [
       id: "14",
       name: "Nguyễn Thị Ngọc",
     },
-    title:
-      "Sức khỏe tinh thần: Nhận biết và đối phó với stress trong công việc",
+    title: "Sức khỏe tinh thần: Nhận biết và đối phó với stress trong công việc",
     shortDesc:
       "Stress công việc đang ảnh hưởng đến sức khỏe của bạn? Tìm hiểu cách nhận biết và quản lý stress hiệu quả.",
     content: `

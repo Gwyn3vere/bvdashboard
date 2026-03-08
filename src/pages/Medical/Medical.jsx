@@ -214,7 +214,7 @@ function Medical() {
         </div>
       )}
 
-      <Modal open={modal.grDel.isActive} onClose={modal.grDel.deactivate} backdrop={true} width="max-w-lg">
+      <Modal open={modal.grDel.isActive} onClose={modal.grDel.deactivate} backdrop={true} width="max-w-sm">
         <Delete
           name={"khối"}
           onClose={modal.grDel.deactivate}
@@ -232,7 +232,7 @@ function Medical() {
       <Modal open={modal.deptForm.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
         <DeptForm onClose={handleClose} />
       </Modal>
-      <Modal open={modal.deptDel.isActive} onClose={modal.deptDel.deactivate} backdrop={true} width="max-w-lg">
+      <Modal open={modal.deptDel.isActive} onClose={modal.deptDel.deactivate} backdrop={true} width="max-w-sm">
         <Delete
           name={"khoa"}
           onClose={modal.deptDel.deactivate}
@@ -250,7 +250,7 @@ function Medical() {
       <Modal open={modal.specForm.isActive} onClose={handleClose} backdrop={true} width="max-w-lg">
         <SpecForm onClose={handleClose} />
       </Modal>
-      <Modal open={modal.specDel.isActive} onClose={modal.specDel.deactivate} backdrop={true} width="max-w-lg">
+      <Modal open={modal.specDel.isActive} onClose={modal.specDel.deactivate} backdrop={true} width="max-w-sm">
         <Delete
           name={"Chuyên khoa"}
           onClose={modal.specDel.deactivate}

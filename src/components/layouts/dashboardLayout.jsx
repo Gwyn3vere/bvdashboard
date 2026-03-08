@@ -32,12 +32,12 @@ function dashboardLayout({ children }) {
         <Sidebar collapsed={isCollapsed} setCollapsed={setIsCollapsed} />
         <div
           className={cx(
-            "flex flex-col w-full h-full overflow-hidden bg-[var(--color-bg-light-primary-200)] rounded-[8px]"
+            "flex flex-col w-full h-full overflow-hidden bg-[var(--color-bg-light-primary-200)] rounded-[8px]",
           )}
         >
           <Header collapsed={isCollapsed} toggle={toggleSidebar} />
           <div className="flex-1 overflow-hidden rounded-[8px]">
-            <div className="hidden-scrollbar h-full overflow-auto max-w-[1800px] mx-auto">{children}</div>
+            <div className="hidden-scrollbar h-full overflow-auto">{children}</div>
           </div>
         </div>
       </div>

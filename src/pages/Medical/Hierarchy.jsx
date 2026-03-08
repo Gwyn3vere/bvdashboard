@@ -215,7 +215,7 @@ function Hierarchy({
                               "fadeUp",
                               " rounded-lg py-2 px-2.5 border border-[var(--color-primary)]/10",
                               "flex items-center justify-between",
-                              "group hover:bg-[var(--color-primary)]/10",
+                              "hover:bg-[var(--color-primary)]/10",
                             )}
                             style={{
                               animationDelay: `${Math.min(idx * 20, 400)}ms`,

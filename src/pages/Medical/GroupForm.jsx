@@ -88,7 +88,7 @@ function GroupForm({ onClose }) {
         <Button
           type="button"
           children={"Huỷ"}
-          onClose={() => {
+          onClick={() => {
             onClose();
             resetForm();
           }}

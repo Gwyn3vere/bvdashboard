@@ -45,21 +45,24 @@ function CateForm({ onClose }) {
           resetForm();
         }}
       />
-      <Form id={"cateForm"} className={cx("p-6 space-y-6 bg-white")} onSubmit={handleSubmit}>
+      <Form id={"cateForm"} className={cx("px-6 py-4 space-y-4 bg-white")} onSubmit={handleSubmit}>
         <Input
           label="Tên danh mục"
-          labelClassName="text-sm"
           placeholder="Nhập tên danh mục..."
           type="text"
           name="name"
           value={values?.name}
           onChange={(val) => setFieldValue("name", val.target.value)}
           required
+          width="100%"
+          height={"auto"}
+          labelClassName="text-[11.5px] font-bold"
+          inputClassName={cx("rounded-xl")}
         />
 
         <div>
-          <div className={cx("mb-2 text-sm font-medium")}>Màu sắc</div>
-          <div className={cx("grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4")}>
+          <div className={cx("mb-1 text-[11.5px] font-bold")}>Màu sắc</div>
+          <div className={cx("flex flex-wrap gap-2")}>
             {COLORS_CATE_OPTION.map((item) => (
               <Radio
                 key={item}
@@ -68,8 +71,8 @@ function CateForm({ onClose }) {
                 onChange={() => setFieldValue("color", item)}
                 style={{ background: item, outlineColor: item }}
                 className={cx(
-                  "p-4 border-1 transition-all rounded-[8px]",
-                  "h-12",
+                  "border-1 transition-all rounded-xl",
+                  "w-10 h-10",
                   values?.color === item
                     ? "border-transparent outline outline-2 outline-offset-2"
                     : " border-transparent",
@@ -81,8 +84,8 @@ function CateForm({ onClose }) {
         </div>
 
         <div>
-          <div className={cx("mb-2 text-sm font-medium")}>Icon</div>
-          <div className={cx("grid grid-cols-[repeat(auto-fit,minmax(60px,1fr))] gap-4")}>
+          <div className={cx("mb-1 text-[11.5px] font-bold")}>Icon</div>
+          <div className={cx("flex flex-wrap gap-2")}>
             {Object.entries(ICONS_CATE_MAP).map(([key, IconComponent]) => (
               <Radio
                 key={key}
@@ -91,8 +94,8 @@ function CateForm({ onClose }) {
                 checked={values?.icon === key}
                 onChange={() => setFieldValue("icon", key)}
                 className={cx(
-                  "p-4 transition-all rounded-[8px]",
-                  "h-12 flex items-center justify-center",
+                  "transition-all rounded-xl text-[var(--color-unavailable-700)]",
+                  "w-10 h-10 flex items-center justify-center",
                   values?.icon === key ? "bg-[var(--color-primary)] text-white" : "bg-[var(--color-unavailable-100)]",
                 )}
                 hidden={true}
@@ -103,25 +106,31 @@ function CateForm({ onClose }) {
       </Form>
 
       {/* Footer */}
-      <div className={cx("sticky bottom-0 bg-white border-t border-gray-200 p-6", "flex justify-end gap-3")}>
+      <div className={cx("sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4", "flex justify-end gap-3")}>
         <div className="flex gap-2">
           <Button
+            width={"auto"}
+            height={"auto"}
             children={"Huỷ"}
             onClick={() => {
               onClose();
               resetForm();
             }}
             className={cx(
-              "p-2 bg-[var(--color-unavailable-100)]",
-              "text-sm font-semibold",
+              "px-[18px] py-[9px] bg-[var(--color-unavailable-100)]",
+              "text-[12.5px] font-bold rounded-xl text-[var(--color-unavailable-700)]",
               "hover:bg-[var(--color-unavailable-300)]",
             )}
           />
           <Button
-            form={"cateForm"}
             width={"auto"}
+            height={"auto"}
+            form={"cateForm"}
             children={"Xác nhận"}
-            className={cx("p-2 bg-[var(--color-primary)] gap-2", "text-sm font-semibold text-white")}
+            className={cx(
+              "px-[18px] py-[9px] bg-linear-[var(--color-ln-primary)]",
+              "text-[12.5px] font-bold text-white rounded-xl",
+            )}
           />
         </div>
       </div>

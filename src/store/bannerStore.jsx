@@ -76,7 +76,7 @@ export const useBannerStore = create((set, get) => ({
       banners: state.banners.filter((b) => b.id !== id),
     })),
 
-  fetchBanners: () => {
+  fetchBanners: async () => {
     set({ loading: true });
 
     // const res = await fetchBannersService();

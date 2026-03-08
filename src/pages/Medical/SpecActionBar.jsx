@@ -25,7 +25,7 @@ function SpecActionBar({
   return (
     <div className={className} style={{ ...style }}>
       {children}
-      <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="flex items-center">
         <Button
           width={26}
           height={26}

@@ -64,7 +64,7 @@ function DeptForm({ onClose }) {
         <Button
           type="button"
           children={"Huỷ"}
-          onClose={() => {
+          onClick={() => {
             onClose();
             resetForm();
           }}

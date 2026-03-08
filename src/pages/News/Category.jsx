@@ -40,24 +40,24 @@ function Category({ onClose }) {
         subTitle={"Bảng thông tin quản lý danh mục tin tức, blog của bạn."}
         onClose={onClose}
       />
-      <div className={cx("p-6 bg-white border-b border-[var(--color-unavailable-300)]")}>
+      <div className={cx("px-6 py-4 bg-white")}>
         <Search
           value={cateKeyword}
           onChange={(e) => setCateKeyword(e.target.value)}
           placeholder="Tìm kiếm danh mục..."
-          className={cx("w-full rounded-[8px]")}
+          className={cx("w-full rounded-xl")}
         />
       </div>
       {/* Main */}
-      <div className={cx("p-6 bg-white")}>
-        <div className={cx("grid grid-cols-1 md:grid-cols-2 gap-4")}>
+      <div className={cx("px-6 pb-4 bg-white")}>
+        <div className={cx("grid grid-cols-1 md:grid-cols-2 gap-3")}>
           {searchCate.map((category) => {
             const IconComponent = ICONS_CATE_MAP[category.icon] || LuBook;
             return (
               <div
                 key={category.id}
                 className={cx(
-                  "p-4 border border-[var(--color-unavailable-300)] rounded-[8px] cursor-pointer",
+                  "p-4 border border-[var(--color-unavailable-300)] rounded-2xl cursor-pointer",
                   "hover:border-[var(--color-primary)] hover:shadow-xl",
                   "transition-colors duration-200 ",
                 )}
@@ -65,41 +65,38 @@ function Category({ onClose }) {
                 <div className={cx("flex items-center gap-4")}>
                   <Item
                     icon={<IconComponent />}
-                    className={cx("w-10 h-10 rounded-[8px] text-white", "inline-flex items-center justify-center")}
+                    className={cx("w-10 h-10 rounded-xl text-white", "inline-flex items-center justify-center")}
                     style={{ backgroundColor: category.color }}
                   />
-                  <Item children={category.name} itemClassName={cx("text-sm font-semibold")} />
+                  <Item children={category.name} itemClassName={cx("text-[13px] font-bold")} />
                 </div>
-                <div
-                  className={cx(
-                    "flex items-center justify-between w-full",
-                    "border-t border-[var(--color-unavailable-300)] mt-2",
-                  )}
-                >
+                <div className={cx("flex items-center justify-between w-full mt-2")}>
                   <Item
                     children={`${category.totalNews} Bài viết`}
-                    itemClassName={cx("text-xs text-[var(--color-unavailable-900)]")}
+                    itemClassName={cx("text-[12px] font-semibold text-[var(--color-unavailable-900)]")}
                   />
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-1">
                     <Button
-                      width={40}
-                      height={40}
-                      iconClassName="text-sm font-bold text-[var(--color-secondary)]"
+                      width={28}
+                      height={28}
+                      iconClassName="text-[12px] font-bold text-[var(--color-primary)]"
                       icon={<LuSquarePen />}
                       onClick={() => {
                         setEditingCategoryId(category.id);
                         modal.cateForm.toggleActive();
                       }}
+                      className={cx("bg-[var(--color-primary-100)] rounded-lg")}
                     />
                     <Button
-                      width={40}
-                      height={40}
-                      iconClassName="text-sm font-bold text-[var(--color-error)]"
+                      width={28}
+                      height={28}
+                      iconClassName="text-[12px] font-bold text-[var(--color-error)]"
                       icon={<LuTrash2 />}
                       onClick={() => {
                         setEditingCategoryId(category.id);
                         modal.delete.toggleActive();
                       }}
+                      className={cx("bg-[var(--color-error-100)] rounded-lg")}
                     />
                   </div>
                 </div>
@@ -112,27 +109,37 @@ function Category({ onClose }) {
       {/* Footer */}
       <div
         className={cx(
-          "sticky bottom-0 bg-white border-t border-gray-200 p-6",
+          "sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4",
           "flex gap-3 items-center justify-between",
         )}
       >
-        <Item children={`Tổng cộng ${MOCK_NEWS_CATEGORIES.length} danh mục`} itemClassName={cx("text-sm")} />
+        <Item
+          children={`Tổng cộng ${MOCK_NEWS_CATEGORIES.length - 1} danh mục`}
+          itemClassName={cx("text-[12px] text-[var(--color-unavailable-700)] font-bold")}
+        />
         <div className="flex gap-2">
           <Button
+            width={"auto"}
+            height={"auto"}
             children={"Huỷ"}
             onClick={onClose}
             className={cx(
-              "p-2 bg-[var(--color-unavailable-100)]",
-              "text-sm font-semibold",
+              "px-[18px] py-[9px] bg-[var(--color-unavailable-100)]",
+              "text-[12.5px] font-bold rounded-xl text-[var(--color-unavailable-700)]",
               "hover:bg-[var(--color-unavailable-300)]",
             )}
           />
           <Button
             width={"auto"}
+            height={"auto"}
             icon={<LuPlus />}
             children={"Thêm danh mục mới"}
             onClick={modal.cateForm.toggleActive}
-            className={cx("p-2 bg-[var(--color-primary)] gap-2", "text-sm font-semibold text-white")}
+            iconClassName={cx("text-[13px]")}
+            className={cx(
+              "px-[18px] py-[9px] bg-linear-[var(--color-ln-primary)] gap-2",
+              "text-[12.5px] font-bold text-white rounded-xl",
+            )}
           />
         </div>
       </div>

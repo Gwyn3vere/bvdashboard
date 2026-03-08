@@ -92,10 +92,10 @@ export const INITAL_NEWS = {
   shortDesc: "",
   content: "",
   categoryId: "",
-  tags: ["sức khoẻ", "y tế"],
+  tags: [],
   metaTitle: "",
   metaDesc: "",
-  status: "DRAFT",
+  status: "",
   thumbnail: null,
   view: 0,
 };

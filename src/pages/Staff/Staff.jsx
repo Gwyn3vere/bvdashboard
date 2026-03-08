@@ -44,7 +44,7 @@ function Staff() {
     return searchedStaff;
   }, [searchedStaff, activeTab]);
 
-  const isEmptyData = staffs.length === 0;
+  const isEmptyData = tabbedStaff.length === 0;
   const isEmptySearch = staffs.length > 0 && searchedStaff.length === 0;
 
   const modal = {

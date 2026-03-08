@@ -52,13 +52,13 @@ function TagInput({
     <div className={className}>
       {label && <label className={cx(labelClassName)}>{label}</label>}
       <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
-        <div className="flex flex-wrap">
+        <div className="flex items-center flex-wrap">
           {tags.map((tag) => (
             <span
               key={tag}
               className={cx(
-                "h-auto m-1",
-                "flex items-center gap-1 rounded-md bg-linear-[var(--color-ln-primary)] p-1 text-[13px] text-white",
+                "h-6 m-1 font-bold text-[var(--color-primary-900)]",
+                "flex items-center gap-1 rounded-full px-2 bg-[var(--color-primary)]/20 text-[11.5px] ",
               )}
             >
               {tag}
@@ -67,7 +67,7 @@ function TagInput({
                 height={10}
                 icon={<LuX />}
                 onClick={() => removeTag(tag)}
-                className="text-white hover:text-red-500"
+                className="text-[var(--color-primary-900)] hover:text-red-500"
               />
             </span>
           ))}
