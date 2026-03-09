@@ -8,7 +8,7 @@ import { LuEye, LuFile, LuPlus, LuSend, LuX } from "react-icons/lu";
 import { NEWS_STATUS_PUBLISH } from "../../constants/menu";
 import { INITAL_NEWS } from "../../constants/field";
 import { NEWS_STATUS_ROLE, STAFF_ROLE } from "../../constants/role";
-import { Preview, SubmitOverlay } from "./index";
+import { Preview, SubmitOverlay, Category } from "./index";
 import { useAuthStore } from "../../store/authStore";
 import { useNewsStore } from "../../store/newsStore";
 import { useCategoryStore } from "../../store/categoryStore";
@@ -28,8 +28,17 @@ function Post() {
   const { getNewsById, createNews, updateNews } = useNewsStore();
 
   const news = id ? getNewsById(id) : null;
-
-  const previewModal = useActive();
+  const modal = {
+    preview: useActive(),
+    category: useActive(),
+  };
+  const handleClose = () => {
+    if (modal.category.isActive) {
+      modal.category.deactivate();
+    } else {
+      modal.preview.deactivate();
+    }
+  };
   const { values, setValues, setFieldValue, resetForm } = useForm({
     initialValues: {
       ...INITAL_NEWS,
@@ -106,15 +115,23 @@ function Post() {
             setValue={setValues}
             setFieldValue={setFieldValue}
             user={user}
-            togglePreview={previewModal.toggleActive}
+            modal={modal}
             leadCount={values?.shortDesc.length}
             count={count}
             onSubmit={handleSubmit}
           />
         </Form>
       </div>
-      <Modal open={previewModal.isActive} onClose={previewModal.deactivate} width={"max-w-5xl"}>
-        <Preview onClose={previewModal.deactivate} previewData={values} previewThumbnail={preview} user={user} />
+      <Modal
+        open={modal.preview.isActive}
+        onClose={handleClose}
+        width={"max-w-3xl"}
+        className={cx("bg-[var(--color-bg-light-primary-200)]")}
+      >
+        <Preview onClose={handleClose} previewData={values} previewThumbnail={preview} user={user} />
+      </Modal>
+      <Modal open={modal?.category?.isActive} onClose={handleClose} width="max-w-2xl">
+        <Category onClose={handleClose} />
       </Modal>
     </>
   );
@@ -156,142 +173,144 @@ function Content({ value, setFieldValue, preview, setPreview, count }) {
     }
   };
   return (
-    <div className={cx("bg-white rounded-2xl max-w-[760px] mx-auto mb-20")} style={{ boxShadow: "var(--shadow)" }}>
-      <div className={cx("p-6 border-b border-gray-200")}>
-        <Item
-          children="Ảnh đại diện"
-          itemClassName={cx("text-[11px] mb-[10px] uppercase font-bold", "text-[var(--color-unavailable-700)]")}
-        />
-        {!displayImage && (
-          <div
-            onClick={handleSelectImage}
-            className={cx(
-              "rounded-2xl border-2 border-dashed border-[var(--color-primary-200)]",
-              "p-15 text-center cursor-pointer transition-all bg-[var(--color-unavailable-100)]/40",
-              "hover:border-[var(--color-primary)]",
-            )}
-          >
-            <Item children="🖼️" itemClassName={cx("text-[48px] mb-[16px] opacity-[0.3]")} />
-            <Item
-              children="Kéo thả ảnh vào đây hoặc click để chọn"
-              itemClassName={cx("text-[14px] mb-[8px] text-[var(--color-unavailable-900)]")}
-            />
-            <Item
-              children="PNG, JPG, GIF tối đa 5MB"
-              itemClassName={cx("text-[12px] text-[var(--color-unavailable-700)]")}
-            />
-          </div>
-        )}
-
-        <input ref={inputRef} type="file" accept="image/*" hidden onChange={handleChangeImage} />
-
-        {displayImage && (
-          <div className="relative mt-4 rounded-[12px] overflow-hidden">
-            <img src={displayImage} alt="Preview" className="w-full h-auto block" />
-            <Button
-              width="40px"
-              height="40px"
-              icon={<LuX />}
-              iconClassName={cx("text-white")}
-              className={cx("absolute top-[10px] right-[10px]", "p-4 bg-[var(--color-error)] rounded-xl")}
-              onClick={handleRemoveImage}
-            />
-          </div>
-        )}
-      </div>
-      <div className={cx("px-6 pt-6")}>
-        <Item
-          editable={true}
-          itemClassName={cx("text-2xl font-bold")}
-          className={cx("py-4")}
-          placeholder={"Tiêu đề bài viết..."}
-          name="title"
-          value={value?.title}
-          onEdit={(title) => setFieldValue("title", title)}
-        />
-
-        {count.titleCount > 0 && (
-          <div className={cx("flex items-center justify-between gap-1")}>
-            <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
-              <div
-                className={cx(
-                  "h-[2px]",
-                  count.titleCount < 20
-                    ? "bg-[var(--color-error)]"
-                    : count.titleCount > 80
-                      ? "bg-[var(--color-warning)]"
-                      : "bg-[var(--color-primary)]",
-                )}
-                style={{ width: `${count.titleWidth}%` }}
+    <div className={cx("flex justify-center flex-1")}>
+      <div className={cx("bg-white rounded-2xl max-w-[720px] mb-20")} style={{ boxShadow: "var(--shadow)" }}>
+        <div className={cx("p-6 border-b border-gray-200")}>
+          <Item
+            children="Ảnh đại diện"
+            itemClassName={cx("text-[11px] mb-[10px] uppercase font-bold", "text-[var(--color-unavailable-700)]")}
+          />
+          {!displayImage && (
+            <div
+              onClick={handleSelectImage}
+              className={cx(
+                "rounded-2xl border-2 border-dashed border-[var(--color-primary-200)]",
+                "p-15 text-center cursor-pointer transition-all bg-[var(--color-unavailable-100)]/40",
+                "hover:border-[var(--color-primary)]",
+              )}
+            >
+              <Item children="🖼️" itemClassName={cx("text-[48px] mb-[16px] opacity-[0.3]")} />
+              <Item
+                children="Kéo thả ảnh vào đây hoặc click để chọn"
+                itemClassName={cx("text-[14px] mb-[8px] text-[var(--color-unavailable-900)]")}
+              />
+              <Item
+                children="PNG, JPG, GIF tối đa 5MB"
+                itemClassName={cx("text-[12px] text-[var(--color-unavailable-700)]")}
               />
             </div>
+          )}
+
+          <input ref={inputRef} type="file" accept="image/*" hidden onChange={handleChangeImage} />
+
+          {displayImage && (
+            <div className="relative mt-4 rounded-[12px] overflow-hidden">
+              <img src={displayImage} alt="Preview" className="w-full h-auto block" />
+              <Button
+                width="40px"
+                height="40px"
+                icon={<LuX />}
+                iconClassName={cx("text-white")}
+                className={cx("absolute top-[10px] right-[10px]", "p-4 bg-[var(--color-error)] rounded-xl")}
+                onClick={handleRemoveImage}
+              />
+            </div>
+          )}
+        </div>
+        <div className={cx("px-6 pt-6")}>
+          <Item
+            editable={true}
+            itemClassName={cx("text-2xl font-bold")}
+            className={cx("py-4")}
+            placeholder={"Tiêu đề bài viết..."}
+            name="title"
+            value={value?.title}
+            onEdit={(title) => setFieldValue("title", title)}
+          />
+
+          {count.titleCount > 0 && (
+            <div className={cx("flex items-center justify-between gap-1")}>
+              <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
+                <div
+                  className={cx(
+                    "h-[2px]",
+                    count.titleCount < 20
+                      ? "bg-[var(--color-error)]"
+                      : count.titleCount > 80
+                        ? "bg-[var(--color-warning)]"
+                        : "bg-[var(--color-primary)]",
+                  )}
+                  style={{ width: `${count.titleWidth}%` }}
+                />
+              </div>
+              <Item
+                as="span"
+                children={`${count.titleCount}/80`}
+                itemClassName={cx(
+                  "text-[10.5px] text-nowrap font-bold",
+                  count.titleCount < 20
+                    ? "text-[var(--color-error)]"
+                    : count.titleCount > 80
+                      ? "text-[var(--color-warning)]"
+                      : "text-[var(--color-primary)]",
+                )}
+              />
+            </div>
+          )}
+        </div>
+        <div className={cx("p-6 border-b border-gray-200")}>
+          <TextArea
+            label="Mô tả ngắn"
+            labelClassName={cx("text-[11px] uppercase font-bold", "text-[var(--color-unavailable-700)]")}
+            placeholder="Nhập mô tả ngắn gọn về bài viết (hiển thị trong danh sách tin tức)..."
+            inputClassName={cx("rounded-xl mt-[10px]")}
+            name="shortDesc"
+            value={value?.shortDesc}
+            onChange={(val) => setFieldValue("shortDesc", val.target.value)}
+          />
+        </div>
+        <div className={cx("border-b border-gray-200")}>
+          <RichTextEditor content={value?.content} onChange={(html) => setFieldValue("content", html)} />
+        </div>
+        <div className={cx("px-6 py-4 ")}>
+          <div className={cx("flex items-center justify-between mb-1")}>
+            <Item
+              children={"Độ dài bài viết"}
+              itemClassName={cx("text-[11px] font-bold text-[var(--color-unavailable-700)]")}
+            />
             <Item
               as="span"
-              children={`${count.titleCount}/80`}
+              children={`${count.wordCount}/800 từ`}
               itemClassName={cx(
                 "text-[10.5px] text-nowrap font-bold",
-                count.titleCount < 20
-                  ? "text-[var(--color-error)]"
-                  : count.titleCount > 80
+                count.wordCount < 400
+                  ? "text-[var(--color-unavailable-700)]"
+                  : count.wordCount > 400 && count.wordCount < 800
                     ? "text-[var(--color-warning)]"
                     : "text-[var(--color-primary)]",
               )}
             />
           </div>
-        )}
-      </div>
-      <div className={cx("p-6 border-b border-gray-200")}>
-        <TextArea
-          label="Mô tả ngắn"
-          labelClassName={cx("text-[11px] uppercase font-bold", "text-[var(--color-unavailable-700)]")}
-          placeholder="Nhập mô tả ngắn gọn về bài viết (hiển thị trong danh sách tin tức)..."
-          inputClassName={cx("rounded-xl mt-[10px]")}
-          name="shortDesc"
-          value={value?.shortDesc}
-          onChange={(val) => setFieldValue("shortDesc", val.target.value)}
-        />
-      </div>
-      <div className={cx("border-b border-gray-200")}>
-        <RichTextEditor content={value?.content} onChange={(html) => setFieldValue("content", html)} />
-      </div>
-      <div className={cx("px-6 py-4 ")}>
-        <div className={cx("flex items-center justify-between mb-1")}>
-          <Item
-            children={"Độ dài bài viết"}
-            itemClassName={cx("text-[11px] font-bold text-[var(--color-unavailable-700)]")}
-          />
-          <Item
-            as="span"
-            children={`${count.wordCount}/800 từ`}
-            itemClassName={cx(
-              "text-[10.5px] text-nowrap font-bold",
-              count.wordCount < 400
-                ? "text-[var(--color-unavailable-700)]"
-                : count.wordCount > 400 && count.wordCount < 800
-                  ? "text-[var(--color-warning)]"
-                  : "text-[var(--color-primary)]",
-            )}
-          />
-        </div>
-        <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
-          <div
-            className={cx(
-              "h-[2px]",
-              count.wordCount < 400
-                ? "bg-[var(--color-unavailable-900)]"
-                : count.wordCount > 400 && count.wordCount < 800
-                  ? "bg-[var(--color-warning)]"
-                  : "bg-[var(--color-primary)]",
-            )}
-            style={{ width: `${count.wordWidth}%` }}
-          />
+          <div className={cx("w-full h-[2px] bg-[var(--color-unavailable)]", "flex-1")}>
+            <div
+              className={cx(
+                "h-[2px]",
+                count.wordCount < 400
+                  ? "bg-[var(--color-unavailable-900)]"
+                  : count.wordCount > 400 && count.wordCount < 800
+                    ? "bg-[var(--color-warning)]"
+                    : "bg-[var(--color-primary)]",
+              )}
+              style={{ width: `${count.wordWidth}%` }}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function Settings({ value, setFieldValue, user, togglePreview, leadCount, count, onSubmit }) {
+function Settings({ value, setFieldValue, user, modal, leadCount, count, onSubmit }) {
   const categories = useCategoryStore((c) => c.categories);
   const filteredCate = categories.filter((fc) => fc.id !== "uncategorized");
 
@@ -392,22 +411,27 @@ function Settings({ value, setFieldValue, user, togglePreview, leadCount, count,
             "text-[13.5px] font-bold gap-2  rounded-xl p-[11px]",
             "bg-[var(--color-unavailable-100)] text-[var(--color-unavailable-900)]",
           )}
-          onClick={togglePreview}
+          onClick={modal.preview.toggleActive}
         />
       </div>
       {/* Category */}
       <div className={cx("p-4 border-t border-[var(--color-unavailable-100)]")}>
         <div className={cx("flex items-center justify-between")}>
           <label className="font-bold text-[13px]">Danh mục</label>
-          <Button width={"auto"} height={"auto"} icon={<LuPlus />} iconClassName={cx("text-[13px]")} />
+          <Button
+            type="button"
+            width={"auto"}
+            height={"auto"}
+            icon={<LuPlus />}
+            iconClassName={cx("text-[13px]")}
+            onClick={modal.category.toggleActive}
+          />
         </div>
         <Select
           name="categoryId"
           data={filteredCate}
           value={value?.categoryId}
           onChange={(val) => setFieldValue("categoryId", val)}
-          // onBlur={() => handleBlur("department")}
-          // error={getFieldError("department")}
           placeholder="Chọn danh mục"
           required
           width={"100%"}

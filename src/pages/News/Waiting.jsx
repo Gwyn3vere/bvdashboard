@@ -19,10 +19,10 @@ function Waiting() {
     fetchNews();
   }, []);
   useEffect(() => {
-    if (news.length > 0 && !editingNewsId) {
-      setEditingNewsId(news[0].id);
+    if (fileredNews.length > 0 && !editingNewsId) {
+      setEditingNewsId(fileredNews[0].id);
     }
-  }, [news, editingNewsId, setEditingNewsId]);
+  }, [fileredNews, editingNewsId, setEditingNewsId]);
 
   return (
     <div className={cx(TWCSS.container, "h-full overflow-hidden")}>
@@ -40,8 +40,8 @@ export default Waiting;
 
 function Content({ news }) {
   return (
-    <div className={cx("overflow-y-auto h-full mx-auto", "hidden-scrollbar")}>
-      <div className={cx("rounded-2xl w-[760px]")} style={{ boxShadow: "var(--shadow)" }}>
+    <div className={cx("overflow-y-auto h-full w-full", "flex justify-center", "hidden-scrollbar")}>
+      <div className={cx("rounded-2xl")}>
         <Article newsId={news?.id} />
       </div>
     </div>
@@ -50,9 +50,9 @@ function Content({ news }) {
 
 function Menu({ news, setNewsId, editingNewsId }) {
   const statistic = [
-    { name: "Duyệt", background: "var(--color-primary)", color: "var(--color-primary-900)" },
-    { name: "Từ chối", background: "var(--color-error)", color: "var(--color-error-900)" },
-    { name: "Còn lại", background: "var(--color-warning)", color: "var(--color-warning-900)" },
+    { name: "Duyệt", background: "var(--color-primary)", color: "var(--color-primary-900)", total: 0 },
+    { name: "Từ chối", background: "var(--color-error)", color: "var(--color-error-900)", total: 0 },
+    { name: "Còn lại", background: "var(--color-warning)", color: "var(--color-warning-900)", total: news?.length },
   ];
 
   return (
@@ -60,7 +60,7 @@ function Menu({ news, setNewsId, editingNewsId }) {
       <div className={cx("px-4 pt-4 flex items-center justify-between")}>
         <Item as="strong" children={"Hàng chờ duyệt"} itemClassName={cx("text-[13px]")} />
         <Item
-          children={`5 bài`}
+          children={`${news?.length} bài`}
           itemClassName={cx("text-[11px] font-bold text-white")}
           className={cx("inline-block rounded-full", "px-2 py-[2px] bg-linear-[var(--color-ln-primary)]")}
         />
@@ -70,7 +70,7 @@ function Menu({ news, setNewsId, editingNewsId }) {
         {statistic.map((item, idx) => (
           <Item
             key={idx}
-            icon={"0"}
+            icon={item.total}
             children={item.name}
             iconClassName={cx("text-[18px] font-bold")}
             itemClassName={cx("text-[9.5px] font-medium")}

@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
-import { Breadcrumb, Item, ArticleContent, Image } from "../../components/ui";
+import { Breadcrumb, Item, ArticleContent, Image, Avatar } from "../../components/ui";
 import {
   LuLayoutDashboard,
   LuCalendar,
@@ -28,17 +28,17 @@ function Article({ newsId }) {
   const statusMeta = NEWS_STATUS[news?.status] || {};
 
   return (
-    <div className={cx(TWCSS.container)}>
-      <div className={cx("py-15 px-5 md:px-10 mx-auto max-w-[760px]")}>
+    <div className={cx(TWCSS.container, "w-full flex justify-center")}>
+      <div className={cx("w-[720px]")}>
         {/* Category */}
         <div className="inline-block">
           <Item
             icon={<LuCircleCheckBig />}
             children={news?.category?.name || "Tên danh mục"}
             className={cx(
-              "flex items-center gap-2 rounded-[8px]",
-              "text-sm font-semibold text-[var(--color-primary-900)]",
-              "bg-[var(--color-primary-100)] p-2 mb-5",
+              "flex items-center gap-2 rounded-full",
+              "text-[12px] font-bold text-[var(--color-primary-900)]",
+              "bg-[var(--color-primary-100)] px-3 py-1 mb-5",
               "border border-[var(--color-primary-200)]",
             )}
           />
@@ -46,45 +46,46 @@ function Article({ newsId }) {
         {/* Title */}
         <Item
           children={news?.title || "Tiêu đề bài viết"}
-          itemClassName={cx("text-[40px] font-black leading-[1.2] tracking-[-0.03em]")}
-          className={cx("mb-[24px]")}
+          itemClassName={cx("text-[36px] font-black leading-[1.2] tracking-[-0.03em]")}
+          className={cx("mb-[20px]")}
         />
         {/* Author - Daytime - view */}
         <div
           className={cx(
             "flex flex-col md:flex-row md:items-center gap-2",
-            "gap-5 text-[var(--color-unavailable-700)] py-4",
+            "gap-5 text-[var(--color-unavailable-700)] pb-5",
             "border-b border-gray-200",
             "transition-all mb-10",
           )}
         >
           {/* Author */}
-
-          <Item
-            icon={<LuUser />}
-            children={news?.author?.name || "Tên tác giả"}
-            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
-            className={cx("flex items-center gap-2")}
-          />
+          <div className="flex items-center gap-2">
+            <Avatar name={news?.author?.name} className="rounded-full" width={32} height={32} />
+            <Item
+              children={news?.author?.name || "Tên tác giả"}
+              itemClassName={cx("font-bold text-[13px] hover:text-[var(--color-text-light-primary)]")}
+              className={cx("flex items-center gap-2")}
+            />
+          </div>
 
           {/* Daytime */}
           <Item
             icon={<LuCalendar />}
             children={news?.createdAt ? formatDateVN(news?.createdAt) : "Ngày không xác định"}
-            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
+            itemClassName={cx("font-bold text-[12.5px] hover:text-[var(--color-text-light-primary)]")}
             className={cx("flex items-center gap-2")}
           />
           {/* View */}
           <Item
             icon={<LuEye />}
             children={`${news?.view} lượt xem`}
-            itemClassName={cx("font-semibold text-sm hover:text-[var(--color-text-light-primary)]")}
+            itemClassName={cx("font-bold text-[12.5px] hover:text-[var(--color-text-light-primary)]")}
             className={cx("flex items-center gap-2")}
           />
         </div>
-        <div className={cx("space-y-10 border-b border-gray-200 pb-10")}>
+        <div className={cx("space-y-7 border-b border-gray-200 pb-10")}>
           {/* Thumbnail */}
-          <div className={cx("rounded-[12px] overflow-hidden")}>
+          <div className={cx("rounded-2xl overflow-hidden")}>
             {news?.thumbnail ? (
               <Image src={news?.thumbnail} alt="Ảnh đại diện" />
             ) : (
@@ -103,29 +104,31 @@ function Article({ newsId }) {
           {/* Short Description */}
           <div
             className={cx(
-              "bg-[var(--color-primary-100)] p-6 rounded-[12px]",
+              "bg-[var(--color-primary-100)] px-5 py-4",
               "border-l-5 border-[var(--color-primary)]",
+              "rounded-r-xl",
             )}
           >
             <Item
               children={news?.shortDesc || "Chưa có mô tả ngắn gọn nào cho bài viết"}
-              itemClassName={cx("font-semibold text-[17px] text-[var(--color-unavailable-900)] leading-[1.7]")}
+              itemClassName={cx("font-semibold text-[15.5px] text-[var(--color-unavailable-900)] leading-[1.7]")}
             />
           </div>
           {/* Summary list */}
           <div
             className={cx(
-              "p-6 rounded-[12px] transition-all duration-300",
-              "border-2 border-[var(--color-primary-200)]",
+              "rounded-2xl transition-all duration-300",
+              "bg-white",
               "hover:border-[var(--color-primary)] ",
             )}
+            style={{ boxShadow: "var(--shadow)" }}
           >
             <Item
               icon={<LuFileText />}
-              children={"Tóm tắt nội dung"}
-              iconClassName={cx("text-[var(--color-primary)] text-xl")}
-              itemClassName={cx("text-sm font-bold")}
-              className={cx("flex items-end gap-3 mb-5")}
+              children={"Nội dung bài viết"}
+              iconClassName={cx("text-[var(--color-primary)] text-[13px]")}
+              itemClassName={cx("text-[11.5px] font-bold uppercase")}
+              className={cx("flex items-center gap-3 px-4 py-3", "border-b border-[var(--color-unavailable-100)]")}
             />
             <ul className={cx("summary-list")}>
               {tableOfContents.length > 0 ? (
@@ -139,37 +142,44 @@ function Article({ newsId }) {
           <ArticleContent html={news?.content || "Chưa có nội dung nào được viết"} />
         </div>
         {/* Tags */}
-        <div className={cx("flex flex-wrap items-center gap-2 py-10")}>
-          {news?.tags.length > 0 ? (
-            news?.tags.map((item, idx) => (
+        <div className="py-10">
+          <Item
+            children={"Từ khoá"}
+            itemClassName={cx("text-[11px] font-black uppercase ", "text-[var(--color-unavailable-700)]")}
+            className={cx("mb-[12px]")}
+          />
+          <div className={cx("flex flex-wrap items-center gap-2")}>
+            {news?.tags.length > 0 ? (
+              news?.tags.map((item, idx) => (
+                <Item
+                  key={idx}
+                  icon={<LuTag />}
+                  children={item}
+                  iconClassName={cx("font-bold text-white text-[12.5px]")}
+                  itemClassName={cx("font-bold text-white text-[12.5px]")}
+                  className={cx(
+                    "py-1 px-3 rounded-full bg-linear-[var(--color-ln-primary)]",
+                    "flex items-center gap-2 cursor-pointer",
+                    "trasition-all duration-300 ease-out",
+                    "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
+                  )}
+                />
+              ))
+            ) : (
               <Item
-                key={idx}
                 icon={<LuTag />}
-                children={item}
-                iconClassName={cx("font-semibold text-white text-sm")}
-                itemClassName={cx("font-semibold text-white text-sm")}
+                children={"Chưa có tags"}
+                iconClassName={cx("font-bold text-white text-[12.5px]")}
+                itemClassName={cx("font-bold text-white text-[12.5px]")}
                 className={cx(
-                  "py-1 px-3 rounded-full bg-[var(--color-primary)]",
+                  "py-1 px-3 rounded-full bg-linear-[var(--color-ln-primary)]",
                   "flex items-center gap-2 cursor-pointer",
                   "trasition-all duration-300 ease-out",
                   "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
                 )}
               />
-            ))
-          ) : (
-            <Item
-              icon={<LuTag />}
-              children={"Chưa có tags"}
-              iconClassName={cx("font-semibold text-white text-sm")}
-              itemClassName={cx("font-semibold text-white text-sm")}
-              className={cx(
-                "py-1 px-3 rounded-full bg-[var(--color-primary)]",
-                "flex items-center gap-2 cursor-pointer",
-                "trasition-all duration-300 ease-out",
-                "hover:-translate-y-1.5 hover:shadow-xl hover:scale-[1.02]",
-              )}
-            />
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
