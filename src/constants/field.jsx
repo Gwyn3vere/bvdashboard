@@ -119,4 +119,5 @@ export const INITAL_BANNER = {
   archive: 0,
   imageUrl: null,
   imageFile: null,
+  rejectReason: "",
 };

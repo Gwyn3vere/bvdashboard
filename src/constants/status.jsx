@@ -113,9 +113,9 @@ export const NEWS_STATUS = {
     label: "Bản nháp",
     color: "var(--color-secondary)",
   },
-  WAITING: {
+  PENDING: {
     label: "Chờ duyệt",
-    color: "var(--color-purple)",
+    color: "var(--color-warning)",
   },
   ARCHIVED: {
     label: "Lưu trữ",

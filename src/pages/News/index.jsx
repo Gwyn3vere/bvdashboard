@@ -3,7 +3,7 @@ export { default as Post } from "./Post";
 export { default as Preview } from "./Preview";
 export { default as Article } from "./Article";
 export { default as Skeleton } from "./Skeleton";
-export { default as Waiting } from "./Waiting";
+export { default as Pending } from "./Pending";
 export { default as MyPost } from "./MyPost";
 export { default as Category } from "./Category";
 export { default as CateForm } from "./CateForm";

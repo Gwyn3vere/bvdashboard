@@ -14,7 +14,7 @@ export const NEWS_STATUS_PUBLISH = [
   },
   {
     id: "waiting",
-    value: "WAITING",
+    value: "PENDING",
     name: "Chờ duyệt",
     title: "Gửi yêu cầu kiểm tra và xét duyệt",
   },

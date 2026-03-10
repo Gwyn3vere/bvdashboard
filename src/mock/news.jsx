@@ -310,7 +310,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Hướng Dẫn Chăm Sóc Răng Miệng Và Phòng Ngừa Sâu Răng",
     metaDesc:
       "Cách đánh răng đúng, sử dụng chỉ nha khoa và chế độ ăn uống để có hàm răng khỏe mạnh, phòng ngừa sâu răng hiệu quả.",
-    status: "WAITING",
+    status: "PENDING",
     thumbnail: "https://picsum.photos/seed/news004/800/450",
     view: 567,
     createdAt: "2026-02-05T13:20:00.000Z",
@@ -968,7 +968,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Chế Độ Ăn Địa Trung Hải - Bí Quyết Sống Thọ Và Khỏe Mạnh",
     metaDesc:
       "Hướng dẫn chi tiết về chế độ ăn Địa Trung Hải, lợi ích sức khỏe, thực đơn mẫu và cách thực hành tại Việt Nam.",
-    status: "WAITING",
+    status: "PENDING",
     thumbnail: "https://picsum.photos/seed/news009/800/450",
     view: 412,
     createdAt: "2026-02-07T16:10:00.000Z",

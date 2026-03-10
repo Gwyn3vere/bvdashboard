@@ -47,7 +47,7 @@ function News() {
   const tabbedNews = useMemo(() => {
     if (activeTab === "ALL") return searchedNews;
     if (activeTab === "PUBLISHED") return searchedNews.filter((n) => n.status === "PUBLISHED");
-    if (activeTab === "WAITING") return searchedNews.filter((n) => n.status === "WAITING");
+    if (activeTab === "PENDING") return searchedNews.filter((n) => n.status === "PENDING");
     if (activeTab === "ARCHIVED") return searchedNews.filter((n) => n.status === "ARCHIVED");
     return searchedNews;
   }, [searchedNews, activeTab]);
@@ -207,7 +207,7 @@ function NewsList({ news, loading, isEmptyData, isEmptySearch }) {
   );
 
   return (
-    <div className={cx("px-6 pt-4")}>
+    <div className={cx("px-6 py-4")}>
       <div>
         {isEmptyData ? (
           <EmptyState
@@ -319,7 +319,7 @@ function NewsList({ news, loading, isEmptyData, isEmptySearch }) {
           </div>
         )}
       </div>
-      {!loading && pagedData.length > 0 && (
+      {!loading && totalPages > 1 && (
         <Pagination
           pages={pages}
           currentPage={currentPage}

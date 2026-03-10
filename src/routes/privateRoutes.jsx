@@ -4,7 +4,7 @@ import { Dashboard } from "../pages/Dashboard";
 import { Appointment } from "../pages/Appointment";
 import { Staff } from "../pages/Staff";
 import { Doctor, Calendar } from "../pages/Doctor";
-import { News, Post, Article, Waiting, MyPost } from "../pages/News";
+import { News, Post, Article, Pending, MyPost } from "../pages/News";
 import { Banner } from "../pages/Banner";
 import { Medical } from "../pages/Medical";
 
@@ -55,7 +55,7 @@ const privateRoutes = [
   },
   {
     path: "/quan-ly-tin-tuc/duyet-bai",
-    component: Waiting,
+    component: Pending,
     layout: dashboardLayout,
     role: ["admin", "user"],
     breadcrumb: [
