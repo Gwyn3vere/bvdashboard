@@ -29,7 +29,7 @@ function Article({ newsId }) {
 
   return (
     <div className={cx(TWCSS.container, "w-full flex justify-center")}>
-      <div className={cx("w-[720px]")}>
+      <div className={cx("max-w-[720px]")}>
         {/* Category */}
         <div className="inline-block">
           <Item

@@ -2,15 +2,17 @@ import React, { useEffect, useMemo } from "react";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
 import { TWCSS } from "../../styles/defineTailwindcss";
-import { Button, Image, Item } from "../../components/ui";
+import { Button, Image, Item, Modal } from "../../components/ui";
 import { useNewsStore } from "../../store/newsStore";
-import { LuChevronRight } from "react-icons/lu";
-import { Article } from "./index";
+import { LuCheck, LuChevronLeft, LuChevronRight, LuX } from "react-icons/lu";
+import { Article, Reject } from "./index";
 import { NEWS_STATUS } from "../../constants/status";
+import { useActive } from "../../components/hooks";
 
 const cx = classNames.bind(styles);
 
 function Waiting() {
+  const reject = useActive();
   const { news, fetchNews, setEditingNewsId, getNewsById, editingNewsId } = useNewsStore();
 
   const detailNews = useMemo(() => {
@@ -20,7 +22,6 @@ function Waiting() {
   const filteredNews = useMemo(() => {
     return news.filter((n) => n.status !== "DRAFT" && n.status !== "ARCHIVED");
   }, [news]);
-
   const { groupNews, totalNews } = useMemo(() => {
     const result = {
       groupNews: { processing: [], processed: [] },
@@ -32,7 +33,9 @@ function Waiting() {
 
       if (n.status === "PENDING") {
         result.groupNews.processing.push(n);
-      } else {
+      }
+
+      if (n.status === "PUBLISHED" || n.status === "REJECTED") {
         result.groupNews.processed.push(n);
       }
     }
@@ -50,29 +53,100 @@ function Waiting() {
   }, [groupNews, editingNewsId, setEditingNewsId]);
 
   return (
-    <div className={cx(TWCSS.container, "h-full overflow-hidden")}>
-      <div className={cx("flex h-full")}>
-        <Content news={detailNews} />
-        <div className={cx("h-full")}>
-          <Menu
-            setNewsId={setEditingNewsId}
-            editingNewsId={editingNewsId}
-            totalNews={totalNews}
-            groupNews={groupNews}
-          />
+    <>
+      <div className={cx(TWCSS.container, "h-full lg:overflow-hidden")}>
+        <div className={cx("lg:flex h-full")}>
+          <Content news={detailNews} onReject={reject.toggleActive} />
+          <div className={cx("hidden xl:block h-full")}>
+            <Menu
+              setNewsId={setEditingNewsId}
+              editingNewsId={editingNewsId}
+              totalNews={totalNews}
+              groupNews={groupNews}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <Modal open={reject.isActive} onClose={reject.deactivate} width="max-w-md">
+        <Reject news={detailNews} onClose={reject.deactivate} />
+      </Modal>
+    </>
   );
 }
 
 export default Waiting;
 
-function Content({ news }) {
+function Content({ news, onReject }) {
   return (
     <div className={cx("overflow-y-auto h-full w-full", "flex justify-center", "hidden-scrollbar")}>
       <div className={cx("fadeUp", "rounded-2xl")}>
         <Article newsId={news?.id} />
+        <div
+          className={cx(
+            "flex flex-col lg:flex-row items-center justify-between gap-2",
+            "bg-white w-full p-3 rounded-xl",
+            "sticky bottom-1",
+          )}
+          style={{ boxShadow: "var(--shadow)" }}
+        >
+          <div className={cx("lg:w-[500px]")}>
+            <Item
+              as="span"
+              children={"Đang xem xét"}
+              itemClassName={cx("text-[11px] text-[var(--color-unavailable-700)]")}
+            />
+            <Item as="span" children={news?.title} itemClassName={cx("text-[13px] font-bold line-clamp-1")} />
+          </div>
+          <div className={cx("flex items-center gap-1")}>
+            <Button
+              type="button"
+              width={36}
+              height={36}
+              icon={<LuChevronLeft />}
+              className={cx(
+                "bg-[var(--color-unavailable-100)] rounded-xl",
+                "transition-all hover:bg-[var(--color-unavailable-300)]",
+              )}
+            />
+            <Button
+              type="button"
+              width={36}
+              height={36}
+              icon={<LuChevronRight />}
+              className={cx(
+                "bg-[var(--color-unavailable-100)] rounded-xl",
+                "transition-all hover:bg-[var(--color-unavailable-300)]",
+              )}
+            />
+          </div>
+          <div className={cx("flex items-center gap-1")}>
+            <Button
+              type="button"
+              width={"auto"}
+              height={36}
+              icon={<LuX />}
+              children={"Từ chối"}
+              btnClassName={cx("text-[13px] font-bold")}
+              className={cx(
+                "border border-[var(--color-error)] rounded-xl px-5 gap-1 truncate",
+                "text-[var(--color-error)] hover:shadow-[var(--shadow-error)]",
+              )}
+              onClick={onReject}
+            />
+            <Button
+              type="button"
+              width={"auto"}
+              height={36}
+              icon={<LuCheck />}
+              children={"Phê duyệt & xuất bản"}
+              btnClassName={cx("text-[13px] font-bold")}
+              className={cx(
+                "bg-linear-[var(--color-ln-primary)] rounded-xl px-5 gap-1",
+                "text-white hover:shadow-[var(--shadow-focus)] truncate",
+              )}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -92,8 +166,13 @@ const Card = React.memo(function Card({ news, editingNewsId, setNewsId }) {
         editingNewsId === news?.id
           ? "bg-[var(--color-primary-100)] border-[var(--color-primary)]"
           : "border-transparent",
+        news?.status !== "PENDING" && "opacity-60",
       )}
-      onClick={() => setNewsId(news?.id)}
+      onClick={() => {
+        if (news?.status === "PENDING") {
+          setNewsId(news?.id);
+        }
+      }}
     >
       <div className={cx("h-[40px] w-[40px]")}>
         <Image
@@ -149,7 +228,7 @@ function Menu({ setNewsId, editingNewsId, totalNews, groupNews }) {
       total: totalNews?.PENDING ?? 0,
     },
   ];
-
+  const processedSorted = [...groupNews.processed].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
   return (
     <div
       className={cx("bg-white rounded-2xl flex flex-col h-full w-[300px] min-w-[260px]")}
@@ -198,10 +277,10 @@ function Menu({ setNewsId, editingNewsId, totalNews, groupNews }) {
         className={cx("px-4 py-2")}
       />
       <div className={cx("flex flex-col")}>
-        {groupNews.processed.length !== 0 &&
-          groupNews.processed.map((news) => (
-            <Card key={news.id} news={news} editingNewsId={editingNewsId} setNewsId={setNewsId} />
-          ))}
+        {processedSorted.length !== 0 &&
+          processedSorted
+            .slice(0, 6)
+            .map((news) => <Card key={news.id} news={news} editingNewsId={editingNewsId} setNewsId={setNewsId} />)}
       </div>
     </div>
   );

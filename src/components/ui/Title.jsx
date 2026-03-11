@@ -6,9 +6,9 @@ import { Item, Button } from "../ui";
 
 const cx = classNames.bind(style);
 
-function TitleForm({ onClose, title, subTitle }) {
+function TitleForm({ onClose, title, subTitle, className = "bg-linear-[var(--color-ln-primary)]" }) {
   return (
-    <div className={cx("sticky top-0 bg-linear-[var(--color-ln-primary)]", "px-7 py-5 flex items-center justify-between z-50")}>
+    <div className={cx("sticky top-0", "px-7 py-5 flex items-center justify-between z-50", className)}>
       <div className="text-white">
         <Item as="span" children={title} className="text-[17px] font-bold" />
         <Item as="div" children={subTitle} className="text-[11.5px] text-white/70" />

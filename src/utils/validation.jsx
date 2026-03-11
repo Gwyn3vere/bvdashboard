@@ -54,7 +54,14 @@ export const validateExpertise = (expertise) => {
   const errors = {};
 
   if (!expertise.id?.trim()) errors.id = "Mã ID không được để trống";
-  if (!expertise.value) errors.value = "Vlue không được để trống";
+  if (!expertise.value) errors.value = "Value không được để trống";
   if (!expertise.name) errors.name = "Tên khối không được để trống";
+  return errors;
+};
+
+export const validateNewsReject = (news) => {
+  const errors = {};
+
+  if (!news.rejectReason) errors.rejectReason = "Vui lòng thêm lý to từ chối bài viết";
   return errors;
 };
