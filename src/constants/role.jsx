@@ -13,5 +13,5 @@ export const STAFF_ROLE = {
 
 export const NEWS_STATUS_ROLE = {
   ADMIN: ["PUBLISHED", "DRAFT"],
-  MEMBER: ["WAITING", "DRAFT"],
+  MEMBER: ["PENDING", "DRAFT"],
 };

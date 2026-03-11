@@ -310,7 +310,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Hướng Dẫn Chăm Sóc Răng Miệng Và Phòng Ngừa Sâu Răng",
     metaDesc:
       "Cách đánh răng đúng, sử dụng chỉ nha khoa và chế độ ăn uống để có hàm răng khỏe mạnh, phòng ngừa sâu răng hiệu quả.",
-    status: "WAITING",
+    status: "PENDING",
     thumbnail: "https://picsum.photos/seed/news004/800/450",
     view: 567,
     createdAt: "2026-02-05T13:20:00.000Z",
@@ -968,7 +968,7 @@ export const MOCK_NEWS_LIST = [
     metaTitle: "Chế Độ Ăn Địa Trung Hải - Bí Quyết Sống Thọ Và Khỏe Mạnh",
     metaDesc:
       "Hướng dẫn chi tiết về chế độ ăn Địa Trung Hải, lợi ích sức khỏe, thực đơn mẫu và cách thực hành tại Việt Nam.",
-    status: "WAITING",
+    status: "PENDING",
     thumbnail: "https://picsum.photos/seed/news009/800/450",
     view: 412,
     createdAt: "2026-02-07T16:10:00.000Z",
@@ -1182,6 +1182,7 @@ export const MOCK_NEWS_LIST = [
 export const MOCK_NEWS_CATEGORIES = [
   {
     id: "ttsk",
+    value: "ttsk",
     name: "Tin tức sức khoẻ",
     totalNews: 42,
     icon: "Heart",
@@ -1189,6 +1190,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "pcd",
+    value: "pcd",
     name: "Phòng chống dịch",
     totalNews: 28,
     icon: "Syringe",
@@ -1196,6 +1198,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "cssk",
+    value: "cssk",
     name: "Chăm sóc sức khoẻ",
     totalNews: 35,
     icon: "Stethoscope",
@@ -1203,6 +1206,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "ytcd",
+    value: "ytcd",
     name: "Y tế cộng đồng",
     totalNews: 19,
     icon: "Leaf",
@@ -1210,6 +1214,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "dd",
+    value: "dd",
     name: "Dinh dưỡng",
     totalNews: 24,
     icon: "ToyBrick",
@@ -1217,6 +1222,7 @@ export const MOCK_NEWS_CATEGORIES = [
   },
   {
     id: "uncategorized",
+    value: "uncategorized",
     name: "Không xác định",
     totalNews: 0,
     icon: "Bug",

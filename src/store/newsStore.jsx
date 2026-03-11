@@ -18,18 +18,29 @@ export const useNewsStore = create((set, get) => ({
 
   setEditingNewsId: (id) => set({ editingNewsId: id }),
 
+  createNews: (newNews) => {
+    const id = crypto.randomUUID();
+    const created = normalizeNews({
+      ...newNews,
+      id,
+      createdAt: new Date().toISOString(),
+    });
+
+    set((state) => ({
+      news: [created, ...state.news],
+    }));
+
+    return created;
+  },
+
   updateNews: (updatedNews) =>
     set((state) => ({
-      news: state.news.map((s) =>
-        s.id === updatedNews.id ? normalizeNews({ ...s, ...updatedNews }) : s,
-      ),
+      news: state.news.map((s) => (s.id === updatedNews.id ? normalizeNews({ ...s, ...updatedNews }) : s)),
     })),
 
   updateCategoryForNews: (oldId, newId) =>
     set((state) => ({
-      news: state.news.map((n) =>
-        n.categoryId === oldId ? { ...n, categoryId: newId } : n,
-      ),
+      news: state.news.map((n) => (n.categoryId === oldId ? { ...n, categoryId: newId } : n)),
     })),
 
   deleteNews: (id) =>

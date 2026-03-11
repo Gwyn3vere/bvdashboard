@@ -263,7 +263,7 @@ const MenuBar = ({ editor }) => {
     <div
       className={cx(
         "p-6 flex items-center flex-wrap gap-1",
-        "bg-[var(--color-unavailable-100)] border-b border-gray-200",
+        "bg-[var(--color-unavailable-100)]/40 border-b border-gray-200",
       )}
     >
       {/* Undo/Redo */}

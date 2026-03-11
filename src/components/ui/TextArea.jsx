@@ -34,6 +34,7 @@ function TextArea({
           {...props}
         />
       </div>
+      {error && <label className={cx("font-medium text-[11px] text-[var(--color-error)]")}>{error}</label>}
     </div>
   );
 }

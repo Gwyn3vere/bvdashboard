@@ -630,7 +630,7 @@ export const NEWS_STATUS_OPTION = [
     dot: "--color-secondary",
     activeGrd: "var(--color-grd-secondary)",
   },
-  { value: "WAITING", name: "Chờ duyệt", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
+  { value: "PENDING", name: "Chờ duyệt", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
   { value: "ARCHIVED", name: "Lưu trữ", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
 ];
 

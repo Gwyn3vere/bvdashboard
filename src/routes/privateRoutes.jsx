@@ -4,7 +4,7 @@ import { Dashboard } from "../pages/Dashboard";
 import { Appointment } from "../pages/Appointment";
 import { Staff } from "../pages/Staff";
 import { Doctor, Calendar } from "../pages/Doctor";
-import { News, Post, Article, Waiting, MyPost } from "../pages/News";
+import { News, Post, Article, Pending, MyPost } from "../pages/News";
 import { Banner } from "../pages/Banner";
 import { Medical } from "../pages/Medical";
 
@@ -26,20 +26,14 @@ const privateRoutes = [
     component: Staff,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý nhân sự" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý nhân sự" }],
   },
   {
     path: "/quan-ly-bac-si",
     component: Doctor,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý bác sĩ" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý bác sĩ" }],
   },
   {
     path: "/quan-ly-bac-si/lich-lam-viec",
@@ -57,14 +51,11 @@ const privateRoutes = [
     component: News,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý tin tức" }],
   },
   {
     path: "/quan-ly-tin-tuc/duyet-bai",
-    component: Waiting,
+    component: Pending,
     layout: dashboardLayout,
     role: ["admin", "user"],
     breadcrumb: [
@@ -122,20 +113,14 @@ const privateRoutes = [
     component: Banner,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý banner" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý banner" }],
   },
   {
     path: "/quan-ly-chuyen-mon",
     component: Medical,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý chuyên môn" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý chuyên môn" }],
   },
 ];
 

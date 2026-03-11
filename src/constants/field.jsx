@@ -102,6 +102,7 @@ export const INITAL_NEWS = {
 
 export const INITAL_NEWS_CATEGORY = {
   id: "",
+  value: "",
   name: "",
   icon: "",
   color: "",
@@ -118,4 +119,5 @@ export const INITAL_BANNER = {
   archive: 0,
   imageUrl: null,
   imageFile: null,
+  rejectReason: "",
 };

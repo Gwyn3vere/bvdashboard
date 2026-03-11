@@ -17,6 +17,7 @@ function Input({
   labelClassName = "",
   icon,
   className,
+  iconClassName = "",
   inputClassName = "",
   error,
   style = {},
@@ -28,7 +29,7 @@ function Input({
     <div className={className}>
       {label && <label className={cx(labelClassName)}>{label}</label>}
       <div className={cx(TWCSS.input, error && TWCSS.inputError, inputClassName)}>
-        <span>{icon}</span>
+        <span className={cx(iconClassName)}>{icon}</span>
         <input
           type={isPassword ? (showPassword ? "text" : "password") : type}
           className={cx("outline-none px-3.5 py-2.5 text-[13px]")}

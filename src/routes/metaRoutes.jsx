@@ -3,22 +3,13 @@ const metaRoutes = {
     breadcrumb: [{ label: "Bảng điều khiển" }],
   },
   "/quan-ly-lich-hen": {
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý lịch hẹn" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý lịch hẹn" }],
   },
   "/quan-ly-nhan-su": {
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý nhân sự" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý nhân sự" }],
   },
   "/quan-ly-bac-si": {
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý bác sĩ" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý bác sĩ" }],
   },
   "/quan-ly-bac-si/lich-lam-viec": {
     breadcrumb: [
@@ -28,10 +19,7 @@ const metaRoutes = {
     ],
   },
   "/quan-ly-tin-tuc": {
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý tin tức" }],
   },
   "/quan-ly-tin-tuc/duyet-bai": {
     breadcrumb: [
@@ -54,13 +42,6 @@ const metaRoutes = {
       { label: "Cập nhật bài viết" },
     ],
   },
-  "/quan-ly-tin-tuc/:id": {
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-      { label: "Chi tiết bài viết" },
-    ],
-  },
   "/quan-ly-tin-tuc/bai-viet-cua-toi": {
     breadcrumb: [
       { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
@@ -68,17 +49,18 @@ const metaRoutes = {
       { label: "Bài viết của tôi" },
     ],
   },
-  "/quan-ly-banner": {
+  "/quan-ly-tin-tuc/:id": {
     breadcrumb: [
       { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý banner" },
+      { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
+      { label: "Chi tiết bài viết" },
     ],
   },
+  "/quan-ly-banner": {
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý banner" }],
+  },
   "/quan-ly-chuyen-mon": {
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý chuyên môn" },
-    ],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý chuyên môn" }],
   },
 };
 
