@@ -1,4 +1,16 @@
-import { LuUser, LuSettings, LuLogOut, LuHeading1, LuHeading2, LuHeading3, LuHeading4 } from "react-icons/lu";
+import {
+  LuUser,
+  LuSettings,
+  LuLogOut,
+  LuHeading1,
+  LuHeading2,
+  LuHeading3,
+  LuHeading4,
+  LuAlignLeft,
+  LuAlignCenter,
+  LuAlignRight,
+  LuAlignJustify,
+} from "react-icons/lu";
 
 export const NAV_MENU = [
   { id: "account", icon: <LuUser />, value: "ACCOUNT", name: "Tài khoản" },
@@ -75,6 +87,13 @@ export const RICH_TEXT_COLORS = [
   "#D946EF",
   "#EC4899",
   "#F43F5E",
+];
+
+export const RICH_TEXT_ALIGNMENT = [
+  { align: "left", icon: <LuAlignLeft />, title: "Align Left" },
+  { align: "center", icon: <LuAlignCenter />, title: "Align Center" },
+  { align: "right", icon: <LuAlignRight />, title: "Align Right" },
+  { align: "justify", icon: <LuAlignJustify />, title: "Align Justify" },
 ];
 
 export const EXPERTISE_COLOR_SYSTEM = [
