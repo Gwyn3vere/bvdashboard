@@ -2,25 +2,16 @@ import { useEffect, useState, useMemo, useRef } from "react";
 import classNames from "classnames/bind";
 import style from "../../styles/pages.module.css";
 import { Link } from "react-router-dom";
-import { NEWS_STATUS_PUBLISH } from "../../constants/menu";
 import { NEWS_MY_POST_STATUS_OPTION } from "../../constants/option";
 import { NEWS_STATUS } from "../../constants/status";
-import { Breadcrumb, Item, Button, ActionBar, List, Tooltip, Modal } from "../../components/ui";
-import {
-  LuSlidersHorizontal,
-  LuLayoutDashboard,
-  LuPlus,
-  LuEllipsisVertical,
-  LuTrash2,
-  LuCircleCheckBig,
-  LuEye,
-  LuSquarePen,
-} from "react-icons/lu";
+import { Item, Button, ActionBar, List, Modal, Avatar } from "../../components/ui";
+import { LuPlus, LuTrash2, LuEye, LuSquarePen, LuFile, LuCheck, LuClock } from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { useNewsStore } from "../../store/newsStore";
 import { useAuthStore } from "../../store/authStore";
 import { useActive, useSearch } from "../../components/hooks";
-import { Article, Delete } from "./index";
+import { Article, Delete, Reason } from "./index";
+import { formatDateVN } from "../../utils/format";
 
 const cx = classNames.bind(style);
 
@@ -66,11 +57,13 @@ function MyPost() {
     preview: useActive(),
     delete: useActive(),
     filter: useActive,
+    reason: useActive(),
   };
 
   return (
     <>
-      <div className={cx(TWCSS.container)}>
+      <div className={cx(TWCSS.container, "flex flex-col gap-5")}>
+        <Overview data={tabbedNews} />
         <div className={cx("bg-white rounded-2xl")} style={{ boxShadow: "var(--shadow)" }}>
           <ActionBar
             name="tin tức"
@@ -101,32 +94,53 @@ function MyPost() {
             name="tin tức"
             className={cx(TWCSS.list)}
             columns={[
-              { key: "Index", label: "#", width: "10%", render: (row) => row.id },
+              {
+                key: "Index",
+                label: "#",
+                width: "3%",
+                render: (row, idx) => (
+                  <Item
+                    children={idx}
+                    itemClassName={cx("text-[12px] text-[var(--color-unavailable-700)]", "font-semibold")}
+                  />
+                ),
+              },
               {
                 key: "News",
                 label: "Tiêu đề",
-                width: "40%",
+                width: "48%",
                 render: (row) => (
                   <div className="">
-                    <Item as="strong" children={row?.title} itemClassName={cx("line-clamp-1")} />
-                    <Item as="span" children={`Tác giả: ${row?.author?.name}`} itemClassName={cx("text-sm")} />
+                    <Item as="strong" children={row?.title} itemClassName={cx("text-[13.5px] line-clamp-1")} />
+                    <div className={cx("flex items-center gap-[6px]")}>
+                      <Avatar name={row?.author?.name} width={16} height={16} className="rounded-full text-[6.5px]" />
+                      <Item
+                        as="span"
+                        children={row?.author?.name}
+                        itemClassName={cx("text-[11.5px] text-[var(--color-unavailable-700)] font-medium")}
+                      />
+                      <Item
+                        children={row?.createdAt ? formatDateVN(row?.createdAt) : "Ngày không xác định"}
+                        itemClassName={cx("text-[11px] text-[var(--color-unavailable-700)]")}
+                      />
+                    </div>
                   </div>
                 ),
               },
               {
                 key: "Category",
                 label: "Danh mục",
-                width: "16%",
+                width: "15%",
                 render: (row) => (
                   <div className="inline-block">
                     <Item
-                      icon={<LuCircleCheckBig />}
+                      icon={<div className={cx("w-2 h-2 rounded-full", "bg-[var(--color-primary-700)]")} />}
                       children={row?.category?.name}
                       itemClassName={cx("text-nowrap")}
                       className={cx(
-                        "flex items-center gap-2 rounded-[8px]",
-                        "text-xs font-semibold text-[var(--color-primary-900)]",
-                        "bg-[var(--color-primary-100)] p-2",
+                        "flex items-center gap-2 rounded-full",
+                        "text-[11px] font-bold text-[var(--color-primary-900)]",
+                        "bg-[var(--color-primary-100)] py-[4px] px-[10px]",
                         "border border-[var(--color-primary-200)]",
                       )}
                     />
@@ -141,17 +155,35 @@ function MyPost() {
                   const statusConfig = NEWS_STATUS[row?.status];
                   if (!statusConfig) return row?.status;
                   return (
-                    <div className="inline-block">
+                    <div className="flex items-center">
                       <Item
-                        icon={<LuCircleCheckBig />}
+                        icon={<div className={cx("w-2 h-2 rounded-full")} style={{ background: statusConfig.color }} />}
                         children={statusConfig?.label}
                         itemClassName={cx("text-nowrap")}
                         className={cx(
-                          "flex items-center gap-2 rounded-full p-2",
-                          `text-xs font-semibold text-[${statusConfig?.color}]`,
-                          `border border-[${statusConfig?.color}]  group-hover:text-white`,
+                          "flex items-center gap-2 rounded-full",
+                          "text-[11px] font-bold",
+                          "bg-[var(--color-primary-100)] py-[4px] px-[10px]",
+                          "border border-[var(--color-primary-200)]",
                         )}
+                        style={{
+                          color: statusConfig.color,
+                          background: `color-mix(in srgb, ${statusConfig.background} 10%, white)`,
+                          border: `1px solid color-mix(in srgb, ${statusConfig.background} 40%, white)`,
+                        }}
                       />
+                      {row?.status === "REJECTED" && (
+                        <Button
+                          type="button"
+                          children={"Xem lý do"}
+                          className={cx("text-[10.5px] underline font-bold")}
+                          style={{ color: statusConfig.color }}
+                          onClick={() => {
+                            setEditingNewsId(row.id);
+                            modal.reason.toggleActive();
+                          }}
+                        />
+                      )}
                     </div>
                   );
                 },
@@ -163,8 +195,9 @@ function MyPost() {
                 render: (row) => (
                   <Item
                     icon={<LuEye />}
-                    children={row?.view}
-                    itemClassName={cx("text-nowrap text-sm")}
+                    children={row?.view > 0 ? row?.view : "-"}
+                    iconClassName={cx("text-[13px] text-[var(--color-unavailable-700)]")}
+                    itemClassName={cx("text-nowrap text-[13px] font-bold")}
                     className={cx("flex items-center gap-2")}
                   />
                 ),
@@ -240,6 +273,9 @@ function MyPost() {
           />
         </div>
       </div>
+      <Modal open={modal.reason.isActive} onClose={modal.reason.deactivate} width={"max-w-md"}>
+        <Reason onClose={modal.reason.deactivate} id={editingNewsId} />
+      </Modal>
       <Modal open={modal.delete.isActive} onClose={modal.delete.deactivate} width={"max-w-md"}>
         <Delete onClose={modal.delete.deactivate} type="news" id={editingNewsId} />
       </Modal>
@@ -251,3 +287,58 @@ function MyPost() {
 }
 
 export default MyPost;
+
+function Overview({ data }) {
+  const statistic = data.reduce((acc, item) => {
+    acc[item.status] = (acc[item.status] || 0) + 1;
+
+    acc.totalViews = (acc.totalViews || 0) + item.view;
+
+    return acc;
+  }, {});
+
+  const cardMenu = [
+    { id: 1, icon: <LuFile />, title: "Tổng bài viết", total: data?.length ?? 0, color: "var(--color-grd-primary)" },
+    {
+      id: 2,
+      icon: <LuCheck />,
+      title: "Đã xuất bản",
+      total: statistic?.PUBLISHED ?? 0,
+      color: "var(--color-grd-secondary)",
+    },
+    {
+      id: 3,
+      icon: <LuEye />,
+      title: "Tổng lượt xem",
+      total: statistic?.totalViews ?? 0,
+      color: "var(--color-grd-purple)",
+    },
+    { id: 4, icon: <LuClock />, title: "Chờ duyệt", total: statistic?.PENDING ?? 0, color: "var(--color-grd-warning)" },
+  ];
+
+  return (
+    <div className={cx("flex gap-5")}>
+      {cardMenu.map((item) => (
+        <div
+          key={item.id}
+          className={cx("flex-1 flex items-center gap-5 bg-white rounded-2xl py-4 px-5")}
+          style={{ boxShadow: "var(--shadow)" }}
+        >
+          <Item
+            icon={item.icon}
+            iconClassName={cx("text-[19px] text-white")}
+            className={cx("w-[44px] h-[44px] rounded-xl", "flex items-center justify-center")}
+            style={{ background: item.color }}
+          />
+          <div>
+            <Item
+              children={item.title}
+              itemClassName={cx("text-[11px] text-[var(--color-unavailable-700)] font-bold")}
+            />
+            <Item children={item.total} itemClassName={cx("text-[22px] font-bold")} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

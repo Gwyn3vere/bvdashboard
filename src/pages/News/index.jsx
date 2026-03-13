@@ -10,3 +10,4 @@ export { default as CateForm } from "./CateForm";
 export { default as Delete } from "./Delete";
 export { default as SubmitOverlay } from "./SubmitOverlay";
 export { default as Reject } from "./Reject";
+export { default as Reason } from "./Reason";

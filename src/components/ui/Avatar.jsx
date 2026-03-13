@@ -4,7 +4,16 @@ import { getDoctorGradient } from "../../utils/color";
 
 const cx = classNames.bind(style);
 
-function Avatar({ name = "", children, src, width = 40, height = 40, className = "", style = {}, ...props }) {
+function Avatar({
+  name = "",
+  children,
+  src,
+  width = 40,
+  height = 40,
+  className = "text-[12.16px] ",
+  style = {},
+  ...props
+}) {
   const initials = name
     .trim()
     .split(" ")
@@ -29,7 +38,7 @@ function Avatar({ name = "", children, src, width = 40, height = 40, className =
           className={cx(
             "avatar",
             "flex items-center justify-center text-white font-black",
-            "text-[12.16px] leading-[-0.5px]",
+            "leading-[-0.5px]",
             className,
           )}
         >
