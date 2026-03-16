@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import style from "../../styles/ui.module.css";
 import { Button } from "../ui";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, useEditorState } from "@tiptap/react";
 import { Node, mergeAttributes } from "@tiptap/core";
 import { ReactNodeViewRenderer, NodeViewWrapper } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -16,7 +16,12 @@ import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
-import { RICH_TEXT_HIGHLIGHT_COLORS, RICH_TEXT_HEADINGS, RICH_TEXT_COLORS } from "../../constants/menu";
+import {
+  RICH_TEXT_HIGHLIGHT_COLORS,
+  RICH_TEXT_HEADINGS,
+  RICH_TEXT_COLORS,
+  RICH_TEXT_ALIGNMENT,
+} from "../../constants/menu";
 import {
   LuBold,
   LuItalic,
@@ -208,17 +213,35 @@ const ImageUploadExtension = Node.create({
   },
 });
 
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ editor, className }) => {
+  const [, setRefresh] = useState(0);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const update = () => setRefresh((v) => v + 1);
+
+    editor.on("selectionUpdate", update);
+    editor.on("transaction", update);
+
+    return () => {
+      editor.off("selectionUpdate", update);
+      editor.off("transaction", update);
+    };
+  }, [editor]);
+
   const modal = {
     highlighter: useActive(),
     heading: useActive(),
     color: useActive(),
+    align: useActive(),
   };
 
   const clickOutside = useClickOutsideManager();
   const highlightRef = useRef(null);
   const headingRef = useRef(null);
   const colorRef = useRef(null);
+  const alignRef = useRef(null);
 
   useEffect(() => {
     if (modal.highlighter.isActive) {
@@ -238,7 +261,13 @@ const MenuBar = ({ editor }) => {
     } else {
       clickOutside.unregister(colorRef);
     }
-  }, [modal.highlighter.isActive, modal.heading.isActive, modal.color.isActive]);
+
+    if (modal.align.isActive) {
+      clickOutside.register(alignRef, modal.align.deactivate);
+    } else {
+      clickOutside.unregister(alignRef);
+    }
+  }, [modal.highlighter.isActive, modal.heading.isActive, modal.color.isActive, modal.align.isActive]);
 
   if (!editor) return null;
 
@@ -256,14 +285,15 @@ const MenuBar = ({ editor }) => {
   const buttonClass = (isActive) =>
     cx(
       "p-2 rounded-[8px] hover:bg-gray-200 transition-colors",
-      isActive && "bg-[var(--color-primary-200)] text-[var(--color-primary-700)] ",
+      isActive && "bg-linear-[var(--color-ln-primary)] text-white ",
     );
 
   return (
     <div
       className={cx(
         "p-6 flex items-center flex-wrap gap-1",
-        "bg-[var(--color-unavailable-100)]/40 border-b border-gray-200",
+        "bg-[var(--color-unavailable-100)] border-b border-gray-200",
+        className,
       )}
     >
       {/* Undo/Redo */}
@@ -417,12 +447,10 @@ const MenuBar = ({ editor }) => {
               <button
                 type="button"
                 key={color}
-                onClick={() => {
-                  editor.chain().focus().setColor(color).run();
-                }}
+                onClick={() => editor.chain().focus().setColor(color).run()}
                 className={cx(
                   "w-5 h-5 rounded-full cursor-pointer",
-                  editor.isActive("textStyle", { color }) && "outline outline-2 outline-offset-2",
+                  editor.getAttributes("textStyle").color === color && "outline outline-2 outline-offset-2",
                 )}
                 style={{ backgroundColor: color, outlineColor: color }}
                 title={color}
@@ -524,43 +552,53 @@ const MenuBar = ({ editor }) => {
       <div className="w-px h-6 bg-gray-300 mx-1" />
 
       {/* Alignment */}
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign("left").run()}
-        className={buttonClass(editor.isActive({ textAlign: "left" }))}
-        title="Align Left"
-      >
-        <LuAlignLeft size={18} />
-      </button>
+      <div className="relative" ref={alignRef}>
+        <button
+          type="button"
+          onClick={modal.align.toggleActive}
+          className={buttonClass(editor.isActive("alignment"))}
+          title="Alignment"
+        >
+          <LuAlignJustify size={18} />
+          <LuChevronDown
+            className={cx(
+              "absolute bottom-1/2 translate-y-1/2 right-0 text-[8px]",
+              modal.align.isActive ? "rotate-180 transition-transform" : "transition-transform",
+            )}
+          />
+        </button>
 
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign("center").run()}
-        className={buttonClass(editor.isActive({ textAlign: "center" }))}
-        title="Align Center"
-      >
-        <LuAlignCenter size={18} />
-      </button>
-
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign("right").run()}
-        className={buttonClass(editor.isActive({ textAlign: "right" }))}
-        title="Align Right"
-      >
-        <LuAlignRight size={18} />
-      </button>
-
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign("justify").run()}
-        className={buttonClass(editor.isActive({ textAlign: "justify" }))}
-        title="Align Justify"
-      >
-        <LuAlignJustify size={18} />
-      </button>
-
-      <div className="w-px h-6 bg-gray-300 mx-1" />
+        {modal.align.isActive && (
+          <div
+            className={cx(
+              "absolute top-7 z-50",
+              "mt-2 p-3 bg-white border rounded-[18px] shadow flex flex-col items-center gap-3",
+              "border-[var(--color-unavailable-300)]",
+            )}
+          >
+            {RICH_TEXT_ALIGNMENT.map((item) => (
+              <Button
+                type="button"
+                width={36}
+                height={36}
+                key={item.align}
+                onClick={() => {
+                  editor.chain().focus().setTextAlign(item.align).run();
+                  modal.align.deactivate();
+                }}
+                className={cx(
+                  "text-sm rounded-[12px] cursor-pointer text-[var(--color-unavailable-900)]",
+                  "hover:bg-[var(--color-primary-100)] transition-all",
+                  "hover:text-black",
+                  editor.isActive("aligment", item.align) && "bg-[var(--color-primary-100)] text-black",
+                )}
+                btnClassName={cx("whitespace-nowrap")}
+                icon={item.icon}
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Media */}
       <button type="button" onClick={addImageUpload} className={buttonClass(false)} title="Insert Image">
@@ -580,8 +618,10 @@ function RichTextEditor({ content, onChange, placeholder = "Viết nội dung b�
       StarterKit,
       // Underline,
       TextStyle,
-      Color,
       ImageUploadExtension,
+      Color.configure({
+        types: ["textStyle"],
+      }),
       Highlight.configure({
         multicolor: true,
       }),
@@ -626,8 +666,8 @@ function RichTextEditor({ content, onChange, placeholder = "Viết nội dung b�
   }, [content, editor]);
 
   return (
-    <div className="overflow-hidden bg-white">
-      <MenuBar editor={editor} />
+    <div className="bg-white">
+      <MenuBar editor={editor} className={cx("sticky top-0 z-50")} />
       <EditorContent className="" editor={editor} />
     </div>
   );

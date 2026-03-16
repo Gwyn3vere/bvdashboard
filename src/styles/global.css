@@ -96,6 +96,10 @@ body {
   box-sizing: border-box;
 }
 
+.prose strong {
+  color: inherit;
+}
+
 /* ===== Shared Styles =====*/
 .hidden-scrollbar {
   scrollbar-width: none;

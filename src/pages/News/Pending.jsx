@@ -56,7 +56,13 @@ function Waiting() {
     <>
       <div className={cx(TWCSS.container, "h-full lg:overflow-hidden")}>
         <div className={cx("lg:flex h-full")}>
-          <Content news={detailNews} onReject={reject.toggleActive} />
+          <Content
+            news={detailNews}
+            onReject={reject.toggleActive}
+            processing={groupNews.processing}
+            editingNewsId={editingNewsId}
+            setEditingNewsId={setEditingNewsId}
+          />
           <div className={cx("hidden xl:block h-full")}>
             <Menu
               setNewsId={setEditingNewsId}
@@ -76,7 +82,20 @@ function Waiting() {
 
 export default Waiting;
 
-function Content({ news, onReject }) {
+function Content({ news, onReject, processing, editingNewsId, setEditingNewsId }) {
+  const currentIndex = processing.findIndex((n) => n.id === editingNewsId);
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setEditingNewsId(processing[currentIndex - 1].id);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < processing.length - 1) {
+      setEditingNewsId(processing[currentIndex + 1].id);
+    }
+  };
   return (
     <div className={cx("overflow-y-auto h-full w-full", "flex justify-center", "hidden-scrollbar")}>
       <div className={cx("fadeUp", "rounded-2xl")}>
@@ -107,6 +126,7 @@ function Content({ news, onReject }) {
                 "bg-[var(--color-unavailable-100)] rounded-xl",
                 "transition-all hover:bg-[var(--color-unavailable-300)]",
               )}
+              onClick={handlePrev}
             />
             <Button
               type="button"
@@ -117,6 +137,7 @@ function Content({ news, onReject }) {
                 "bg-[var(--color-unavailable-100)] rounded-xl",
                 "transition-all hover:bg-[var(--color-unavailable-300)]",
               )}
+              onClick={handleNext}
             />
           </div>
           <div className={cx("flex items-center gap-1")}>

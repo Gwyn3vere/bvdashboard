@@ -107,22 +107,27 @@ export const SYNC_STATUS_META = {
 export const NEWS_STATUS = {
   PUBLISHED: {
     label: "Đã xuất bản",
-    color: "var(--color-primary)",
+    color: "var(--color-primary-700)",
+    background: "var(--color-primary)",
   },
   DRAFT: {
     label: "Bản nháp",
-    color: "var(--color-secondary)",
+    color: "var(--color-unavailable-700)",
+    background: "var(--color-unavailable)",
   },
   PENDING: {
     label: "Chờ duyệt",
-    color: "var(--color-warning)",
+    color: "var(--color-warning-700)",
+    background: "var(--color-warning)",
   },
   ARCHIVED: {
     label: "Lưu trữ",
-    color: "var(--color-unavailable)",
+    color: "var(--color-unavailable-700)",
+    background: "var(--color-unavailable)",
   },
   REJECTED: {
     label: "Từ chối",
-    color: "var(--color-error)",
+    color: "var(--color-error-700)",
+    background: "var(--color-error)",
   },
 };

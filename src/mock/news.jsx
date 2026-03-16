@@ -4,1178 +4,398 @@ export const NEWS_TOTAL_STATUS = [
   {
     icon: <LuBook />,
     title: "Tổng bài đăng",
-    desc: "+15 bài đăng trong tháng này",
-    total: 132,
+    desc: "+15 bài đăng mới trong tháng này",
+    key: "totalNews",
   },
   {
     icon: <LuBookCheck />,
     title: "Đã xuất bản",
-    desc: "70% tổng số bài viết",
-    total: 89,
+    desc: "Chiếm 70% tổng số bài viết",
+    key: "PUBLISHED",
   },
   {
     icon: <LuBookKey />,
-    title: "Bản phê duyệt",
-    desc: "Cần chờ phê duyệt",
-    total: 28,
+    title: "Lưu trữ",
+    desc: "Các bài viết đã được lưu trữ",
+    key: "ARCHIVED",
   },
-  { icon: <LuBookText />, title: "Bản nháp", desc: "Cần hoàn thiện", total: 5 },
+  {
+    icon: <LuBookText />,
+    title: "Chưa đạt yêu cầu",
+    desc: "Bài viết cần chỉnh sửa",
+    key: "REJECTED",
+  },
   {
     icon: <LuEye />,
     title: "Tổng lượt xem",
-    desc: "+3.2k so với tháng trước",
-    total: 15800,
+    desc: "+3.2k lượt xem so với tháng trước",
+    key: "totalViews",
   },
 ];
 
 export const MOCK_NEWS_LIST = [
   {
     id: "news-001",
-    author: {
-      id: "1",
-      name: "Trần Văn Admin",
-    },
+    author: { id: "1", name: "Trần Văn Admin" },
     title: "7 thói quen vàng giúp phòng ngừa bệnh tim mạch hiệu quả",
     shortDesc:
-      "Bệnh tim mạch đang là nguyên nhân gây tử vong hàng đầu. Tìm hiểu 7 thói quen đơn giản giúp bạn bảo vệ trái tim khỏe mạnh mỗi ngày.",
-    content: `
-      <h2>Tại sao cần chăm sóc sức khỏe tim mạch?</h2>
-      <p>Theo Tổ chức Y tế Thế giới (WHO), bệnh tim mạch là nguyên nhân gây tử vong hàng đầu trên toàn cầu với hơn 17.9 triệu ca tử vong mỗi năm. Tuy nhiên, phần lớn các bệnh tim mạch có thể phòng ngừa được thông qua lối sống lành mạnh.</p>
-      
-      <h2>1. Tập thể dục đều đặn ít nhất 30 phút mỗi ngày</h2>
-      <p>Vận động thể chất là một trong những cách hiệu quả nhất để duy trì sức khỏe tim mạch. Các nghiên cứu cho thấy chỉ cần 30 phút tập luyện vừa phải mỗi ngày có thể giảm nguy cơ mắc bệnh tim lên đến 35%.</p>
-      <p><strong>Các bài tập được khuyến nghị:</strong></p>
-      <ul>
-        <li>Đi bộ nhanh hoặc chạy bộ nhẹ</li>
-        <li>Bơi lội</li>
-        <li>Đạp xe</li>
-        <li>Yoga và thiền định</li>
-      </ul>
-      
-      <h2>2. Chế độ ăn uống lành mạnh, giảm muối và chất béo</h2>
-      <p>Chế độ dinh dưỡng đóng vai trò quan trọng trong việc bảo vệ tim mạch. Một chế độ ăn giàu rau xanh, trái cây, ngũ cốc nguyên hạt và protein nạc sẽ giúp giảm cholesterol xấu.</p>
-      
-      <h3>Thực phẩm tốt cho tim:</h3>
-      <ul>
-        <li>Cá hồi, cá thu giàu omega-3</li>
-        <li>Yến mạch và ngũ cốc nguyên hạt</li>
-        <li>Quả óc chó, hạnh nhân</li>
-        <li>Rau xanh đậm như cải bó xôi</li>
-      </ul>
-      
-      <h2>3. Kiểm soát cân nặng và huyết áp thường xuyên</h2>
-      <p>Duy trì cân nặng ở mức lý tưởng và theo dõi huyết áp là những yếu tố quan trọng. Thừa cân làm tăng gánh nặng cho tim, trong khi huyết áp cao có thể gây tổn thương mạch máu.</p>
-      
-      <h2>4. Giảm stress và ngủ đủ giấc 7-8 tiếng mỗi đêm</h2>
-      <p>Stress kéo dài và thiếu ngủ có thể gây tổn hại nghiêm trọng đến tim mạch. Học cách quản lý căng thẳng thông qua thiền định, yoga sẽ giúp bảo vệ trái tim của bạn.</p>
-      
-      <h2>5. Không hút thuốc và hạn chế rượu bia</h2>
-      <p>Hút thuốc lá là một trong những yếu tố nguy cơ lớn nhất gây bệnh tim mạch. Bỏ thuốc lá có thể giảm nguy cơ bệnh tim xuống 50% chỉ sau 1 năm.</p>
-      
-      <h2>Kết luận</h2>
-      <p>Chăm sóc sức khỏe tim mạch là hành trình dài hạn đòi hỏi sự kiên trì. Bằng cách áp dụng những thói quen lành mạnh vào cuộc sống hàng ngày, bạn không chỉ bảo vệ được sức khỏe tim mạch mà còn nâng cao chất lượng cuộc sống.</p>
-    `,
-    category: {
-      id: "ttsk",
-      name: "Tin tức sức khỏe",
-    },
-    tags: ["tim mạch", "sức khỏe", "phòng ngừa bệnh", "lối sống lành mạnh"],
-    metaTitle: "7 Thói Quen Vàng Phòng Ngừa Bệnh Tim Mạch | Trung Tâm Y Tế Liên Chiểu",
-    metaDesc:
-      "Khám phá 7 thói quen đơn giản nhưng hiệu quả giúp bạn phòng ngừa bệnh tim mạch, bảo vệ sức khỏe tim mạch toàn diện.",
+      "Bệnh tim mạch đang là nguyên nhân gây tử vong hàng đầu. Tìm hiểu 7 thói quen đơn giản giúp bạn bảo vệ trái tim khoẻ mạnh mỗi ngày.",
+    content: `<h2>Tại sao cần chăm sóc sức khoẻ tim mạch?</h2><p>Theo WHO, bệnh tim mạch là nguyên nhân tử vong hàng đầu với hơn 17.9 triệu ca mỗi năm. Phần lớn có thể phòng ngừa qua lối sống lành mạnh.</p><h2>1. Tập thể dục đều đặn</h2><p>30 phút vận động mỗi ngày giảm nguy cơ bệnh tim lên đến 35%.</p><h2>2. Chế độ ăn lành mạnh</h2><p>Giảm muối, chất béo bão hoà; tăng rau xanh, cá, ngũ cốc nguyên hạt.</p><h2>3. Kiểm soát cân nặng và huyết áp</h2><p>Thừa cân tăng gánh nặng tim; huyết áp cao gây tổn thương mạch máu.</p><h2>4. Ngủ đủ giấc và giảm stress</h2><p>Thiếu ngủ kéo dài làm tăng nguy cơ nhồi máu cơ tim.</p><h2>5. Không hút thuốc</h2><p>Bỏ thuốc 1 năm giảm 50% nguy cơ bệnh tim.</p>`,
+    category: { id: "ttsk", name: "Tin tức sức khoẻ" },
+    tags: ["tim mạch", "sức khoẻ", "phòng ngừa bệnh", "lối sống lành mạnh"],
+    metaTitle: "7 Thói Quen Vàng Phòng Ngừa Bệnh Tim Mạch | Trung Tâm Y Tế Liên Chiều",
+    metaDesc: "Khám phá 7 thói quen đơn giản nhưng hiệu quả giúp bạn phòng ngừa bệnh tim mạch toàn diện.",
     status: "PUBLISHED",
+    rejectReason: "",
     thumbnail: "https://picsum.photos/seed/news001/800/450",
     view: 1247,
     createdAt: "2026-01-15T08:30:00.000Z",
     updatedAt: "2026-01-20T14:45:00.000Z",
   },
-
   {
     id: "news-002",
-    author: {
-      id: "7",
-      name: "Nguyễn Văn Tài",
-    },
+    author: { id: "1", name: "Trần Văn Admin" },
+    title: "Phục hồi chức năng sau đột quỵ: Hành trình trở lại cuộc sống",
+    shortDesc:
+      "Hành trình phục hồi sau đột quỵ đòi hỏi sự kiên trì và phương pháp đúng đắn. Chuyên gia chia sẻ lộ trình phục hồi hiệu quả.",
+    content: `<h2>Giai đoạn hồi phục cấp tính (0–7 ngày)</h2><p>Bắt đầu phục hồi sớm trong 24–48h đầu giúp cải thiện kết cục thần kinh rõ rệt.</p><h2>Phục hồi vận động</h2><p>Vật lý trị liệu, tập đứng – đi, bài tập thăng bằng là trụ cột của giai đoạn này.</p><h2>Phục hồi ngôn ngữ</h2><p>Liệu pháp ngôn ngữ giúp bệnh nhân lấy lại khả năng giao tiếp trong 3–6 tháng.</p><h2>Hỗ trợ tâm lý</h2><p>Trầm cảm sau đột quỵ gặp ở 30% bệnh nhân — cần được sàng lọc và can thiệp sớm.</p>`,
+    category: { id: "cssk", name: "Chăm sóc sức khoẻ" },
+    tags: ["đột quỵ", "phục hồi chức năng", "thần kinh"],
+    metaTitle: "Phục Hồi Chức Năng Sau Đột Quỵ",
+    metaDesc: "Lộ trình phục hồi toàn diện sau đột quỵ từ giai đoạn cấp đến mạn tính.",
+    status: "DRAFT",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news002/800/450",
+    view: 0,
+    createdAt: "2026-02-12T09:00:00.000Z",
+    updatedAt: "2026-02-14T11:20:00.000Z",
+  },
+  {
+    id: "news-003",
+    author: { id: "1", name: "Trần Văn Admin" },
+    title: "Hướng dẫn đăng ký khám bệnh trực tuyến tại Trung tâm Y tế Liên Chiều",
+    shortDesc:
+      "Từ tháng 3/2026, bệnh nhân có thể đặt lịch khám trực tuyến 24/7 qua cổng thông tin của Trung tâm — nhanh chóng, tiện lợi, không cần xếp hàng.",
+    content: `<h2>Tại sao nên đặt lịch trực tuyến?</h2><p>Giảm thời gian chờ, chủ động chọn bác sĩ và giờ khám phù hợp với lịch cá nhân.</p><h2>Các bước thực hiện</h2><ol><li>Truy cập cổng thông tin trực tuyến của Trung tâm</li><li>Đăng nhập hoặc tạo tài khoản bệnh nhân</li><li>Chọn chuyên khoa, bác sĩ và khung giờ mong muốn</li><li>Xác nhận qua SMS — hoàn tất</li></ol><h2>Lưu ý</h2><p>Hệ thống nhắc lịch tự động 24h trước giờ hẹn. Huỷ lịch trước ít nhất 2 tiếng để không bị tính phí.</p>`,
+    category: { id: "ytcd", name: "Y tế cộng đồng" },
+    tags: ["đặt lịch", "trực tuyến", "dịch vụ y tế"],
+    metaTitle: "Hướng Dẫn Đặt Lịch Khám Trực Tuyến | Trung Tâm Y Tế Liên Chiều",
+    metaDesc: "Hướng dẫn từng bước đăng ký khám bệnh trực tuyến tại Trung tâm Y tế Liên Chiều.",
+    status: "PENDING",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news003/800/450",
+    view: 0,
+    createdAt: "2026-03-01T08:00:00.000Z",
+    updatedAt: "2026-03-01T08:00:00.000Z",
+  },
+  {
+    id: "news-004",
+    author: { id: "1", name: "Trần Văn Admin" },
+    title: "Tổng kết hoạt động y tế cộng đồng năm 2025 tại quận Liên Chiều",
+    shortDesc:
+      "Nhìn lại một năm: hơn 12.000 lượt khám, 28 chiến dịch phòng dịch và 6 chương trình khám miễn phí phủ khắp 5 phường của quận Liên Chiều.",
+    content: `<h2>Những con số ấn tượng</h2><p>Năm 2025, Trung tâm Y tế Liên Chiều phục vụ 12.347 lượt khám ngoại trú, tăng 18% so với năm 2024.</p><h2>Chiến dịch phòng dịch</h2><p>28 chiến dịch truyền thông, tiêm chủng và vệ sinh môi trường được triển khai đồng loạt tại 5 phường.</p><h2>Chương trình khám miễn phí</h2><p>6 đợt khám miễn phí phục vụ hơn 2.100 người cao tuổi, hộ nghèo và gia đình chính sách.</p><h2>Định hướng 2026</h2><p>Mở rộng khám trực tuyến, nâng cấp phòng xét nghiệm và triển khai hồ sơ sức khoẻ điện tử toàn quận.</p>`,
+    category: { id: "ytcd", name: "Y tế cộng đồng" },
+    tags: ["tổng kết", "y tế cộng đồng", "2025"],
+    metaTitle: "Tổng Kết Hoạt Động Y Tế Cộng Đồng 2025 | Liên Chiều",
+    metaDesc: "Tổng kết năm 2025 của Trung tâm Y tế Liên Chiều với các số liệu nổi bật và định hướng 2026.",
+    status: "ARCHIVED",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news004/800/450",
+    view: 3102,
+    createdAt: "2026-01-05T09:00:00.000Z",
+    updatedAt: "2026-02-28T16:00:00.000Z",
+  },
+  {
+    id: "news-005",
+    author: { id: "1", name: "Trần Văn Admin" },
+    title: "Nguy cơ sức khoẻ từ thực phẩm chức năng không rõ nguồn gốc",
+    shortDesc:
+      "Hàng loạt thực phẩm chức năng trôi nổi trên mạng xã hội tiềm ẩn nguy cơ nghiêm trọng cho sức khoẻ. Bác sĩ khuyến cáo người dùng cần thận trọng.",
+    content: `<h2>Thực trạng đáng lo ngại</h2><p>Ghi nhận nhiều ca nhập viện liên quan đến sử dụng thực phẩm chức năng không rõ nguồn gốc, đặc biệt các sản phẩm giảm cân và tăng cường sinh lực.</p><h2>Dấu hiệu nhận biết sản phẩm kém chất lượng</h2><ul><li>Không có số đăng ký lưu hành Bộ Y tế</li><li>Công bố tác dụng chữa bệnh thay vì hỗ trợ sức khoẻ</li><li>Giá thấp bất thường so với thị trường</li></ul><h2>Lời khuyên từ chuyên gia</h2><p>Chỉ mua sản phẩm tại nhà thuốc uy tín, có hoá đơn và kiểm tra mã QR trên cổng thông tin Bộ Y tế trước khi dùng.</p>`,
+    category: { id: "ttsk", name: "Tin tức sức khoẻ" },
+    tags: ["thực phẩm chức năng", "cảnh báo", "an toàn thực phẩm"],
+    metaTitle: "Cảnh Báo Thực Phẩm Chức Năng Không Rõ Nguồn Gốc",
+    metaDesc: "Cảnh báo nguy cơ sức khoẻ từ thực phẩm chức năng trôi nổi và hướng dẫn nhận biết sản phẩm an toàn.",
+    status: "REJECTED",
+    rejectReason:
+      "Bài viết thiếu trích dẫn nguồn khoa học cụ thể và số liệu ca nhập viện chưa được kiểm chứng. Vui lòng bổ sung tài liệu tham khảo từ Bộ Y tế hoặc các tổ chức y tế uy tín trước khi tái nộp.",
+    thumbnail: "https://picsum.photos/seed/news005/800/450",
+    view: 0,
+    createdAt: "2026-02-20T14:00:00.000Z",
+    updatedAt: "2026-02-22T10:30:00.000Z",
+  },
+
+  // ── Các tác giả khác ──────────────────────────────────────────────────
+  {
+    id: "news-006",
+    author: { id: "7", name: "Nguyễn Văn Tài" },
     title: "Phòng chống COVID-19: Hướng dẫn tiêm vaccine mũi nhắc lại 2026",
     shortDesc:
-      "Cập nhật mới nhất về chương trình tiêm vaccine COVID-19 mũi nhắc lại năm 2026, đối tượng ưu tiên và lịch tiêm tại Trung tâm Y tế Liên Chiểu.",
-    content: `
-      <h2>Tại sao cần tiêm mũi nhắc lại?</h2>
-      <p>Virus SARS-CoV-2 liên tục biến đổi với các biến chủng mới xuất hiện. Tiêm mũi nhắc lại giúp tăng cường khả năng miễn dịch, bảo vệ cơ thể khỏi các biến chủng mới và giảm nguy cơ mắc bệnh nặng.</p>
-      
-      <h2>Đối tượng ưu tiên tiêm mũi nhắc lại</h2>
-      <ul>
-        <li>Người từ 60 tuổi trở lên</li>
-        <li>Người có bệnh nền: tim mạch, đái tháo đường, bệnh phổi mạn tính</li>
-        <li>Phụ nữ mang thai</li>
-        <li>Nhân viên y tế</li>
-        <li>Người có suy giảm miễn dịch</li>
-      </ul>
-      
-      <h2>Các loại vaccine được sử dụng</h2>
-      <p>Hiện nay, Bộ Y tế đang sử dụng các loại vaccine sau cho mũi nhắc lại:</p>
-      <ul>
-        <li>Pfizer-BioNTech (Comirnaty) - cập nhật biến chủng 2026</li>
-        <li>Moderna (Spikevax) - công thức mới</li>
-        <li>AstraZeneca - dành cho đối tượng đặc biệt</li>
-      </ul>
-      
-      <h2>Lịch tiêm tại Trung tâm Y tế Liên Chiểu</h2>
-      <p><strong>Thời gian:</strong> Thứ 2 - Thứ 6: 7h00 - 11h00 và 13h30 - 16h30</p>
-      <p><strong>Địa điểm:</strong> Phòng tiêm chủng, Tầng 2, Trung tâm Y tế Liên Chiểu</p>
-      <p><strong>Đăng ký:</strong> Gọi hotline 0236.123.4567 hoặc đăng ký trực tuyến</p>
-      
-      <h2>Lưu ý quan trọng</h2>
-      <p>Sau khi tiêm, bạn nên:</p>
-      <ul>
-        <li>Nghỉ ngơi tại chỗ 15-30 phút để theo dõi</li>
-        <li>Uống nhiều nước</li>
-        <li>Tránh vận động mạnh trong 24h đầu</li>
-        <li>Liên hệ y tế nếu có triệu chứng bất thường</li>
-      </ul>
-    `,
-    category: {
-      id: "pcd",
-      name: "Phòng chống dịch",
-    },
+      "Cập nhật mới nhất về chương trình tiêm vaccine COVID-19 mũi nhắc lại năm 2026, đối tượng ưu tiên và lịch tiêm tại Trung tâm Y tế Liên Chiều.",
+    content: `<h2>Tại sao cần tiêm mũi nhắc lại?</h2><p>Virus SARS-CoV-2 liên tục biến đổi; mũi nhắc giúp tăng cường miễn dịch và giảm nguy cơ bệnh nặng.</p><h2>Đối tượng ưu tiên</h2><ul><li>Người từ 60 tuổi trở lên</li><li>Người có bệnh nền: tim mạch, đái tháo đường, bệnh phổi mạn</li><li>Phụ nữ mang thai và nhân viên y tế</li></ul><h2>Lịch tiêm</h2><p>Thứ 2 – Thứ 6: 7h00–11h00 và 13h30–16h30 tại Phòng tiêm chủng, Tầng 2.</p>`,
+    category: { id: "pcd", name: "Phòng chống dịch" },
     tags: ["covid-19", "vaccine", "tiêm chủng", "phòng dịch"],
     metaTitle: "Hướng Dẫn Tiêm Vaccine COVID-19 Mũi Nhắc Lại 2026",
-    metaDesc:
-      "Thông tin chi tiết về chương trình tiêm vaccine COVID-19 mũi nhắc lại, đối tượng ưu tiên và lịch tiêm tại Liên Chiểu.",
+    metaDesc: "Thông tin chi tiết về chương trình tiêm vaccine COVID-19 mũi nhắc lại tại Liên Chiều.",
     status: "PUBLISHED",
-    thumbnail: "https://picsum.photos/seed/news002/800/450",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news006/800/450",
     view: 892,
     createdAt: "2026-01-22T10:15:00.000Z",
     updatedAt: "2026-01-25T16:20:00.000Z",
   },
-
   {
-    id: "news-003",
-    author: {
-      id: "12",
-      name: "Võ Thị Thảo",
-    },
+    id: "news-007",
+    author: { id: "12", name: "Võ Thị Thảo" },
     title: "Dinh dưỡng cho trẻ em: Thực đơn cân bằng theo từng độ tuổi",
     shortDesc:
-      "Bí quyết xây dựng thực đơn dinh dưỡng cân bằng cho trẻ từ 0-12 tuổi, đảm bảo sự phát triển toàn diện về thể chất và trí tuệ.",
-    content: `
-      <h2>Tầm quan trọng của dinh dưỡng với trẻ em</h2>
-      <p>Dinh dưỡng trong giai đoạn từ 0-12 tuổi ảnh hưởng trực tiếp đến sự phát triển thể chất, trí tuệ và hệ miễn dịch của trẻ. Một chế độ dinh dưỡng cân bằng sẽ giúp trẻ phát triển khỏe mạnh, tăng khả năng học tập và phòng chống bệnh tật.</p>
-      
-      <h2>Dinh dưỡng cho trẻ 0-6 tháng tuổi</h2>
-      <p>Giai đoạn này, sữa mẹ là nguồn dinh dưỡng tốt nhất và duy nhất cho trẻ.</p>
-      <ul>
-        <li>Cho con bú hoàn toàn bằng sữa mẹ</li>
-        <li>Bú theo nhu cầu, không giới hạn thời gian</li>
-        <li>Không cần cho trẻ uống nước, trừ khi có chỉ định của bác sĩ</li>
-      </ul>
-      
-      <h2>Dinh dưỡng cho trẻ 6-12 tháng tuổi</h2>
-      <p>Đây là giai đoạn bắt đầu ăn dặm, bổ sung thêm các nhóm thực phẩm:</p>
-      <h3>Thực đơn mẫu:</h3>
-      <ul>
-        <li><strong>6-7 tháng:</strong> Bột, cháo loãng, rau củ nghiền</li>
-        <li><strong>8-9 tháng:</strong> Cháo đặc hơn, thịt, cá nghiền</li>
-        <li><strong>10-12 tháng:</strong> Cơm nát, thức ăn cắt nhỏ</li>
-      </ul>
-      
-      <h2>Dinh dưỡng cho trẻ 1-3 tuổi</h2>
-      <p>Trẻ bắt đầu ăn như người lớn nhưng cần chú ý:</p>
-      <ul>
-        <li>3 bữa chính + 2 bữa phụ mỗi ngày</li>
-        <li>Đảm bảo đủ 4 nhóm: bột đường, đạm, béo, vitamin</li>
-        <li>Khuyến khích trẻ ăn rau xanh, trái cây</li>
-        <li>Hạn chế đồ ngọt, đồ chiên rán</li>
-      </ul>
-      
-      <h2>Dinh dưỡng cho trẻ 4-6 tuổi</h2>
-      <p>Giai đoạn trẻ bắt đầu đi học, cần năng lượng cao:</p>
-      <h3>Thực đơn mẫu 1 ngày:</h3>
-      <ul>
-        <li><strong>Sáng:</strong> Cháo trứng/phở + sữa</li>
-        <li><strong>Trưa:</strong> Cơm + thịt/cá + rau + canh</li>
-        <li><strong>Chiều:</strong> Hoa quả, sữa chua</li>
-        <li><strong>Tối:</strong> Cơm + món mặn + rau</li>
-      </ul>
-      
-      <h2>Dinh dưỡng cho trẻ 7-12 tuổi</h2>
-      <p>Trẻ đang trong giai đoạn tăng trưởng nhanh:</p>
-      <ul>
-        <li>Tăng lượng protein từ thịt, cá, trứng, đậu</li>
-        <li>Bổ sung canxi từ sữa, sữa chua, phô mai</li>
-        <li>Ăn nhiều rau xanh, trái cây</li>
-        <li>Uống đủ nước (1.5-2 lít/ngày)</li>
-        <li>Hạn chế đồ ăn nhanh, nước ngọt</li>
-      </ul>
-      
-      <h2>Lời khuyên từ chuyên gia dinh dưỡng</h2>
-      <p>Bác sĩ Nguyễn Thị Lan, chuyên gia dinh dưỡng tại Trung tâm Y tế Liên Chiểu khuyên: "Cha mẹ nên tạo thói quen ăn uống lành mạnh từ sớm, làm gương cho con và tạo bầu không khí vui vẻ trong bữa ăn."</p>
-    `,
-    category: {
-      id: "dd",
-      name: "Dinh dưỡng",
-    },
+      "Bí quyết xây dựng thực đơn dinh dưỡng cân bằng cho trẻ từ 0–12 tuổi, đảm bảo phát triển toàn diện về thể chất và trí tuệ.",
+    content: `<h2>0–6 tháng tuổi</h2><p>Sữa mẹ là nguồn dinh dưỡng duy nhất và tốt nhất; bú theo nhu cầu, không giới hạn thời gian.</p><h2>6–12 tháng tuổi</h2><p>Bắt đầu ăn dặm với bột loãng, cháo nghiền, rau củ xay nhuyễn; duy trì sữa mẹ song song.</p><h2>1–3 tuổi</h2><p>3 bữa chính + 2 bữa phụ; đảm bảo đủ 4 nhóm: bột đường, đạm, béo, vitamin–khoáng.</p><h2>4–12 tuổi</h2><p>Tăng protein từ thịt cá trứng đậu; bổ sung canxi từ sữa; hạn chế đồ ngọt và nước ngọt.</p>`,
+    category: { id: "dd", name: "Dinh dưỡng" },
     tags: ["dinh dưỡng", "trẻ em", "thực đơn", "phát triển"],
-    metaTitle: "Thực Đơn Dinh Dưỡng Cân Bằng Cho Trẻ Em 0-12 Tuổi",
-    metaDesc:
-      "Hướng dẫn chi tiết xây dựng thực đơn dinh dưỡng khoa học cho trẻ từ 0-12 tuổi, giúp bé phát triển toàn diện.",
+    metaTitle: "Thực Đơn Dinh Dưỡng Cân Bằng Cho Trẻ Em 0–12 Tuổi",
+    metaDesc: "Hướng dẫn chi tiết xây dựng thực đơn dinh dưỡng khoa học theo từng giai đoạn tuổi của trẻ.",
     status: "PUBLISHED",
-    thumbnail: "https://picsum.photos/seed/news003/800/450",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news007/800/450",
     view: 2156,
     createdAt: "2026-01-10T07:00:00.000Z",
     updatedAt: "2026-01-18T09:30:00.000Z",
   },
-
   {
-    id: "news-004",
-    author: {
-      id: "5",
-      name: "Đỗ Văn Long",
-    },
-    title: "Chăm sóc sức khỏe răng miệng: Phòng ngừa sâu răng hiệu quả",
-    shortDesc:
-      "Hướng dẫn chi tiết cách chăm sóc răng miệng đúng cách, phòng ngừa sâu răng và các bệnh lý răng miệng thường gặp.",
-    content: `
-      <h2>Tại sao cần chăm sóc răng miệng?</h2>
-      <p>Răng miệng khỏe mạnh không chỉ giúp bạn ăn uống ngon miệng mà còn ảnh hưởng đến sức khỏe tổng thể. Nhiều bệnh lý toàn thân như tim mạch, đái tháo đường có liên quan đến bệnh răng miệng.</p>
-      
-      <h2>Nguyên nhân gây sâu răng</h2>
-      <ul>
-        <li>Vi khuẩn trong miệng tạo acid phá hủy men răng</li>
-        <li>Ăn nhiều đồ ngọt, tinh bột</li>
-        <li>Vệ sinh răng miệng không đúng cách</li>
-        <li>Thiếu fluoride</li>
-        <li>Khô miệng do giảm tiết nước bọt</li>
-      </ul>
-      
-      <h2>Cách đánh răng đúng cách</h2>
-      <p><strong>Tần suất:</strong> Đánh răng 2 lần/ngày, mỗi lần 2-3 phút</p>
-      <h3>Các bước đánh răng:</h3>
-      <ol>
-        <li>Đặt bàn chải nghiêng 45 độ so với nướu</li>
-        <li>Chuyển động nhẹ nhàng theo chiều từ nướu xuống răng</li>
-        <li>Đánh cả 3 mặt của răng: ngoài, trong, mặt nhai</li>
-        <li>Đánh lưỡi để loại bỏ vi khuẩn</li>
-        <li>Súc miệng sạch</li>
-      </ol>
-      
-      <h2>Sử dụng chỉ nha khoa</h2>
-      <p>Chỉ nha khoa giúp làm sạch kẽ răng - nơi bàn chải không thể làm sạch được:</p>
-      <ul>
-        <li>Dùng chỉ nha khoa 1 lần/ngày, tốt nhất là trước khi đi ngủ</li>
-        <li>Luồn chỉ nhẹ nhàng vào kẽ răng, tránh làm tổn thương nướu</li>
-        <li>Cọ sạch cả 2 bên thành răng</li>
-      </ul>
-      
-      <h2>Chế độ ăn uống tốt cho răng</h2>
-      <h3>Nên ăn:</h3>
-      <ul>
-        <li>Sữa, phô mai, sữa chua (giàu canxi)</li>
-        <li>Rau xanh đậm màu</li>
-        <li>Táo, cà rốt (giúp làm sạch răng tự nhiên)</li>
-        <li>Nước lọc (rửa trôi acid và vi khuẩn)</li>
-      </ul>
-      
-      <h3>Nên hạn chế:</h3>
-      <ul>
-        <li>Kẹo, bánh ngọt</li>
-        <li>Nước ngọt có ga</li>
-        <li>Đồ ăn dính răng như kẹo dẻo</li>
-        <li>Thức ăn quá cứng</li>
-      </ul>
-      
-      <h2>Khám răng định kỳ</h2>
-      <p>Bạn nên khám răng định kỳ 6 tháng/lần để:</p>
-      <ul>
-        <li>Phát hiện sớm các vấn đề răng miệng</li>
-        <li>Lấy cao răng định kỳ</li>
-        <li>Nhận tư vấn chăm sóc răng miệng phù hợp</li>
-      </ul>
-      
-      <h2>Dịch vụ tại Trung tâm Y tế Liên Chiểu</h2>
-      <p>Chúng tôi cung cấp đầy đủ các dịch vụ răng hàm mặt:</p>
-      <ul>
-        <li>Khám và tư vấn miễn phí</li>
-        <li>Lấy cao răng, trám răng</li>
-        <li>Nhổ răng, tiểu phẫu</li>
-        <li>Bọc răng sứ, cấy ghép implant</li>
-        <li>Chỉnh nha niềng răng</li>
-      </ul>
-    `,
-    category: {
-      id: "cssk",
-      name: "Chăm sóc sức khỏe",
-    },
-    tags: ["răng miệng", "sức khỏe", "phòng ngừa", "nha khoa"],
-    metaTitle: "Hướng Dẫn Chăm Sóc Răng Miệng Và Phòng Ngừa Sâu Răng",
-    metaDesc:
-      "Cách đánh răng đúng, sử dụng chỉ nha khoa và chế độ ăn uống để có hàm răng khỏe mạnh, phòng ngừa sâu răng hiệu quả.",
-    status: "PENDING",
-    thumbnail: "https://picsum.photos/seed/news004/800/450",
-    view: 567,
-    createdAt: "2026-02-05T13:20:00.000Z",
-    updatedAt: "2026-02-08T11:10:00.000Z",
-  },
-
-  {
-    id: "news-005",
-    author: {
-      id: "9",
-      name: "Phạm Văn An",
-    },
-    title: "Y tế cộng đồng: Chương trình khám sức khỏe miễn phí tháng 3",
-    shortDesc:
-      "Thông báo chương trình khám sức khỏe tổng quát miễn phí dành cho người cao tuổi và hộ nghèo tại Liên Chiểu trong tháng 3/2026.",
-    content: `
-      <h2>Giới thiệu chương trình</h2>
-      <p>Nhằm chăm sóc sức khỏe cộng đồng, Trung tâm Y tế Liên Chiểu phối hợp cùng UBND quận tổ chức chương trình khám sức khỏe miễn phí cho người cao tuổi và hộ nghèo trong tháng 3/2026.</p>
-      
-      <h2>Đối tượng được khám</h2>
-      <ul>
-        <li>Người cao tuổi từ 60 tuổi trở lên đang sinh sống tại quận Liên Chiểu</li>
-        <li>Hộ nghèo, cận nghèo có xác nhận của UBND phường</li>
-        <li>Người khuyết tật</li>
-        <li>Gia đình chính sách, có công với cách mạng</li>
-      </ul>
-      
-      <h2>Nội dung khám</h2>
-      <p>Chương trình bao gồm các hạng mục khám miễn phí:</p>
-      
-      <h3>1. Khám lâm sàng:</h3>
-      <ul>
-        <li>Khám nội tổng quát</li>
-        <li>Đo huyết áp, cân nặng, chiều cao</li>
-        <li>Đo đường huyết</li>
-        <li>Tư vấn dinh dưỡng và lối sống</li>
-      </ul>
-      
-      <h3>2. Xét nghiệm:</h3>
-      <ul>
-        <li>Công thức máu</li>
-        <li>Sinh hóa: đường huyết, mỡ máu, chức năng gan thận</li>
-        <li>Nước tiểu tổng quát</li>
-      </ul>
-      
-      <h3>3. Chẩn đoán hình ảnh:</h3>
-      <ul>
-        <li>Chụp X-quang phổi</li>
-        <li>Siêu âm tổng quát ổ bụng</li>
-        <li>Điện tim</li>
-      </ul>
-      
-      <h2>Thời gian và địa điểm</h2>
-      <p><strong>Thời gian:</strong></p>
-      <ul>
-        <li>Từ ngày 01/03/2026 đến 31/03/2026</li>
-        <li>Thứ 2 - Thứ 6: 7h00 - 11h00</li>
-        <li>Thứ 7: 7h00 - 10h00 (chỉ tại Trung tâm chính)</li>
-      </ul>
-      
-      <p><strong>Địa điểm:</strong></p>
-      <ul>
-        <li>Trung tâm Y tế Liên Chiểu (trụ sở chính)</li>
-        <li>Trạm Y tế các phường (theo lịch cụ thể)</li>
-      </ul>
-      
-      <h2>Lịch khám tại các phường</h2>
-      <table>
-        <tr><td>Phường Hòa Hiệp Bắc:</td><td>05-06/03/2026</td></tr>
-        <tr><td>Phường Hòa Hiệp Nam:</td><td>07-08/03/2026</td></tr>
-        <tr><td>Phường Hòa Khánh Bắc:</td><td>12-13/03/2026</td></tr>
-        <tr><td>Phường Hòa Khánh Nam:</td><td>14-15/03/2026</td></tr>
-        <tr><td>Phường Hòa Minh:</td><td>19-20/03/2026</td></tr>
-      </table>
-      
-      <h2>Giấy tờ cần mang theo</h2>
-      <ul>
-        <li>CMND/CCCD (bản gốc)</li>
-        <li>Sổ khám bệnh (nếu có)</li>
-        <li>Giấy xác nhận hộ nghèo/cận nghèo (với hộ nghèo)</li>
-        <li>Sổ ưu đãi (với gia đình chính sách)</li>
-      </ul>
-      
-      <h2>Đăng ký tham gia</h2>
-      <p>Để thuận tiện trong việc tổ chức, đề nghị bà con đăng ký trước qua:</p>
-      <ul>
-        <li>Hotline: 0236.123.4567</li>
-        <li>Trực tiếp tại Trung tâm Y tế Liên Chiểu</li>
-        <li>Qua UBND phường nơi cư trú</li>
-      </ul>
-      
-      <h2>Lưu ý quan trọng</h2>
-      <ul>
-        <li>Đến sớm để tránh chờ đợi lâu</li>
-        <li>Nhịn đói 8-10 tiếng trước khi xét nghiệm máu</li>
-        <li>Mang theo nước uống và đồ ăn nhẹ (dùng sau khi lấy máu)</li>
-        <li>Tuân thủ các quy định về phòng chống dịch</li>
-      </ul>
-    `,
-    category: {
-      id: "ytcd",
-      name: "Y tế cộng đồng",
-    },
-    tags: ["khám bệnh", "miễn phí", "cộng đồng", "người cao tuổi"],
-    metaTitle: "Chương Trình Khám Sức Khỏe Miễn Phí Tháng 3/2026 | Liên Chiểu",
-    metaDesc:
-      "Thông tin chi tiết về chương trình khám sức khỏe miễn phí dành cho người cao tuổi và hộ nghèo tại Liên Chiểu tháng 3/2026.",
-    status: "PUBLISHED",
-    thumbnail: "https://picsum.photos/seed/news005/800/450",
-    view: 3421,
-    createdAt: "2026-01-05T09:45:00.000Z",
-    updatedAt: "2026-01-12T15:30:00.000Z",
-  },
-
-  {
-    id: "news-006",
-    author: {
-      id: "2",
-      name: "Nguyễn Thị Lan",
-    },
+    id: "news-008",
+    author: { id: "2", name: "Nguyễn Thị Lan" },
     title: "Đái tháo đường type 2: Triệu chứng, nguyên nhân và cách phòng ngừa",
     shortDesc:
-      "Tìm hiểu về bệnh đái tháo đường type 2 - căn bệnh nguy hiểm nhưng có thể phòng ngừa được bằng lối sống lành mạnh.",
-    content: `
-      <h2>Đái tháo đường type 2 là gì?</h2>
-      <p>Đái tháo đường type 2 là tình trạng cơ thể không sử dụng insulin hiệu quả (kháng insulin) hoặc tuyến tụy không sản xuất đủ insulin để duy trì lượng đường huyết ở mức bình thường.</p>
-      
-      <h2>Triệu chứng nhận biết</h2>
-      <p>Đái tháo đường type 2 thường phát triển từ từ, các triệu chứng có thể bao gồm:</p>
-      <ul>
-        <li>Khát nước nhiều hơn bình thường</li>
-        <li>Đi tiểu nhiều, đặc biệt vào ban đêm</li>
-        <li>Mệt mỏi, uể oải</li>
-        <li>Sụt cân không rõ nguyên nhân</li>
-        <li>Vết thương lâu lành</li>
-        <li>Nhiễm trùng thường xuyên</li>
-        <li>Nhìn mờ</li>
-        <li>Tê tay chân</li>
-      </ul>
-      
-      <h2>Nguyên nhân và yếu tố nguy cơ</h2>
-      <h3>Các yếu tố không thể thay đổi:</h3>
-      <ul>
-        <li>Tuổi tác: Nguy cơ tăng sau 45 tuổi</li>
-        <li>Di truyền: Có người thân mắc bệnh</li>
-        <li>Chủng tộc: Người châu Á có nguy cơ cao hơn</li>
-      </ul>
-      
-      <h3>Các yếu tố có thể kiểm soát:</h3>
-      <ul>
-        <li>Thừa cân, béo phì (BMI ≥ 23 với người châu Á)</li>
-        <li>Lối sống ít vận động</li>
-        <li>Chế độ ăn không lành mạnh</li>
-        <li>Hút thuốc lá</li>
-        <li>Tăng huyết áp</li>
-        <li>Mỡ máu cao</li>
-      </ul>
-      
-      <h2>Biến chứng nguy hiểm</h2>
-      <p>Nếu không kiểm soát tốt, đái tháo đường có thể gây ra:</p>
-      <ul>
-        <li><strong>Tim mạch:</strong> Nhồi máu cơ tim, đột quỵ</li>
-        <li><strong>Thận:</strong> Suy thận mạn, phải lọc máu</li>
-        <li><strong>Mắt:</strong> Võng mạc đái tháo đường, có thể mù</li>
-        <li><strong>Thần kinh:</strong> Tổn thương thần kinh ngoại biên</li>
-        <li><strong>Chân:</strong> Loét chân, hoại tử, cắt cụt</li>
-      </ul>
-      
-      <h2>Phòng ngừa đái tháo đường type 2</h2>
-      <h3>1. Duy trì cân nặng hợp lý:</h3>
-      <p>Giảm 5-7% trọng lượng cơ thể có thể giảm 58% nguy cơ mắc bệnh.</p>
-      
-      <h3>2. Tập thể dục đều đặn:</h3>
-      <ul>
-        <li>Ít nhất 150 phút/tuần vận động cường độ vừa</li>
-        <li>Hoặc 75 phút/tuần vận động cường độ cao</li>
-        <li>Kết hợp bài tập cardio và tập tạ</li>
-      </ul>
-      
-      <h3>3. Chế độ ăn lành mạnh:</h3>
-      <ul>
-        <li>Ăn nhiều rau xanh, trái cây</li>
-        <li>Chọn ngũ cốc nguyên hạt</li>
-        <li>Hạn chế đồ ngọt, nước ngọt</li>
-        <li>Giảm chất béo bão hòa</li>
-        <li>Kiểm soát khẩu phần ăn</li>
-      </ul>
-      
-      <h3>4. Bỏ thuốc lá:</h3>
-      <p>Người hút thuốc có nguy cơ mắc đái tháo đường cao hơn 30-40%.</p>
-      
-      <h2>Chẩn đoán và theo dõi</h2>
-      <p>Người có nguy cơ cao nên:</p>
-      <ul>
-        <li>Kiểm tra đường huyết định kỳ</li>
-        <li>Xét nghiệm HbA1c mỗi 6 tháng</li>
-        <li>Khám sức khỏe tổng quát hàng năm</li>
-      </ul>
-      
-      <h2>Kết luận</h2>
-      <p>Đái tháo đường type 2 là căn bệnh nguy hiểm nhưng có thể phòng ngừa được. Với lối sống lành mạnh và theo dõi sức khỏe định kỳ, bạn hoàn toàn có thể giảm thiểu nguy cơ mắc bệnh.</p>
-    `,
-    category: {
-      id: "ttsk",
-      name: "Tin tức sức khỏe",
-    },
-    tags: ["đái tháo đường", "bệnh mạn tính", "phòng ngừa", "sức khỏe"],
+      "Tìm hiểu về bệnh đái tháo đường type 2 — căn bệnh nguy hiểm nhưng hoàn toàn có thể phòng ngừa bằng lối sống lành mạnh.",
+    content: `<h2>Triệu chứng nhận biết</h2><ul><li>Khát nước nhiều, tiểu nhiều lần</li><li>Mệt mỏi, sụt cân không rõ nguyên nhân</li><li>Vết thương lâu lành, nhìn mờ</li></ul><h2>Yếu tố nguy cơ có thể kiểm soát</h2><ul><li>Thừa cân béo phì (BMI ≥ 23 với người châu Á)</li><li>Ít vận động, chế độ ăn nhiều đường tinh luyện</li><li>Hút thuốc lá, tăng huyết áp</li></ul><h2>Phòng ngừa</h2><p>Giảm 5–7% cân nặng có thể giảm 58% nguy cơ. Kết hợp 150 phút/tuần vận động vừa phải và chế độ ăn ít GI.</p>`,
+    category: { id: "ttsk", name: "Tin tức sức khoẻ" },
+    tags: ["đái tháo đường", "bệnh mạn tính", "phòng ngừa"],
     metaTitle: "Đái Tháo Đường Type 2: Triệu Chứng, Nguyên Nhân Và Cách Phòng Ngừa",
-    metaDesc: "Hướng dẫn nhận biết triệu chứng, nguyên nhân và cách phòng ngừa bệnh đái tháo đường type 2 hiệu quả.",
+    metaDesc: "Hướng dẫn nhận biết triệu chứng và phòng ngừa bệnh đái tháo đường type 2 hiệu quả.",
     status: "DRAFT",
-    thumbnail: "https://picsum.photos/seed/news006/800/450",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news008/800/450",
     view: 0,
     createdAt: "2026-02-09T14:00:00.000Z",
     updatedAt: "2026-02-10T10:25:00.000Z",
   },
-
   {
-    id: "news-007",
-    author: {
-      id: "14",
-      name: "Nguyễn Thị Ngọc",
-    },
-    title: "Sức khỏe tinh thần: Nhận biết và đối phó với stress trong công việc",
+    id: "news-009",
+    author: { id: "9", name: "Phạm Văn An" },
+    title: "Y tế cộng đồng: Chương trình khám sức khoẻ miễn phí tháng 3/2026",
     shortDesc:
-      "Stress công việc đang ảnh hưởng đến sức khỏe của bạn? Tìm hiểu cách nhận biết và quản lý stress hiệu quả.",
-    content: `
-      <h2>Stress công việc là gì?</h2>
-      <p>Stress công việc là phản ứng tâm lý và thể chất khi áp lực công việc vượt quá khả năng đáp ứng của một người. Đây là vấn đề phổ biến ảnh hưởng đến hàng triệu người trên toàn thế giới.</p>
-      
-      <h2>Triệu chứng của stress công việc</h2>
-      <h3>Triệu chứng thể chất:</h3>
-      <ul>
-        <li>Đau đầu thường xuyên</li>
-        <li>Đau vai gáy, đau lưng</li>
-        <li>Mệt mỏi kéo dài</li>
-        <li>Rối loạn giấc ngủ</li>
-        <li>Rối loạn tiêu hóa</li>
-        <li>Tim đập nhanh</li>
-      </ul>
-      
-      <h3>Triệu chứng tâm lý:</h3>
-      <ul>
-        <li>Lo âu, bồn chồn</li>
-        <li>Cáu gắt, dễ nổi giận</li>
-        <li>Khó tập trung</li>
-        <li>Giảm động lực làm việc</li>
-        <li>Cảm giác quá tải</li>
-        <li>Mất tự tin</li>
-      </ul>
-      
-      <h3>Triệu chứng hành vi:</h3>
-      <ul>
-        <li>Thay đổi thói quen ăn uống</li>
-        <li>Tránh né trách nhiệm</li>
-        <li>Trì hoãn công việc</li>
-        <li>Tăng sử dụng caffeine, rượu</li>
-        <li>Cô lập bản thân</li>
-      </ul>
-      
-      <h2>Nguyên nhân gây stress công việc</h2>
-      <ul>
-        <li>Khối lượng công việc quá lớn</li>
-        <li>Thời hạn gấp rút</li>
-        <li>Môi trường làm việc độc hại</li>
-        <li>Xung đột với đồng nghiệp, cấp trên</li>
-        <li>Thiếu sự công nhận và khen thưởng</li>
-        <li>Mất cân bằng công việc - cuộc sống</li>
-        <li>Bất ổn trong công việc</li>
-        <li>Thiếu quyền tự chủ</li>
-      </ul>
-      
-      <h2>Cách quản lý stress hiệu quả</h2>
-      <h3>1. Kỹ năng quản lý thời gian:</h3>
-      <ul>
-        <li>Lập danh sách công việc ưu tiên</li>
-        <li>Chia nhỏ công việc lớn thành các phần nhỏ</li>
-        <li>Học cách nói "không" khi cần thiết</li>
-        <li>Sử dụng kỹ thuật Pomodoro (25 phút tập trung - 5 phút nghỉ)</li>
-      </ul>
-      
-      <h3>2. Kỹ thuật thư giãn:</h3>
-      <ul>
-        <li>Hít thở sâu</li>
-        <li>Thiền định 10-15 phút/ngày</li>
-        <li>Yoga</li>
-        <li>Nghe nhạc thư giãn</li>
-        <li>Đi dạo trong thiên nhiên</li>
-      </ul>
-      
-      <h3>3. Chăm sóc bản thân:</h3>
-      <ul>
-        <li>Ngủ đủ 7-8 tiếng mỗi đêm</li>
-        <li>Ăn uống lành mạnh</li>
-        <li>Tập thể dục đều đặn</li>
-        <li>Giảm caffeine và rượu</li>
-        <li>Dành thời gian cho sở thích</li>
-      </ul>
-      
-      <h3>4. Xây dựng mối quan hệ hỗ trợ:</h3>
-      <ul>
-        <li>Chia sẻ với gia đình, bạn bè</li>
-        <li>Xây dựng mạng lưới đồng nghiệp</li>
-        <li>Tham gia các hoạt động nhóm</li>
-        <li>Tìm kiếm mentor</li>
-      </ul>
-      
-      <h3>5. Tìm kiếm sự hỗ trợ chuyên nghiệp:</h3>
-      <p>Nếu stress kéo dài và ảnh hưởng nghiêm trọng đến cuộc sống, hãy:</p>
-      <ul>
-        <li>Tư vấn với chuyên gia tâm lý</li>
-        <li>Tham gia liệu pháp nhận thức hành vi (CBT)</li>
-        <li>Xem xét điều chỉnh môi trường làm việc</li>
-      </ul>
-      
-      <h2>Khi nào cần gặp bác sĩ?</h2>
-      <p>Bạn nên tìm kiếm sự trợ giúp y tế khi:</p>
-      <ul>
-        <li>Stress kéo dài hơn 2 tuần</li>
-        <li>Ảnh hưởng nghiêm trọng đến công việc và cuộc sống</li>
-        <li>Có suy nghĩ tiêu cực, tự làm hại bản thân</li>
-        <li>Các triệu chứng thể chất nặng nề</li>
-        <li>Sử dụng rượu hoặc thuốc để đối phó</li>
-      </ul>
-      
-      <h2>Dịch vụ tư vấn tâm lý tại Trung tâm</h2>
-      <p>Trung tâm Y tế Liên Chiểu cung cấp dịch vụ tư vấn sức khỏe tinh thần:</p>
-      <ul>
-        <li>Tư vấn cá nhân và nhóm</li>
-        <li>Liệu pháp tâm lý</li>
-        <li>Đánh giá và hỗ trợ sức khỏe tinh thần</li>
-        <li>Hotline tư vấn: 0236.123.4567 (24/7)</li>
-      </ul>
-    `,
-    category: {
-      id: "cssk",
-      name: "Chăm sóc sức khỏe",
-    },
-    tags: ["sức khỏe tinh thần", "stress", "tâm lý", "công việc"],
-    metaTitle: "Nhận Biết Và Quản Lý Stress Công Việc Hiệu Quả",
-    metaDesc:
-      "Hướng dẫn chi tiết cách nhận biết triệu chứng stress công việc và các phương pháp quản lý stress hiệu quả.",
+      "Thông báo chương trình khám sức khoẻ tổng quát miễn phí dành cho người cao tuổi và hộ nghèo tại Liên Chiều trong tháng 3/2026.",
+    content: `<h2>Đối tượng</h2><ul><li>Người từ 60 tuổi trở lên tại quận Liên Chiều</li><li>Hộ nghèo, cận nghèo có xác nhận UBND phường</li><li>Người khuyết tật và gia đình chính sách</li></ul><h2>Nội dung khám miễn phí</h2><p>Khám lâm sàng, xét nghiệm máu toàn phần, sinh hoá (đường huyết, mỡ máu, gan thận), X-quang phổi, siêu âm ổ bụng, điện tim.</p><h2>Thời gian – Địa điểm</h2><p>01–31/03/2026; thứ 2–6: 7h–11h. Tại Trung tâm chính và trạm y tế 5 phường theo lịch cuốn chiếu.</p>`,
+    category: { id: "ytcd", name: "Y tế cộng đồng" },
+    tags: ["khám miễn phí", "cộng đồng", "người cao tuổi"],
+    metaTitle: "Chương Trình Khám Sức Khoẻ Miễn Phí Tháng 3/2026 | Liên Chiều",
+    metaDesc: "Chi tiết chương trình khám miễn phí cho người cao tuổi và hộ nghèo tháng 3/2026 tại Liên Chiều.",
     status: "PUBLISHED",
-    thumbnail: "https://picsum.photos/seed/news007/800/450",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news009/800/450",
+    view: 3421,
+    createdAt: "2026-01-05T09:45:00.000Z",
+    updatedAt: "2026-01-12T15:30:00.000Z",
+  },
+  {
+    id: "news-010",
+    author: { id: "14", name: "Nguyễn Thị Ngọc" },
+    title: "Sức khoẻ tinh thần: Nhận biết và đối phó với stress trong công việc",
+    shortDesc:
+      "Stress công việc đang ảnh hưởng đến sức khoẻ của bạn? Tìm hiểu cách nhận biết và quản lý stress hiệu quả.",
+    content: `<h2>Triệu chứng nhận biết stress công việc</h2><ul><li>Thể chất: đau đầu, mệt mỏi kéo dài, rối loạn giấc ngủ</li><li>Tâm lý: lo âu, cáu gắt, mất tập trung</li><li>Hành vi: trì hoãn, tránh né, tăng caffeine</li></ul><h2>Các kỹ thuật quản lý hiệu quả</h2><ul><li>Pomodoro: 25 phút tập trung – 5 phút nghỉ</li><li>Thiền định 10–15 phút/ngày</li><li>Vận động thể chất đều đặn</li><li>Xây dựng ranh giới rõ ràng giữa công việc và cuộc sống</li></ul><h2>Khi nào cần gặp chuyên gia?</h2><p>Nếu stress kéo dài hơn 2 tuần hoặc ảnh hưởng nghiêm trọng đến sinh hoạt, hãy liên hệ phòng tư vấn tâm lý của Trung tâm.</p>`,
+    category: { id: "cssk", name: "Chăm sóc sức khoẻ" },
+    tags: ["sức khoẻ tinh thần", "stress", "tâm lý", "công việc"],
+    metaTitle: "Nhận Biết Và Quản Lý Stress Công Việc Hiệu Quả",
+    metaDesc: "Hướng dẫn nhận biết triệu chứng và các phương pháp quản lý stress công việc hiệu quả.",
+    status: "PUBLISHED",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news010/800/450",
     view: 1834,
     createdAt: "2026-01-28T11:30:00.000Z",
     updatedAt: "2026-02-03T08:15:00.000Z",
   },
-
   {
-    id: "news-008",
-    author: {
-      id: "6",
-      name: "Trần Thị Mai",
-    },
+    id: "news-011",
+    author: { id: "6", name: "Trần Thị Mai" },
     title: "Hướng dẫn sơ cứu cơ bản: Kỹ năng quan trọng mọi người cần biết",
     shortDesc:
-      "Trang bị kiến thức sơ cứu cơ bản để xử lý các tình huống khẩn cấp, có thể cứu sống người khác trong những phút quan trọng.",
-    content: `
-      <h2>Tại sao cần học sơ cứu?</h2>
-      <p>Tai nạn có thể xảy ra bất cứ lúc nào và ở bất kỳ đâu. Biết cách sơ cứu đúng cách có thể:</p>
-      <ul>
-        <li>Cứu sống người bị nạn</li>
-        <li>Giảm nguy cơ tổn thương nghiêm trọng</li>
-        <li>Ngăn ngừa tình trạng xấu đi</li>
-        <li>Tăng cơ hội hồi phục</li>
-      </ul>
-      
-      <h2>Nguyên tắc cơ bản trong sơ cứu</h2>
-      <h3>3 chữ "A" trong sơ cứu:</h3>
-      <ul>
-        <li><strong>Assess (Đánh giá):</strong> Đánh giá tình hình an toàn</li>
-        <li><strong>Alert (Báo động):</strong> Gọi cấp cứu 115</li>
-        <li><strong>Attend (Chăm sóc):</strong> Tiến hành sơ cứu</li>
-      </ul>
-      
-      <h3>Thứ tự ưu tiên:</h3>
-      <ol>
-        <li>Đảm bảo an toàn cho bản thân và nạn nhân</li>
-        <li>Gọi cấp cứu 115</li>
-        <li>Kiểm tra ý thức, hô hấp, mạch</li>
-        <li>Xử lý các vấn đề đe dọa tính mạng trước</li>
-        <li>Chờ xe cấp cứu đến</li>
-      </ol>
-      
-      <h2>1. Sơ cứu người ngừng tim</h2>
-      <h3>Nhận biết:</h3>
-      <ul>
-        <li>Không có ý thức</li>
-        <li>Không thở hoặc thở bất thường</li>
-        <li>Không có mạch</li>
-      </ul>
-      
-      <h3>Cách xử lý - CPR (Hồi sức tim phổi):</h3>
-      <ol>
-        <li>Gọi cấp cứu 115 ngay lập tức</li>
-        <li>Đặt nạn nhân nằm ngửa trên mặt phẳng cứng</li>
-        <li>Đặt gót bàn tay lên giữa xương ức</li>
-        <li>Chồng bàn tay còn lại lên trên, thẳng cánh tay</li>
-        <li>Ấn mạnh, nhanh: 100-120 lần/phút, sâu 5-6cm</li>
-        <li>Sau 30 lần ấn, thổi 2 hơi thở cứu hộ (nếu biết cách)</li>
-        <li>Tiếp tục chu kỳ 30:2 cho đến khi cấp cứu đến</li>
-      </ol>
-      
-      <h2>2. Sơ cứu người bị chảy máu</h2>
-      <h3>Chảy máu ngoài:</h3>
-      <ol>
-        <li>Rửa tay hoặc đeo găng tay</li>
-        <li>Dùng băng sạch ấn trực tiếp vào vết thương</li>
-        <li>Giữ vững trong 10-15 phút</li>
-        <li>Nếu máu thấm qua, đặt thêm băng lên trên (không bỏ băng cũ)</li>
-        <li>Băng chặt vết thương sau khi cầm máu</li>
-        <li>Nâng cao vùng bị thương nếu có thể</li>
-      </ol>
-      
-      <h3>Chảy máu cam:</h3>
-      <ol>
-        <li>Ngồi thẳng, cúi đầu về phía trước</li>
-        <li>Kẹp chặt cánh mũi trong 10 phút</li>
-        <li>Thở qua miệng</li>
-        <li>Chườm lạnh sống mũi</li>
-        <li>Không ngửa đầu ra sau</li>
-      </ol>
-      
-      <h2>3. Sơ cứu người bị bỏng</h2>
-      <h3>Bỏng nhẹ (độ 1-2, diện tích nhỏ):</h3>
-      <ol>
-        <li>Dùng nước mát (không lạnh) rửa vết bỏng 10-20 phút</li>
-        <li>Không chọc vỡ phồng rộp</li>
-        <li>Phủ băng sạch, không dính</li>
-        <li>Uống thuốc giảm đau nếu cần</li>
-      </ol>
-      
-      <h3>Bỏng nặng (độ 3, diện tích lớn):</h3>
-      <ol>
-        <li>Gọi cấp cứu 115 ngay</li>
-        <li>Không tháo quần áo dính vào da</li>
-        <li>Phủ băng sạch, ẩm</li>
-        <li>Không bôi kem, dầu, bơ, kem đánh răng</li>
-        <li>Giữ ấm cho nạn nhân</li>
-      </ol>
-      
-      <h2>4. Sơ cứu người bị ngạt thở</h2>
-      <h3>Nhận biết:</h3>
-      <ul>
-        <li>Tay ôm cổ</li>
-        <li>Không nói được</li>
-        <li>Ho mạnh hoặc không ho được</li>
-        <li>Mặt tái xanh, tím</li>
-      </ul>
-      
-      <h3>Cách xử lý - Thủ thuật Heimlich:</h3>
-      <ol>
-        <li>Đứng sau lưng nạn nhân</li>
-        <li>Khum một tay thành nắm đấm, đặt ngay trên rốn</li>
-        <li>Tay còn lại ôm lấy nắm đấm</li>
-        <li>Đẩy mạnh vào trong và lên trên</li>
-        <li>Lặp lại cho đến khi vật lạ tống ra</li>
-      </ol>
-      
-      <h2>5. Sơ cứu người bị gãy xương</h2>
-      <ol>
-        <li>Không di chuyển nạn nhân trừ khi cần thiết</li>
-        <li>Cố định vùng gãy bằng nẹp tạm</li>
-        <li>Chườm lạnh để giảm sưng</li>
-        <li>Không cố ấn xương về đúng vị trí</li>
-        <li>Chờ xe cấp cứu hoặc đưa đến bệnh viện</li>
-      </ol>
-      
-      <h2>Tủ thuốc sơ cứu gia đình</h2>
-      <p>Mỗi gia đình nên chuẩn bị:</p>
-      <ul>
-        <li>Băng gạc vô trùng các loại</li>
-        <li>Băng dính y tế</li>
-        <li>Bông gòn, cồn, nước muối sinh lý</li>
-        <li>Nhiệt kế</li>
-        <li>Kéo, nhíp</li>
-        <li>Găng tay y tế</li>
-        <li>Thuốc hạ sốt, giảm đau</li>
-        <li>Thuốc khử trùng vết thương</li>
-        <li>Túi chườm lạnh</li>
-        <li>Sổ tay hướng dẫn sơ cứu</li>
-      </ul>
-      
-      <h2>Lớp học sơ cứu tại Trung tâm</h2>
-      <p>Trung tâm Y tế Liên Chiểu tổ chức khóa đào tạo sơ cứu cơ bản:</p>
-      <ul>
-        <li>Thời lượng: 4 tiếng</li>
-        <li>Thực hành trên mô hình</li>
-        <li>Cấp chứng chỉ</li>
-        <li>Miễn phí cho cộng đồng</li>
-        <li>Đăng ký: 0236.123.4567</li>
-      </ul>
-    `,
-    category: {
-      id: "cssk",
-      name: "Chăm sóc sức khỏe",
-    },
+      "Trang bị kiến thức sơ cứu cơ bản để xử lý tình huống khẩn cấp, có thể cứu sống người khác trong những phút quan trọng.",
+    content: `<h2>Nguyên tắc 3A</h2><ul><li><strong>Assess:</strong> Đánh giá an toàn hiện trường</li><li><strong>Alert:</strong> Gọi cấp cứu 115</li><li><strong>Attend:</strong> Tiến hành sơ cứu</li></ul><h2>CPR – Hồi sức tim phổi</h2><p>100–120 lần ấn ngực/phút, sâu 5–6 cm, chu kỳ 30 lần ấn : 2 hơi thổi. Tiếp tục đến khi xe cấp cứu đến.</p><h2>Cầm máu</h2><p>Ấn trực tiếp bằng băng sạch 10–15 phút, nâng cao vùng tổn thương, không bỏ băng cũ khi thêm băng mới.</p><h2>Xử lý bỏng</h2><p>Rửa nước mát (không lạnh) 10–20 phút; không chọc vỡ phồng rộp; không bôi kem, bơ hay kem đánh răng.</p>`,
+    category: { id: "cssk", name: "Chăm sóc sức khoẻ" },
     tags: ["sơ cứu", "kỹ năng", "an toàn", "cấp cứu"],
-    metaTitle: "Hướng Dẫn Sơ Cứu Cơ Bản - Kỹ Năng Cứu Người",
-    metaDesc:
-      "Trang bị kiến thức sơ cứu cơ bản: CPR, cầm máu, xử lý bỏng, ngạt thở và gãy xương. Kỹ năng quan trọng mọi người cần biết.",
+    metaTitle: "Hướng Dẫn Sơ Cứu Cơ Bản – Kỹ Năng Cứu Người",
+    metaDesc: "Trang bị kiến thức sơ cứu cơ bản: CPR, cầm máu, xử lý bỏng, ngạt thở và gãy xương.",
     status: "PUBLISHED",
-    thumbnail: "https://picsum.photos/seed/news008/800/450",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news011/800/450",
     view: 2678,
     createdAt: "2026-01-18T15:45:00.000Z",
     updatedAt: "2026-01-26T13:20:00.000Z",
   },
-
   {
-    id: "news-009",
-    author: {
-      id: "11",
-      name: "Hoàng Văn Đức",
-    },
-    title: "Chế độ ăn Địa Trung Hải: Bí quyết sống thọ và khỏe mạnh",
+    id: "news-012",
+    author: { id: "11", name: "Hoàng Văn Đức" },
+    title: "Chế độ ăn Địa Trung Hải: Bí quyết sống thọ và khoẻ mạnh",
     shortDesc:
-      "Khám phá chế độ ăn Địa Trung Hải - một trong những chế độ ăn lành mạnh nhất thế giới, giúp kéo dài tuổi thọ và phòng ngừa bệnh tật.",
-    content: `
-      <h2>Chế độ ăn Địa Trung Hải là gì?</h2>
-      <p>Chế độ ăn Địa Trung Hải (Mediterranean Diet) là lối sống dinh dưỡng truyền thống của người dân vùng Địa Trung Hải, đặc biệt là Hy Lạp, Ý và Tây Ban Nha. Đây được UNESCO công nhận là di sản văn hóa phi vật thể của nhân loại.</p>
-      
-      <h2>Lợi ích sức khỏe đã được chứng minh</h2>
-      <h3>1. Giảm nguy cơ bệnh tim mạch:</h3>
-      <ul>
-        <li>Giảm 30% nguy cơ đau tim và đột quỵ</li>
-        <li>Giảm cholesterol xấu (LDL)</li>
-        <li>Tăng cholesterol tốt (HDL)</li>
-        <li>Giảm viêm mạch máu</li>
-      </ul>
-      
-      <h3>2. Phòng ngừa đái tháo đường:</h3>
-      <ul>
-        <li>Cải thiện độ nhạy insulin</li>
-        <li>Kiểm soát đường huyết tốt hơn</li>
-        <li>Giảm 20-23% nguy cơ mắc đái tháo đường type 2</li>
-      </ul>
-      
-      <h3>3. Bảo vệ não bộ:</h3>
-      <ul>
-        <li>Giảm nguy cơ Alzheimer</li>
-        <li>Cải thiện trí nhớ và nhận thức</li>
-        <li>Giảm nguy cơ trầm cảm</li>
-      </ul>
-      
-      <h3>4. Kiểm soát cân nặng:</h3>
-      <ul>
-        <li>Dễ duy trì lâu dài</li>
-        <li>Không cảm giác đói</li>
-        <li>Giảm cân bền vững</li>
-      </ul>
-      
-      <h2>Nguyên tắc cơ bản</h2>
-      <h3>Nhóm thực phẩm chính (ăn hàng ngày):</h3>
-      <ul>
-        <li><strong>Rau xanh:</strong> 7-10 phần/ngày</li>
-        <li><strong>Trái cây:</strong> 3-4 phần/ngày</li>
-        <li><strong>Ngũ cốc nguyên hạt:</strong> Gạo lứt, yến mạch, bánh mì nguyên cám</li>
-        <li><strong>Đậu, hạt:</strong> Đậu lăng, đậu chickpea, hạnh nhân, óc chó</li>
-        <li><strong>Dầu ô liu:</strong> Nguồn chất béo chính</li>
-        <li><strong>Thảo mộc, gia vị:</strong> Thay thế muối</li>
-      </ul>
-      
-      <h3>Ăn thường xuyên (hàng tuần):</h3>
-      <ul>
-        <li><strong>Cá, hải sản:</strong> 2-3 lần/tuần (cá hồi, cá thu, cá mòi)</li>
-        <li><strong>Gia cầm:</strong> 2 lần/tuần</li>
-        <li><strong>Trứng:</strong> 2-4 quả/tuần</li>
-        <li><strong>Sữa chua, phô mai:</strong> Vừa phải</li>
-      </ul>
-      
-      <h3>Ăn ít (tháng 1-2 lần):</h3>
-      <ul>
-        <li>Thịt đỏ</li>
-        <li>Đồ ngọt</li>
-      </ul>
-      
-      <h3>Nên tránh:</h3>
-      <ul>
-        <li>Thực phẩm chế biến sẵn</li>
-        <li>Đồ uống có đường</li>
-        <li>Thịt chế biến (xúc xích, thịt nguội)</li>
-        <li>Bơ, margarine</li>
-      </ul>
-      
-      <h2>Thực đơn mẫu 1 ngày</h2>
-      <h3>Bữa sáng:</h3>
-      <p>Sữa chua Hy Lạp + trái cây tươi + hạt óc chó + mật ong</p>
-      <p>Hoặc: Bánh mì nguyên cám + bơ + cà chua + dầu ô liu</p>
-      
-      <h3>Bữa trưa:</h3>
-      <p>Salad rau trộn (rau xà lách, cà chua, dưa chuột, hành tây) + cá nướng + dầu ô liu + chanh</p>
-      <p>Hoặc: Súp đậu lăng + bánh mì nguyên cám</p>
-      
-      <h3>Bữa tối:</h3>
-      <p>Cá hồi nướng + rau củ nướng + gạo lứt</p>
-      <p>Hoặc: Mì ống nguyên cám + sốt cà chua + rau củ + phô mai</p>
-      
-      <h3>Bữa phụ:</h3>
-      <ul>
-        <li>Hoa quả tươi</li>
-        <li>Hạt hỗn hợp (hạnh nhân, óc chó)</li>
-        <li>Sữa chua</li>
-      </ul>
-      
-      <h2>Mẹo thực hành tại Việt Nam</h2>
-      <h3>Thay thế phù hợp:</h3>
-      <ul>
-        <li><strong>Dầu ô liu:</strong> Có thể kết hợp với dầu mè, dầu bơ</li>
-        <li><strong>Cá:</strong> Cá thu, cá ngừ, cá hồi tươi tại chợ</li>
-        <li><strong>Ngũ cốc:</strong> Gạo lứt, yến mạch dễ mua</li>
-        <li><strong>Rau:</strong> Rau xanh Việt Nam rất đa dạng</li>
-      </ul>
-      
-      <h3>Mẹo nấu ăn:</h3>
-      <ul>
-        <li>Ưu tiên hấp, nướng, luộc thay vì chiên</li>
-        <li>Dùng dầu ô liu cho món salad</li>
-        <li>Thêm thảo mộc vào món ăn</li>
-        <li>Ăn chậm, thưởng thức từng món</li>
-      </ul>
-      
-      <h2>Lối sống Địa Trung Hải</h2>
-      <p>Ngoài ăn uống, chế độ Địa Trung Hải còn bao gồm:</p>
-      <ul>
-        <li>Vận động thể chất đều đặn</li>
-        <li>Ăn uống cùng gia đình, bạn bè</li>
-        <li>Thưởng thức đồ ăn, không vội vàng</li>
-        <li>Nghỉ ngơi, thư giãn đầy đủ</li>
-        <li>Uống rượu vang đỏ vừa phải (nếu muốn): 1 ly/ngày</li>
-      </ul>
-      
-      <h2>Lưu ý khi bắt đầu</h2>
-      <ul>
-        <li>Chuyển đổi từ từ, không vội vàng</li>
-        <li>Bắt đầu với 1-2 bữa/tuần</li>
-        <li>Lựa chọn thực phẩm theo mùa</li>
-        <li>Đọc nhãn mác khi mua sắm</li>
-        <li>Nấu ăn tại nhà nhiều hơn</li>
-      </ul>
-      
-      <h2>Tư vấn dinh dưỡng tại Trung tâm</h2>
-      <p>Phòng Dinh dưỡng - Trung tâm Y tế Liên Chiểu cung cấp:</p>
-      <ul>
-        <li>Tư vấn chế độ ăn cá nhân hóa</li>
-        <li>Xây dựng thực đơn phù hợp</li>
-        <li>Theo dõi và điều chỉnh định kỳ</li>
-        <li>Lớp học nấu ăn lành mạnh</li>
-      </ul>
-    `,
-    category: {
-      id: "dd",
-      name: "Dinh dưỡng",
-    },
-    tags: ["dinh dưỡng", "chế độ ăn", "địa trung hải", "sống khỏe"],
-    metaTitle: "Chế Độ Ăn Địa Trung Hải - Bí Quyết Sống Thọ Và Khỏe Mạnh",
-    metaDesc:
-      "Hướng dẫn chi tiết về chế độ ăn Địa Trung Hải, lợi ích sức khỏe, thực đơn mẫu và cách thực hành tại Việt Nam.",
+      "Khám phá chế độ ăn Địa Trung Hải — một trong những chế độ ăn lành mạnh nhất thế giới, giúp kéo dài tuổi thọ và phòng ngừa bệnh tật.",
+    content: `<h2>Lợi ích đã được chứng minh</h2><ul><li>Giảm 30% nguy cơ đau tim và đột quỵ</li><li>Cải thiện độ nhạy insulin, giảm 20–23% nguy cơ đái tháo đường type 2</li><li>Bảo vệ não bộ, giảm nguy cơ Alzheimer</li></ul><h2>Thực phẩm cốt lõi</h2><p>Rau xanh (7–10 phần/ngày), trái cây, ngũ cốc nguyên hạt, đậu hạt, dầu ô liu, cá hải sản 2–3 lần/tuần.</p><h2>Thực hành tại Việt Nam</h2><p>Thay dầu ô liu bằng dầu mè cho xào; dùng cá thu, cá ngừ thay cá hồi; ưu tiên hấp và nướng thay chiên rán.</p>`,
+    category: { id: "dd", name: "Dinh dưỡng" },
+    tags: ["dinh dưỡng", "chế độ ăn", "địa trung hải", "sống khoẻ"],
+    metaTitle: "Chế Độ Ăn Địa Trung Hải – Bí Quyết Sống Thọ Và Khoẻ Mạnh",
+    metaDesc: "Hướng dẫn chi tiết về chế độ ăn Địa Trung Hải, lợi ích sức khoẻ và cách thực hành tại Việt Nam.",
     status: "PENDING",
-    thumbnail: "https://picsum.photos/seed/news009/800/450",
-    view: 412,
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news012/800/450",
+    view: 0,
     createdAt: "2026-02-07T16:10:00.000Z",
     updatedAt: "2026-02-09T12:40:00.000Z",
   },
-
   {
-    id: "news-010",
-    author: {
-      id: "8",
-      name: "Lê Thị Hồng",
-    },
+    id: "news-013",
+    author: { id: "8", name: "Lê Thị Hồng" },
     title: "Tầm soát ung thư: Những xét nghiệm quan trọng theo từng độ tuổi",
     shortDesc:
       "Hướng dẫn lịch tầm soát ung thư theo độ tuổi giúp phát hiện sớm và điều trị kịp thời, tăng tỷ lệ khỏi bệnh lên 90%.",
-    content: `
-      <h2>Tầm quan trọng của tầm soát ung thư</h2>
-      <p>Tầm soát ung thư là việc tìm kiếm ung thư ở người chưa có triệu chứng. Phát hiện sớm giúp điều trị hiệu quả hơn, tỷ lệ khỏi bệnh cao hơn và chi phí thấp hơn.</p>
-      
-      <h3>Lợi ích của tầm soát:</h3>
-      <ul>
-        <li>Phát hiện ung thư giai đoạn sớm</li>
-        <li>Tỷ lệ khỏi bệnh lên đến 90%</li>
-        <li>Phương pháp điều trị ít xâm lấn hơn</li>
-        <li>Giảm tỷ lệ tử vong</li>
-        <li>Tiết kiệm chi phí điều trị</li>
-      </ul>
-      
-      <h2>Tầm soát cho nữ giới</h2>
-      <h3>1. Ung thư vú:</h3>
-      <p><strong>Độ tuổi 20-39:</strong></p>
-      <ul>
-        <li>Tự khám vú hàng tháng</li>
-        <li>Khám lâm sàng 1-3 năm/lần</li>
-      </ul>
-      
-      <p><strong>Độ tuổi 40-49:</strong></p>
-      <ul>
-        <li>Tự khám vú hàng tháng</li>
-        <li>Chụp nhũ ảnh (mammography) 1-2 năm/lần</li>
-        <li>Khám lâm sàng hàng năm</li>
-      </ul>
-      
-      <p><strong>Từ 50 tuổi trở lên:</strong></p>
-      <ul>
-        <li>Chụp nhũ ảnh 1-2 năm/lần</li>
-        <li>Khám lâm sàng hàng năm</li>
-      </ul>
-      
-      <h3>2. Ung thư cổ tử cung:</h3>
-      <p><strong>Độ tuổi 21-29:</strong></p>
-      <ul>
-        <li>Xét nghiệm tế bào học (Pap smear) 3 năm/lần</li>
-      </ul>
-      
-      <p><strong>Độ tuổi 30-65:</strong></p>
-      <ul>
-        <li>Xét nghiệm tế bào học 3 năm/lần</li>
-        <li>Hoặc: Xét nghiệm HPV + Pap 5 năm/lần</li>
-      </ul>
-      
-      <p><strong>Trên 65 tuổi:</strong></p>
-      <ul>
-        <li>Có thể ngưng tầm soát nếu kết quả trước đó âm tính</li>
-      </ul>
-      
-      <h3>3. Ung thư buồng trứng:</h3>
-      <p><strong>Nguy cơ cao (gia đình có tiền sử):</strong></p>
-      <ul>
-        <li>Xét nghiệm CA-125</li>
-        <li>Siêu âm âm đạo</li>
-        <li>Tư vấn gen BRCA</li>
-      </ul>
-      
-      <h2>Tầm soát cho nam giới</h2>
-      <h3>1. Ung thư tuyến tiền liệt:</h3>
-      <p><strong>Độ tuổi 50-75:</strong></p>
-      <ul>
-        <li>Xét nghiệm PSA hàng năm</li>
-        <li>Khám trực tràng</li>
-      </ul>
-      
-      <p><strong>Độ tuổi 40-50 (nguy cơ cao):</strong></p>
-      <ul>
-        <li>Tầm soát sớm hơn nếu có gia đình mắc bệnh</li>
-      </ul>
-      
-      <h2>Tầm soát cho cả nam và nữ</h2>
-      <h3>1. Ung thư đại - trực tràng:</h3>
-      <p><strong>Độ tuổi 45-75:</strong></p>
-      <ul>
-        <li>Nội soi đại tràng 10 năm/lần</li>
-        <li>Hoặc: Xét nghiệm máu ẩn trong phân hàng năm</li>
-        <li>Hoặc: Nội soi sigma 5 năm/lần</li>
-      </ul>
-      
-      <p><strong>Nguy cơ cao:</strong></p>
-      <ul>
-        <li>Tầm soát sớm hơn (trước 45 tuổi)</li>
-        <li>Tần suất dày hơn</li>
-      </ul>
-      
-      <h3>2. Ung thư phổi:</h3>
-      <p><strong>Độ tuổi 50-80 (người hút thuốc):</strong></p>
-      <ul>
-        <li>CT liều thấp hàng năm</li>
-        <li>Điều kiện: Hút ≥ 20 gói-năm</li>
-      </ul>
-      
-      <h3>3. Ung thư da:</h3>
-      <p><strong>Mọi độ tuổi:</strong></p>
-      <ul>
-        <li>Tự kiểm tra da hàng tháng</li>
-        <li>Khám da hàng năm nếu có yếu tố nguy cơ</li>
-      </ul>
-      
-      <h3>4. Ung thư dạ dày:</h3>
-      <p><strong>Độ tuổi ≥ 40 (vùng nguy cơ cao):</strong></p>
-      <ul>
-        <li>Nội soi dạ dày</li>
-        <li>Xét nghiệm Helicobacter pylori</li>
-      </ul>
-      
-      <h3>5. Ung thư gan:</h3>
-      <p><strong>Nguy cơ cao (viêm gan B, C, xơ gan):</strong></p>
-      <ul>
-        <li>Siêu âm gan 6 tháng/lần</li>
-        <li>Xét nghiệm AFP</li>
-      </ul>
-      
-      <h2>Yếu tố nguy cơ cần tầm soát sớm</h2>
-      <ul>
-        <li>Gia đình có người mắc ung thư</li>
-        <li>Tiền sử bản thân mắc ung thư</li>
-        <li>Hút thuốc lá</li>
-        <li>Uống rượu nhiều</li>
-        <li>Béo phì</li>
-        <li>Nhiễm virus: HPV, HBV, HCV</li>
-        <li>Chế độ ăn không lành mạnh</li>
-        <li>Ít vận động</li>
-      </ul>
-      
-      <h2>Dấu hiệu cảnh báo cần khám ngay</h2>
-      <p>Không nên chờ đến kỳ tầm soát nếu có:</p>
-      <ul>
-        <li>Khối u bất thường</li>
-        <li>Chảy máu không rõ nguyên nhân</li>
-        <li>Sụt cân không giải thích được</li>
-        <li>Mệt mỏi kéo dài</li>
-        <li>Đau dai dẳng</li>
-        <li>Thay đổi thói quen đại tiện</li>
-        <li>Khó nuốt</li>
-        <li>Ho kéo dài</li>
-      </ul>
-      
-      <h2>Chi phí tầm soát ung thư</h2>
-      <p>Tại Trung tâm Y tế Liên Chiểu, chúng tôi cung cấp các gói tầm soát:</p>
-      
-      <h3>Gói tầm soát cơ bản (Nam):</h3>
-      <ul>
-        <li>Khám lâm sàng</li>
-        <li>Xét nghiệm PSA</li>
-        <li>Xét nghiệm máu ẩn phân</li>
-        <li>X-quang phổi</li>
-      </ul>
-      
-      <h3>Gói tầm soát cơ bản (Nữ):</h3>
-      <ul>
-        <li>Khám lâm sàng</li>
-        <li>Pap smear</li>
-        <li>Chụp nhũ ảnh</li>
-        <li>Xét nghiệm máu ẩn phân</li>
-        <li>X-quang phổi</li>
-      </ul>
-      
-      <h3>Gói tầm soát toàn diện:</h3>
-      <ul>
-        <li>Tất cả các xét nghiệm cơ bản</li>
-        <li>Nội soi đại tràng</li>
-        <li>CT phổi liều thấp</li>
-        <li>Siêu âm ổ bụng</li>
-        <li>Xét nghiệm dấu ấn ung thư</li>
-      </ul>
-      
-      <h2>Đăng ký tầm soát</h2>
-      <p>Liên hệ ngay:</p>
-      <ul>
-        <li>Hotline: 0236.123.4567</li>
-        <li>Email: tamsoat@lienchieuhealth.vn</li>
-        <li>Trực tiếp tại Trung tâm</li>
-      </ul>
-      
-      <p><strong>Ưu đãi:</strong> Giảm 20% cho khách hàng đăng ký online trong tháng 3/2026</p>
-    `,
-    category: {
-      id: "ttsk",
-      name: "Tin tức sức khỏe",
-    },
-    tags: ["ung thư", "tầm soát", "phát hiện sớm", "sức khỏe"],
-    metaTitle: "Lịch Tầm Soát Ung Thư Theo Độ Tuổi - Phát Hiện Sớm Cứu Sống",
-    metaDesc:
-      "Hướng dẫn đầy đủ các xét nghiệm tầm soát ung thư quan trọng theo từng độ tuổi, giúp phát hiện sớm và điều trị kịp thời.",
+    content: `<h2>Tại sao cần tầm soát định kỳ?</h2><p>Phát hiện ung thư giai đoạn sớm giúp điều trị ít xâm lấn hơn, tỷ lệ khỏi bệnh đạt 90% và chi phí thấp hơn nhiều.</p><h2>Lịch tầm soát theo độ tuổi</h2><ul><li><strong>21–29 tuổi (nữ):</strong> Pap smear mỗi 3 năm</li><li><strong>40+ (nữ):</strong> Nhũ ảnh 1–2 năm/lần</li><li><strong>45–75:</strong> Nội soi đại tràng 10 năm/lần hoặc xét nghiệm phân hàng năm</li><li><strong>50+ (hút thuốc):</strong> CT phổi liều thấp hàng năm</li><li><strong>50–75 (nam):</strong> PSA + khám trực tràng hàng năm</li></ul><h2>Dấu hiệu không nên chờ</h2><p>Khối u bất thường, chảy máu không rõ nguyên nhân, sụt cân nhanh — cần đến khám ngay, không đợi đến lịch tầm soát.</p>`,
+    category: { id: "ttsk", name: "Tin tức sức khoẻ" },
+    tags: ["ung thư", "tầm soát", "phát hiện sớm", "sức khoẻ"],
+    metaTitle: "Lịch Tầm Soát Ung Thư Theo Độ Tuổi – Phát Hiện Sớm Cứu Sống",
+    metaDesc: "Hướng dẫn đầy đủ các xét nghiệm tầm soát ung thư quan trọng theo từng độ tuổi.",
     status: "DRAFT",
-    thumbnail: "https://picsum.photos/seed/news010/800/450",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news013/800/450",
     view: 0,
     createdAt: "2026-02-10T17:30:00.000Z",
     updatedAt: "2026-02-11T09:15:00.000Z",
+  },
+  {
+    id: "news-014",
+    author: { id: "7", name: "Nguyễn Văn Tài" },
+    title: "Tiêm chủng mở rộng 2026: Lịch và địa điểm tại Liên Chiều",
+    shortDesc: "Thông tin đầy đủ về chương trình tiêm chủng mở rộng năm 2026, lịch tiêm và các trạm y tế phường.",
+    content: `<h2>Các vaccine trong chương trình 2026</h2><p>Bao gồm: BCG, Viêm gan B, DTP-VGB-Hib, OPV/IPV, Sởi, Sởi–Rubella, Viêm não Nhật Bản, Thương hàn và vaccine COVID-19 nhắc lại.</p><h2>Lịch tiêm theo tháng tuổi</h2><ul><li>Sơ sinh: BCG, Viêm gan B mũi 0</li><li>2–3–4 tháng: DTP-VGB-Hib, OPV</li><li>9 tháng: Sởi mũi 1</li><li>18 tháng: Sởi–Rubella, DTP nhắc</li></ul><h2>Địa điểm tiêm</h2><p>Tại 5 trạm y tế phường và Trung tâm Y tế Liên Chiều. Đăng ký qua hotline 0236.123.4567 hoặc trực tiếp.</p>`,
+    category: { id: "pcd", name: "Phòng chống dịch" },
+    tags: ["tiêm chủng", "vaccine", "phòng dịch", "trẻ em"],
+    metaTitle: "Lịch Tiêm Chủng Mở Rộng 2026 | Trung Tâm Y Tế Liên Chiều",
+    metaDesc: "Thông tin đầy đủ về chương trình tiêm chủng mở rộng năm 2026 tại Liên Chiều.",
+    status: "PUBLISHED",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news014/800/450",
+    view: 423,
+    createdAt: "2026-01-18T07:00:00.000Z",
+    updatedAt: "2026-01-20T09:00:00.000Z",
+  },
+  {
+    id: "news-015",
+    author: { id: "12", name: "Võ Thị Thảo" },
+    title: "Kiểm soát đường huyết bằng chế độ ăn: Nguyên tắc cơ bản cho người bệnh tiểu đường",
+    shortDesc:
+      "Chế độ ăn uống đóng vai trò then chốt trong kiểm soát đái tháo đường type 2. Chuyên gia dinh dưỡng chia sẻ nguyên tắc xây dựng thực đơn khoa học.",
+    content: `<h2>Chỉ số GI và GL là gì?</h2><p>Glycemic Index (GI) đo tốc độ thực phẩm làm tăng đường huyết; Glycemic Load (GL) tính đến lượng carb thực tế — người bệnh cần ưu tiên thực phẩm GI thấp (< 55).</p><h2>Thực phẩm nên ưu tiên</h2><ul><li>Rau xanh, đậu hạt, ngũ cốc nguyên hạt</li><li>Protein nạc: cá, ức gà, đậu phụ</li><li>Chất béo lành mạnh: dầu ô liu, quả bơ, hạt óc chó</li></ul><h2>Thực đơn mẫu 1 ngày</h2><p>Sáng: cháo yến mạch + trứng luộc. Trưa: cơm gạo lứt + cá hấp + rau luộc. Tối: súp đậu lăng + ức gà nướng.</p>`,
+    category: { id: "dd", name: "Dinh dưỡng" },
+    tags: ["đái tháo đường", "dinh dưỡng", "đường huyết", "thực đơn"],
+    metaTitle: "Kiểm Soát Đường Huyết Bằng Chế Độ Ăn Cho Người Tiểu Đường",
+    metaDesc: "Nguyên tắc xây dựng thực đơn khoa học giúp người bệnh đái tháo đường kiểm soát đường huyết hiệu quả.",
+    status: "PUBLISHED",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news015/800/450",
+    view: 1089,
+    createdAt: "2026-02-20T08:00:00.000Z",
+    updatedAt: "2026-02-23T14:30:00.000Z",
+  },
+  {
+    id: "news-016",
+    author: { id: "4", name: "Đỗ Văn Long" },
+    title: "Trẻ em và màn hình: Tác hại khi sử dụng thiết bị điện tử quá mức",
+    shortDesc:
+      "Nghiên cứu mới chỉ ra trẻ dưới 6 tuổi dùng màn hình quá 2 giờ/ngày có nguy cơ ảnh hưởng đến thị lực và phát triển ngôn ngữ.",
+    content: `<h2>Những tác hại đã được ghi nhận</h2><ul><li>Cận thị gia tăng nhanh ở trẻ 6–12 tuổi</li><li>Chậm phát triển ngôn ngữ và kỹ năng xã hội ở trẻ dưới 3 tuổi</li><li>Rối loạn giấc ngủ do ánh sáng xanh</li></ul><h2>Khuyến nghị theo độ tuổi</h2><ul><li>Dưới 18 tháng: không dùng màn hình (trừ video call)</li><li>18 tháng – 2 tuổi: không quá 1 giờ, cùng phụ huynh xem</li><li>3–5 tuổi: tối đa 1 giờ/ngày nội dung chất lượng cao</li><li>6 tuổi trở lên: giới hạn hợp lý, ưu tiên vận động ngoài trời</li></ul>`,
+    category: { id: "cssk", name: "Chăm sóc sức khoẻ" },
+    tags: ["trẻ em", "màn hình", "thị lực", "phát triển"],
+    metaTitle: "Tác Hại Của Màn Hình Với Trẻ Em Và Giải Pháp Kiểm Soát",
+    metaDesc: "Khuyến nghị thời gian sử dụng thiết bị điện tử an toàn cho trẻ theo từng độ tuổi.",
+    status: "PENDING",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news016/800/450",
+    view: 0,
+    createdAt: "2026-02-27T10:00:00.000Z",
+    updatedAt: "2026-02-27T10:00:00.000Z",
+  },
+  {
+    id: "news-017",
+    author: { id: "9", name: "Phạm Văn An" },
+    title: "Phòng chống sốt xuất huyết mùa mưa 2026: Những điều cần biết",
+    shortDesc:
+      "Mùa mưa đến, dịch sốt xuất huyết có nguy cơ bùng phát. Trung tâm Y tế Liên Chiều hướng dẫn các biện pháp phòng tránh thiết thực cho hộ gia đình.",
+    content: `<h2>Dấu hiệu nhận biết sốt xuất huyết</h2><ul><li>Sốt cao đột ngột 39–40°C, kéo dài 2–7 ngày</li><li>Đau đầu dữ dội, đau hốc mắt</li><li>Nổi ban đỏ, xuất huyết dưới da</li><li>Buồn nôn, đau bụng</li></ul><h2>Phòng ngừa tại nhà</h2><ul><li>Đậy kín dụng cụ chứa nước; thay nước bình hoa, lọ cắm mỗi tuần</li><li>Ngủ màn kể cả ban ngày</li><li>Dùng kem chống muỗi khi ra ngoài</li><li>Phun thuốc diệt muỗi định kỳ</li></ul><h2>Khi nào cần nhập viện ngay?</h2><p>Sốt kèm xuất huyết, đau bụng dữ dội, nôn liên tục hoặc tụt huyết áp — cần đến cơ sở y tế ngay lập tức.</p>`,
+    category: { id: "pcd", name: "Phòng chống dịch" },
+    tags: ["sốt xuất huyết", "phòng dịch", "mùa mưa"],
+    metaTitle: "Phòng Chống Sốt Xuất Huyết Mùa Mưa 2026",
+    metaDesc: "Biện pháp phòng chống sốt xuất huyết thiết thực cho hộ gia đình trong mùa mưa 2026.",
+    status: "PUBLISHED",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news017/800/450",
+    view: 541,
+    createdAt: "2026-03-02T08:30:00.000Z",
+    updatedAt: "2026-03-03T10:00:00.000Z",
+  },
+  {
+    id: "news-018",
+    author: { id: "11", name: "Hoàng Văn Đức" },
+    title: "Yoga và sức khoẻ tim mạch: Khoa học đứng sau những lợi ích",
+    shortDesc:
+      "Các nghiên cứu khoa học xác nhận yoga làm giảm huyết áp, cải thiện nhịp tim và giảm nguy cơ bệnh tim mạch khi tập đều đặn.",
+    content: `<h2>Bằng chứng khoa học</h2><p>Meta-analysis trên 37 nghiên cứu (2024) cho thấy tập yoga 3 lần/tuần trong 12 tuần làm giảm trung bình 5 mmHg huyết áp tâm thu và cải thiện độ biến thiên nhịp tim.</p><h2>Cơ chế tác động</h2><ul><li>Kích hoạt hệ thần kinh phó giao cảm, giảm cortisol</li><li>Cải thiện độ linh hoạt mạch máu</li><li>Giảm viêm toàn thân qua điều tiết stress oxy hoá</li></ul><h2>Bài tập phù hợp cho người bệnh tim</h2><p>Hatha yoga nhẹ và Restorative yoga được khuyến nghị; tránh các tư thế đảo ngược (headstand) và giữ hơi thở quá lâu.</p>`,
+    category: { id: "suc-khoe", name: "Sức khoẻ" },
+    tags: ["yoga", "tim mạch", "huyết áp", "khoa học"],
+    metaTitle: "Yoga Và Sức Khoẻ Tim Mạch – Bằng Chứng Khoa Học",
+    metaDesc: "Tổng hợp bằng chứng khoa học về lợi ích của yoga với sức khoẻ tim mạch và huyết áp.",
+    status: "REJECTED",
+    rejectReason:
+      "Bài viết dẫn nguồn meta-analysis năm 2024 nhưng không cung cấp DOI hoặc tên tạp chí khoa học cụ thể. Vui lòng bổ sung trích dẫn đầy đủ theo chuẩn APA và kiểm tra lại số liệu giảm huyết áp để đảm bảo độ chính xác trước khi tái nộp.",
+    thumbnail: "https://picsum.photos/seed/news018/800/450",
+    view: 0,
+    createdAt: "2026-03-04T14:00:00.000Z",
+    updatedAt: "2026-03-06T09:20:00.000Z",
+  },
+  {
+    id: "news-019",
+    author: { id: "9", name: "Phạm Văn An" },
+    title: "Vắc-xin HPV cho nam giới: Thông tin cập nhật mới nhất 2026",
+    shortDesc:
+      "Không chỉ dành cho nữ giới, vắc-xin HPV nay được khuyến cáo tiêm cho nam từ 9–26 tuổi. Trung tâm Y tế Liên Chiều giải đáp các câu hỏi thường gặp.",
+    content: `<h2>Tại sao nam giới cũng cần tiêm HPV?</h2><p>HPV gây ung thư miệng hầu, hậu môn và dương vật ở nam giới, không chỉ ung thư cổ tử cung ở nữ. Tiêm phòng cắt đứt chuỗi lây truyền trong cộng đồng.</p><h2>Phác đồ tiêm</h2><ul><li>9–14 tuổi: 2 mũi cách nhau 6 tháng</li><li>15–26 tuổi: 3 mũi theo lịch 0–2–6 tháng</li><li>Nên tiêm trước khi quan hệ tình dục lần đầu để hiệu quả tối ưu</li></ul><h2>Đăng ký tiêm tại Trung tâm</h2><p>Hotline 0236.123.4567, giờ hành chính. Hiện còn ưu đãi 15% cho học sinh, sinh viên xuất trình thẻ.</p>`,
+    category: { id: "pcd", name: "Phòng chống dịch" },
+    tags: ["HPV", "vaccine", "nam giới", "ung thư"],
+    metaTitle: "Vắc-xin HPV Cho Nam Giới – Cập Nhật 2026",
+    metaDesc: "Thông tin về vắc-xin HPV dành cho nam giới, lịch tiêm và địa điểm tại Trung tâm Y tế Liên Chiều.",
+    status: "PUBLISHED",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news019/800/450",
+    view: 287,
+    createdAt: "2026-03-06T08:00:00.000Z",
+    updatedAt: "2026-03-07T11:00:00.000Z",
+  },
+  {
+    id: "news-020",
+    author: { id: "14", name: "Nguyễn Thị Ngọc" },
+    title: "Chăm sóc sức khoẻ tâm thần sau đại dịch: Vết thương vô hình",
+    shortDesc:
+      "Hậu đại dịch, tỷ lệ người mắc rối loạn lo âu và trầm cảm tăng đáng kể. Chuyên gia chia sẻ cách nhận biết sớm và tìm kiếm hỗ trợ kịp thời.",
+    content: `<h2>Bức tranh sức khoẻ tâm thần hậu COVID</h2><p>WHO ghi nhận tỷ lệ lo âu và trầm cảm tăng 25% toàn cầu trong năm đầu sau đại dịch. Tại Việt Nam, khảo sát 2024 cho thấy 1/5 người trưởng thành có triệu chứng đáng lo ngại.</p><h2>Dấu hiệu cần chú ý</h2><ul><li>Buồn bã, mất hứng thú kéo dài hơn 2 tuần</li><li>Lo âu quá mức, khó kiểm soát</li><li>Hồi tưởng ký ức tiêu cực về đại dịch</li><li>Cô lập xã hội, sợ nơi đông người</li></ul><h2>Tìm kiếm hỗ trợ</h2><p>Trung tâm Y tế Liên Chiều có phòng tư vấn tâm lý, tiếp nhận đặt lịch qua hotline. Đừng ngần ngại tìm kiếm giúp đỡ — sức khoẻ tâm thần quan trọng không kém thể chất.</p>`,
+    category: { id: "cssk", name: "Chăm sóc sức khoẻ" },
+    tags: ["sức khoẻ tâm thần", "hậu COVID", "lo âu", "trầm cảm"],
+    metaTitle: "Sức Khoẻ Tâm Thần Sau Đại Dịch – Nhận Biết Và Hỗ Trợ Kịp Thời",
+    metaDesc: "Hướng dẫn nhận biết sớm các vấn đề sức khoẻ tâm thần hậu COVID và cách tìm kiếm hỗ trợ phù hợp.",
+    status: "PUBLISHED",
+    rejectReason: "",
+    thumbnail: "https://picsum.photos/seed/news020/800/450",
+    view: 934,
+    createdAt: "2026-03-08T09:00:00.000Z",
+    updatedAt: "2026-03-09T15:30:00.000Z",
   },
 ];
 

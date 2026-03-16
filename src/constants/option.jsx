@@ -622,18 +622,6 @@ export const BANNER_FEATURED_OPTION = [
   { value: 1, name: "Lưu trữ", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
 ];
 
-export const NEWS_STATUS_OPTION = [
-  { value: "ALL", name: "Tất cả", dot: "--color-primary", activeGrd: "var(--color-grd-primary)" },
-  {
-    value: "PUBLISHED",
-    name: "Đã xuất bản",
-    dot: "--color-secondary",
-    activeGrd: "var(--color-grd-secondary)",
-  },
-  { value: "PENDING", name: "Chờ duyệt", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
-  { value: "ARCHIVED", name: "Lưu trữ", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
-];
-
 export const BANNER_COLOR_OPTION = [
   "rgb(219, 234, 254)",
   "rgb(252, 231, 243)",
@@ -670,4 +658,30 @@ export const MEDIAL_OVERVIEW_OPTION = [
     dot: "--color-purple",
     activeGrd: "var(--color-grd-purple)",
   },
+];
+
+export const NEWS_STATUS_OPTION = [
+  { value: "ALL", name: "Tất cả", dot: "--color-primary", activeGrd: "var(--color-grd-primary)" },
+  {
+    value: "PUBLISHED",
+    name: "Đã xuất bản",
+    dot: "--color-secondary",
+    activeGrd: "var(--color-grd-secondary)",
+  },
+  { value: "PENDING", name: "Chờ duyệt", dot: "--color-warning", activeGrd: "var(--color-grd-warning)" },
+  { value: "ARCHIVED", name: "Lưu trữ", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
+];
+
+export const NEWS_MY_POST_STATUS_OPTION = [
+  { value: "ALL", name: "Tất cả", dot: "--color-primary", activeGrd: "var(--color-grd-primary)" },
+  {
+    value: "PUBLISHED",
+    name: "Đã xuất bản",
+    dot: "--color-secondary",
+    activeGrd: "var(--color-grd-secondary)",
+  },
+  { value: "PENDING", name: "Chờ duyệt", dot: "--color-warning", activeGrd: "var(--color-grd-warning)" },
+  { value: "DRAFT", name: "Bản nháp", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
+  { value: "ARCHIVED", name: "Lưu trữ", dot: "--color-unavailable", activeGrd: "var(--color-grd-unavailable)" },
+  { value: "REJECTED", name: "Từ chối", dot: "--color-error", activeGrd: "var(--color-grd-error)" },
 ];

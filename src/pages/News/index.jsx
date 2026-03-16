@@ -7,6 +7,7 @@ export { default as Pending } from "./Pending";
 export { default as MyPost } from "./MyPost";
 export { default as Category } from "./Category";
 export { default as CateForm } from "./CateForm";
-export { default as Delete } from "./Delete";
 export { default as SubmitOverlay } from "./SubmitOverlay";
 export { default as Reject } from "./Reject";
+export { default as Reason } from "./Reason";
+export { default as ConfirmAction } from "./ConfirmAction";

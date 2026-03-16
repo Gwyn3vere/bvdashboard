@@ -3,10 +3,10 @@ import classNames from "classnames/bind";
 import style from "../../styles/components.module.css";
 import { Item, TitleForm, Search, Button, Modal } from "../../components/ui";
 import { MOCK_NEWS_CATEGORIES } from "../../mock/news";
-import { LuBook, LuSquarePen, LuTrash2, LuPlus } from "react-icons/lu";
+import { LuBook, LuSquarePen, LuTrash2, LuPlus, LuTrash } from "react-icons/lu";
 import { ICONS_CATE_MAP } from "../../constants/icon";
 import { useActive, useSearch } from "../../components/hooks";
-import { CateForm, Delete } from "./index";
+import { CateForm, ConfirmAction } from "./index";
 import { useCategoryStore } from "../../store/categoryStore";
 
 const cx = classNames.bind(style);
@@ -17,7 +17,11 @@ function Category({ onClose }) {
   const filteredCate = categories.filter((fc) => fc.id !== "uncategorized");
 
   const editingCategoryId = useCategoryStore((c) => c.editingCategoryId);
+  const getCategoryById = useCategoryStore((c) => c.getCategoryById);
+  const deleteCategory = useCategoryStore((c) => c.deleteCategory);
   const setEditingCategoryId = useCategoryStore((c) => c.setEditingCategoryId);
+
+  const category = getCategoryById(editingCategoryId);
 
   const searchCate = useSearch(filteredCate, cateKeyword, (cate) => [cate.name].filter(Boolean).join(" "));
 
@@ -32,6 +36,14 @@ function Category({ onClose }) {
       modal.delete.deactivate();
     }
     setEditingCategoryId(null);
+  };
+
+  const handleDelete = () => {
+    if (!editingCategoryId) return;
+
+    deleteCategory(editingCategoryId);
+    setEditingCategoryId(null);
+    handleClose();
   };
   return (
     <>
@@ -147,7 +159,24 @@ function Category({ onClose }) {
         <CateForm onClose={handleClose} />
       </Modal>
       <Modal open={modal.delete.isActive} onClose={handleClose} width="max-w-md">
-        <Delete type="category" id={editingCategoryId} onClose={handleClose} />
+        <ConfirmAction
+          bannerId={editingCategoryId}
+          onClose={handleClose}
+          title="Xoá bài viết?"
+          description={
+            <>
+              Bạn có chắc muốn xoá <strong className="text-black">{category?.name}</strong>?
+              <br />
+              Hành động này không thể hoàn tác.
+            </>
+          }
+          confirmText="Xoá"
+          onConfirm={handleDelete}
+          icon={<LuTrash />}
+          iconClass="text-[24px] text-[var(--color-error)]"
+          iconLayoutClass="bg-[var(--color-error)]/20 rounded-2xl mx-auto mb-[16px]"
+          confirmClassName={cx("bg-linear-[var(--color-ln-error)] rounded-xl", "text-white font-semibold text-[13px]")}
+        />
       </Modal>
     </>
   );
