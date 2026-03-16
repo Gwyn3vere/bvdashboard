@@ -98,6 +98,7 @@ export const INITAL_NEWS = {
   status: "",
   thumbnail: null,
   view: 0,
+  rejectReason: "",
 };
 
 export const INITAL_NEWS_CATEGORY = {
@@ -119,5 +120,4 @@ export const INITAL_BANNER = {
   archive: 0,
   imageUrl: null,
   imageFile: null,
-  rejectReason: "",
 };

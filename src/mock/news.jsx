@@ -4,27 +4,32 @@ export const NEWS_TOTAL_STATUS = [
   {
     icon: <LuBook />,
     title: "Tổng bài đăng",
-    desc: "+15 bài đăng trong tháng này",
-    total: 132,
+    desc: "+15 bài đăng mới trong tháng này",
+    key: "totalNews",
   },
   {
     icon: <LuBookCheck />,
     title: "Đã xuất bản",
-    desc: "70% tổng số bài viết",
-    total: 89,
+    desc: "Chiếm 70% tổng số bài viết",
+    key: "PUBLISHED",
   },
   {
     icon: <LuBookKey />,
-    title: "Bản phê duyệt",
-    desc: "Cần chờ phê duyệt",
-    total: 28,
+    title: "Lưu trữ",
+    desc: "Các bài viết đã được lưu trữ",
+    key: "ARCHIVED",
   },
-  { icon: <LuBookText />, title: "Bản nháp", desc: "Cần hoàn thiện", total: 5 },
+  {
+    icon: <LuBookText />,
+    title: "Chưa đạt yêu cầu",
+    desc: "Bài viết cần chỉnh sửa",
+    key: "REJECTED",
+  },
   {
     icon: <LuEye />,
     title: "Tổng lượt xem",
-    desc: "+3.2k so với tháng trước",
-    total: 15800,
+    desc: "+3.2k lượt xem so với tháng trước",
+    key: "totalViews",
   },
 ];
 

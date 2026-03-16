@@ -5,18 +5,40 @@ import { Link } from "react-router-dom";
 import { NEWS_MY_POST_STATUS_OPTION } from "../../constants/option";
 import { NEWS_STATUS } from "../../constants/status";
 import { Item, Button, ActionBar, List, Modal, Avatar } from "../../components/ui";
-import { LuPlus, LuTrash2, LuEye, LuSquarePen, LuFile, LuCheck, LuClock } from "react-icons/lu";
+import {
+  LuPlus,
+  LuTrash2,
+  LuEye,
+  LuSquarePen,
+  LuFile,
+  LuCheck,
+  LuClock,
+  LuArchive,
+  LuArchiveRestore,
+  LuTrash,
+} from "react-icons/lu";
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { useNewsStore } from "../../store/newsStore";
 import { useAuthStore } from "../../store/authStore";
 import { useActive, useSearch } from "../../components/hooks";
-import { Article, Delete, Reason } from "./index";
+import { Reason, ConfirmAction } from "./index";
 import { formatDateVN } from "../../utils/format";
 
 const cx = classNames.bind(style);
 
 function MyPost() {
-  const { news, loading, fetchNews, setEditingNewsId, editingNewsId } = useNewsStore();
+  const {
+    news,
+    loading,
+    fetchNews,
+    getNewsById,
+    setEditingNewsId,
+    editingNewsId,
+    archiveNews,
+    restoreNews,
+    deleteNews,
+  } = useNewsStore();
+  const newsById = getNewsById(editingNewsId);
 
   useEffect(() => {
     fetchNews();
@@ -54,16 +76,52 @@ function MyPost() {
   const isEmptySearch = news.length > 0 && searchedNews.length === 0;
 
   const modal = {
-    preview: useActive(),
+    archive: useActive(),
+    restore: useActive(),
     delete: useActive(),
     filter: useActive,
     reason: useActive(),
   };
 
+  const handleClose = () => {
+    if (modal.delete.isActive) {
+      modal.delete.deactivate();
+    } else if (modal.archive.isActive) {
+      modal.archive.deactivate();
+    } else {
+      modal.restore.deactivate();
+    }
+    setEditingNewsId(null);
+  };
+
+  const handleDelete = () => {
+    if (!editingNewsId) return;
+
+    deleteNews(editingNewsId);
+    setEditingNewsId(null);
+    handleClose();
+  };
+
+  const handleArchive = () => {
+    if (!editingNewsId) return;
+
+    archiveNews(editingNewsId);
+    setEditingNewsId(null);
+    handleClose();
+  };
+
+  const handleRestore = () => {
+    if (!editingNewsId) return;
+
+    restoreNews(editingNewsId);
+    setEditingNewsId(null);
+    handleClose();
+  };
+
   return (
     <>
       <div className={cx(TWCSS.container, "flex flex-col gap-5")}>
-        <Overview data={tabbedNews} />
+        <Overview data={statusNews} />
         <div className={cx("bg-white rounded-2xl")} style={{ boxShadow: "var(--shadow)" }}>
           <ActionBar
             name="tin tức"
@@ -222,6 +280,30 @@ function MyPost() {
                 ),
               },
               {
+                key: "Archive",
+                label: "",
+                width: "3%",
+                render: (row) => (
+                  <Button
+                    onClick={() => {
+                      setEditingNewsId(row.id);
+                      row?.status === "ARCHIVED" ? modal.restore.toggleActive() : modal.archive.toggleActive();
+                    }}
+                    width={32}
+                    height={32}
+                    disabled={row?.status !== "PUBLISHED" && row?.status !== "ARCHIVED"}
+                    iconClassName="text-sm font-bold"
+                    className={cx(
+                      "bg-[var(--color-primary-100)] text-[var(--color-primary-700)]",
+                      "hover:bg-[var(--color-primary)] hover:text-white",
+                      "rounded-xl transition",
+                      row?.status !== "PUBLISHED" && row?.status !== "ARCHIVED" && "opacity-50 cursor-not-allowed",
+                    )}
+                    icon={row?.status === "ARCHIVED" ? <LuArchiveRestore /> : <LuArchive />}
+                  />
+                ),
+              },
+              {
                 key: "Delete",
                 label: "",
                 width: "3%",
@@ -243,28 +325,6 @@ function MyPost() {
                   />
                 ),
               },
-              {
-                key: "Preview",
-                label: "",
-                width: "3%",
-                render: (row) => (
-                  <Button
-                    onClick={() => {
-                      setEditingNewsId(row.id);
-                      modal.preview.toggleActive();
-                    }}
-                    width={32}
-                    height={32}
-                    iconClassName="text-sm font-bold"
-                    className={cx(
-                      "bg-[var(--color-primary-100)] text-[var(--color-primary-700)]",
-                      "hover:bg-[var(--color-primary)] hover:text-white",
-                      "rounded-xl transition",
-                    )}
-                    icon={<LuEye />}
-                  />
-                ),
-              },
             ]}
             data={tabbedNews}
             isEmptyData={isEmptyData}
@@ -273,14 +333,79 @@ function MyPost() {
           />
         </div>
       </div>
+
       <Modal open={modal.reason.isActive} onClose={modal.reason.deactivate} width={"max-w-md"}>
         <Reason onClose={modal.reason.deactivate} id={editingNewsId} />
       </Modal>
+
       <Modal open={modal.delete.isActive} onClose={modal.delete.deactivate} width={"max-w-md"}>
-        <Delete onClose={modal.delete.deactivate} type="news" id={editingNewsId} />
+        <ConfirmAction
+          bannerId={editingNewsId}
+          onClose={handleClose}
+          title="Xoá bài viết?"
+          description={
+            <>
+              Bạn có chắc muốn xoá <strong className="text-black">{newsById?.title}</strong>?
+              <br />
+              Hành động này không thể hoàn tác.
+            </>
+          }
+          confirmText="Xoá"
+          onConfirm={handleDelete}
+          icon={<LuTrash />}
+          iconClass="text-[24px] text-[var(--color-error)]"
+          iconLayoutClass="bg-[var(--color-error)]/20 rounded-2xl mx-auto mb-[16px]"
+          confirmClassName={cx("bg-linear-[var(--color-ln-error)] rounded-xl", "text-white font-semibold text-[13px]")}
+        />
       </Modal>
-      <Modal open={modal.preview.isActive} onClose={modal.preview.deactivate} width={"max-w-5xl"}>
-        <Article onClose={modal.preview.deactivate} newsId={editingNewsId} />
+
+      <Modal open={modal.archive.isActive} onClose={handleClose} width="max-w-sm">
+        <ConfirmAction
+          bannerId={editingNewsId}
+          onClose={handleClose}
+          title="Lưu trữ bài viết?"
+          description={
+            <>
+              Bài biết <strong className="text-black">{newsById?.title}</strong> sẽ được chuyển vào lưu trữ.
+              <br />
+              Bạn có thể khôi phục lại sau.
+            </>
+          }
+          confirmText="Lưu trữ"
+          onConfirm={handleArchive}
+          icon={<LuArchive />}
+          iconClass="text-[24px] text-[var(--color-primary)]"
+          iconLayoutClass="bg-[var(--color-primary)]/20 rounded-2xl mx-auto mb-[16px]"
+          confirmClassName={cx(
+            "bg-linear-[var(--color-ln-primary)] rounded-xl",
+            "text-white font-semibold text-[13px]",
+          )}
+        />
+      </Modal>
+
+      <Modal open={modal.restore.isActive} onClose={handleClose} width="max-w-sm">
+        <ConfirmAction
+          newsId={editingNewsId}
+          onClose={handleClose}
+          title="Khôi phục bài viết này?"
+          description={
+            <>
+              Bài viết <strong className="text-black">{newsById?.title}</strong> sẽ được kích hoạt lại và hiển thị trong
+              danh sách đang hoạt động.
+              <br />
+              Bạn có thể chỉnh sửa hoặc lưu trữ lại bất cứ lúc nào.
+            </>
+          }
+          confirmText="Khôi phục"
+          onConfirm={handleRestore}
+          icon={<LuArchiveRestore />}
+          iconClass="text-[24px] text-[var(--color-primary)]"
+          iconLayoutClass="bg-[var(--color-primary)]/20 rounded-2xl mx-auto mb-[16px]"
+          confirmClassName={cx(
+            "bg-linear-[var(--color-ln-primary)] rounded-xl",
+            "text-white font-semibold text-[13px]",
+          )}
+        />
       </Modal>
     </>
   );
@@ -317,7 +442,7 @@ function Overview({ data }) {
   ];
 
   return (
-    <div className={cx("flex gap-5")}>
+    <div className={cx("flex flex-col lg:flex-row gap-5")}>
       {cardMenu.map((item) => (
         <div
           key={item.id}

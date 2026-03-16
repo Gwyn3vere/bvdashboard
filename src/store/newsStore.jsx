@@ -33,6 +33,32 @@ export const useNewsStore = create((set, get) => ({
     return created;
   },
 
+  archiveNews: (id) =>
+    set((state) => ({
+      news: state.news.map((n) =>
+        n.id === id
+          ? {
+              ...n,
+              status: "ARCHIVED",
+            }
+          : n,
+      ),
+    })),
+
+  restoreNews: (id) =>
+    set((state) => {
+      return {
+        news: state.news.map((n) =>
+          n.id === id
+            ? {
+                ...n,
+                status: "PUBLISHED",
+              }
+            : n,
+        ),
+      };
+    }),
+
   updateNews: (updatedNews) =>
     set((state) => ({
       news: state.news.map((s) => (s.id === updatedNews.id ? normalizeNews({ ...s, ...updatedNews }) : s)),

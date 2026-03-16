@@ -71,7 +71,7 @@ function News() {
   return (
     <div className={cx(TWCSS.container)}>
       <div className="space-y-10">
-        <Overview total={NEWS_TOTAL_STATUS} />
+        <Overview total={NEWS_TOTAL_STATUS} data={filteredNews} />
         <div className={cx("bg-white rounded-2xl")} style={{ boxShadow: "var(--shadow)" }}>
           <ActionBar
             name="tin tức"
@@ -163,11 +163,21 @@ function News() {
 
 export default News;
 
-function Overview({ total }) {
+function Overview({ total, data }) {
+  const statistic = data.reduce((acc, item) => {
+    acc[item.status] = (acc[item.status] || 0) + 1;
+    acc.totalViews = (acc.totalViews || 0) + item.view;
+    return acc;
+  }, {});
+
+  statistic.totalNews = data.length;
+
   return (
     <div className={cx("grid gap-5 w-full", "grid-cols-[repeat(auto-fit,minmax(280px,1fr))]")}>
       {total.map((item, idx) => {
         const iconColor = EXPERTISE_COLOR_SYSTEM[idx % EXPERTISE_COLOR_SYSTEM.length];
+
+        const dynamicTotal = statistic[item.key] || 0;
 
         return (
           <div key={idx} className={cx(TWCSS.overview)} style={{ boxShadow: "var(--shadow" }}>
@@ -176,7 +186,7 @@ function Overview({ total }) {
               children={item.title}
               itemClassName={cx("text-[11.5px] font-bold text-[var(--color-unavailable-700)]")}
             />
-            <Item as="span" children={item.total} itemClassName={cx("text-[28px] font-black")} />
+            <Item as="span" children={dynamicTotal} itemClassName={cx("text-[28px] font-black")} />
             <Item
               as="span"
               children={item.desc}

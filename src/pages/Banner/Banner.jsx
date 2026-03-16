@@ -23,30 +23,6 @@ function Banner() {
   const restoreBanner = useBannerStore((b) => b.restoreBanner);
   const banner = getBannerById(editingBannerId);
 
-  const handleDelete = () => {
-    if (!editingBannerId) return;
-
-    deleteBanner(editingBannerId);
-    setEditingBannerId(null);
-    onClose();
-  };
-
-  const handleArchive = () => {
-    if (!editingBannerId) return;
-
-    archiveBanner(editingBannerId);
-    setEditingBannerId(null);
-    onClose();
-  };
-
-  const handleRestore = () => {
-    if (!editingBannerId) return;
-
-    restoreBanner(editingBannerId);
-    setEditingBannerId(null);
-    onClose();
-  };
-
   useEffect(() => {
     fetchBanners();
   }, [fetchBanners]);
@@ -88,6 +64,30 @@ function Banner() {
       modal.restore.deactivate();
     }
     setEditingBannerId(null);
+  };
+
+  const handleDelete = () => {
+    if (!editingBannerId) return;
+
+    deleteBanner(editingBannerId);
+    setEditingBannerId(null);
+    handleClose();
+  };
+
+  const handleArchive = () => {
+    if (!editingBannerId) return;
+
+    archiveBanner(editingBannerId);
+    setEditingBannerId(null);
+    handleClose();
+  };
+
+  const handleRestore = () => {
+    if (!editingBannerId) return;
+
+    restoreBanner(editingBannerId);
+    setEditingBannerId(null);
+    handleClose();
   };
   return (
     <div className={cx(TWCSS.container)}>
