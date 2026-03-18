@@ -98,7 +98,13 @@ function Header({ collapsed, toggle }) {
           )}
           ref={avatarRef}
         >
-          <Avatar width={30} height={30} className="rounded-full" onClick={avatar.toggleActive}>
+          <Avatar
+            width={30}
+            height={30}
+            name={user?.name}
+            className="rounded-full text-[10px]"
+            onClick={avatar.toggleActive}
+          >
             <div className={cx("hidden sm:block h-[30px]", "flex flex-col items-center justify-center")}>
               <Username children={user?.name || "Guest"} className="font-bold text-xs" />
               <Role
