@@ -8,7 +8,7 @@ import style from "../../styles/ui.module.css";
 import { Search, Button, Avatar, Dropdown, Item, Username, Role } from ".";
 import { CiBellOn, CiLight, CiCalendar } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import { LuAlignJustify, LuLogOut } from "react-icons/lu";
+import { LuAlignJustify, LuChevronLeft, LuLogOut } from "react-icons/lu";
 import { ROLE_OPTIONS } from "../../constants/option";
 import { NAV_MENU } from "../../constants/menu";
 import { useAuthStore } from "../../store/authStore";
