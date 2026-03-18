@@ -1,11 +1,5 @@
-// Libraries - Mock -Hooks
 import classNames from "classnames/bind";
-import { useState } from "react";
-// Styles - UI - Motions
 import styles from "../../styles/pages.module.css";
-import { Calendar } from "./index";
-import { Breadcrumb, Item } from "../../components/ui";
-import { LuLayoutDashboard } from "react-icons/lu";
 
 const cx = classNames.bind(styles);
 
