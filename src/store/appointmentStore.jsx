@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { MOCK_APPOINTMENTS } from "../mock/appointments";
+import { APPOINTMENTS } from "../mock/appointments";
 
 // ── Normalize ────────────────────────────────────────────────
 // Đảm bảo mọi appointment đều có đủ các trường flat để filter/sort dễ dàng
@@ -19,7 +19,7 @@ const normalizeAppointment = (item) => ({
 
 export const useAppointmentStore = create((set, get) => ({
   // ── State ──────────────────────────────────────────────────
-  appointments: MOCK_APPOINTMENTS.map(normalizeAppointment),
+  appointments: APPOINTMENTS.map(normalizeAppointment),
   selectedAppointmentId: null,
   loading: false,
 
@@ -57,10 +57,237 @@ export const useAppointmentStore = create((set, get) => ({
     };
   },
 
+  /**
+   * Trả về toàn bộ dữ liệu cần thiết cho WeekView — 7 day cards + urgent panel.
+   *
+   * @param {number} weekOffset   0 = tuần hiện tại | -1 = tuần trước | +1 = tuần tới
+   * @param {string} [baseDate]   Override ngày gốc (YYYY-MM-DD). Mặc định = hôm nay.
+   *
+   * @returns {{
+   *   weekOffset:  number,
+   *   startDate:   string,         // "YYYY-MM-DD" thứ Hai
+   *   endDate:     string,         // "YYYY-MM-DD" Chủ Nhật
+   *   label:       string,         // "Tuần này · 09/03 – 15/03/2026"
+   *   days: Array<{
+   *     date:           string,    // "YYYY-MM-DD"
+   *     dayIndex:       number,    // 0=T2 … 6=CN
+   *     label:          string,    // "T2" … "CN"
+   *     fullLabel:      string,    // "Thứ Hai" … "Chủ Nhật"
+   *     dateDisplay:    string,    // "09/03"
+   *     isToday:        boolean,
+   *     isWeekend:      boolean,
+   *     hasAppointments: boolean,
+   *     stats: {
+   *       total: number, pending: number,
+   *       confirmed: number, done: number, cancelled: number,
+   *     },
+   *     doctors: Array<{           // bác sĩ có lịch — render avatar dots
+   *       doctorId: string, doctorName: string,
+   *       doctorTitle: string, count: number,
+   *     }>,
+   *   }>,
+   *   pendingList:  Array<Appointment>,  // tất cả pending cả tuần — urgent panel
+   *   weekStats: {                       // tổng hợp toàn tuần
+   *     total: number, pending: number,
+   *     confirmed: number, done: number, cancelled: number,
+   *   },
+   * }}
+   */
+  getWeekStats: (weekOffset = 0, baseDate) => {
+    // ── helpers ─────────────────────────────────────────────
+    const pad = (n) => String(n).padStart(2, "0");
+    const toYMD = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const toDM = (d) => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
+
+    // thứ Hai của tuần chứa refDate
+    const getMonday = (refDate) => {
+      const d = new Date(refDate);
+      d.setHours(0, 0, 0, 0);
+      const diff = (d.getDay() + 6) % 7; // Sun=0 → diff=6, Mon=1 → diff=0
+      d.setDate(d.getDate() - diff);
+      return d;
+    };
+
+    // ── tính thứ Hai của tuần cần lấy ───────────────────────
+    const ref = baseDate ? new Date(baseDate) : new Date();
+    const monday = getMonday(ref);
+    monday.setDate(monday.getDate() + weekOffset * 7);
+
+    // ── 7 ngày trong tuần ───────────────────────────────────
+    const DAY_LABELS = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+    const DAY_FULL = ["Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"];
+
+    const weekDates = Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(monday);
+      d.setDate(d.getDate() + i);
+      return d;
+    });
+
+    const startDate = toYMD(weekDates[0]);
+    const endDate = toYMD(weekDates[6]);
+    const todayStr = toYMD(new Date());
+
+    // ── lấy appointments cả tuần 1 lần ──────────────────────
+    const allInWeek = get().appointments.filter((a) => a.appointmentDate >= startDate && a.appointmentDate <= endDate);
+
+    // ── build từng day card ──────────────────────────────────
+    const days = weekDates.map((d, i) => {
+      const dateStr = toYMD(d);
+      const dayAppts = allInWeek.filter((a) => a.appointmentDate === dateStr);
+
+      const stats = {
+        total: dayAppts.length,
+        pending: dayAppts.filter((a) => a.status === "pending").length,
+        confirmed: dayAppts.filter((a) => a.status === "confirmed").length,
+        done: dayAppts.filter((a) => a.status === "done").length,
+        cancelled: dayAppts.filter((a) => a.status === "cancelled").length,
+      };
+
+      // group bác sĩ có lịch trong ngày → avatar dots
+      const doctorMap = {};
+      dayAppts.forEach((a) => {
+        if (!doctorMap[a.doctorId]) {
+          doctorMap[a.doctorId] = {
+            doctorId: a.doctorId,
+            doctorName: a.doctorName,
+            doctorTitle: a.doctorTitle,
+            count: 0,
+          };
+        }
+        doctorMap[a.doctorId].count++;
+      });
+
+      return {
+        date: dateStr,
+        dayIndex: i,
+        label: DAY_LABELS[i],
+        fullLabel: DAY_FULL[i],
+        dateDisplay: toDM(d),
+        isToday: dateStr === todayStr,
+        isWeekend: i >= 5,
+        hasAppointments: dayAppts.length > 0,
+        stats,
+        doctors: Object.values(doctorMap),
+      };
+    });
+
+    // ── pending list cả tuần — urgent panel ─────────────────
+    const pendingList = allInWeek
+      .filter((a) => a.status === "pending")
+      .sort((a, b) => a.appointmentDate.localeCompare(b.appointmentDate) || a.slotStart.localeCompare(b.slotStart));
+
+    // ── tổng hợp toàn tuần ──────────────────────────────────
+    const weekStats = {
+      total: allInWeek.length,
+      pending: allInWeek.filter((a) => a.status === "pending").length,
+      confirmed: allInWeek.filter((a) => a.status === "confirmed").length,
+      done: allInWeek.filter((a) => a.status === "done").length,
+      cancelled: allInWeek.filter((a) => a.status === "cancelled").length,
+    };
+
+    // ── label tuần ──────────────────────────────────────────
+    const year = weekDates[6].getFullYear();
+    const startDisp = toDM(weekDates[0]);
+    const endDisp = `${toDM(weekDates[6])}/${year}`;
+    const label =
+      weekOffset === 0
+        ? `Tuần này · ${startDisp} – ${endDisp}`
+        : weekOffset === -1
+          ? `Tuần trước · ${startDisp} – ${endDisp}`
+          : weekOffset === 1
+            ? `Tuần tới · ${startDisp} – ${endDisp}`
+            : `Tuần ${weekOffset > 0 ? "+" : ""}${weekOffset} · ${startDisp} – ${endDisp}`;
+
+    return { weekOffset, startDate, endDate, label, days, pendingList, weekStats };
+  },
+
   // ── Setters cơ bản ─────────────────────────────────────────
   setAppointments: (appointments) => set({ appointments: appointments.map(normalizeAppointment) }),
 
   setSelectedAppointmentId: (id) => set({ selectedAppointmentId: id }),
+
+  /**
+   * Trả về danh sách bác sĩ có lịch trong ngày — dùng cho DoctorListView.
+   *
+   * @param {string} date  "YYYY-MM-DD"
+   *
+   * @returns {Array<{
+   *   doctorId: string, doctorName: string, doctorTitle: string,
+   *   departmentId: string, departmentName: string,
+   *   specialtyId: string, specialtyName: string,
+   *   stats: { total, pending, confirmed, done, cancelled },
+   *   fillRate: number,           // % active slot (không tính cancelled), dùng cho progress bar
+   *   upcomingConfirmed: Array<{  // tối đa 2 lịch confirmed sắp tới — section "Sắp tới"
+   *     id, patientName, slotStart, slotEnd,
+   *   }>,
+   *   pendingAppointments: Array<Appointment>, // pending trong ngày — quick action list
+   * }>}
+   */
+  getDoctorsByDate: (date) => {
+    const dayAppts = get().appointments.filter((a) => a.appointmentDate === date);
+
+    // Group by doctorId
+    const doctorMap = {};
+    dayAppts.forEach((a) => {
+      if (!doctorMap[a.doctorId]) {
+        doctorMap[a.doctorId] = {
+          doctorId: a.doctorId,
+          doctorName: a.doctorName,
+          doctorTitle: a.doctorTitle,
+          departmentId: a.departmentId,
+          departmentName: a.departmentName,
+          specialtyId: a.specialtyId,
+          specialtyName: a.specialtyName,
+          appointments: [],
+        };
+      }
+      doctorMap[a.doctorId].appointments.push(a);
+    });
+
+    return Object.values(doctorMap).map((doc) => {
+      const appts = doc.appointments;
+
+      const stats = {
+        total: appts.length,
+        pending: appts.filter((a) => a.status === "pending").length,
+        confirmed: appts.filter((a) => a.status === "confirmed").length,
+        done: appts.filter((a) => a.status === "done").length,
+        cancelled: appts.filter((a) => a.status === "cancelled").length,
+      };
+
+      // Upcoming: confirmed sort theo giờ, lấy 2 cái đầu
+      const upcomingConfirmed = appts
+        .filter((a) => a.status === "confirmed")
+        .sort((a, b) => a.slotStart.localeCompare(b.slotStart))
+        .slice(0, 2)
+        .map((a) => ({
+          id: a.id,
+          patientName: a.patientName,
+          slotStart: a.slotStart,
+          slotEnd: a.slotEnd,
+        }));
+
+      const pendingAppointments = appts.filter((a) => a.status === "pending");
+
+      // fillRate = active (không tính cancelled) / total * 100
+      const activeTotal = stats.total - stats.cancelled;
+      const fillRate = stats.total > 0 ? Math.round((activeTotal / stats.total) * 100) : 0;
+
+      return {
+        doctorId: doc.doctorId,
+        doctorName: doc.doctorName,
+        doctorTitle: doc.doctorTitle,
+        departmentId: doc.departmentId,
+        departmentName: doc.departmentName,
+        specialtyId: doc.specialtyId,
+        specialtyName: doc.specialtyName,
+        stats,
+        fillRate,
+        upcomingConfirmed,
+        pendingAppointments,
+      };
+    });
+  },
 
   // ── CRUD ───────────────────────────────────────────────────
   createAppointment: (newAppointment) => {
@@ -192,7 +419,7 @@ export const useAppointmentStore = create((set, get) => ({
   fetchAppointmentsByDate: async (date) => {
     set({ loading: true });
 
-    const data = MOCK_APPOINTMENTS.filter((a) => a.appointmentDate === date);
+    const data = APPOINTMENTS.filter((a) => a.appointmentDate === date);
 
     set((state) => {
       // Merge: giữ nguyên các ngày khác, cập nhật ngày được fetch

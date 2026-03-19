@@ -5,6 +5,13 @@ const metaRoutes = {
   "/quan-ly-lich-hen": {
     breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý lịch hẹn" }],
   },
+  "/quan-ly-lich-hen/:date": {
+    breadcrumb: [
+      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
+      { label: "Quản lý lịch hẹn", href: "/quan-ly-lich-hen" },
+      { label: ":date" },
+    ],
+  },
   "/quan-ly-nhan-su": {
     breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý nhân sự" }],
   },

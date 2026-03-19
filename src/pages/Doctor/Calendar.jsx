@@ -101,7 +101,7 @@ function Calendar() {
       <div className="space-y-5">
         {/* Sidebar - Danh sách bác sĩ */}
         <div
-          className={cx("bg-white rounded-2xl")}
+          className={cx("bg-white rounded-2xl overflow-hidden")}
           style={{
             boxShadow: "var(--shadow)",
           }}

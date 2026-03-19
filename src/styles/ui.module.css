@@ -73,6 +73,7 @@
 }
 
 .fadeUp {
+  opacity: 0;
   animation: fadeUp 0.4s ease forwards;
 }
 

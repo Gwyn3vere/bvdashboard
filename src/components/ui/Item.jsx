@@ -13,7 +13,7 @@ function Item({
   onClick,
   className,
   itemClassName,
-  iconClassName,
+  iconClassName = "",
   whitespace = "whitespace-normal",
   style = {},
   istyle = {},
@@ -41,7 +41,7 @@ function Item({
   return (
     <Component to={to} href={href} onClick={onClick} className={cx(className)} style={{ ...style }}>
       {icon && (
-        <span className={cx("flex items-center justify-center", iconClassName)} style={{ ...istyle }}>
+        <span className={cx(iconClassName)} style={{ ...istyle }}>
           {icon}
         </span>
       )}
