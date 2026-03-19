@@ -1,7 +1,7 @@
 import { dashboardLayout } from "../components/layouts";
 // Pages
 import { Dashboard } from "../pages/Dashboard";
-import { Appointment } from "../pages/Appointment";
+import { Appointment, DoctorList } from "../pages/Appointment";
 import { Staff } from "../pages/Staff";
 import { Doctor, Calendar } from "../pages/Doctor";
 import { News, Post, Article, Pending, MyPost } from "../pages/News";
@@ -22,105 +22,76 @@ const privateRoutes = [
     role: ["admin", "user"],
   },
   {
+    path: "/quan-ly-lich-hen/:date",
+    component: DoctorList,
+    layout: dashboardLayout,
+    role: ["admin", "user"],
+  },
+  {
     path: "/quan-ly-nhan-su",
     component: Staff,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý nhân sự" }],
   },
   {
     path: "/quan-ly-bac-si",
     component: Doctor,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý bác sĩ" }],
   },
   {
     path: "/quan-ly-bac-si/lich-lam-viec",
     component: Calendar,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý bác sĩ", href: "/quan-ly-bac-si" },
-      { label: "Lịch làm việc" },
-    ],
   },
   {
     path: "/quan-ly-tin-tuc",
     component: News,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý tin tức" }],
   },
   {
     path: "/quan-ly-tin-tuc/duyet-bai",
     component: Pending,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-      { label: "Duyệt bài" },
-    ],
   },
   {
     path: "/quan-ly-tin-tuc/dang-bai",
     component: Post,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-      { label: "Đăng bài" },
-    ],
   },
   {
     path: "/quan-ly-tin-tuc/cap-nhat-bai-viet/:id",
     component: Post,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-      { label: "Cập nhật bài viết" },
-    ],
   },
   {
     path: "/quan-ly-tin-tuc/:id",
     component: Article,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-      { label: "Chi tiết bài viết" },
-    ],
   },
   {
     path: "/quan-ly-tin-tuc/bai-viet-cua-toi",
     component: MyPost,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [
-      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
-      { label: "Quản lý tin tức", href: "/quan-ly-tin-tuc" },
-      { label: "Bài viết của tôi" },
-    ],
   },
   {
     path: "/quan-ly-banner",
     component: Banner,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý banner" }],
   },
   {
     path: "/quan-ly-chuyen-mon",
     component: Medical,
     layout: dashboardLayout,
     role: ["admin", "user"],
-    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý chuyên môn" }],
   },
 ];
 

@@ -13,7 +13,7 @@ import { ROLE_OPTIONS } from "../../constants/option";
 import { NAV_MENU } from "../../constants/menu";
 import { useAuthStore } from "../../store/authStore";
 import { TWCSS } from "../../styles/defineTailwindcss";
-import { useLocation, matchPath } from "react-router-dom";
+import { useLocation, matchPath, useParams } from "react-router-dom";
 import metaRoutes from "../../routes/metaRoutes";
 import { Breadcrumb } from "./index";
 
@@ -21,12 +21,22 @@ const cx = classNames.bind(style);
 
 function Header({ collapsed, toggle }) {
   const location = useLocation();
+  const params = useParams();
 
   const currentRoute = Object.keys(metaRoutes).find((route) =>
     matchPath({ path: route, end: true }, location.pathname),
   );
 
-  const breadcrumbItems = metaRoutes[currentRoute]?.breadcrumb || [];
+  const breadcrumbItems =
+    metaRoutes[currentRoute]?.breadcrumb?.map((item) => {
+      let label = item.label;
+
+      Object.keys(params).forEach((key) => {
+        label = label.replace(`:${key}`, params[key]);
+      });
+
+      return { ...item, label };
+    }) || [];
   const pageTitle = breadcrumbItems.at(-1)?.label || "";
 
   const { user, initialized, logout } = useAuthStore();

@@ -4,16 +4,18 @@ import styles from "../../styles/components.module.css";
 import { Avatar, Button, Item } from "../../components/ui";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { useAppointmentStore } from "../../store/appointmentStore";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function WeekSelector() {
   const [weekOffset, setWeekOffset] = useState(0);
+  useAppointmentStore((a) => a.appointments);
   const getWeekStats = useAppointmentStore((a) => a.getWeekStats);
-  const { label, days, pendingList, weekStats } = getWeekStats(weekOffset);
+  const { label, days } = getWeekStats(weekOffset);
 
   return (
-    <section>
+    <section className={cx("mb-[20px]")}>
       {/* Navbar */}
       <div
         className={cx(
@@ -21,7 +23,7 @@ function WeekSelector() {
           "border-b border-[var(--color-unavailable-300)]/50",
         )}
       >
-        <div className={cx("flex items-center gap-5")}>
+        <div className={cx("flex items-center gap-2")}>
           <Button
             width={32}
             height={32}
@@ -32,17 +34,19 @@ function WeekSelector() {
             onClick={() => setWeekOffset((prev) => prev - 1)}
           />
           <Item as="span" children={label} itemClassName={cx("text-[14px] font-black")} />
-          <Button
-            width={"auto"}
-            height={"auto"}
-            children={"Về tuần hiện tại"}
-            btnClassName={cx("text-[11.5px] font-bold text-[var(--color-primary-700)]")}
-            className={cx(
-              "py-[3px] px-[10px] bg-[var(--color-primary-100)] rounded-full",
-              "border border-[var(--color-primary)]",
-            )}
-            onClick={() => setWeekOffset(0)}
-          />
+          {weekOffset !== 0 && (
+            <Button
+              width={"auto"}
+              height={"auto"}
+              children={"Về tuần hiện tại"}
+              btnClassName={cx("text-[11.5px] font-bold text-[var(--color-primary-700)]")}
+              className={cx(
+                "py-[3px] px-[10px] bg-[var(--color-primary-100)] rounded-full",
+                "border border-[var(--color-primary)]",
+              )}
+              onClick={() => setWeekOffset(0)}
+            />
+          )}
         </div>
         <Button
           width={32}
@@ -55,14 +59,14 @@ function WeekSelector() {
         />
       </div>
       {/* Card Selector */}
-      <div key={weekOffset} className={cx("grid sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-2")}>
-        {days.map((appt) => (
-          <CardSelector
-            key={appt.dayIndex}
-            appt={appt}
-            style={{ animationDelay: `${Math.min(appt.dayIndex * 80, 400)}ms` }}
-          />
-        ))}
+      <div key={weekOffset} className={cx("grid sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-2.5")}>
+        {days.map((appt) => {
+          return (
+            <Item key={appt.dayIndex} as={Link} to={`/quan-ly-lich-hen/${appt.date}`}>
+              <CardSelector appt={appt} style={{ animationDelay: `${Math.min(appt.dayIndex * 80, 400)}ms` }} />
+            </Item>
+          );
+        })}
       </div>
     </section>
   );
@@ -115,40 +119,50 @@ const CardSelector = React.memo(function CardSelector({ appt, style = {} }) {
       </div>
       {/* Progress bar */}
       <div className={cx("flex flex-col gap-1 mb-4")}>
+        {/* Pending */}
         <div className={cx("grid grid-cols-[3px_auto_14px] items-center gap-1")}>
-          <div className={cx("h-[10px] w-[3px] bg-[var(--color-warning)] rounded-full")} />
+          <div className={cx("h-[10px] w-[3px] bg-linear-[var(--color-ln-warning)] rounded-full")} />
           <div className={cx("h-[4px] bg-[var(--color-unavailable)] rounded-full")} style={{ width: `100%` }}>
-            <div className={cx("h-[4px] bg-[var(--color-warning)] rounded-full")} style={{ width: `${pendingPct}%` }} />
+            <div
+              className={cx("h-[4px] bg-linear-[var(--color-ln-warning)] rounded-full")}
+              style={{ width: `${pendingPct}%` }}
+            />
           </div>
           <Item
             as="span"
             children={appt?.stats?.pending}
-            itemClassName={cx("text-[10.5px] font-black text-[var(--color-warning)] whitespace-nowrap")}
+            itemClassName={cx(
+              "text-[10.5px] font-black whitespace-nowrap",
+              "bg-gradient-to-r from-[var(--color-warning)] to-[#d97706] bg-clip-text text-transparent",
+            )}
             className={cx("h-[14px] text-right")}
           />
         </div>
-
+        {/* Confirmed */}
         <div className={cx("grid grid-cols-[3px_auto_14px] items-center gap-1")}>
-          <div className={cx("h-[10px] w-[3px] bg-[var(--color-primary)] rounded-full")} />
+          <div className={cx("h-[10px] w-[3px] bg-linear-[var(--color-ln-primary)] rounded-full")} />
           <div className={cx("h-[4px] bg-[var(--color-unavailable)] rounded-full")} style={{ width: `100%` }}>
             <div
-              className={cx("h-[4px] bg-[var(--color-primary)] rounded-full")}
+              className={cx("h-[4px] bg-linear-[var(--color-ln-primary)] rounded-full")}
               style={{ width: `${confirmedPct}%` }}
             />
           </div>
           <Item
             as="span"
             children={appt?.stats?.confirmed}
-            itemClassName={cx("text-[10.5px] font-black text-[var(--color-primary)] whitespace-nowrap")}
+            itemClassName={cx(
+              "text-[10.5px] font-black text-[var(--color-primary)] whitespace-nowrap",
+              "bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-700)] bg-clip-text text-transparent",
+            )}
             className={cx("h-[14px] text-right")}
           />
         </div>
-
+        {/* Done */}
         <div className={cx("grid grid-cols-[3px_auto_14px] items-center gap-1")}>
-          <div className={cx("h-[10px] w-[3px] bg-[var(--color-unavailable-700)] rounded-full")} />
+          <div className={cx("h-[10px] w-[3px] bg-linear-[var(--color-ln-unavailable)] rounded-full")} />
           <div className={cx("h-[4px] bg-[var(--color-unavailable)] rounded-full")} style={{ width: `100%` }}>
             <div
-              className={cx("h-[4px] bg-[var(--color-unavailable-700)] rounded-full")}
+              className={cx("h-[4px] bg-linear-[var(--color-ln-unavailable)] rounded-full")}
               style={{ width: `${donePct}%` }}
             />
           </div>

@@ -13,7 +13,7 @@ function Item({
   onClick,
   className,
   itemClassName,
-  iconClassName = "flex items-end justify-center",
+  iconClassName = "",
   whitespace = "whitespace-normal",
   style = {},
   istyle = {},

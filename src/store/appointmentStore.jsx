@@ -206,6 +206,89 @@ export const useAppointmentStore = create((set, get) => ({
 
   setSelectedAppointmentId: (id) => set({ selectedAppointmentId: id }),
 
+  /**
+   * Trả về danh sách bác sĩ có lịch trong ngày — dùng cho DoctorListView.
+   *
+   * @param {string} date  "YYYY-MM-DD"
+   *
+   * @returns {Array<{
+   *   doctorId: string, doctorName: string, doctorTitle: string,
+   *   departmentId: string, departmentName: string,
+   *   specialtyId: string, specialtyName: string,
+   *   stats: { total, pending, confirmed, done, cancelled },
+   *   fillRate: number,           // % active slot (không tính cancelled), dùng cho progress bar
+   *   upcomingConfirmed: Array<{  // tối đa 2 lịch confirmed sắp tới — section "Sắp tới"
+   *     id, patientName, slotStart, slotEnd,
+   *   }>,
+   *   pendingAppointments: Array<Appointment>, // pending trong ngày — quick action list
+   * }>}
+   */
+  getDoctorsByDate: (date) => {
+    const dayAppts = get().appointments.filter((a) => a.appointmentDate === date);
+
+    // Group by doctorId
+    const doctorMap = {};
+    dayAppts.forEach((a) => {
+      if (!doctorMap[a.doctorId]) {
+        doctorMap[a.doctorId] = {
+          doctorId: a.doctorId,
+          doctorName: a.doctorName,
+          doctorTitle: a.doctorTitle,
+          departmentId: a.departmentId,
+          departmentName: a.departmentName,
+          specialtyId: a.specialtyId,
+          specialtyName: a.specialtyName,
+          appointments: [],
+        };
+      }
+      doctorMap[a.doctorId].appointments.push(a);
+    });
+
+    return Object.values(doctorMap).map((doc) => {
+      const appts = doc.appointments;
+
+      const stats = {
+        total: appts.length,
+        pending: appts.filter((a) => a.status === "pending").length,
+        confirmed: appts.filter((a) => a.status === "confirmed").length,
+        done: appts.filter((a) => a.status === "done").length,
+        cancelled: appts.filter((a) => a.status === "cancelled").length,
+      };
+
+      // Upcoming: confirmed sort theo giờ, lấy 2 cái đầu
+      const upcomingConfirmed = appts
+        .filter((a) => a.status === "confirmed")
+        .sort((a, b) => a.slotStart.localeCompare(b.slotStart))
+        .slice(0, 2)
+        .map((a) => ({
+          id: a.id,
+          patientName: a.patientName,
+          slotStart: a.slotStart,
+          slotEnd: a.slotEnd,
+        }));
+
+      const pendingAppointments = appts.filter((a) => a.status === "pending");
+
+      // fillRate = active (không tính cancelled) / total * 100
+      const activeTotal = stats.total - stats.cancelled;
+      const fillRate = stats.total > 0 ? Math.round((activeTotal / stats.total) * 100) : 0;
+
+      return {
+        doctorId: doc.doctorId,
+        doctorName: doc.doctorName,
+        doctorTitle: doc.doctorTitle,
+        departmentId: doc.departmentId,
+        departmentName: doc.departmentName,
+        specialtyId: doc.specialtyId,
+        specialtyName: doc.specialtyName,
+        stats,
+        fillRate,
+        upcomingConfirmed,
+        pendingAppointments,
+      };
+    });
+  },
+
   // ── CRUD ───────────────────────────────────────────────────
   createAppointment: (newAppointment) => {
     const id = crypto.randomUUID();

@@ -51,16 +51,16 @@ export const TWCSS = {
     "bg-[var(--color-unavailable-100)]/40",
   ],
   scrollbarX: [
-    "[&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:rounded-full",
+    "[&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:rounded-full",
     "[&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full",
     "[&::-webkit-scrollbar-thumb]:bg-gray-300",
-    "dark:[&::-webkit-scrollbar-track]:bg-[var(--color-primary-100)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--color-primary-300)]",
+    "dark:[&::-webkit-scrollbar-track]:bg-white dark:[&::-webkit-scrollbar-thumb]:bg-[var(--color-primary-300)]",
   ],
   scrollbarY: [
     "[&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:rounded-full",
     "[&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full",
     "[&::-webkit-scrollbar-thumb]:bg-gray-300",
-    "dark:[&::-webkit-scrollbar-track]:bg-[var(--color-primary-100)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--color-primary-300)]",
+    "dark:[&::-webkit-scrollbar-track]:bg-white dark:[&::-webkit-scrollbar-thumb]:bg-[var(--color-primary-300)]",
   ],
   department: [
     "bg-[var(--color-primary-100)] text-[var(--color-primary)] p-4 rounded-[8px]",
