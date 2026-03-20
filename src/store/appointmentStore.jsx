@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { APPOINTMENTS } from "../mock/appointments";
+import { getTotalSlotsByDoctorDate, getSlotDurationByDoctorDate, getSessionLabelByDoctorDate } from "../mock/shift";
 
 // ── Normalize ────────────────────────────────────────────────
 // Đảm bảo mọi appointment đều có đủ các trường flat để filter/sort dễ dàng
@@ -226,7 +227,6 @@ export const useAppointmentStore = create((set, get) => ({
   getDoctorsByDate: (date) => {
     const dayAppts = get().appointments.filter((a) => a.appointmentDate === date);
 
-    // Group by doctorId
     const doctorMap = {};
     dayAppts.forEach((a) => {
       if (!doctorMap[a.doctorId]) {
@@ -255,7 +255,6 @@ export const useAppointmentStore = create((set, get) => ({
         cancelled: appts.filter((a) => a.status === "cancelled").length,
       };
 
-      // Upcoming: confirmed sort theo giờ, lấy 2 cái đầu
       const upcomingConfirmed = appts
         .filter((a) => a.status === "confirmed")
         .sort((a, b) => a.slotStart.localeCompare(b.slotStart))
@@ -269,9 +268,12 @@ export const useAppointmentStore = create((set, get) => ({
 
       const pendingAppointments = appts.filter((a) => a.status === "pending");
 
-      // fillRate = active (không tính cancelled) / total * 100
-      const activeTotal = stats.total - stats.cancelled;
-      const fillRate = stats.total > 0 ? Math.round((activeTotal / stats.total) * 100) : 0;
+      // Lấy từ MOCK_DOCTOR_SHIFTS — fallback về stats.total nếu chưa có shift
+      const totalSlots = getTotalSlotsByDoctorDate(doc.doctorId, date) || stats.total;
+      const slotDurationMinutes = getSlotDurationByDoctorDate(doc.doctorId, date);
+      const sessionLabel = getSessionLabelByDoctorDate(doc.doctorId, date);
+
+      const fillRate = totalSlots > 0 ? Math.round((stats.total / totalSlots) * 100) : 0;
 
       return {
         doctorId: doc.doctorId,
@@ -282,6 +284,9 @@ export const useAppointmentStore = create((set, get) => ({
         specialtyId: doc.specialtyId,
         specialtyName: doc.specialtyName,
         stats,
+        totalSlots,
+        slotDurationMinutes,
+        sessionLabel,
         fillRate,
         upcomingConfirmed,
         pendingAppointments,

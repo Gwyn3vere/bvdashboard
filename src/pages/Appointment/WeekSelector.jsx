@@ -175,7 +175,7 @@ const CardSelector = React.memo(function CardSelector({ appt, style = {} }) {
         </div>
       </div>
       {/* Doctor list avatar */}
-      <div className="flex items-center gap-1 flex-wrap">
+      <div className="flex items-center gap-1 truncate">
         {appt?.doctors.slice(0, 8).map((doc, idx) => (
           <Avatar key={idx} width={18} height={18} name={doc.doctorName} className={cx("rounded-full text-[7px]")} />
         ))}
