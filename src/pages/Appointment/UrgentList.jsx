@@ -28,7 +28,7 @@ function UrgentList() {
         {/* Header */}
         <div
           className={cx(
-            "flex items-center justify-between py-[13px] px-4",
+            "flex flex-col md:flex-row items-center justify-between py-[13px] px-4 gap-2",
             "bg-[var(--color-warning-100)]/50 border-b border-[var(--color-warning-300)]",
             "sticky top-0 shrink-0",
           )}
@@ -59,12 +59,12 @@ function UrgentList() {
             children={"Xác nhận tất cả"}
             iconClassName={cx("text-[13px]")}
             btnClassName={cx("text-[12px] font-bold")}
-            className={cx("text-white bg-linear-[var(--color-ln-primary)]", "rounded-lg px-[16px] gap-2")}
+            className={cx("text-white bg-linear-[var(--color-ln-primary)]", "rounded-lg px-[16px] gap-2 text-nowrap")}
             onClick={() => confirmAll(pendingList.map((p) => p.id))}
           />
         </div>
         {/* List */}
-        <div className={cx("flex-1 overflow-auto", TWCSS.scrollbarY)}>
+        <div className={cx("flex-1 overflow-x-auto overflow-auto", TWCSS.scrollbarY, TWCSS.scrollbarX)}>
           {pendingList.map((pend, idx) => {
             const d = new Date(pend.appointmentDate);
             const DAY_LABELS = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
@@ -77,7 +77,7 @@ function UrgentList() {
               <div
                 key={pend.id}
                 className={cx(
-                  "fadeUp",
+                  "fadeUp min-w-[1200px]",
                   "py-[10px] px-4 border-b last:border-b-0",
                   "border-[var(--color-unavailable-100)]",
                   "hover:bg-[var(--color-warning-100)]/10",
@@ -109,10 +109,10 @@ function UrgentList() {
                     className={cx("grid grid-cols-[12px_100px] gap-1 text-[12px]")}
                   />
                   {/* Doctor */}
-                  <div className={cx("flex items-center gap-2 shrink-0 min-w-[160px]")}>
+                  <div className={cx("flex items-center gap-2 shrink-0 min-w-[180px]")}>
                     <Avatar width={20} height={20} name={pend.doctorName} className="rounded-full text-[9px]" />
                     <Item
-                      children={pend.doctorName}
+                      children={`Bs. ${pend.doctorName}`}
                       itemClassName={cx("text-[12px] font-bold text-[var(--color-unavailable-900)]")}
                     />
                   </div>

@@ -2,7 +2,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 1 – Nguyễn Văn A (Nội tổng quát) ══════════════
   {
     id: "appt-001",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T07:32:00.000Z",
     updatedAt: "2026-03-09T08:10:00.000Z",
     confirmedAt: "2026-03-09T08:10:00.000Z",
@@ -44,7 +44,7 @@ export const MOCK_APPOINTMENTS = [
 
   {
     id: "appt-002",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T20:15:00.000Z",
     updatedAt: "2026-03-09T20:15:00.000Z",
     confirmedAt: null,
@@ -83,7 +83,7 @@ export const MOCK_APPOINTMENTS = [
 
   {
     id: "appt-003",
-    status: "done",
+    status: "DONE",
     createdAt: "2026-03-07T14:00:00.000Z",
     updatedAt: "2026-03-10T10:15:00.000Z",
     confirmedAt: "2026-03-07T15:30:00.000Z",
@@ -123,7 +123,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 8 – Nguyễn Thị H (Tim mạch) ═══════════════════
   {
     id: "appt-004",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T07:45:00.000Z",
     updatedAt: "2026-03-09T09:00:00.000Z",
     confirmedAt: "2026-03-09T09:00:00.000Z",
@@ -162,7 +162,7 @@ export const MOCK_APPOINTMENTS = [
 
   {
     id: "appt-005",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T09:01:00.000Z",
     updatedAt: "2026-03-09T09:01:00.000Z",
     confirmedAt: null,
@@ -201,7 +201,7 @@ export const MOCK_APPOINTMENTS = [
 
   {
     id: "appt-006",
-    status: "cancelled",
+    status: "CANCELLED",
     createdAt: "2026-03-07T16:10:00.000Z",
     updatedAt: "2026-03-09T10:20:00.000Z",
     confirmedAt: "2026-03-07T17:00:00.000Z",
@@ -241,7 +241,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 13 – Võ Văn N (Tiêu hóa) ══════════════════════
   {
     id: "appt-007",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T07:10:00.000Z",
     updatedAt: "2026-03-09T08:30:00.000Z",
     confirmedAt: "2026-03-09T08:30:00.000Z",
@@ -280,7 +280,7 @@ export const MOCK_APPOINTMENTS = [
 
   {
     id: "appt-008",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T21:00:00.000Z",
     updatedAt: "2026-03-09T21:00:00.000Z",
     confirmedAt: null,
@@ -320,7 +320,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 14 – Ngô Thị Tuyết Nhung (Thần kinh) ══════════
   {
     id: "appt-009",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T07:55:00.000Z",
     updatedAt: "2026-03-09T07:55:00.000Z",
     confirmedAt: null,
@@ -359,7 +359,7 @@ export const MOCK_APPOINTMENTS = [
 
   {
     id: "appt-010",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T14:20:00.000Z",
     updatedAt: "2026-03-09T16:00:00.000Z",
     confirmedAt: "2026-03-09T16:00:00.000Z",
@@ -399,7 +399,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 18 – Phạm Văn S (Cơ xương khớp) ══════════════
   {
     id: "appt-011",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-08T06:40:00.000Z",
     updatedAt: "2026-03-08T10:00:00.000Z",
     confirmedAt: "2026-03-08T10:00:00.000Z",
@@ -439,7 +439,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 3 – Lê Văn C (Ngoại chấn thương chỉnh hình) ══
   {
     id: "appt-012",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T19:30:00.000Z",
     updatedAt: "2026-03-09T19:30:00.000Z",
     confirmedAt: null,
@@ -479,7 +479,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 2 – Trần Thị B (Sản khoa) ══════════════════════
   {
     id: "appt-013",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T08:30:00.000Z",
     updatedAt: "2026-03-09T09:45:00.000Z",
     confirmedAt: "2026-03-09T09:45:00.000Z",
@@ -518,7 +518,7 @@ export const MOCK_APPOINTMENTS = [
 
   {
     id: "appt-014",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T22:10:00.000Z",
     updatedAt: "2026-03-09T22:10:00.000Z",
     confirmedAt: null,
@@ -558,7 +558,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 10 – Trần Văn K (Da liễu) ══════════════════════
   {
     id: "appt-015",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T09:20:00.000Z",
     updatedAt: "2026-03-09T09:20:00.000Z",
     confirmedAt: null,
@@ -598,7 +598,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 4 – Phạm Thị D (Nhi khoa) ══════════════════════
   {
     id: "appt-016",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T08:15:00.000Z",
     updatedAt: "2026-03-09T09:00:00.000Z",
     confirmedAt: "2026-03-09T09:00:00.000Z",
@@ -639,7 +639,7 @@ export const MOCK_APPOINTMENTS = [
 
   {
     id: "appt-017",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T20:45:00.000Z",
     updatedAt: "2026-03-09T20:45:00.000Z",
     confirmedAt: null,
@@ -681,7 +681,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 5 – Hoàng Văn E (Tai Mũi Họng) ════════════════
   {
     id: "appt-018",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T08:40:00.000Z",
     updatedAt: "2026-03-09T10:10:00.000Z",
     confirmedAt: "2026-03-09T10:10:00.000Z",
@@ -721,7 +721,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 6 – Võ Thị F (Răng Hàm Mặt) ══════════════════
   {
     id: "appt-019",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T09:00:00.000Z",
     updatedAt: "2026-03-09T10:30:00.000Z",
     confirmedAt: "2026-03-09T10:30:00.000Z",
@@ -761,7 +761,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 12 – Phạm Thị M (Mắt) ════════════════════════
   {
     id: "appt-020",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-09T21:30:00.000Z",
     updatedAt: "2026-03-09T21:30:00.000Z",
     confirmedAt: null,
@@ -803,7 +803,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 7 – Đặng Văn G (Y học cổ truyền) ══════════════
   {
     id: "appt-021",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T07:30:00.000Z",
     updatedAt: "2026-03-09T08:00:00.000Z",
     confirmedAt: "2026-03-09T08:00:00.000Z",
@@ -843,7 +843,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 9 – Lê Quốc I (Chẩn đoán hình ảnh) ════════════
   {
     id: "appt-022",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T10:00:00.000Z",
     updatedAt: "2026-03-09T11:30:00.000Z",
     confirmedAt: "2026-03-09T11:30:00.000Z",
@@ -883,7 +883,7 @@ export const MOCK_APPOINTMENTS = [
   // ══ Bác sĩ 15 – Lê Văn P (Xét nghiệm) ════════════════════
   {
     id: "appt-023",
-    status: "done",
+    status: "DONE",
     createdAt: "2026-03-10T06:30:00.000Z",
     updatedAt: "2026-03-10T07:45:00.000Z",
     confirmedAt: "2026-03-10T06:45:00.000Z",
@@ -925,7 +925,7 @@ export const MOCK_APPOINTMENTS = [
   // ════════════════════════════════════════════════════════════
   {
     id: "appt-024",
-    status: "done",
+    status: "DONE",
     createdAt: "2026-03-07T08:00:00.000Z",
     updatedAt: "2026-03-09T09:30:00.000Z",
     confirmedAt: "2026-03-07T09:00:00.000Z",
@@ -960,7 +960,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-025",
-    status: "done",
+    status: "DONE",
     createdAt: "2026-03-07T09:00:00.000Z",
     updatedAt: "2026-03-09T10:15:00.000Z",
     confirmedAt: "2026-03-07T10:00:00.000Z",
@@ -995,7 +995,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-026",
-    status: "done",
+    status: "DONE",
     createdAt: "2026-03-07T10:00:00.000Z",
     updatedAt: "2026-03-09T11:00:00.000Z",
     confirmedAt: "2026-03-07T11:00:00.000Z",
@@ -1032,7 +1032,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-027",
-    status: "done",
+    status: "DONE",
     createdAt: "2026-03-07T07:00:00.000Z",
     updatedAt: "2026-03-09T08:00:00.000Z",
     confirmedAt: "2026-03-07T08:00:00.000Z",
@@ -1067,7 +1067,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-028",
-    status: "done",
+    status: "DONE",
     createdAt: "2026-03-07T11:00:00.000Z",
     updatedAt: "2026-03-09T14:30:00.000Z",
     confirmedAt: "2026-03-07T12:00:00.000Z",
@@ -1102,7 +1102,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-029",
-    status: "cancelled",
+    status: "DONE",
     createdAt: "2026-03-06T15:00:00.000Z",
     updatedAt: "2026-03-08T09:00:00.000Z",
     confirmedAt: "2026-03-06T16:00:00.000Z",
@@ -1137,7 +1137,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-030",
-    status: "done",
+    status: "DONE",
     createdAt: "2026-03-07T13:00:00.000Z",
     updatedAt: "2026-03-09T15:30:00.000Z",
     confirmedAt: "2026-03-07T14:00:00.000Z",
@@ -1176,7 +1176,7 @@ export const MOCK_APPOINTMENTS = [
   // ════════════════════════════════════════════════════════════
   {
     id: "appt-031",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T20:00:00.000Z",
     updatedAt: "2026-03-10T08:00:00.000Z",
     confirmedAt: "2026-03-10T08:00:00.000Z",
@@ -1211,7 +1211,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-032",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-10T21:00:00.000Z",
     updatedAt: "2026-03-10T21:00:00.000Z",
     confirmedAt: null,
@@ -1246,7 +1246,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-033",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-09T18:00:00.000Z",
     updatedAt: "2026-03-10T09:00:00.000Z",
     confirmedAt: "2026-03-10T09:00:00.000Z",
@@ -1281,7 +1281,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-034",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-10T22:00:00.000Z",
     updatedAt: "2026-03-10T22:00:00.000Z",
     confirmedAt: null,
@@ -1320,7 +1320,7 @@ export const MOCK_APPOINTMENTS = [
   // ════════════════════════════════════════════════════════════
   {
     id: "appt-035",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-10T07:30:00.000Z",
     updatedAt: "2026-03-10T09:00:00.000Z",
     confirmedAt: "2026-03-10T09:00:00.000Z",
@@ -1355,7 +1355,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-036",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-11T20:00:00.000Z",
     updatedAt: "2026-03-11T20:00:00.000Z",
     confirmedAt: null,
@@ -1390,7 +1390,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-037",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-10T14:00:00.000Z",
     updatedAt: "2026-03-11T08:00:00.000Z",
     confirmedAt: "2026-03-11T08:00:00.000Z",
@@ -1425,7 +1425,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-038",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-11T19:00:00.000Z",
     updatedAt: "2026-03-11T19:00:00.000Z",
     confirmedAt: null,
@@ -1462,7 +1462,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-039",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-10T16:00:00.000Z",
     updatedAt: "2026-03-11T10:00:00.000Z",
     confirmedAt: "2026-03-11T10:00:00.000Z",
@@ -1497,7 +1497,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-040",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-11T21:30:00.000Z",
     updatedAt: "2026-03-11T21:30:00.000Z",
     confirmedAt: null,
@@ -1534,7 +1534,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-041",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-10T08:00:00.000Z",
     updatedAt: "2026-03-11T09:00:00.000Z",
     confirmedAt: "2026-03-11T09:00:00.000Z",
@@ -1573,7 +1573,7 @@ export const MOCK_APPOINTMENTS = [
   // ════════════════════════════════════════════════════════════
   {
     id: "appt-042",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-11T08:00:00.000Z",
     updatedAt: "2026-03-12T08:30:00.000Z",
     confirmedAt: "2026-03-12T08:30:00.000Z",
@@ -1608,7 +1608,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-043",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-12T21:00:00.000Z",
     updatedAt: "2026-03-12T21:00:00.000Z",
     confirmedAt: null,
@@ -1643,7 +1643,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-044",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-11T09:00:00.000Z",
     updatedAt: "2026-03-12T09:00:00.000Z",
     confirmedAt: "2026-03-12T09:00:00.000Z",
@@ -1680,7 +1680,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-045",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-12T20:00:00.000Z",
     updatedAt: "2026-03-12T20:00:00.000Z",
     confirmedAt: null,
@@ -1715,7 +1715,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-046",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-11T14:00:00.000Z",
     updatedAt: "2026-03-12T10:00:00.000Z",
     confirmedAt: "2026-03-12T10:00:00.000Z",
@@ -1750,7 +1750,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-047",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-12T22:00:00.000Z",
     updatedAt: "2026-03-12T22:00:00.000Z",
     confirmedAt: null,
@@ -1789,7 +1789,7 @@ export const MOCK_APPOINTMENTS = [
   // ════════════════════════════════════════════════════════════
   {
     id: "appt-048",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-12T08:00:00.000Z",
     updatedAt: "2026-03-13T08:00:00.000Z",
     confirmedAt: "2026-03-13T08:00:00.000Z",
@@ -1824,7 +1824,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-049",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-13T19:00:00.000Z",
     updatedAt: "2026-03-13T19:00:00.000Z",
     confirmedAt: null,
@@ -1861,7 +1861,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-050",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-12T10:00:00.000Z",
     updatedAt: "2026-03-13T09:00:00.000Z",
     confirmedAt: "2026-03-13T09:00:00.000Z",
@@ -1896,7 +1896,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-051",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-13T20:30:00.000Z",
     updatedAt: "2026-03-13T20:30:00.000Z",
     confirmedAt: null,
@@ -1931,7 +1931,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-052",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-12T15:00:00.000Z",
     updatedAt: "2026-03-13T10:00:00.000Z",
     confirmedAt: "2026-03-13T10:00:00.000Z",
@@ -1970,7 +1970,7 @@ export const MOCK_APPOINTMENTS = [
   // ════════════════════════════════════════════════════════════
   {
     id: "appt-053",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-13T07:00:00.000Z",
     updatedAt: "2026-03-14T08:00:00.000Z",
     confirmedAt: "2026-03-14T08:00:00.000Z",
@@ -2005,7 +2005,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-054",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-14T20:00:00.000Z",
     updatedAt: "2026-03-14T20:00:00.000Z",
     confirmedAt: null,
@@ -2042,7 +2042,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-055",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-13T10:00:00.000Z",
     updatedAt: "2026-03-14T09:00:00.000Z",
     confirmedAt: "2026-03-14T09:00:00.000Z",
@@ -2077,7 +2077,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-056",
-    status: "pending",
+    status: "PENDING",
     createdAt: "2026-03-14T21:00:00.000Z",
     updatedAt: "2026-03-14T21:00:00.000Z",
     confirmedAt: null,
@@ -2112,7 +2112,7 @@ export const MOCK_APPOINTMENTS = [
   },
   {
     id: "appt-057",
-    status: "confirmed",
+    status: "CONFIRMED",
     createdAt: "2026-03-13T14:00:00.000Z",
     updatedAt: "2026-03-14T10:00:00.000Z",
     confirmedAt: "2026-03-14T10:00:00.000Z",

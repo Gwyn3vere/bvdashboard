@@ -16,3 +16,9 @@ export function getDoctorGradient(name = "") {
 
   return `linear-gradient(135deg, ${color1}, ${color2})`;
 }
+
+export function getDoctorColor(name = "") {
+  const hue = stringToHue(name);
+
+  return `hsl(${hue}, 70%, 50%)`;
+}

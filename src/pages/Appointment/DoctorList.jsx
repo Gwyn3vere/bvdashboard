@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import classNames from "classnames/bind";
 import styles from "../../styles/components.module.css";
 import { Button, Item } from "../../components/ui";
@@ -6,6 +6,7 @@ import { LuActivity, LuCalendar, LuCheck, LuChevronLeft, LuChevronRight, LuTrian
 import { TWCSS } from "../../styles/defineTailwindcss";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppointmentStore } from "../../store/appointmentStore";
+import { DoctorSelector, CrossTimeLine } from "./index";
 
 const cx = classNames.bind(styles);
 
@@ -96,6 +97,14 @@ function DoctorList() {
       </div>
       {/* Overview */}
       <Overview data={doctors} />
+      {/* Card doctors */}
+      <div className={cx("grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-3 mb-[20px]")}>
+        {doctors.map((doc) => (
+          <DoctorSelector key={doc.doctorId} doctor={doc} />
+        ))}
+      </div>
+      {/* Appointment Timeline */}
+      <CrossTimeLine date={date} />
     </section>
   );
 }
@@ -148,7 +157,7 @@ const Overview = React.memo(function Overview({ data }) {
   ];
 
   return (
-    <div className={cx("flex flex-col lg:flex-row gap-5")}>
+    <div className={cx("flex flex-col lg:flex-row gap-3 mb-[20px]")}>
       {cardMenu.map((item) => (
         <div
           key={item.id}

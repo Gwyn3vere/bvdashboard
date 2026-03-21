@@ -52,13 +52,13 @@
   --color-ln-unavailable: 135deg, #d1d5db, #6b7280;
 
   /* ===== Warning (Yellow) ===== */
-  --color-warning: #ffcc00;
-  --color-warning-900: #8f7200;
-  --color-warning-700: #cc9f00;
-  --color-warning-500: #ffcc00;
-  --color-warning-300: #ffe680;
-  --color-warning-100: #fff7cc;
-  --color-ln-warning: 135deg, #fbbf24, #d97706;
+  --color-warning: #f59e0b;
+  --color-warning-900: #b45309;
+  --color-warning-700: #ea580c;
+  --color-warning-500: #f59e0b;
+  --color-warning-300: #fcd34d;
+  --color-warning-100: #fef3c7;
+  --color-ln-warning: 135deg, #fcd34d, #ea580c;
 
   /* ===== Cyan ===== */
   --color-cyan: #00bcd4;

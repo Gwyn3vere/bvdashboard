@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { APPOINTMENTS } from "../mock/appointments";
+import { getTotalSlotsByDoctorDate, getSlotDurationByDoctorDate, getSessionLabelByDoctorDate } from "../mock/shift";
 
 // ── Normalize ────────────────────────────────────────────────
 // Đảm bảo mọi appointment đều có đủ các trường flat để filter/sort dễ dàng
@@ -40,7 +41,7 @@ export const useAppointmentStore = create((set, get) => ({
   /** Lọc tất cả pending trong một khoảng ngày (dùng cho urgent list view tuần) */
   getPendingByDateRange: (startDate, endDate) =>
     get().appointments.filter(
-      (a) => a.status === "pending" && a.appointmentDate >= startDate && a.appointmentDate <= endDate,
+      (a) => a.status === "PENDING" && a.appointmentDate >= startDate && a.appointmentDate <= endDate,
     ),
 
   /** Thống kê theo ngày: { total, pending, confirmed, done, cancelled } */
@@ -50,10 +51,10 @@ export const useAppointmentStore = create((set, get) => ({
     );
     return {
       total: list.length,
-      pending: list.filter((a) => a.status === "pending").length,
-      confirmed: list.filter((a) => a.status === "confirmed").length,
-      done: list.filter((a) => a.status === "done").length,
-      cancelled: list.filter((a) => a.status === "cancelled").length,
+      pending: list.filter((a) => a.status === "PENDING").length,
+      confirmed: list.filter((a) => a.status === "CONFIRMED").length,
+      done: list.filter((a) => a.status === "DONE").length,
+      cancelled: list.filter((a) => a.status === "CANCELLED").length,
     };
   },
 
@@ -137,10 +138,10 @@ export const useAppointmentStore = create((set, get) => ({
 
       const stats = {
         total: dayAppts.length,
-        pending: dayAppts.filter((a) => a.status === "pending").length,
-        confirmed: dayAppts.filter((a) => a.status === "confirmed").length,
-        done: dayAppts.filter((a) => a.status === "done").length,
-        cancelled: dayAppts.filter((a) => a.status === "cancelled").length,
+        pending: dayAppts.filter((a) => a.status === "PENDING").length,
+        confirmed: dayAppts.filter((a) => a.status === "CONFIRMED").length,
+        done: dayAppts.filter((a) => a.status === "DONE").length,
+        cancelled: dayAppts.filter((a) => a.status === "CANCELLED").length,
       };
 
       // group bác sĩ có lịch trong ngày → avatar dots
@@ -173,16 +174,16 @@ export const useAppointmentStore = create((set, get) => ({
 
     // ── pending list cả tuần — urgent panel ─────────────────
     const pendingList = allInWeek
-      .filter((a) => a.status === "pending")
+      .filter((a) => a.status === "PENDING")
       .sort((a, b) => a.appointmentDate.localeCompare(b.appointmentDate) || a.slotStart.localeCompare(b.slotStart));
 
     // ── tổng hợp toàn tuần ──────────────────────────────────
     const weekStats = {
       total: allInWeek.length,
-      pending: allInWeek.filter((a) => a.status === "pending").length,
-      confirmed: allInWeek.filter((a) => a.status === "confirmed").length,
-      done: allInWeek.filter((a) => a.status === "done").length,
-      cancelled: allInWeek.filter((a) => a.status === "cancelled").length,
+      pending: allInWeek.filter((a) => a.status === "PENDING").length,
+      confirmed: allInWeek.filter((a) => a.status === "CONFIRMED").length,
+      done: allInWeek.filter((a) => a.status === "DONE").length,
+      cancelled: allInWeek.filter((a) => a.status === "CANCELLED").length,
     };
 
     // ── label tuần ──────────────────────────────────────────
@@ -226,7 +227,6 @@ export const useAppointmentStore = create((set, get) => ({
   getDoctorsByDate: (date) => {
     const dayAppts = get().appointments.filter((a) => a.appointmentDate === date);
 
-    // Group by doctorId
     const doctorMap = {};
     dayAppts.forEach((a) => {
       if (!doctorMap[a.doctorId]) {
@@ -249,15 +249,14 @@ export const useAppointmentStore = create((set, get) => ({
 
       const stats = {
         total: appts.length,
-        pending: appts.filter((a) => a.status === "pending").length,
-        confirmed: appts.filter((a) => a.status === "confirmed").length,
-        done: appts.filter((a) => a.status === "done").length,
-        cancelled: appts.filter((a) => a.status === "cancelled").length,
+        pending: appts.filter((a) => a.status === "PENDING").length,
+        confirmed: appts.filter((a) => a.status === "CONFIRMED").length,
+        done: appts.filter((a) => a.status === "DONE").length,
+        cancelled: appts.filter((a) => a.status === "CANCELLED").length,
       };
 
-      // Upcoming: confirmed sort theo giờ, lấy 2 cái đầu
       const upcomingConfirmed = appts
-        .filter((a) => a.status === "confirmed")
+        .filter((a) => a.status === "CONFIRMED")
         .sort((a, b) => a.slotStart.localeCompare(b.slotStart))
         .slice(0, 2)
         .map((a) => ({
@@ -267,11 +266,14 @@ export const useAppointmentStore = create((set, get) => ({
           slotEnd: a.slotEnd,
         }));
 
-      const pendingAppointments = appts.filter((a) => a.status === "pending");
+      const pendingAppointments = appts.filter((a) => a.status === "PENDING");
 
-      // fillRate = active (không tính cancelled) / total * 100
-      const activeTotal = stats.total - stats.cancelled;
-      const fillRate = stats.total > 0 ? Math.round((activeTotal / stats.total) * 100) : 0;
+      // Lấy từ MOCK_DOCTOR_SHIFTS — fallback về stats.total nếu chưa có shift
+      const totalSlots = getTotalSlotsByDoctorDate(doc.doctorId, date) || stats.total;
+      const slotDurationMinutes = getSlotDurationByDoctorDate(doc.doctorId, date);
+      const sessionLabel = getSessionLabelByDoctorDate(doc.doctorId, date);
+
+      const fillRate = totalSlots > 0 ? Math.round((stats.total / totalSlots) * 100) : 0;
 
       return {
         doctorId: doc.doctorId,
@@ -282,6 +284,9 @@ export const useAppointmentStore = create((set, get) => ({
         specialtyId: doc.specialtyId,
         specialtyName: doc.specialtyName,
         stats,
+        totalSlots,
+        slotDurationMinutes,
+        sessionLabel,
         fillRate,
         upcomingConfirmed,
         pendingAppointments,
@@ -295,7 +300,7 @@ export const useAppointmentStore = create((set, get) => ({
     const created = normalizeAppointment({
       ...newAppointment,
       id,
-      status: "pending",
+      status: "PENDING",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       confirmedAt: null,
@@ -336,7 +341,7 @@ export const useAppointmentStore = create((set, get) => ({
         a.id === id
           ? {
               ...a,
-              status: "confirmed",
+              status: "CONFIRMED",
               confirmedAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
             }
@@ -350,7 +355,7 @@ export const useAppointmentStore = create((set, get) => ({
         a.id === id
           ? {
               ...a,
-              status: "cancelled",
+              status: "CANCELLED",
               cancelledAt: new Date().toISOString(),
               cancelReason: reason,
               updatedAt: new Date().toISOString(),
@@ -365,7 +370,7 @@ export const useAppointmentStore = create((set, get) => ({
         a.id === id
           ? {
               ...a,
-              status: "done",
+              status: "DONE",
               doneAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
             }
@@ -379,8 +384,8 @@ export const useAppointmentStore = create((set, get) => ({
       const now = new Date().toISOString();
       return {
         appointments: state.appointments.map((a) =>
-          ids.includes(a.id) && a.status === "pending"
-            ? { ...a, status: "confirmed", confirmedAt: now, updatedAt: now }
+          ids.includes(a.id) && a.status === "PENDING"
+            ? { ...a, status: "CONFIRMED", confirmedAt: now, updatedAt: now }
             : a,
         ),
       };
@@ -396,7 +401,7 @@ export const useAppointmentStore = create((set, get) => ({
               appointmentDate,
               slotStart,
               slotEnd,
-              status: "pending",
+              status: "PENDING",
               confirmedAt: null,
               updatedAt: new Date().toISOString(),
             }
