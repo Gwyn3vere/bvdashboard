@@ -62,9 +62,11 @@ function WeekSelector() {
       <div key={weekOffset} className={cx("grid sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-2.5")}>
         {days.map((appt) => {
           return (
-            <Item key={appt.dayIndex} as={Link} to={`/quan-ly-lich-hen/${appt.date}`}>
-              <CardSelector appt={appt} style={{ animationDelay: `${Math.min(appt.dayIndex * 80, 400)}ms` }} />
-            </Item>
+            <CardSelector
+              key={appt.dayIndex}
+              appt={appt}
+              style={{ animationDelay: `${Math.min(appt.dayIndex * 80, 400)}ms` }}
+            />
           );
         })}
       </div>
@@ -83,7 +85,9 @@ const CardSelector = React.memo(function CardSelector({ appt, style = {} }) {
   const donePct = activeTotal > 0 ? (appt.stats.done / activeTotal) * 100 : 0;
 
   return (
-    <div
+    <Item
+      as={Link}
+      to={`/quan-ly-lich-hen/${appt.date}`}
       className={cx(
         "py-[14px] px-[12px] rounded-xl border transition-all",
         appt?.isToday
@@ -180,6 +184,6 @@ const CardSelector = React.memo(function CardSelector({ appt, style = {} }) {
           <Avatar key={idx} width={18} height={18} name={doc.doctorName} className={cx("rounded-full text-[7px]")} />
         ))}
       </div>
-    </div>
+    </Item>
   );
 });

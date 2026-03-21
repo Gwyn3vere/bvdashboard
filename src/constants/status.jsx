@@ -37,29 +37,21 @@ export const STAFF_STATUS = {
 };
 
 export const APPOINTMENT_STATUS = {
-  SCHEDULED: {
-    label: "Đã đặt lịch",
-    color: "var(--color-secondary)",
-  },
-  RESCHEDULED: {
-    label: "Đã dời lịch",
-    color: "var(--color-purple)",
+  PENDING: {
+    label: "Chờ duyệt",
+    color: "var(--color-warning)",
   },
   CONFIRMED: {
     label: "Đã xác nhận",
-    color: "var(--color-cyan)",
+    color: "var(--color-primary-700)",
   },
-  COMPLETED: {
+  DONE: {
     label: "Đã hoàn thành",
-    color: "var(--color-primary)",
+    color: "var(--color-unavailable-700)",
   },
   CANCELLED: {
     label: "Đã hủy",
-    color: "var(--color-error)",
-  },
-  NO_SHOW: {
-    label: "Không đến",
-    color: "var(--color-warning)",
+    color: "var(--color-error-700)",
   },
 };
 

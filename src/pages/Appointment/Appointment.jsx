@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 function Appointment() {
   return (
-    <div className={cx(TWCSS.container, "flex flex-col h-full")}>
+    <div className={cx(TWCSS.container, "flex flex-col md:h-full")}>
       <WeekSelector />
       <UrgentList />
     </div>
