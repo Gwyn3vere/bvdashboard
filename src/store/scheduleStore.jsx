@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { MOCK_DOCTOR_LIST } from "../mock/doctors";
+import { DOCTOR_SHIFTS } from "../mock/shift";
 import { SYNC_ENUM } from "../constants/status";
 
 export const scheduleStore = create(
   persist(
     (set, get) => ({
-      doctors: MOCK_DOCTOR_LIST,
+      doctors: [],
       workSchedules: {},
 
       addDoctorToDate: (date, doctorId) => {
@@ -161,8 +162,49 @@ export const scheduleStore = create(
         const schedules = get().workSchedules[date] || [];
         return schedules.some((s) => s.doctorId === doctorId);
       },
+
       clearAllSchedules: () => {
         set({ workSchedules: {} });
+      },
+
+      fetchDoctors: async () => {
+        const data = MOCK_DOCTOR_LIST;
+        set({ doctors: data });
+      },
+
+      fetchShifts: async () => {
+        if (Object.keys(get().workSchedules).length > 0) return;
+
+        const workSchedules = {};
+        DOCTOR_SHIFTS.forEach((shift) => {
+          if (!workSchedules[shift.date]) workSchedules[shift.date] = [];
+
+          // Map slots từ { time: "08:00-08:30", isActive } → { start: "08:00", end: "08:30" }
+          const generatedSlots = shift.slots.map((s) => {
+            const [start, end] = s.time.split("-");
+            return { start, end };
+          });
+
+          // Lấy indices của các slot active
+          const selectedSlotIndices = shift.slots.map((s, i) => (s.isActive ? i : null)).filter((i) => i !== null);
+
+          workSchedules[shift.date].push({
+            scheduleId: shift.id,
+            doctorId: shift.doctorId,
+            date: shift.date,
+            configured: true,
+            syncStatus: SYNC_ENUM.SYNCED,
+            sessionType: shift.session,
+            startTime: shift.startTime,
+            endTime: shift.endTime,
+            slotDuration: shift.slotDurationMinutes,
+            slots: generatedSlots.filter((_, i) => selectedSlotIndices.includes(i)),
+            generatedSlots,
+            selectedSlotIndices,
+          });
+        });
+
+        set({ workSchedules });
       },
     }),
     {

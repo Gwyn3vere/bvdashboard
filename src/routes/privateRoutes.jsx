@@ -1,7 +1,7 @@
 import { dashboardLayout } from "../components/layouts";
 // Pages
 import { Dashboard } from "../pages/Dashboard";
-import { Appointment, DoctorList } from "../pages/Appointment";
+import { Appointment, DoctorList, CrossDetailList } from "../pages/Appointment";
 import { Staff } from "../pages/Staff";
 import { Doctor, Calendar } from "../pages/Doctor";
 import { News, Post, Article, Pending, MyPost } from "../pages/News";
@@ -24,6 +24,12 @@ const privateRoutes = [
   {
     path: "/quan-ly-lich-hen/:date",
     component: DoctorList,
+    layout: dashboardLayout,
+    role: ["admin", "user"],
+  },
+  {
+    path: "/quan-ly-lich-hen/:date/:id",
+    component: CrossDetailList,
     layout: dashboardLayout,
     role: ["admin", "user"],
   },

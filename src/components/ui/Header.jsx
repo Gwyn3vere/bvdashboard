@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import classNames from "classnames/bind";
-import { useActive, useClickOutsideManager } from "../hooks";
+import { useActive, useClickOutsideManager, useBreadcrumb } from "../hooks";
 import { Link } from "react-router-dom";
 import { userService } from "../../services/auth.mock";
 // import { userService } from "../../services/auth";
@@ -20,23 +20,7 @@ import { Breadcrumb } from "./index";
 const cx = classNames.bind(style);
 
 function Header({ collapsed, toggle }) {
-  const location = useLocation();
-  const params = useParams();
-
-  const currentRoute = Object.keys(metaRoutes).find((route) =>
-    matchPath({ path: route, end: true }, location.pathname),
-  );
-
-  const breadcrumbItems =
-    metaRoutes[currentRoute]?.breadcrumb?.map((item) => {
-      let label = item.label;
-
-      Object.keys(params).forEach((key) => {
-        label = label.replace(`:${key}`, params[key]);
-      });
-
-      return { ...item, label };
-    }) || [];
+  const breadcrumbItems = useBreadcrumb();
   const pageTitle = breadcrumbItems.at(-1)?.label || "";
 
   const { user, initialized, logout } = useAuthStore();

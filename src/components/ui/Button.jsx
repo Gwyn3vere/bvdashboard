@@ -10,6 +10,7 @@ function Button({
   height = 40,
   width = 100,
   className,
+  sematicBtn = "flex items-center justify-center",
   iconClassName,
   btnClassName,
   iconPosition = "left",
@@ -21,9 +22,10 @@ function Button({
   return (
     <button
       className={cx(
-        "outline-none cursor-pointer flex items-center justify-center",
+        "outline-none cursor-pointer",
         iconPosition === "right" && "flex-row-reverse",
         className,
+        sematicBtn,
       )}
       style={{ height, width, ...style }}
       {...props}
