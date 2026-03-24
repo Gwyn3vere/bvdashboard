@@ -99,8 +99,8 @@ function DoctorList() {
       <Overview data={doctors} />
       {/* Card doctors */}
       <div className={cx("grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-3 mb-[20px]")}>
-        {doctors.map((doc) => (
-          <DoctorSelector key={doc.doctorId} doctor={doc} />
+        {doctors.map((doc, idx) => (
+          <DoctorSelector key={doc.doctorId} doctor={doc} style={{ animationDelay: `${Math.min(idx * 80, 800)}ms` }} />
         ))}
       </div>
       {/* Appointment Timeline */}

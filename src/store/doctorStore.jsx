@@ -9,7 +9,7 @@ export const useDoctorStore = create((set, get) => ({
   loading: false,
 
   getDoctorById: (id) => {
-    return get().doctors.find((d) => d.id === id);
+    return get().doctors.find((d) => d.id == id);
   },
 
   createDoctor: (newDoctor) =>

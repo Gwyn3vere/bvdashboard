@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import classNames from "classnames/bind";
 import { scheduleStore } from "../../store/scheduleStore";
 import { useDoctorCalendar, useScheduleResize, useSearch } from "../../components/hooks";
@@ -18,7 +18,12 @@ function Calendar() {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [dragPreview, setDragPreview] = useState(null);
 
-  const { doctors, getSchedulesByDate, getDoctorById, removeSchedule, getDirtySchedules } = scheduleStore();
+  const { doctors, getSchedulesByDate, getDoctorById, removeSchedule, getDirtySchedules, fetchDoctors, fetchShifts } =
+    scheduleStore();
+  useEffect(() => {
+    fetchDoctors();
+    fetchShifts();
+  }, []);
   const {
     toast,
     setToast,
@@ -100,72 +105,77 @@ function Calendar() {
     <div className={TWCSS.container}>
       <div className="space-y-5">
         {/* Sidebar - Danh sách bác sĩ */}
-        <div
-          className={cx("bg-white rounded-2xl overflow-hidden")}
-          style={{
-            boxShadow: "var(--shadow)",
-          }}
-        >
+        <div className={cx("sticky top-0 z-10", "bg-[var(--color-bg-light-primary-200)]")}>
           <div
-            className={cx("flex items-center justify-between p-3 md:p-6", "border-b border-[var(--color-primary-100)]")}
+            className={cx("bg-white rounded-2xl overflow-hidden")}
+            style={{
+              boxShadow: "var(--shadow)",
+            }}
           >
-            <div className="flex items-center gap-3">
-              <div className={cx("")}>
-                <Item as="h4" children="Danh sách bác sĩ" className="text-[13px] font-bold" />
-                <Item
-                  as="span"
-                  children="Kéo vào lịch • Click để tạo"
-                  className="text-[11px] text-[var(--color-unavailable)] leading-[1.8]"
+            <div
+              className={cx(
+                "flex items-center justify-between p-3 md:p-6",
+                "border-b border-[var(--color-primary-100)]",
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <div className={cx("")}>
+                  <Item as="h4" children="Danh sách bác sĩ" className="text-[13px] font-bold" />
+                  <Item
+                    as="span"
+                    children="Kéo vào lịch • Click để tạo"
+                    className="text-[11px] text-[var(--color-unavailable)] leading-[1.8]"
+                  />
+                </div>
+
+                <Search
+                  value={doctorKeyword}
+                  onChange={(e) => setDoctorKeyword(e.target.value)}
+                  className="rounded-xl w-full md:w-[260px]"
+                  width="100%"
+                  height={36}
+                  placeholder="Tìm tên, chuyên môn, chức vụ,..."
                 />
               </div>
 
-              <Search
-                value={doctorKeyword}
-                onChange={(e) => setDoctorKeyword(e.target.value)}
-                className="rounded-xl w-full md:w-[260px]"
-                width="100%"
+              <Button
                 height={36}
-                placeholder="Tìm tên, chuyên môn, chức vụ,..."
+                width="auto"
+                icon={<LuRefreshCcw />}
+                className={cx(
+                  "px-4 py-2 rounded-xl transition-colors font-bold",
+                  "bg-linear-[var(--color-ln-primary)] text-white text-[12.5px]",
+                  "gap-2",
+                )}
+                children={`Đồng bộ: ${dirtyCount.length}`}
               />
             </div>
 
-            <Button
-              height={36}
-              width="auto"
-              icon={<LuRefreshCcw />}
-              className={cx(
-                "px-4 py-2 rounded-xl transition-colors font-bold",
-                "bg-linear-[var(--color-ln-primary)] text-white text-[12.5px]",
-                "gap-2",
-              )}
-              children={`Đồng bộ: ${dirtyCount.length}`}
-            />
-          </div>
-
-          <div className={cx("flex gap-3 p-3 md:p-6 w-full overflow-auto", TWCSS.scrollbarX)}>
-            {searchedDoctor.map((doctor) => (
-              <Card
-                key={doctor.id}
-                doctor={doctor}
-                onDragStart={(e) => handleDragStartEvent(e, doctor)}
-                onDrag={handleDrag}
-                onDragEnd={handleDragEnd}
+            <div className={cx("flex gap-3 p-3 md:p-6 w-full overflow-auto", TWCSS.scrollbarX)}>
+              {searchedDoctor.map((doctor) => (
+                <Card
+                  key={doctor.id}
+                  doctor={doctor}
+                  onDragStart={(e) => handleDragStartEvent(e, doctor)}
+                  onDrag={handleDrag}
+                  onDragEnd={handleDragEnd}
+                />
+              ))}
+            </div>
+            {dragPreview && (
+              <DragPreview
+                doctor={dragPreview.doctor}
+                position={dragPreview.position}
+                onRefReady={(element) => {
+                  dragPreviewRef.current = element;
+                }}
               />
-            ))}
+            )}
           </div>
-          {dragPreview && (
-            <DragPreview
-              doctor={dragPreview.doctor}
-              position={dragPreview.position}
-              onRefReady={(element) => {
-                dragPreviewRef.current = element;
-              }}
-            />
-          )}
         </div>
 
         {/* Calendar */}
-        <div className="bg-white rounded-2xl overflow-hidden" style={{ boxShadow: "var(--shadow)" }}>
+        <div className={cx("bg-white rounded-2xl overflow-hidden")} style={{ boxShadow: "var(--shadow)" }}>
           {/* Header */}
           <div className={cx("px-3 md:px-6 md:py-4")}>
             <div className="flex flex-col xl:flex-row gap-3 items-center justify-between overflow-hidden">

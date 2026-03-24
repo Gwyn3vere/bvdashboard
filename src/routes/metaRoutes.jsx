@@ -1,3 +1,5 @@
+import { useDoctorStore } from "../store/doctorStore";
+
 const metaRoutes = {
   "/bang-dieu-khien": {
     breadcrumb: [{ label: "Bảng điều khiển" }],
@@ -10,6 +12,23 @@ const metaRoutes = {
       { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
       { label: "Quản lý lịch hẹn", href: "/quan-ly-lich-hen" },
       { label: ":date" },
+    ],
+  },
+  "/quan-ly-lich-hen/:date/:id": {
+    breadcrumb: [
+      { label: "Bảng điều khiển", href: "/bang-dieu-khien" },
+      { label: "Quản lý lịch hẹn", href: "/quan-ly-lich-hen" },
+      { label: ":date" },
+      {
+        label: ":id",
+        resolver: ({ id }) => {
+          const { getDoctorById } = useDoctorStore.getState();
+
+          const doctor = getDoctorById(Number(id));
+
+          return doctor?.name ?? `Bác sĩ ${id}`;
+        },
+      },
     ],
   },
   "/quan-ly-nhan-su": {
