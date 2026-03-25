@@ -1,14 +1,18 @@
 import React from "react";
 import classNames from "classnames/bind";
 import styles from "../../styles/pages.module.css";
-
 import { LuCalendar, LuCheck, LuClock, LuMapPin, LuPhone, LuUser, LuX } from "react-icons/lu";
 import { Avatar, Button, Item } from "../../components/ui";
 import { APPOINTMENT_STATUS } from "../../constants/status";
+import { useAppointmentStore } from "../../store/appointmentStore";
 
 const cx = classNames.bind(styles);
 
 function CardDetail({ appt, onClose, apptDate }) {
+  const markAsDone = useAppointmentStore((a) => a.markAsDone);
+  const confirmAppointment = useAppointmentStore((a) => a.confirmAppointment);
+  const cancelAppointment = useAppointmentStore((a) => a.cancelAppointment);
+
   if (!appt) return null;
   const ApptConfig = APPOINTMENT_STATUS[appt.status];
 
@@ -37,15 +41,10 @@ function CardDetail({ appt, onClose, apptDate }) {
             <Item children={"Chi tiết lịch hẹn"} itemClassName={cx("text-[13px] font-black")} />
             <Item
               children={ApptConfig.label}
-              itemClassName={cx("text-[11px] font-black")}
-              className={cx(
-                "py-[3px] px-[9px] bg-[var(--color-primary-100)]/50 rounded-full",
-                "border border-[var(--color-primary)] leading-none",
-              )}
+              itemClassName={cx("text-[11px] font-black text-white")}
+              className={cx("py-[3px] px-[9px] rounded-full")}
               style={{
-                background: `color-mix(in srgb, ${ApptConfig.color} 5%, white)`,
-                border: `1px solid ${ApptConfig.color}`,
-                color: ApptConfig.color,
+                background: ApptConfig.color,
               }}
             />
           </div>
@@ -58,7 +57,7 @@ function CardDetail({ appt, onClose, apptDate }) {
             onClick={() => onClose(null)}
           />
         </div>
-        {appt.status !== "DONE" && (
+        {appt.status !== "DONE" && appt.status !== "CANCELLED" && (
           <div className={cx("flex items-center gap-2")}>
             <Button
               width={"auto"}
@@ -69,6 +68,7 @@ function CardDetail({ appt, onClose, apptDate }) {
                 "text-[12px] font-bold text-white py-[6px] px-[13px]",
                 "bg-linear-[var(--color-ln-primary)] rounded-lg gap-1",
               )}
+              onClick={() => (appt.status === "CONFIRMED" ? markAsDone(appt.id) : confirmAppointment(appt.id))}
             />
             <Button
               width={"auto"}
@@ -79,6 +79,7 @@ function CardDetail({ appt, onClose, apptDate }) {
                 "text-[12px] font-bold text-white py-[6px] px-[13px]",
                 "bg-linear-[var(--color-ln-error)] rounded-lg gap-1",
               )}
+              onClick={() => cancelAppointment(appt.id)}
             />
           </div>
         )}

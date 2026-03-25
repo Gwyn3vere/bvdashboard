@@ -130,13 +130,30 @@ function CrossDetailList() {
             />
           )}
         </div>
+        <div className={cx("flex items-center gap-2")}>
+          {Object.entries(APPOINTMENT_STATUS).map(([key, status]) => {
+            return (
+              <Item
+                key={key}
+                children={status.label}
+                itemClassName={cx("text-[11px] font-bold text-white")}
+                className={cx("py-[3px] px-[11px] rounded-full")}
+                style={{ background: status.color }}
+              />
+            );
+          })}
+        </div>
       </div>
       <div className={cx("flex flex-1 min-h-0")}>
         {/* Cross Timeline */}
         <div className={cx("flex-1 overflow-auto min-h-0 hidden-scrollbar")}>
-          {Object.entries(timelineGroups).map(([time, appts]) => {
+          {Object.entries(timelineGroups).map(([time, appts], idx) => {
             return (
-              <div key={time} className={cx("flex items-stretch gap-0 px-4 pb-2")}>
+              <div
+                key={time}
+                className={cx("fadeUp", "flex items-stretch gap-0 px-4 pb-2")}
+                style={{ animationDelay: `${Math.min(idx * 80, 800)}ms` }}
+              >
                 {/* Cột giờ */}
                 <Item
                   children={time}
@@ -213,15 +230,10 @@ function CrossDetailList() {
                           <div className={cx("inline-block")}>
                             <Item
                               children={ApptConfig.label}
-                              itemClassName={cx("text-[10.5px] font-black")}
-                              className={cx(
-                                "py-[3px] px-[9px] bg-[var(--color-primary-100)]/50 rounded-full",
-                                "border border-[var(--color-primary)] leading-none",
-                              )}
+                              itemClassName={cx("text-[11px] font-black text-white")}
+                              className={cx("py-[3px] px-[9px] rounded-full")}
                               style={{
-                                background: `color-mix(in srgb, ${ApptConfig.color} 5%, white)`,
-                                border: `1px solid ${ApptConfig.color}`,
-                                color: ApptConfig.color,
+                                background: ApptConfig.color,
                               }}
                             />
                           </div>
