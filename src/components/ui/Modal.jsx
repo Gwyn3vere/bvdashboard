@@ -52,11 +52,7 @@ function Modal({
       onClick={onClose}
     >
       <div
-        className={cx(
-          "rounded-4xl shadow-xl w-full max-h-[90vh] overflow-y-auto hidden-scrollbar",
-          className,
-          width,
-        )}
+        className={cx("rounded-4xl shadow-xl w-full max-h-[90vh] overflow-y-auto hidden-scrollbar", className, width)}
         onClick={(e) => e.stopPropagation()}
         style={style}
         {...props}

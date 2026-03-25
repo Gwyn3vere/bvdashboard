@@ -16,3 +16,4 @@ export { default as useClickOutsideManager } from "./useClickOutsideManager";
 export { default as useMultiStep } from "./useMultiStep";
 export { default as useScrollIndicator } from "./useScrollIndicator";
 export { default as useBreadcrumb } from "./useBreadcrumb";
+export { default as useModalManager } from "./useModalManager";

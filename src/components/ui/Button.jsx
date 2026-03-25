@@ -15,6 +15,7 @@ function Button({
   btnClassName,
   iconPosition = "left",
   style = {},
+  iStyle = {},
   children,
   icon,
   ...props
@@ -30,7 +31,9 @@ function Button({
       style={{ height, width, ...style }}
       {...props}
     >
-      <span className={cx(iconClassName)}>{icon}</span>
+      <span className={cx(iconClassName)} style={{ ...iStyle }}>
+        {icon}
+      </span>
       <span className={btnClassName}>{children}</span>
     </button>
   );

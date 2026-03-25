@@ -1,8 +1,3 @@
 export { default as Dashboard } from "./Dashboard";
-export { default as OverviewStatistics } from "./OverviewStatistics";
-export { default as PatientStatistics } from "./PatientStatistics";
-export { default as AppointmentStatistics } from "./AppointmentStatistics";
-export { default as DoctorStatistics } from "./DoctorStatistics";
-export { default as AppointmentActivity } from "./AppointmentActivity";
-export { default as PatientActivity } from "./PatientActivity";
-export { default as PatientPercentage } from "./PatientPercentage";
+export { default as CardStatistic } from "./CardStatistic";
+export { default as QuickAction } from "./QuickAction";
