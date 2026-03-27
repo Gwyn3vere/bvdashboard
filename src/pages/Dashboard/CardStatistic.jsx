@@ -7,8 +7,15 @@ import { useStaffStore } from "../../store/staffStore";
 import { useDoctorStore } from "../../store/doctorStore";
 import { useAppointmentStore } from "../../store/appointmentStore";
 import { useNewsStore } from "../../store/newsStore";
+import { useCountUp } from "../../components/hooks";
 
 const cx = classNames.bind(style);
+
+function AnimatedNumber({ value }) {
+  const animated = useCountUp(value);
+
+  return <>{animated.toLocaleString()}</>;
+}
 
 function CardStatistic() {
   const { staffs, fetchStaffs } = useStaffStore();
@@ -106,7 +113,10 @@ function CardStatistic() {
             </div>
           </div>
 
-          <Item children={item.total} itemClassName={cx("text-[36px] font-black text-white leading-none")} />
+          <Item
+            children={<AnimatedNumber value={item.total} />}
+            itemClassName={cx("text-[36px] font-black text-white leading-none")}
+          />
 
           <Item children={item.title} itemClassName={cx("text-[13px] font-medium text-white leading-4 mt-[5px]")} />
         </div>

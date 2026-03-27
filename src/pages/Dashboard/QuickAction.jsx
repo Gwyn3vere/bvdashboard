@@ -72,7 +72,7 @@ function QuickAction() {
   ];
   return (
     <>
-      <section className={cx("px-6 py-5.5 bg-white rounded-2xl")}>
+      <section className={cx("px-6 py-5.5 bg-white rounded-2xl")} style={{ boxShadow: "var(--shadow)" }}>
         {/* Header */}
         <div className={cx("flex items-center justify-between mb-[16px]")}>
           <div>

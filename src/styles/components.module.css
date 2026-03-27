@@ -2,6 +2,11 @@
   box-shadow: var(--shadow);
 }
 
+.fadeUp {
+  opacity: 0;
+  animation: fadeUp 0.4s ease-out forwards;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -13,11 +18,6 @@
   }
 }
 
-.fadeUp {
-  opacity: 0;
-  animation: fadeUp 0.4s ease-out forwards;
-}
-
 .cardStatistic::before {
   position: absolute;
   content: "";
@@ -26,7 +26,7 @@
   width: 96px;
   height: 96px;
   border-radius: 100%;
-  background: rgb(255, 255, 255, 0.2);
+  background: rgb(255, 255, 255, 0.1);
 }
 
 .cardStatistic::after {
@@ -37,5 +37,19 @@
   width: 64px;
   height: 64px;
   border-radius: 100%;
-  background: rgb(255, 255, 255, 0.2);
+  background: rgb(255, 255, 255, 0.1);
+}
+
+.growUp {
+  max-height: 0;
+  animation: growUp 0.7s ease-in-out forwards;
+}
+
+@keyframes growUp {
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 100%;
+  }
 }

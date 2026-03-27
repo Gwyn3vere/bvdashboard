@@ -4,15 +4,7 @@ import style from "../../styles/ui.module.css";
 
 const cx = classNames.bind(style);
 
-function Tooltip({
-  children,
-  content,
-  position = "top",
-  trigger = "hover",
-  delay = 200,
-  className,
-  disabled = false,
-}) {
+function Tooltip({ children, content, position = "top", trigger = "hover", delay = 200, className, disabled = false }) {
   const [isVisible, setIsVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
   const triggerRef = useRef(null);
@@ -114,8 +106,7 @@ function Tooltip({
       };
 
       document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [trigger, isVisible]);
 
@@ -130,11 +121,7 @@ function Tooltip({
 
   return (
     <>
-      <div
-        ref={triggerRef}
-        className={cx("tooltip-trigger", className)}
-        {...handlers}
-      >
+      <div ref={triggerRef} className={cx("tooltip-trigger", className)} {...handlers}>
         {children}
       </div>
 

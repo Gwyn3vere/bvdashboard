@@ -86,7 +86,7 @@
   --color-grd-warning: linear-gradient(135deg, #fbbf24, #d97706);
   --color-grd-cyan: linear-gradient(135deg, #22d3ee, #0891b2);
 
-  --shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   --shadow-focus: 0 0 0 3px rgba(134, 239, 172, 0.2);
   --shadow-error: 0 0 0 3px rgba(239, 134, 139, 0.2);
 }
