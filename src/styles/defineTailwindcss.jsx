@@ -1,5 +1,5 @@
 export const TWCSS = {
-  container: "pt-2 sm:px-10",
+  container: "pt-2 px-[12px] sm:px-10",
   overview: [
     "relative",
     "bg-[var(--color-bg-light-primary-100)] rounded-2xl",

@@ -413,7 +413,7 @@ export const useAppointmentStore = create((set, get) => ({
   fetchAppointments: async () => {
     set({ loading: true });
 
-    const data = MOCK_APPOINTMENTS;
+    const data = APPOINTMENTS;
 
     set({
       appointments: data.map(normalizeAppointment),

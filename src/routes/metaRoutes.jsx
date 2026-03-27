@@ -2,7 +2,7 @@ import { useDoctorStore } from "../store/doctorStore";
 
 const metaRoutes = {
   "/bang-dieu-khien": {
-    breadcrumb: [{ label: "Bảng điều khiển" }],
+    breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Tổng quan" }],
   },
   "/quan-ly-lich-hen": {
     breadcrumb: [{ label: "Bảng điều khiển", href: "/bang-dieu-khien" }, { label: "Quản lý lịch hẹn" }],
