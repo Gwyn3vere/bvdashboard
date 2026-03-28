@@ -75,7 +75,7 @@ function AppointmentSpecialty() {
         />
       </div>
 
-      <div className={cx("flex items-center gap-5")}>
+      <div className={cx("flex flex-col md:flex-row items-center gap-5")}>
         {/* Donut */}
         <div className="relative w-[118px] h-[118px]">
           <DonutChart data={chartData} size={118} strokeWidth={11} />
@@ -87,7 +87,7 @@ function AppointmentSpecialty() {
         </div>
 
         {/* Legend */}
-        <div className="flex-1 flex flex-col gap-1.5">
+        <div className="flex-1 flex flex-col gap-1.5 w-full">
           {chartData.map((item, idx) => {
             const statsPct = total > 0 ? (item.value / total) * 100 : 0;
             return (
@@ -96,7 +96,7 @@ function AppointmentSpecialty() {
                   <span className="w-2 h-2 rounded-full" style={{ background: item.color }} />
                   <span className="text-[11.5px] text-[var(--color-unavailable-900)] font-medium">{item.label}</span>
                 </div>
-                <div className="flex items-center flex-2">
+                <div className="flex items-center flex-1 sm:flex-2">
                   <span className="text-[11px] font-bold min-w-5">{item.value}</span>
                   <div className={cx("h-[4px] bg-[var(--color-unavailable)] rounded-full")} style={{ width: `100%` }}>
                     <div

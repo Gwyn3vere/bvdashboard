@@ -9,7 +9,7 @@ const cx = classNames.bind(style);
 
 function Appointment() {
   return (
-    <section className={cx("grid grid-cols-[1.55fr_1fr] gap-5")}>
+    <section className={cx("grid grid-rows lg:grid-cols-[1.55fr_1fr] gap-5")}>
       <AppointmentToday />
       <div className={cx("flex flex-col gap-5")}>
         <AppointmentWeek />

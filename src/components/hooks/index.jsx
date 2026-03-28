@@ -18,3 +18,4 @@ export { default as useScrollIndicator } from "./useScrollIndicator";
 export { default as useBreadcrumb } from "./useBreadcrumb";
 export { default as useModalManager } from "./useModalManager";
 export { default as useCountUp } from "./useCountUp";
+export { default as useCarousel } from "./useCarousel";

@@ -79,7 +79,7 @@ function AppointmentToday() {
           )}
         />
       </div>
-      <div className={cx("flex items-center gap-1.5 px-6")}>
+      <div className={cx("flex items-center gap-1.5 flex-wrap px-6")}>
         {tabMenu.map((btn) => {
           return (
             <Button
@@ -88,7 +88,7 @@ function AppointmentToday() {
               key={btn.id}
               children={btn.tab}
               btnClassName={cx("text-[11px] font-bold")}
-              className={cx("py-[5px] px-[13px] rounded-full")}
+              className={cx("py-[5px] px-[13px] rounded-full text-nowrap flex-1 md:flex-0")}
               style={{
                 background: activeTab === btn.status && btn.grd,
                 color: activeTab === btn.status ? "#ffffff" : "var(--color-unavailable-700)",
