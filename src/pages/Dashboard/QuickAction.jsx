@@ -1,10 +1,20 @@
 import React, { useCallback } from "react";
 import classNames from "classnames/bind";
 import style from "../../styles/components.module.css";
-import { Item, Modal } from "../../components/ui";
-import { useActive, useModalManager } from "../../components/hooks";
+import { Button, Item, Modal } from "../../components/ui";
+import { usePagination, useModalManager, useCarousel } from "../../components/hooks";
 import { Link } from "react-router-dom";
-import { LuActivity, LuCalendar, LuImage, LuLayers3, LuSquarePen, LuUsers, LuZap } from "react-icons/lu";
+import {
+  LuActivity,
+  LuCalendar,
+  LuChevronLeft,
+  LuChevronRight,
+  LuImage,
+  LuLayers3,
+  LuSquarePen,
+  LuUsers,
+  LuZap,
+} from "react-icons/lu";
 import { DoctorForm } from "../Doctor";
 import { StaffForm } from "../Staff";
 import { BannerForm } from "../Banner";
@@ -70,6 +80,11 @@ function QuickAction() {
       grd: "var(--color-grd-cyan)",
     },
   ];
+
+  const itemsPerPage = useCarousel();
+
+  const { pagedData, nextPage, prevPage, currentPage, totalPages } = usePagination(buttons, itemsPerPage);
+
   return (
     <>
       <section className={cx("px-6 py-5.5 bg-white rounded-2xl")} style={{ boxShadow: "var(--shadow)" }}>
@@ -95,32 +110,59 @@ function QuickAction() {
           />
         </div>
         {/* Menu */}
-        <div className={cx("grid grid-cols-6 gap-[10px]")}>
-          {buttons.map((item) => {
-            const Component = item.as || "div";
+        <div className="flex items-center gap-2.5">
+          {totalPages !== 1 && (
+            <Button
+              width={36}
+              height={36}
+              icon={<LuChevronLeft />}
+              iconClassName={cx("text-[13px] text-[var(--color-primary)]")}
+              className={cx("bg-[var(--color-primary-100)] rounded-xl")}
+              onClick={prevPage}
+            />
+          )}
+          <div
+            className={cx(
+              "grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6",
+              "gap-[10px] w-full flex-1",
+            )}
+          >
+            {pagedData.map((item) => {
+              const Component = item.as || "div";
 
-            return (
-              <Component
-                key={item.id}
-                {...(Component === Link ? { to: item.to } : { onClick: item.onClick })}
-                className={cx(
-                  "bg-white py-4.5 px-3 rounded-2xl",
-                  "border border-[var(--color-unavailable-300)]/50",
-                  "flex flex-col items-center gap-[9px]",
-                  "hover:shadow-[var(--shadow)] transition-all duration-200",
-                  "hover:-translate-y-2 cursor-pointer",
-                )}
-              >
-                <Item
-                  icon={item.icon}
-                  iconClassName={cx("text-white text-[19px]")}
-                  className={cx("w-[44px] h-[44px] rounded-xl flex items-center justify-center")}
-                  style={{ background: item.grd }}
-                />
-                <Item as="span" children={item.title} itemClassName={cx("text-[11px] text-black/70 font-bold")} />
-              </Component>
-            );
-          })}
+              return (
+                <Component
+                  key={item.id}
+                  {...(Component === Link ? { to: item.to } : { onClick: item.onClick })}
+                  className={cx(
+                    "bg-white py-4.5 px-3 rounded-2xl flex-1",
+                    "border border-[var(--color-unavailable-300)]/50",
+                    "flex flex-col items-center gap-[9px]",
+                    "hover:shadow-[var(--shadow)] transition-all duration-200",
+                    "hover:-translate-y-2 cursor-pointer",
+                  )}
+                >
+                  <Item
+                    icon={item.icon}
+                    iconClassName={cx("text-white text-[19px]")}
+                    className={cx("w-[44px] h-[44px] rounded-xl flex items-center justify-center")}
+                    style={{ background: item.grd }}
+                  />
+                  <Item as="span" children={item.title} itemClassName={cx("text-[11px] text-black/70 font-bold")} />
+                </Component>
+              );
+            })}
+          </div>
+          {totalPages !== 1 && (
+            <Button
+              width={36}
+              height={36}
+              icon={<LuChevronRight />}
+              iconClassName={cx("text-[13px] text-[var(--color-primary)]")}
+              className={cx("bg-[var(--color-primary-100)] rounded-xl")}
+              onClick={nextPage}
+            />
+          )}
         </div>
       </section>
 
