@@ -90,9 +90,8 @@ function AppointmentDensity() {
 
         {/* Rows */}
         {HOURS.map((hour, hi) => (
-          <>
+          <React.Fragment key={`row-${hi}`}>
             <Item
-              key={`h-${hi}`}
               children={`${hour}h`}
               itemClassName={cx("text-right text-[10.5px]")}
               className={cx(
@@ -100,6 +99,7 @@ function AppointmentDensity() {
                 hour === currentHour ? "text-[var(--color-primary)] font-bold" : "text-[var(--color-unavailable)]",
               )}
             />
+
             {days.map((day, di) => {
               const v = heatmap[hi][di];
               return (
@@ -115,7 +115,7 @@ function AppointmentDensity() {
                 </Tooltip>
               );
             })}
-          </>
+          </React.Fragment>
         ))}
       </div>
 
