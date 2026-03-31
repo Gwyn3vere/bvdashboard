@@ -5,12 +5,13 @@ import { CardStatistic, QuickAction, Appointment } from "./index";
 import AppointmentDensity from "./Appointment/AppointmentDensity";
 import Banner from "./Banner";
 import Activity from "./Activity";
+import Expertise from "./Expertise";
 
 const cx = classNames.bind(style);
 
 function Dashboard() {
   return (
-    <main className={cx(TWCSS.container, "flex flex-col gap-5.5")}>
+    <main className={cx(TWCSS.container, "flex flex-col gap-5.5 mb-10")}>
       <CardStatistic />
       <QuickAction />
       <Appointment />
@@ -19,6 +20,7 @@ function Dashboard() {
         <Banner />
         <div className={cx("flex flex-col gap-5")}>
           <Activity />
+          <Expertise />
         </div>
       </div>
     </main>

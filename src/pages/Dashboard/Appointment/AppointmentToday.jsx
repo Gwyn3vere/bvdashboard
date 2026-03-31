@@ -100,7 +100,7 @@ function AppointmentToday() {
         })}
       </div>
       {/* List */}
-      <div className={cx("max-h-[320px] overflow-hidden flex flex-col pb-4")}>
+      <div className={cx("max-h-[340px] overflow-hidden flex flex-col pb-4")}>
         <div className={cx("overflow-auto flex-1 px-6", TWCSS.scrollbarY)}>
           {tabbedAppt.length > 0 ? (
             tabbedAppt.map((item, idx) => {
